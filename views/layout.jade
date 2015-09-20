@@ -1,0 +1,17 @@
+doctype html
+html
+	head
+		title= title
+		link(rel='stylesheet' type='text/css' href='/css/style.css')
+		script(src='https://fb.me/react-0.13.3.js')
+		script(src='/js/main.js')
+		block head
+	body
+		div#container
+			div
+				h1.logo Xyfir |
+					h2.logo Accounts
+			div#content
+				block content
+			block react
+		footer

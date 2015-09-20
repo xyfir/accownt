@@ -1,0 +1,9 @@
+.form-step-body > input[type=text], .form-step-body > input[type=password], .form-step-body > input[type=email], .form-step-body > input[type=tel] {
+	height: 1.5em;
+	width: 18em;
+	font-size: 125%;
+	margin: 1em auto;
+}
+.form-step-header > p {
+	margin-top: -1em;
+}

@@ -1,0 +1,33 @@
+{
+  "name": "xyfir-accounts",
+  "version": "0.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^0.8.5",
+    "body-parser": "^1.13.3",
+    "express": "^4.13.3",
+    "express-session": "^1.11.3",
+    "jade": "^1.11.0",
+    "mysql": "^2.9.0",
+    "pg": "^4.4.1",
+    "session-file-store": "0.0.19"
+  },
+  "devDependencies": {
+    "argv": "0.0.2",
+    "browserify": "^11.1.0",
+    "gulp": "^3.9.0",
+    "gulp-streamify": "^1.0.2",
+    "gulp-uglify": "^1.4.1",
+    "jsx-loader": "^0.13.2",
+    "reactify": "^1.1.1",
+    "vinyl-source-stream": "^1.1.0",
+    "webpack": "^1.12.1",
+    "yargs": "^3.25.0"
+  }
+}
