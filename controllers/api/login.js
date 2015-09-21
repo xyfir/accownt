@@ -3,6 +3,7 @@ var db = require('../../lib/db');
 
 module.exports = {
 	
+	// Take email/pass and return security measures or login user
 	login: function(req, res) {
 		
 		// Check for required fields
@@ -46,7 +47,8 @@ module.exports = {
 									code: false,
 									codeNumber: 0
 								},
-								error: false
+								error: false,
+								user: uid
 							};
 							
 							var doLogin = true;
@@ -82,7 +84,7 @@ module.exports = {
 						}
 						
 						// Complete login
-						require('../../lib/login/doLogin')(uid);
+						require('../../lib/login/doLogin')(req, uid);
 						res.json({error: false, loggedIn: true});
 					});
 				});
@@ -90,6 +92,47 @@ module.exports = {
 		});
 	},
 	
+	// Verify security measures and complete login process
+	verify: function(req, res) {
+		
+		// success() called when succeeded == steps
+		var success = function() {
+			require('../../lib/login/doLogin')(req, req.body.uid);
+			res.json({error: false, loggedIn: true});
+		},
+			steps = 0,
+			succeeded = 0;
+		
+		// Verify sms code
+		if (req.body.smsCode) {
+			steps++;
+			
+			if (!require('../../lib/sms/verifyCode').byUser(req.body.uid, req.body.smsCode)) {
+				res.status(401).json({error: true, message: "Invalid SMS code"});
+				return;
+			}
+			
+			if (++succeeded == steps) success();
+		}
+		
+		// Verify code
+		if (req.body.code && req.body.codeNum) {
+			steps++;
+			
+			db(function(connection) {
+				connection.query('SELECT codes FROM security WHERE user_id = ?', [req.body.uid], function(err, rows) {
+					if (rows[0].codes.split(',')[req.body.codeNum - 1] != req.body.code) {
+						res.status(401).json({error: true, message: "Invalid code"});
+						return;
+					}
+				});
+			});
+			
+			if (++succeeded == steps) success();
+		}
+	},
+	
+	// Create session for linked service
 	loginService: function(req, res) {
 
 	}
