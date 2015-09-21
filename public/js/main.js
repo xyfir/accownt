@@ -27,6 +27,10 @@ var ajax = function(options) {
 		}
 	};
 	
+	// Set session cookie
+	var session = document.cookie.replace(/(?:(?:^|.*;\s*)connect.sid\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+	request.setRequestHeader('Cookie', 'connect.sid=' + session);
+	
 	// Send request + data
 	if (options.method == undefined || options.method == 'GET') {
 		request.send();

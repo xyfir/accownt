@@ -14,16 +14,19 @@ app.use(parser.json());
 app.use(parser.urlencoded({extended: true}));
 
 /* Sessions */
+var SessionStore = require('session-file-store')(session);
 app.use(session({
-	store: new (require('session-file-store')(session))(),
+	store: new SessionStore,
 	secret: config.session.secret,
-	saveUninitialized: false,
-	resave: false
+	saveUninitialized: true,
+	resave: true,
+	cookie: {
+		httpOnly: false
+	}
 }));
 
 /* View Engine */
 app.set('view engine', 'jade');
-
 
 /* Routes */
 //app.use('/', require('./routes/'));
