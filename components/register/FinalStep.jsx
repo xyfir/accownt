@@ -13,7 +13,7 @@ module.exports = React.createClass({
 		ajax({
 			url: "api/register/",
 			method: "POST",
-			data: this.props.data,
+			data: this.props.user,
 			dataType: "json",
 			success: function(result) {
 				if (result.error) this.setState(result);

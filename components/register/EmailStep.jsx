@@ -7,7 +7,7 @@ module.exports = React.createClass({
 	},
 
 	nextStep: function() {
-		var email = React.findDOMNode(this.refs.email).value;
+		var email = $("#email").value;
 		
 		// Check if email is valid
 		var regex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
@@ -26,10 +26,6 @@ module.exports = React.createClass({
 				}
 				else {
 					this.setState({error: false, message: ""});
-					
-					// Save email to Register's data object
-					// Call Register's nextStep function
-					this.props.save({email: email});
 					this.props.nextStep();
 				}
 			}.bind(this)
@@ -55,7 +51,7 @@ module.exports = React.createClass({
 			
 				<div className="form-step-body">
 					<p className="input-error">{this.state.message}</p>
-					<input type="email" placeholder="Enter your email" ref="email" className={inputClass} onKeyDown={this.next} />
+					<input type="email" placeholder="Enter your email" id="email" className={inputClass} onKeyDown={this.next} />
 				</div>
 				
 				<Button onClick={this.nextStep}>Next</Button>

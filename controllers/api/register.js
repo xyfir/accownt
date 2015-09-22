@@ -4,6 +4,12 @@ var db = require('../../lib/db');
 module.exports = {
 	
 	createAccount: function(req, res) {
+		// Check for required fields
+		if (!req.body.email || !req.body.password) {
+			res.json({error: true, message: "Required field(s) empty."});
+			return;
+		}
+		
 		// Attempt to register user
 		db(function(connection) {
 			connection.query('SELECT id FROM users WHERE email = ?', [req.body.email], function(err, rows) {
@@ -28,10 +34,8 @@ module.exports = {
 						res.json({error: false});
 						
 						// Create row in security table with user's id
-						// Add phone number if given
 						var data = {
 							user_id: result.insertId,
-							phone: req.body.phone.replace(/\d/g, '')
 						};
 						
 						connection.query('INSERT INTO security SET ?', data, function() { connection.release(); });

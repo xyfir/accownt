@@ -7,8 +7,8 @@ module.exports = React.createClass({
 	},
 
 	nextStep: function() {
-		var password  = React.findDOMNode(this.refs.password).value;
-		var repeat = React.findDOMNode(this.refs.passwordr).value;
+		var password  = $("#password").value;
+		var repeat = $("#passwordr").value;
 		
 		if (password != repeat) {
 			this.setState({error: true, message: "Passwords do not match."});
@@ -18,8 +18,6 @@ module.exports = React.createClass({
 		}
 		else {
 			this.setState({error: false, message: ""})
-			
-			this.props.save({password: password});
 			this.props.nextStep();
 		}
 	},
@@ -40,8 +38,8 @@ module.exports = React.createClass({
 			
 				<div className="form-step-body">
 					<p className="input-error">{this.state.message}</p>
-					<input type="password" ref="password" className={this.state.error ? "input-error" : ""} placeholder="Password" />
-					<input type="password" ref="passwordr" className={this.state.error ? "input-error" : ""} placeholder="Confirm" onKeyDown={this.next} />
+					<input type="password" id="password" className={this.state.error ? "input-error" : ""} placeholder="Password" />
+					<input type="password" id="passwordr" className={this.state.error ? "input-error" : ""} placeholder="Confirm" onKeyDown={this.next} />
 				</div>
 				
 				<Button onClick={this.props.prevStep}>Back</Button>

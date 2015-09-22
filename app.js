@@ -33,6 +33,6 @@ app.set('view engine', 'jade');
 app.use('/api', require('./routes/api/'));
 app.use('/login', require('./routes/login'));
 app.use('/register', require('./routes/register'));
-//app.use('/dashboar/', require('./routes/dashboard/'));
+//app.use('/dashboard/', require('./routes/dashboard/'));
 
 app.listen(3000, function () {console.log('**SERVER RUNNING')});

@@ -28,6 +28,7 @@ var ajax = function(options) {
 	};
 	
 	// Set session cookie
+	request.withCredentials = true;
 	var session = document.cookie.replace(/(?:(?:^|.*;\s*)connect.sid\s*\=\s*([^;]*).*$)|^.*$/, "$1");
 	request.setRequestHeader('Cookie', 'connect.sid=' + session);
 	
