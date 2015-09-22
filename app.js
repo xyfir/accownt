@@ -31,7 +31,7 @@ app.set('view engine', 'jade');
 /* Routes */
 //app.use('/', require('./routes/'));
 app.use('/api', require('./routes/api/'));
-//app.use('/login', require('./routes/login'));
+app.use('/login', require('./routes/login'));
 app.use('/register', require('./routes/register'));
 //app.use('/dashboar/', require('./routes/dashboard/'));
 

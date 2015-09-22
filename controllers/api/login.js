@@ -8,7 +8,7 @@ module.exports = {
 		
 		// Check for required fields
 		if (!req.body.email || !req.body.password) {
-			res.status(400).json({error: true, message: "Required field(s) empty"});
+			res.json({error: true, message: "Required field(s) empty"});
 			return;
 		}
 		
@@ -17,16 +17,16 @@ module.exports = {
 				
 				// Check if user exists
 				if (rows.length == 0) {
-					res.status(404).json({error: true, message: "Could not find a user with that email / password"});
+					res.json({error: true, message: "Could not find a user with that email / password"});
 					return;
 				}
 				
 				// Verify password
-				bcrypt.compare(req.body.password, rows[0].password, function(err, res) {
+				bcrypt.compare(req.body.password, rows[0].password, function(err, match) {
 					
 					// Password is incorrect
-					if (!res) {
-						res.status(404).json({error: true, message: "Could not find a user with that email / password"});
+					if (!match) {
+						res.json({error: true, message: "Could not find a user with that email / password"});
 						return;
 					}
 					
@@ -48,7 +48,7 @@ module.exports = {
 									codeNumber: 0
 								},
 								error: false,
-								user: uid
+								uid: uid
 							};
 							
 							var doLogin = true;
@@ -56,7 +56,8 @@ module.exports = {
 							// Check if user's IP address is allowed
 							if (rows[0].addresses) {
 								if (rows[0].addresses.split(',').indexOf(req.ip) == -1) {
-									res.status(401).json({error: true, message: "IP address is not whitelisted"});
+									res.json({error: true, message: "IP address is not whitelisted"});
+									return;
 								}
 							}
 							
@@ -69,7 +70,7 @@ module.exports = {
 							
 							// Randomly choose a code from list
 							if (rows[0].codes) {
-								var code = Math.random() * rows[0].codes.split(',').length;
+								var code = Math.floor(Math.random() * rows[0].codes.split(',').length);
 								
 								response.security.code = true;
 								response.security.codeNumber = code;
@@ -80,6 +81,7 @@ module.exports = {
 							// Send extra security information back to client
 							if (!doLogin) {
 								res.json(response);
+								return;
 							}
 						}
 						
@@ -104,11 +106,11 @@ module.exports = {
 			succeeded = 0;
 		
 		// Verify sms code
-		if (req.body.smsCode) {
+		if (req.body.smsCode != 0) {
 			steps++;
 			
 			if (!require('../../lib/sms/verifyCode').byUser(req.body.uid, req.body.smsCode)) {
-				res.status(401).json({error: true, message: "Invalid SMS code"});
+				res.json({error: true, message: "Invalid SMS code"});
 				return;
 			}
 			
@@ -116,13 +118,13 @@ module.exports = {
 		}
 		
 		// Verify code
-		if (req.body.code && req.body.codeNum) {
+		if (req.body.code != 0 && req.body.codeNum != 0) {
 			steps++;
 			
 			db(function(connection) {
 				connection.query('SELECT codes FROM security WHERE user_id = ?', [req.body.uid], function(err, rows) {
-					if (rows[0].codes.split(',')[req.body.codeNum - 1] != req.body.code) {
-						res.status(401).json({error: true, message: "Invalid code"});
+					if (rows[0].codes.split(',').indexOf(req.body.code) != req.body.codeNum) {
+						res.json({error: true, message: "Invalid code"});
 						return;
 					}
 				});
