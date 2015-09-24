@@ -1,7 +1,10 @@
 module.exports = {
 	
 	login: function(req, res) {
-		res.render('login', {title: "Create Account - Xyfir Accounts"});
+		if (req.session.uid)
+			res.redirect('/dashboard');
+		else
+			res.render('login', {title: "Create Account - Xyfir Accounts"});
 	},
 	
 	loginService: function(req, res) {
