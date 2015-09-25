@@ -1,5 +1,5 @@
 var router = require('express').Router();
-var services = require('../../controllers/api/dashboard/services');
+var services = require('../../../controllers/api/dashboard/services');
 
 router.get('/', services.getAll);
 router.route('/:service')

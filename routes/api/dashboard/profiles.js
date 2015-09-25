@@ -1,5 +1,5 @@
 var router = require('express').Router();
-var profiles = require('../../controllers/api/dashboard/profiles');
+var profiles = require('../../../controllers/api/dashboard/profiles');
 
 router.get('/', profiles.getAll);
 router.route('/:profile')

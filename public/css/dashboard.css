@@ -1,0 +1,17 @@
+.dashboard-nav {
+  padding: 0.4em;
+  text-align: center;
+}
+.dashboard-nav > .col-sm-12 {
+  background-color: #eee;
+  font-size: 2em;
+  margin: 0.3em;
+  padding: 0.2em;
+}
+.dashboard-nav > .col-sm-12:hover {
+  background-color: #ddd;
+}
+.dashboard-nav > .dashboard-nav-active:hover, .dashboard-nav > .dashboard-nav-active {
+  background-color: #212121;
+  color: #fff;
+}

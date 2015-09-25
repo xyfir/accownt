@@ -16,6 +16,7 @@
     "jade": "^1.11.0",
     "mysql": "^2.9.0",
     "pg": "^4.4.1",
+    "request": "^2.64.0",
     "session-file-store": "0.0.19"
   },
   "devDependencies": {

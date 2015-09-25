@@ -37,7 +37,7 @@ var Dashboard = React.createClass({
 		
 		return (
 			<div className="dashboard">
-				<div className="dashboard-nav col-sm-12 col-md-4">
+				<div className="dashboard-nav col-sm-12 col-md-3">
 					<Nav onClick={this.changeView} active={this.state.view}>Account</Nav>
 					<Nav onClick={this.changeView} active={this.state.view}>Security</Nav>
 					<Nav onClick={this.changeView} active={this.state.view}>Profiles</Nav>
@@ -51,4 +51,4 @@ var Dashboard = React.createClass({
 	
 });
 
-React.render(<Dashboard />, $("content"));
+React.render(<Dashboard />, $("#content"));

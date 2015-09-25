@@ -143,7 +143,7 @@ input[type=text], input[type=password], input[type=email], input[type=number], i
 	border: 1px solid #bababa;
 	background-color: rgba(255,255,255,.8);
 	display: block;
-	margin: auto;
+	margin: 1em auto;
 }
 input[type=text].input-error, input[type=password].input-error, input[type=email].input-error, input[type=number].input-error, input[type=tel].input-error, input[type=search].input-error, textarea.input-error {
 	border-color: #FF2222;
