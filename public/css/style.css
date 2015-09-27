@@ -12,6 +12,10 @@ hr {
 	margin: 2em;
     background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
 }
+ol {
+	width: 12em;
+	margin: 2em auto;
+}
 
 /* LOGO */
 .logo {
@@ -133,11 +137,11 @@ input[type=text], input[type=password], input[type=email], input[type=number], i
 input[type=text], input[type=password], input[type=email], input[type=tel] {
 	width: 16em;
 }
-input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, input[type=number]:focus, input[type=tel]:focus, textarea:focus {
+input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, input[type=number]:focus, input[type=tel]:focus, textarea:focus, select:focus {
 	border-color: #5c5c5c;
 	outline: none;
 }
-input[type=text], input[type=password], input[type=email], input[type=number], input[type=tel], textarea {
+input[type=text], input[type=password], input[type=email], input[type=number], input[type=tel], textarea, select {
 	padding: 4px 8px;
 	color: #212121;
 	border: 1px solid #bababa;
@@ -152,7 +156,8 @@ p.input-error {
 	color: #FF2222;
 }
 textarea {
-	width: 18em;	
+	width: 20em;
+	height: 7em;
 }
 
 /* GRID */

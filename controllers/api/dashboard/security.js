@@ -3,7 +3,7 @@ var db = require('../../../lib/db');
 
 module.exports = {
 	
-	security: function(req, res) {
+	info: function(req, res) {
 		db(function(connection) {
 			connection.query("SELECT * FROM security WHERE user_id = ?", [req.session.uid], function(err, rows) {
 				connection.release();
@@ -18,6 +18,17 @@ module.exports = {
 	},
 	
 	codes: function(req, res) {
+		// Check if user is removing all codes
+		if (req.body.count == 0) {
+			db(function(connection) {
+				connection.query('UPDATE security SET codes = "" WHERE user_id = ?', [req.session.uid], function(err, result) {
+					connection.release();
+					res.json({error: false, codes: "", message: "Security codes removed from account."});
+				});
+			});
+			return;
+		}
+		
 		// Check provided data
 		if (req.body.type > 3 || req.body.type == 0 || req.body.count > 20 || req.body.count < 5) {
 			res.json({error: true, message: "Invalid data."});
@@ -47,6 +58,25 @@ module.exports = {
 			codes.push(Math.floor(Math.random() * (10000 - 1000) + 1000));
 		}
 		
+		var success = function() {
+			// Shuffle array
+			for (var i = codes.length - 1; i > 0; i--) {
+				var j = Math.floor(Math.random() * (i + 1));
+				var temp = codes[i];//te
+				codes[i] = codes[j];
+				codes[j] = temp;
+			}
+			
+			// Save list to database
+			db(function(connection) {
+				connection.query('UPDATE security SET codes = ? WHERE user_id = ?', [codes.toString(), req.session.uid], function(err, result) {
+					connection.release();
+					
+					res.json({codes: codes.toString(), error: false, message: "Security codes successfully updated."});
+				});
+			});
+		};
+		
 		if (req.body.type == 1)
 			success();
 		
@@ -63,25 +93,6 @@ module.exports = {
 				}
 			);
 		}
-		
-		var success = function() {
-			// Shuffle array
-			for (var i = codes.length - 1; i > 0; i--) {
-				var j = Math.floor(Math.random() * (i + 1));
-				var temp = codes[i];//te
-				codes[i] = codes[j];
-				codes[j] = temp;
-			}
-			
-			// Save list to database
-			db(function(connection) {
-				connection.query('UPDATE security SET codes = ? WHERE user_id = ?', [codes.toString(), req.session.uid], function(err, result) {
-					connection.release();
-					
-					res.json({codes: codes.toString(), error: false});
-				});
-			});
-		};
 	},
 	
 	whitelist: function(req, res) {
@@ -95,7 +106,7 @@ module.exports = {
 			connection.query('UPDATE security SET addresses = ? WHERE user_id = ?', [req.body.whitelist, req.session.uid], function(err, result) {
 				connection.release();
 				
-				res.json({error: false});
+				res.json({error: false, message: "IP address whitelist successfully updated."});
 			});
 		});
 	},
@@ -111,18 +122,27 @@ module.exports = {
 			connection.query('UPDATE security SET passwordless = ? WHERE user_id = ?', [req.body.passwordless, req.session.uid], function(err, result) {
 				connection.release();
 				
-				res.json({error: false});
+				res.json({error: false, message: "Passwordless login option successfully updated."});
 			});
 		});
 	},
 	
 	phone: function(req, res) {
-		require('../../../lib/sms/send')(req.session.uid, req.body.phone);
+		if (req.body.phone == 0) {
+			db(function(connection) {
+				connection.query("UPDATE security SET phone = 0 WHERE user_id = ?", [req.session.uid], function(err, result) {
+					connection.release();
+				});
+			});
+		}
+		else {
+			require('../../../lib/sms/send')(req.session.uid, req.body.phone);
+		}
 	},
 	
 	verifyPhone: function(req, res) {
 		if (require('../../../lib/sms/verify')(req.session.uid, req.body.phone, req.body.code)) {
-			res.json({error: false});
+			res.json({error: false, message: ""});
 		}
 		else {
 			res.json({error: true});

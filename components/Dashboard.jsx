@@ -5,6 +5,8 @@ var Profiles = require('./dashboard/Profiles.jsx');
 var Security = require('./dashboard/Security.jsx');
 var Services = require('./dashboard/Services.jsx');
 
+var currentView = 'account';
+
 var Dashboard = React.createClass({
 	
 	getInitialState: function() {
@@ -12,7 +14,9 @@ var Dashboard = React.createClass({
 	},
 	
 	changeView: function(view) {
-		this.setState({view: view});
+		this.setState({view: view}, function() {
+			console.log('VIEW UPDATED ' + this.state.view);
+		});
 	},
 	
 	render: function() {
