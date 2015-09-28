@@ -25,6 +25,7 @@
     "gulp": "^3.9.0",
     "gulp-streamify": "^1.0.2",
     "gulp-uglify": "^1.4.1",
+    "gulp-util": "^3.0.6",
     "jsx-loader": "^0.13.2",
     "reactify": "^1.1.1",
     "vinyl-source-stream": "^1.1.0",

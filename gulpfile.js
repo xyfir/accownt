@@ -2,6 +2,7 @@ var browserify = require('browserify');
 var streamify = require('gulp-streamify');
 var reactify = require('reactify');
 var uglify = require('gulp-uglify');
+var gutil = require('gulp-util');
 var source = require('vinyl-source-stream');
 var gulp = require('gulp');
 var argv = require('yargs').argv;
@@ -28,6 +29,6 @@ gulp.task('build-react', function() {
 			compress: {
 				unused: false
 			}
-		})))
+		}).on('error', gutil.log)))
 		.pipe(gulp.dest('./public/js/react/'));
 });
