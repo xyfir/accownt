@@ -14,9 +14,7 @@ var Dashboard = React.createClass({
 	},
 	
 	changeView: function(view) {
-		this.setState({view: view}, function() {
-			console.log('VIEW UPDATED ' + this.state.view);
-		});
+		this.setState({view: view}, function() {return;});
 	},
 	
 	render: function() {

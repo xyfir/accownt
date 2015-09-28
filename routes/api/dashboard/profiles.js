@@ -5,7 +5,8 @@ router.get('/', profiles.getAll);
 router.route('/:profile')
 	.get(profiles.getSingle)
 	.put(profiles.update)
-	.del(profiles.remove)
-	.post(profiles.create);
+	.post(profiles.create)
+	.delete(profiles.remove);
+router.post('/:profile/picture', profiles.picture);
 
 module.exports = router;
