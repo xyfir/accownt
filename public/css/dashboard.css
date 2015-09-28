@@ -15,3 +15,21 @@
   background-color: #212121;
   color: #fff;
 }
+
+.profile-list-view {
+  display: table;
+}
+.profile-list-view > * {
+  display: table-cell;
+  padding: 0.5em;
+}
+.profile-list-view > h2 {
+  border-right: 1px solid #ddd;
+  min-width: 13em;
+}
+.profile-list-view, .profile-form-view {
+  border: 1px solid #ddd;
+  margin: 1em auto;
+  padding: 1em;
+  width: 80%;
+}

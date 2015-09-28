@@ -126,6 +126,12 @@ input[type=submit], button, .btn {
 .btn-secondary:hover {
 	background-color: #7e7e7e;
 }
+.btn-danger {
+	background-color: #ce352c;
+}
+.btn-danger:hover {
+	background-color: #ee574e;
+}
 input[type=submit]:focus, button:focus {
 	background-color: #212121;
 }
