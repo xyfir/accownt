@@ -16,20 +16,26 @@
   color: #fff;
 }
 
-.profile-list-view {
+.profile-list-view, .service-list-view {
   display: table;
 }
-.profile-list-view > * {
+.profile-list-view > *, .service-list-view > * {
   display: table-cell;
   padding: 0.5em;
 }
-.profile-list-view > h2 {
+.profile-list-view > h2, .service-list-view > h2 {
   border-right: 1px solid #ddd;
   min-width: 13em;
 }
-.profile-list-view, .profile-form-view {
+.profile-list-view, .profile-form-view, .service-list-view, .service-form-view {
   border: 1px solid #ddd;
   margin: 1em auto;
   padding: 1em;
   width: 80%;
+}
+.profile-selector {
+  height: 1.5em;
+  width: 18em;
+  font-size: 125%;
+  margin: 1em auto;
 }

@@ -5,6 +5,6 @@ router.get('/', services.getAll);
 router.route('/:service')
 	.get(services.getSingle)
 	.put(services.update)
-	.del(services.remove);
+	.delete(services.remove);
 
 module.exports = router;
