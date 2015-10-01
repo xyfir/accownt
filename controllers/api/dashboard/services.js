@@ -87,14 +87,18 @@ module.exports = {
 			}
 			
 			db(function(connection) {
-				connection.query('UPDATE linked_services SET ?', update, function(err, result) {
-					connection.release();
-					
-					if (err)
-						res.json({error: true, message: "Could not update data."});
-					else
-						res.json({error: false, message: "Service successfully updated."});
-				});
+				connection.query(
+					'UPDATE linked_services SET info = ? WHERE user_id = ? AND service_id = ?',
+					[JSON.stringify(update), req.session.uid, req.params.service],
+					function(err, result) {
+						connection.release();
+						
+						if (err)
+							res.json({error: true, message: "Could not update data."});
+						else
+							res.json({error: false, message: "Service successfully updated."});
+					}
+				);
 			});
 		});
 	},
