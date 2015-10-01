@@ -68,7 +68,7 @@ module.exports = {
 			if (req.body.profile) {
 				update = {
 					profile: req.body.profile,
-					optional: req.body.profile_allow_optional
+					optional: req.body.optional
 				};
 			}
 			else {

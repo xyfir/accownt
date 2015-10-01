@@ -58,8 +58,8 @@ module.exports = React.createClass({
 		if (React.findDOMNode(this.refs.profile).value != 0) {
 			var data = {
 				profile: React.findDOMNode(this.refs.profile).value,
-				required: React.findDOMNode(this.refs.profile_allow_required).value,
-				optional: React.findDOMNode(this.refs.profile_allow_optional).value
+				required: React.findDOMNode(this.refs.profile_allow_required).checked,
+				optional: React.findDOMNode(this.refs.profile_allow_optional).checked
 			};
 		}
 		else {
@@ -172,12 +172,12 @@ module.exports = React.createClass({
 						<option value="0">-</option>
 						{profiles}
 					</select>
-					<input type="checkbox" ref="profile_allow_required" checked={loadFromProfile} />
+					<input type="checkbox" ref="profile_allow_required" defaultChecked={loadFromProfile} />
 						Allow Access to Required Data
-					<input type="checkbox" ref="profile_allow_optional" checked={loadFromProfile && s.info.provided.optional ? true: false} />
+					<input type="checkbox" ref="profile_allow_optional" defaultChecked={loadFromProfile && s.info.provided.optional == "true" ? true: false} />
 						Allow Access to Optional Data
 					
-					<h3>~ or ~</h3>
+					<h3>~~ or ~~</h3>
 					
 					<h2>Set Custom Data</h2>
 					<p>Set data that only this service will be able to access.</p>
