@@ -7,10 +7,10 @@ module.exports = {
 			connection.query('SELECT service_id FROM linked_services WHERE user_id = ?', [req.session.uid], function(err, rows) {
 				connection.release();
 				
-				// Create array of service id's
+				// Create array of service objects containing service id's
 				var services = [];
 				rows.forEach(function(row) {
-					services.push(rows.service_id);
+					services.push({id: row.service_id});
 				});
 				
 				
@@ -31,7 +31,7 @@ module.exports = {
 					name: rows[0].name,
 					description: rows[0].description,
 					info: {
-						requested: rows[0].info
+						requested: JSON.parse(rows[0].info)
 					}
 				};
 				
@@ -46,7 +46,7 @@ module.exports = {
 							return;
 						}
 						
-						data.info.provided = rows[0].info;
+						data.info.provided = JSON.parse(rows[0].info);
 						
 						res.json({error: false, message: "", service: data});
 					}
@@ -57,40 +57,44 @@ module.exports = {
 	
 	update: function(req, res) {
 		// Validate data
-		if (!require('../../../lib/services/isDataValid')(req, res))
-			return;
-			
-		var update;
-		
-		if (req.body.profile) {
-			update = {
-				profile: req.body.profile,
-				optional: req.body.profile_allow_optional
-			};
-		}
-		else {
-			update = {
-				email: req.body.email,
-				fname: req.body.fname,
-				lname: req.body.lname,
-				gender: req.body.gender,
-				phone: req.body.phone,
-				birthdate: req.body.birthdate,
-				address: req.body.address,
-				zip: req.body.zip,
-				region: req.body.region,
-				country: req.body.country
-			};
-		}
-		
-		db(function(connection) {
-			connection.query('UPDATE linked_services SET ?', update, function(err, result) {
-				connection.release();
+		require('../../../lib/services/validateData')(req, function(result) {
+			if (result != 'valid') {
+				res.json({error: true, message: result});
+				return;
+			}
 				
-				if (err)
-					res.json({error: true, message: "An unknown error occured."});
-				else
-					res.json({error: false, message: "Service successfully updated."});
+			var update;
+			
+			if (req.body.profile) {
+				update = {
+					profile: req.body.profile,
+					optional: req.body.profile_allow_optional
+				};
+			}
+			else {
+				update = {
+					email: req.body.email,
+					fname: req.body.fname,
+					lname: req.body.lname,
+					gender: req.body.gender,
+					phone: req.body.phone,
+					birthdate: req.body.birthdate,
+					address: req.body.address,
+					zip: req.body.zip,
+					region: req.body.region,
+					country: req.body.country
+				};
+			}
+			
+			db(function(connection) {
+				connection.query('UPDATE linked_services SET ?', update, function(err, result) {
+					connection.release();
+					
+					if (err)
+						res.json({error: true, message: "Could not update data."});
+					else
+						res.json({error: false, message: "Service successfully updated."});
+				});
 			});
 		});
 	},

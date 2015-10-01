@@ -18,7 +18,7 @@ module.exports = React.createClass({
 			url: 'api/dashboard/services/' + this.props.id,
 			dataType: 'json',
 			success: function(result) {
-				this.setState({service: result.service});
+				this.setState({service: result.service}, function() {return;});
 			}.bind(this)
 		});
 		
@@ -26,7 +26,7 @@ module.exports = React.createClass({
 			url: 'api/dashboard/profiles',
 			dataType: 'json',
 			success: function(result) {
-				this.setState({profiles: result.profiles});
+				this.setState({profiles: result.profiles}, function() {return;});
 			}.bind(this)
 		});
 	},
@@ -115,7 +115,7 @@ module.exports = React.createClass({
 				if (!s.info.requested.optional.hasOwnProperty(key))
 					continue;
 				
-				requiredInfo.push(<dl><dt>{key}</dt><dd>{s.info.requested.optional[key]}</dd></dl>);
+				optionalInfo.push(<dl><dt>{key}</dt><dd>{s.info.requested.optional[key]}</dd></dl>);
 			}
 			
 			// Build array of user's profiles to select
@@ -130,9 +130,11 @@ module.exports = React.createClass({
 				zip: "", region: "", country: "", gender: 0
 			};
 			
+			var loadFromProfile = s.info.provided.profile == undefined ? false : true;
+			
 			// If user gave service custom data
 			// merge provided data while leaving unprovided fields blank
-			if (!s.info.provided.profile)
+			if (!loadFromProfile)
 				Object.assign(form, s.info.provided);
 				
 			// Build alert
@@ -147,6 +149,8 @@ module.exports = React.createClass({
 					<h2>{s.name}</h2>
 					<p>{s.description}</p>
 					<a className="link-lg" onClick={this.toggleView}>Hide Form</a>
+					
+					{userAlert}
 					<hr />
 				
 					<div className="service-info service-info-required">
@@ -154,7 +158,7 @@ module.exports = React.createClass({
 						{requiredInfo}
 					</div>
 					<div className="service-info service-info-optional">
-						<h4>optional information:</h4>
+						{optionalInfo.length > 0 ? <h4>optional information:</h4> : ""}
 						{optionalInfo}
 					</div>
 					
@@ -164,14 +168,14 @@ module.exports = React.createClass({
 					
 					<h2>Load Data From Profile</h2>
 					<p>Choose a profile and {s.name} will automatically access information you allow from the profile.</p>
-					<select ref="profile" className="profile-selector">
+					<select ref="profile" className="profile-selector" defaultValue={loadFromProfile ? s.info.provided.profile : 0}>
 						<option value="0">-</option>
 						{profiles}
 					</select>
-					<input type="checkbox" ref="profile_allow_required" 
-						defaultValue={s.info.provided.profile ? "checked" : ""} />Allow Access to Required Data
-					<input type="checkbox" ref="profile_allow_optional" 
-						defaultValue={s.info.provided.profile && s.info.provided.profile.optional ? "checked" : ""} />Allow Access to Optional Data
+					<input type="checkbox" ref="profile_allow_required" checked={loadFromProfile} />
+						Allow Access to Required Data
+					<input type="checkbox" ref="profile_allow_optional" checked={loadFromProfile && s.info.provided.optional ? true: false} />
+						Allow Access to Optional Data
 					
 					<h3>~ or ~</h3>
 					

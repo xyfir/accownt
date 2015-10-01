@@ -34,8 +34,27 @@
   width: 80%;
 }
 .profile-selector {
-  height: 1.5em;
+  height: 2.5em;
   width: 18em;
   font-size: 125%;
   margin: 1em auto;
+}
+
+.service-info > h4 {
+  margin-bottom: -0.5em;
+}
+.service-info > dl > dt {
+  font-weight: 700;
+}
+.service-info > dl > dd {
+  margin-left: 0px;
+}
+.service-info > dl > dt::after {
+  content: ":"
+}
+.service-info-required > h4 {
+  color: #F00;
+}
+.service-info-optional > h4 {
+  color: #777;
 }
