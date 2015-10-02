@@ -36,9 +36,14 @@ module.exports = React.createClass({
 	},
 	
 	passwordless: function() {
-		if (React.findDOMNode(this.refs.email).value == "")
+		if (React.findDOMNode(this.refs.email).value == "") {
+			this.setState({
+				error: true,
+				message: "You must enter your email before attempting a passwordless login."
+			});
 			return;
-	
+		}
+		
 		ajax({
 			url: 'api/login/passwordless/' + React.findDOMNode(this.refs.email).value,
 			dataType: 'json',
@@ -67,10 +72,10 @@ module.exports = React.createClass({
 				<div className="form-step-body">
 					{userAlert}
 					<input type="email" placeholder="Enter your email" ref="email" className={classn} />
-					<input type="password" ref="password" placeholder="Password" onKeyDown={this.keyDown} className={classn} />
-					<a href="register">Create Account</a> | 
-					<a href="recover">Account Recovery</a> | 
-					<a href="#PasswordlessLogin" onClick={this.passwordless}>Passwordless Login</a> 
+					<input type="password" ref="password" placeholder="Password" onKeyDown={this.keyDown} />
+					<a href="register">Create Account </a> | 
+					<a href="recover"> Account Recovery </a> | 
+					<a onClick={this.passwordless}> Passwordless Login</a> 
 				</div>
 				
 				<Button onClick={this.login}>Login</Button>
