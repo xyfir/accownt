@@ -18,25 +18,25 @@ var Login = React.createClass({
 		else {
 			// Extra security steps required
 			this.setState({security: data.security});
+			this.setState({auth: data.auth});
 			this.setState({uid: data.uid});
 			this.setState({step: 2});
 		}
 	},
 	
-	login: function() {
-		// Redirect user
-		var redirect = document.cookie.replace(/(?:(?:^|.*;\s*)login_redirect\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-		window.location.href = redirect ? redirect : 'dashboard';
+	login: function(redirect) {
+		window.location.href = redirect != '' ? redirect : 'dashboard';
 	},
 	
 	verify: function() {
 		var data = {
 			phone: this.state.security.phone,
+			auth: this.state.auth,
 			uid: this.state.uid
 		};
 		data.smsCode = data.phone ? $("#smsCode").value : 0;
-		data.code = this.state.security.code ? $("#code").value : 0;
 		data.codeNum = this.state.security.code ? this.state.security.codeNumber : 0;
+		data.code = this.state.security.code ? $("#code").value : 0;
 	
 		ajax({
 			url: 'api/login/verify',
@@ -47,7 +47,7 @@ var Login = React.createClass({
 				if (result.error)
 					this.setState({step: 1});
 				else
-					this.login();
+					this.login(result.redirect);
 			}.bind(this)
 		});
 	},

@@ -4,6 +4,9 @@
 	font-size: 125%;
 	margin: 1em auto;
 }
+.form-step-body {
+	margin-bottom: 1em;
+}
 .form-step-header > p {
 	margin-top: -1em;
 }
