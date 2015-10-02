@@ -61,7 +61,7 @@ module.exports = {
 							
 							// Send code to user's phone
 							if (rows[0].phone) {
-								require('../../lib/sms/send')(uid, rows[0].phone);
+								require('../../lib/sms/sendCode')(uid, rows[0].phone);
 								response.security.phone = true;
 								doLogin = false;
 							}
@@ -124,7 +124,7 @@ module.exports = {
 		if (req.body.smsCode != 0) {
 			steps++;
 			
-			require('../../lib/sms/verifyCode').byUser(req.body.uid, req.body.smsCode, function(isValid) {
+			require('../../lib/sms/verifyCode')(req.body.uid, req.body.smsCode, function(isValid) {
 				if (!isValid)
 					res.json({error: true, message: "Invalid SMS code"});
 				else if (++succeeded == steps)
@@ -170,7 +170,7 @@ module.exports = {
 					connection.release();
 					
 					if (rows[0].passwordless == 0) {
-						res.json({error: true, message: "An error occured."});
+						res.json({error: true, message: "Passwordless login not enabled."});
 						return;
 					}
 					
@@ -184,7 +184,7 @@ module.exports = {
 						if (rows[0].passwordless == 2 || rows[0].passwordless == 3)
 							require('../../lib/email/sendPasswordless')(req.params.email, link);
 							
-						res.json({error: false, message: ""});
+						res.json({error: false, message: "Passwordless login link sent. It will expire in 10 minutes."});
 					});
 				});
 			});

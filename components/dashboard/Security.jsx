@@ -11,7 +11,7 @@ module.exports = React.createClass({
 			whitelist: "",
 			codes: "",
 			passwordless: 0,
-			verifyingPhone: false
+			verifyingSms: false
 		};
 	},
 	
@@ -38,6 +38,7 @@ module.exports = React.createClass({
 				},
 				success: function(result) {
 					this.setState(result);
+					this.setState({verifyingSms: false});
 				}.bind(this)
 			});
 		}
@@ -53,9 +54,12 @@ module.exports = React.createClass({
 					phone: phone
 				},
 				success: function(result) {
-					this.setState(result);
+					return;
 				}.bind(this)
 			});
+			
+			if (phone != 0)
+				this.setState({verifyingSms: true});
 		}
 	},
 	
@@ -109,12 +113,10 @@ module.exports = React.createClass({
 	render: function() {
 		var userAlert;
 		
-		if (this.state.error) {
+		if (this.state.error)
 			userAlert = <Alert type="error" title="Error!">{this.state.message}</Alert>;
-		}
-		else if (this.state.message) {
+		else if (this.state.message)
 			userAlert = <Alert type="success" title="Success!">{this.state.message}</Alert>;
-		}
 		
 		// Create list of codes
 		var codes = "";
@@ -134,9 +136,8 @@ module.exports = React.createClass({
 					<p>Upon login and account recovery we will send a code to your phone via SMS.</p>
 					
 					<input type="tel" ref="phone" placeholder={this.state.phone > 0 ? this.state.phone : "Phone #"} />
-					<input type="text" ref="smsCode" placeholder="Code" className={this.state.verifyingSms ? "hidden" : ""} />
 					
-					{this.state.phone > 0 ? <a className="link-lg" onClick={this.updatePhone}>Unlink Phone</a> : ""}
+					{this.state.verifyingSms ? <input type="text" ref="smsCode" placeholder="Code" /> : ""}
 					
 					<Button onClick={this.updatePhone}>{this.state.verifyingSms ? "Verify Code" : "Update Phone"}</Button>
 				</div>
@@ -183,16 +184,13 @@ module.exports = React.createClass({
 				
 				<div>
 					<h2>Passwordless Login</h2>
-					<p>Login with a link or randomly generated security code sent to your email or phone.</p>
+					<p>Login with a link sent to your email or phone.</p>
 					
 					<select ref="passwordless">
 						<option value="0">Disabled</option>
-						<option value="1">Link via SMS</option>
-						<option value="2">Link via Email</option>
-						<option value="3">Code via SMS</option>
-						<option value="4">Code via Email</option>
-						<option value="5">Link via Both</option>
-						<option value="6">Code via Both</option>
+						<option value="1">Receive via SMS</option>
+						<option value="2">Receive via Email</option>
+						<option value="3">Receive via Both</option>
 					</select>
 					
 					<Button onClick={this.updatePasswordless}>Update</Button>

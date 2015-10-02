@@ -17,7 +17,8 @@
     "mysql": "^2.9.0",
     "pg": "^4.4.1",
     "request": "^2.64.0",
-    "session-file-store": "0.0.19"
+    "session-file-store": "0.0.19",
+    "twilio": "^2.4.0"
   },
   "devDependencies": {
     "argv": "0.0.2",

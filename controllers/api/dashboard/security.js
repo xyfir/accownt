@@ -128,25 +128,23 @@ module.exports = {
 	},
 	
 	phone: function(req, res) {
-		if (req.body.phone == 0) {
-			db(function(connection) {
-				connection.query("UPDATE security SET phone = 0 WHERE user_id = ?", [req.session.uid], function(err, result) {
-					connection.release();
-				});
+		db(function(connection) {
+			connection.query("UPDATE security SET phone = ? WHERE user_id = ?", [req.body.phone, req.session.uid], function(err, result) {
+				connection.release();
+				
+				if (req.body.phone != 0)
+					require('../../../lib/sms/sendCode')(req.session.uid, req.body.phone);
 			});
-		}
-		else {
-			require('../../../lib/sms/send')(req.session.uid, req.body.phone);
-		}
+		});
 	},
 	
 	verifyPhone: function(req, res) {
-		if (require('../../../lib/sms/verify')(req.session.uid, req.body.phone, req.body.code)) {
-			res.json({error: false, message: ""});
-		}
-		else {
-			res.json({error: true});
-		}
+		require('../../../lib/sms/verifyCode')(req.session.uid, req.body.code, function(isValid) {
+			if (isValid)
+				res.json({error: false, message: "Successfully updated phone number."});
+			else
+				res.json({error: true, message: "Invalid security code."});
+		});
 	},
 	
 };
