@@ -31,7 +31,7 @@ module.exports = {
 	},
 	
 	logout: function(req, res) {
-		res.session.uid = 0;
+		req.session.uid = 0;
 		res.redirect('/login');
 	}
 };
