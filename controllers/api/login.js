@@ -48,7 +48,7 @@ module.exports = {
 						connection.release();
 						
 						require('../../lib/security/initiate')(uid, req, rows[0], function(security) {
-							if (security == {}) {
+							if (security.noSecurity) {
 								// User has no extra security measures
 								// Login user
 								require('../../lib/login/doLogin')(req, uid);

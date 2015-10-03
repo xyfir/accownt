@@ -4,7 +4,7 @@ var Alert = require("../misc/Alert.jsx");
 module.exports = React.createClass({
 	
 	getInitialState: function() {
-		return {error: false, message: "", email: ""};
+		return {error: false, message: "", email: "", recovered: false};
 	},
 	
 	componentWillMount: function() {
@@ -19,7 +19,7 @@ module.exports = React.createClass({
 	},
 	
 	updatePassword: function() {
-		var curPass = React.findDOMNode(this.refs.cpassword).value;
+		var curPass = React.findDOMNode(this.refs.cpassword).value + '';
 		var newPass = React.findDOMNode(this.refs.npassword).value;
 		var conPass = React.findDOMNode(this.refs.rpassword).value;
 		
@@ -61,7 +61,7 @@ module.exports = React.createClass({
 				
 				<h3>{this.state.email}</h3>
 				
-				<input type="password" ref="cpassword" placeholder="Current Password" />
+				<input type={this.state.recovered ? "hidden" : "password" } ref="cpassword" placeholder="Current Password" />
 				<input type="password" ref="npassword" placeholder="New Password" />
 				<input type="password" ref="rpassword" placeholder="Confirm" />
 				
