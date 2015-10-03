@@ -35,7 +35,8 @@ module.exports = React.createClass({
 		return (
 			<div className="form-step">
 				<Alert type="success" title="Account Created">
-					You are now registered and may login.
+					You have successfully registered an account. 
+					You will not be able to login until you verify your email.
 				</Alert>
 				
 				<a className="link-lg" href="login">Login</a>

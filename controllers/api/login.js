@@ -13,7 +13,7 @@ module.exports = {
 		}
 		
 		db(function(connection) {
-			connection.query('SELECT id, password FROM users WHERE email = ?', [req.body.email], function(err, rows) {
+			connection.query('SELECT id, password, verified FROM users WHERE email = ?', [req.body.email], function(err, rows) {
 				
 				// Check if user exists
 				if (rows.length == 0) {
@@ -31,6 +31,16 @@ module.exports = {
 					}
 					
 					var uid = rows[0].id;
+					
+					// Check if account's email is verified
+					if (rows[0].verified == 0) {
+						require('../../lib/email/sendVerification')(uid, req.body.email);
+						res.json({
+							error: true,
+							message: "You cannot login until you've verified your email. A new verification link has been sent to your email."
+						});
+						return;
+					}
 					
 					// Check for extra security required
 					connection.query('SELECT * FROM security WHERE user_id = ?', [uid], function(err, rows) {

@@ -12,7 +12,7 @@ module.exports = {
 		
 		// Attempt to register user
 		db(function(connection) {
-			connection.query('SELECT id FROM users WHERE email = ?', [req.body.email], function(err, rows) {
+			connection.query('SELECT id FROM users WHERE email = ? AND verified = ?', [req.body.email, 1], function(err, rows) {
 				
 				// Email already linked to account
 				if (rows.length > 0) {
@@ -26,18 +26,21 @@ module.exports = {
 					
 					var data = {
 						email: req.body.email,
-						password: hash
+						password: hash,
+						verified: 0
 					};
 					
 					// Create user's account
 					connection.query('INSERT INTO users SET ?', data, function(err, result) {
-						res.json({error: false});
+						// Send email verification email
+						require('../../lib/email/sendVerification')(result.insertId, req.body.email);
+						
+						res.json({error: false, message: ""});
 						
 						// Create row in security table with user's id
 						var data = {
 							user_id: result.insertId,
 						};
-						
 						connection.query('INSERT INTO security SET ?', data, function() { connection.release(); });
 					});
 				});
@@ -49,7 +52,7 @@ module.exports = {
 		// Check if email is valid / available
 		// 0 == email available, 1 == unavailable
 		db(function(connection) {
-			connection.query('SELECT id FROM users WHERE email = ?', [req.params.email], function(err, rows) {
+			connection.query('SELECT id FROM users WHERE email = ? AND verified = ?', [req.params.email, 1], function(err, rows) {
 				connection.release();
 				res.send(rows.length + '');
 			});

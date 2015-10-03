@@ -30,6 +30,26 @@ module.exports = {
 		});
 	},
 	
+	verifyEmail: function(req, res) {
+		require('../lib/auth/validateToken')([req.params.uid], req.params.auth, function(isValid) {
+			if (isValid) {
+				require('../lib/login/doLogin')(req, req.params.uid);
+				
+				// Set verified
+				require('../lib/db')(function(connection) {
+					connection.query('UPDATE users SET verified = ? WHERE id = ?', [1, req.params.uid], function(err, result) {
+						connection.release();
+						
+						res.redirect(req.session.redirect ? req.session.redirect : '/dashboard');
+					});
+				});
+			}
+			else {
+				res.redirect('/login');
+			}
+		});
+	},
+	
 	logout: function(req, res) {
 		req.session.uid = 0;
 		res.redirect('/login');
