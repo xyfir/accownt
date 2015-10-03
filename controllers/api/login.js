@@ -45,66 +45,36 @@ module.exports = {
 					// Check for extra security required
 					connection.query('SELECT * FROM security WHERE user_id = ?', [uid], function(err, rows) {
 						
-						var doLogin = true;
-						 
-						 // Deal with extra security measures
-						if (rows[0].phone || rows[0].addresses || rows[0].codes) {
-							
-							var response = {
-								security: {
-									phone: false,
-									code: false,
-									codeNumber: 0
-								},
-								error: false,
-								uid: uid,
-								auth: ""
-							};
-							
-							// Check if user's IP address is allowed
-							if (rows[0].addresses) {
-								if (rows[0].addresses.split(',').indexOf(req.ip) == -1) {
-									res.json({error: true, message: "IP address is not whitelisted"});
-									return;
-								}
-							}
-							
-							// Send code to user's phone
-							if (rows[0].phone) {
-								require('../../lib/sms/sendCode')(uid, rows[0].phone);
-								response.security.phone = true;
-								doLogin = false;
-							}
-							
-							// Randomly choose a code from list
-							if (rows[0].codes) {
-								var code = Math.floor(Math.random() * rows[0].codes.split(',').length);
-								
-								response.security.code = true;
-								response.security.codeNumber = code;
-								doLogin = false;
-								
-								// Save code to db
-								connection.query('UPDATE security SET code = ? WHERE user_id = ?', [code, uid], function(err, result) {return;});
-							}
-							
-							// If extra user input is required, don't login yet
-							// Send extra security information back to client
-							if (!doLogin) {
-								require('../../lib/auth/generateToken')([uid], function(token) {
-									response.auth = token;
-									res.json(response);
-								});
-							}
-						}
-						
 						connection.release();
 						
-						// Complete login
-						if (doLogin) {
-							require('../../lib/login/doLogin')(req, uid);
-							res.json({error: false, loggedIn: true, redirect: req.session.redirect ? req.session.redirect : '' });
-						}
+						require('../../lib/security/initiate')(uid, req, rows[0], function(security) {
+							if (security == {}) {
+								// User has no extra security measures
+								// Login user
+								require('../../lib/login/doLogin')(req, uid);
+								res.json({error: false, loggedIn: true, redirect: req.session.redirect ? req.session.redirect : '' });
+							}
+							else {
+								if (security.error) {
+									res.json(security); //{error,message}
+								}
+								else {
+									// Send security object back to client
+									var response = {
+										security: security,
+										error: false,
+										uid: uid,
+										auth: ""
+									};
+									
+									// Generate auth token
+									require('../../lib/auth/generateToken')([uid], function(token) {
+										response.auth = token;
+										res.json(response);
+									});
+								}
+							}
+						});
 					});
 				});
 			});
@@ -114,49 +84,17 @@ module.exports = {
 	// Verify security measures and complete login process
 	verify: function(req, res) {
 		
-		// success() called when succeeded == steps
-		var success = function() {
-			// Validate auth token
-			require('../../lib/auth/validateToken')([req.body.uid], req.body.auth, function(isValid) {
-				if (isValid) {
-					require('../../lib/login/doLogin')(req, req.body.uid);
-					res.json({error: false, loggedIn: true, redirect: req.session.redirect ? req.session.redirect : '' });
-				}
-				else {
-					res.json({error: true, message: "Invalid or expired authentication token."});
-				}
-			});
-		},
-			steps = 0,
-			succeeded = 0;
+		require('../../lib/security/validate')(req.body, function(response) {
+			if (response.error) {
+				res.json(response); // {error,message}
+			}
+			else {
+				// Complete login process
+				require('../../lib/login/doLogin')(req, req.body.uid);
+				res.json({error: false, loggedIn: true, redirect: req.session.redirect ? req.session.redirect : '' });
+			}
+		});
 		
-		// Verify sms code
-		if (req.body.smsCode != 0) {
-			steps++;
-			
-			require('../../lib/sms/verifyCode')(req.body.uid, req.body.smsCode, function(isValid) {
-				if (!isValid)
-					res.json({error: true, message: "Invalid SMS code"});
-				else if (++succeeded == steps)
-					success();
-			});
-		}
-		
-		// Verify code
-		if (req.body.code != 0) {
-			steps++;
-			
-			db(function(connection) {
-				connection.query('SELECT codes, code FROM security WHERE user_id = ?', [req.body.uid], function(err, rows) {
-					connection.release();
-					
-					if (rows[0].codes.split(',').indexOf(req.body.code) != rows[0].code)
-						res.json({error: true, message: "Invalid code"});
-					else if (++succeeded == steps)
-						success();
-				});
-			});
-		}
 	},
 	
 	// Create session for linked service
