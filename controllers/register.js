@@ -8,6 +8,12 @@ module.exports = {
 	},
 	
 	linkService: function(req, res) {
-		
+		if (req.session.uid) {
+			res.render('linkService', {title: "Link Service - Xyfir Accounts"});
+		}
+		else {
+			req.session.redirect = '/' + req.params.service;
+			res.redirect('/login');
+		}
 	}
 };

@@ -9,10 +9,10 @@ module.exports = {
 	
 	loginService: function(req, res) {
 		if (req.session.uid) {
-			// **
+			res.render('loginService', {title: "One-Click Login - Xyfir Accounts"});
 		}
 		else {
-			req.session.redirect = '/login/' + req.params.service;
+			req.session.redirect = '/' + req.params.service;
 			res.redirect('/login');
 		}
 	},

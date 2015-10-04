@@ -8,6 +8,7 @@ module.exports = {
 			connection.query(
 				'SELECT user_id, info FROM linked_services WHERE service_id = ? AND xyfir_id = ?',
 				[req.params.service, req.params.xid], function(err, rows) {
+				
 					if (err || rows.length == 0) {
 						res.json({error: true});
 						return;
@@ -78,7 +79,7 @@ module.exports = {
 				// Generate xyfir id
 				var xid = require('crypto')
 					.createHash('sha256')
-					.update(req.session.uid + '-' + req.params.uid + '-' + (Math.random() * 1000000))
+					.update(req.session.uid + '-' + req.params.service + '-' + (Math.random() * 1000000))
 					.digest('hex');
 				
 				var insert = {
@@ -110,6 +111,60 @@ module.exports = {
 		// Generate an auth token for uid/service
 		require('../../lib/auth/generateToken')([req.session.uid, req.params.service], function(token, xid) {
 			res.json({auth: token, xid: xid});
+		});
+	},
+	
+	info: function(req, res) {
+		db(function(connection) {
+			connection.query('SELECT name, description, info FROM services WHERE id = ?', [req.params.service], function(err, rows) {
+				
+				if (err || rows.length == 0) {
+					connection.release();
+					res.json({error: true, message: "Service does not exist."});
+					return;
+				}
+				
+				var data = {
+					name: rows[0].name,
+					description: rows[0].description,
+					requested: JSON.parse(rows[0].info)
+				};
+				
+				// Check if user is already linked to service
+				connection.query('SELECT xyfir_id FROM linked_services WHERE user_id = ? AND service_id = ?',
+				[req.session.uid, req.params.service], function(err, rows) {
+					if (rows.length > 0) {
+						connection.release();
+						res.json({error: true, message: "Service is already linked to account."});
+						return;
+					}
+					
+					// Grab user's profiles
+					connection.query('SELECT profile_id, name FROM profiles WHERE user_id = ?', [req.session.uid], function(err, rows) {
+						connection.release();
+						
+						// profiles: [{name,profile_id},{...}]
+						res.json({error: false, message: "", service: data, profiles: rows});
+					});
+				})
+				
+				connection.query(
+					'SELECT info FROM linked_services WHERE user_id = ? AND service_id = ?',
+					[req.session.uid, req.params.service],
+					function(err, rows) {
+						connection.release();
+						
+						if (err || rows.length == 0) {
+							res.json({error: true});
+							return;
+						}
+						
+						data.info.provided = JSON.parse(rows[0].info);
+						
+						res.json({error: false, message: "", service: data});
+					}
+				);
+			});
 		});
 	}
 	
