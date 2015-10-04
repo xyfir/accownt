@@ -57,33 +57,10 @@ module.exports = {
 	
 	update: function(req, res) {
 		// Validate data
-		require('../../../lib/services/validateData')(req, function(result) {
+		require('../../../lib/services/validateData')(req, function(result, update) {
 			if (result != 'valid') {
 				res.json({error: true, message: result});
 				return;
-			}
-				
-			var update;
-			
-			if (req.body.profile) {
-				update = {
-					profile: req.body.profile,
-					optional: req.body.optional
-				};
-			}
-			else {
-				update = {
-					email: req.body.email,
-					fname: req.body.fname,
-					lname: req.body.lname,
-					gender: req.body.gender,
-					phone: req.body.phone,
-					birthdate: req.body.birthdate,
-					address: req.body.address,
-					zip: req.body.zip,
-					region: req.body.region,
-					country: req.body.country
-				};
 			}
 			
 			db(function(connection) {
