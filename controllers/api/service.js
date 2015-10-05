@@ -8,7 +8,7 @@ module.exports = {
 			connection.query(
 				'SELECT user_id, info FROM linked_services WHERE service_id = ? AND xyfir_id = ?',
 				[req.params.service, req.params.xid], function(err, rows) {
-				
+
 					if (err || rows.length == 0) {
 						res.json({error: true});
 						return;
@@ -16,7 +16,7 @@ module.exports = {
 					
 					// Check if auth token is valid
 					require('../../lib/auth/validateToken')
-					([rows[0].user_id, req.params.service], function(isValid) {
+					([rows[0].user_id, req.params.service], req.params.token, function(isValid) {
 						if (!isValid) {
 							res.json({error: true});
 							return;
@@ -26,6 +26,7 @@ module.exports = {
 						var data = JSON.parse(rows[0].info);
 						
 						if (data.profile) {
+							
 							// Grab requested info from service
 							connection.query('SELECT info FROM services WHERE id = ?', [req.params.service], function(err, rows) {
 								var requested = JSON.parse(rows[0].info);
@@ -110,7 +111,12 @@ module.exports = {
 	createSession: function(req, res) {
 		// Generate an auth token for uid/service
 		require('../../lib/auth/generateToken')([req.session.uid, req.params.service], function(token, xid) {
-			res.json({auth: token, xid: xid});
+			db(function(connection) {
+				connection.query('SELECT address FROM services WHERE id = ?', [req.params.service], function(err, rows) {
+					connection.release();
+					res.json({auth: token, xid: xid, address: rows[0].address});
+				});
+			});
 		});
 	},
 	
@@ -147,23 +153,6 @@ module.exports = {
 						res.json({error: false, message: "", service: data, profiles: rows});
 					});
 				})
-				
-				connection.query(
-					'SELECT info FROM linked_services WHERE user_id = ? AND service_id = ?',
-					[req.session.uid, req.params.service],
-					function(err, rows) {
-						connection.release();
-						
-						if (err || rows.length == 0) {
-							res.json({error: true});
-							return;
-						}
-						
-						data.info.provided = JSON.parse(rows[0].info);
-						
-						res.json({error: false, message: "", service: data});
-					}
-				);
 			});
 		});
 	}

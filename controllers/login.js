@@ -12,7 +12,7 @@ module.exports = {
 			res.render('loginService', {title: "One-Click Login - Xyfir Accounts"});
 		}
 		else {
-			req.session.redirect = '/' + req.params.service;
+			req.session.redirect = '/login/' + req.params.service;
 			res.redirect('/login');
 		}
 	},
