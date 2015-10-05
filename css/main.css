@@ -17,15 +17,23 @@ ol {
 
 /* LOGO */
 .logo {
-	display: inline;
+	border-bottom: solid 0.13em #212121;
+	width: 80%;
+	margin: auto;
+	margin-bottom: 2em;
+	padding-bottom: 1em;
 }
-h1.logo {
+.logo > .logo-xyfir {
+	font-size: 275%;
 	font-weight: 700;
 	color: #212121;
+	display: block;
+	margin-bottom: -0.15em;
 }
-h2.logo {
+.logo > .logo-accounts {
+	font-size: 225%;
 	color: #0078d7;
-	margin-left: 1em;
+	border-top: solid;
 }
 
 /* ALERTS */
