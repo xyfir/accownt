@@ -1,11 +1,12 @@
 var browserify = require('browserify');
 var streamify = require('gulp-streamify');
 var reactify = require('reactify');
+var source = require('vinyl-source-stream');
 var uglify = require('gulp-uglify');
 var gutil = require('gulp-util');
-var source = require('vinyl-source-stream');
-var gulp = require('gulp');
 var argv = require('yargs').argv;
+var gzip = require('gulp-gzip');
+var gulp = require('gulp');
 
 /*
 	build-react
@@ -30,5 +31,6 @@ gulp.task('build-react', function() {
 				unused: false
 			}
 		}).on('error', gutil.log)))
+		//.pipe(gzip({append: false}))
 		.pipe(gulp.dest('./public/js/react/'));
 });

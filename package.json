@@ -25,6 +25,7 @@
     "argv": "0.0.2",
     "browserify": "^11.1.0",
     "gulp": "^3.9.0",
+    "gulp-gzip": "^1.2.0",
     "gulp-streamify": "^1.0.2",
     "gulp-uglify": "^1.4.1",
     "gulp-util": "^3.0.6",
