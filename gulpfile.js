@@ -2,6 +2,8 @@ var browserify = require('browserify');
 var streamify = require('gulp-streamify');
 var reactify = require('reactify');
 var source = require('vinyl-source-stream');
+var minify = require('gulp-minify-css');
+var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var gutil = require('gulp-util');
 var argv = require('yargs').argv;
@@ -9,10 +11,28 @@ var gzip = require('gulp-gzip');
 var gulp = require('gulp');
 
 /*
+	build-css
+	- concats css files
+	- minifies / gzip
+*/
+gulp.task('build-css', function() {
+	var sources = [
+		'./css/grid.css', './css/main.css',
+		'./css/step-form.css', './css/dashboard.css'
+	];
+	
+	return gulp.src(sources)
+		.pipe(concat('style.css'))
+		.pipe(minify())
+		//.pipe(gzip())
+		.pipe(gulp.dest('./public/css'));
+});
+
+/*
 	build-react
 	- bundles React componenents
 	- converts JSX -> pure React
-	- minifies JavaScript
+	- minifies / gzip
 	@params
 	- file // React "page" component name, no file extension
 */
