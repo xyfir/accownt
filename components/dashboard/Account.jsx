@@ -59,7 +59,8 @@ module.exports = React.createClass({
 			<div className="dashboard-body col-sm-12 col-md-8">
 				{userAlert}
 				
-				<h3>{this.state.email}</h3>
+				<h3 style={{marginBottom:'0em'}}>{this.state.email}</h3>
+				<a href="login/logout" className="link-sm">Logout</a>
 				
 				<input type={this.state.recovered ? "hidden" : "password" } ref="cpassword" placeholder="Current Password" />
 				<input type="password" ref="npassword" placeholder="New Password" />
