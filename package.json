@@ -16,13 +16,11 @@
     "jade": "^1.11.0",
     "mysql": "^2.9.0",
     "nodemailer": "^1.5.0",
-    "pg": "^4.4.1",
     "request": "^2.64.0",
     "session-file-store": "0.0.19",
     "twilio": "^2.4.0"
   },
   "devDependencies": {
-    "argv": "0.0.2",
     "browserify": "^11.1.0",
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",
@@ -31,10 +29,8 @@
     "gulp-streamify": "^1.0.2",
     "gulp-uglify": "^1.4.1",
     "gulp-util": "^3.0.6",
-    "jsx-loader": "^0.13.2",
     "reactify": "^1.1.1",
     "vinyl-source-stream": "^1.1.0",
-    "webpack": "^1.12.1",
     "yargs": "^3.25.0"
   }
 }
