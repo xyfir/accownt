@@ -36,4 +36,4 @@ app.use('/recover', require('./routes/recover'));
 app.use('/register', require('./routes/register'));
 app.use('/dashboard', require('./routes/dashboard'));
 
-app.listen(3000, function () {console.log('**SERVER RUNNING')});
+app.listen(2000, function () {console.log('**SERVER RUNNING')});
