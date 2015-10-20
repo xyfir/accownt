@@ -83,7 +83,7 @@ module.exports = {
 		// Add random words to list
 		for (var i = 0; i < words; i++) {
 			require('request')(
-				'randword.api.xyfir.com/?api=' + config.keys.randword + "&count=" + words,
+				config.randword + config.keys.randword + '?count=' + words,
 				function(err, response, body) {
 					JSON.parse(body).words.forEach(function(word) {
 						codes.push(word);
