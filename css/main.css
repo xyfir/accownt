@@ -14,21 +14,21 @@ ol {
 	width: 12em;
 	margin: 2em auto;
 }
-#container {
-	min-height: 100vh;
-}
 
 /* FOOTER */
-footer {
+.footer {
 	border-top: solid .13em #212121;
 	padding-top: 1em;
-	display: block;
-	margin: auto;
-	margin-top: 2em;
+	margin-top: 5em;
+	margin-left: 6em;
 	width: 80%;
 }
-footer > .container > .col-sm-12 > a {
+.footer > a {
 	margin: auto 0.5em;
+}
+.footer > span {
+	display: block;
+	margin-top: 0.5em;
 }
 
 /* LOGO */
