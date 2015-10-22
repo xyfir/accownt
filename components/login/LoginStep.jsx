@@ -8,8 +8,8 @@ module.exports = React.createClass({
 	},
 
 	login: function() {
-		var email = React.findDOMNode(this.refs.email).value;
-		var password = React.findDOMNode(this.refs.password).value;
+		var email = this.refs.email.value;
+		var password = this.refs.password.value;
 		
 		ajax({
 			url: 'api/login',
@@ -36,7 +36,7 @@ module.exports = React.createClass({
 	},
 	
 	passwordless: function() {
-		if (React.findDOMNode(this.refs.email).value == "") {
+		if (this.refs.email.value == "") {
 			this.setState({
 				error: true,
 				message: "You must enter your email before attempting a passwordless login."
@@ -45,7 +45,7 @@ module.exports = React.createClass({
 		}
 		
 		ajax({
-			url: 'api/login/passwordless/' + React.findDOMNode(this.refs.email).value,
+			url: 'api/login/passwordless/' + this.refs.email.value,
 			dataType: 'json',
 			success: function(result) {
 				this.setState(result);

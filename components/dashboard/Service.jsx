@@ -55,25 +55,25 @@ module.exports = React.createClass({
 	},
 	
 	updateService: function() {
-		if (React.findDOMNode(this.refs.profile).value != 0) {
+		if (this.refs.profile.value != 0) {
 			var data = {
-				profile: React.findDOMNode(this.refs.profile).value,
-				required: React.findDOMNode(this.refs.profile_allow_required).checked,
-				optional: React.findDOMNode(this.refs.profile_allow_optional).checked
+				profile: this.refs.profile.value,
+				required: this.refs.profile_allow_required.checked,
+				optional: this.refs.profile_allow_optional.checked
 			};
 		}
 		else {
 			var data = {
-				email: React.findDOMNode(this.refs.email).value,
-				fname: React.findDOMNode(this.refs.fname).value,
-				lname: React.findDOMNode(this.refs.lname).value,
-				gender: React.findDOMNode(this.refs.gender).value,
-				phone: React.findDOMNode(this.refs.phone).value,
-				birthdate: React.findDOMNode(this.refs.birthdate).value,
-				address: React.findDOMNode(this.refs.address).value,
-				zip: React.findDOMNode(this.refs.zip).value,
-				region: React.findDOMNode(this.refs.region).value,
-				country: React.findDOMNode(this.refs.country).value
+				email: this.refs.email.value,
+				fname: this.refs.fname.value,
+				lname: this.refs.lname.value,
+				gender: this.refs.gender.value,
+				phone: this.refs.phone.value,
+				birthdate: this.refs.birthdate.value,
+				address: this.refs.address.value,
+				zip: this.refs.zip.value,
+				region: this.refs.region.value,
+				country: this.refs.country.value
 			};
 		}
 		

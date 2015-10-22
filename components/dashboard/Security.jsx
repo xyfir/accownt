@@ -33,8 +33,8 @@ module.exports = React.createClass({
 				method: 'PUT',
 				dataType: 'json',
 				data: {
-					phone: React.findDOMNode(this.refs.phone).value,
-					code: React.findDOMNode(this.refs.smsCode).value
+					phone: this.refs.phone.value,
+					code: this.refs.smsCode.value
 				},
 				success: function(result) {
 					this.setState(result);
@@ -43,7 +43,7 @@ module.exports = React.createClass({
 			});
 		}
 		else {
-			var phone = React.findDOMNode(this.refs.phone).value;
+			var phone = this.refs.phone.value;
 			phone = phone ? phone : 0;
 			
 			ajax({
@@ -69,8 +69,8 @@ module.exports = React.createClass({
 			method: 'PUT',
 			dataType: 'json',
 			data: {
-				type: React.findDOMNode(this.refs.codeType).value,
-				count: React.findDOMNode(this.refs.codeCount).value
+				type: this.refs.codeType.value,
+				count: this.refs.codeCount.value
 			},
 			success: function(result) {
 				this.setState(result);
@@ -88,7 +88,7 @@ module.exports = React.createClass({
 			method: 'PUT',
 			dataType: 'json',
 			data: {
-				whitelist: React.findDOMNode(this.refs.whitelist).value.replace("\n", ",")
+				whitelist: this.refs.whitelist.value.replace("\n", ",")
 			},
 			success: function(result) {
 				this.setState(result);
@@ -102,7 +102,7 @@ module.exports = React.createClass({
 			method: 'PUT',
 			dataType: 'json',
 			data: {
-				passwordless: React.findDOMNode(this.refs.passwordless).value
+				passwordless: this.refs.passwordless.value
 			},
 			success: function(result) {
 				this.setState(result);

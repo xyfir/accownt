@@ -19,9 +19,9 @@ module.exports = React.createClass({
 	},
 	
 	updatePassword: function() {
-		var curPass = React.findDOMNode(this.refs.cpassword).value + '';
-		var newPass = React.findDOMNode(this.refs.npassword).value;
-		var conPass = React.findDOMNode(this.refs.rpassword).value;
+		var curPass = this.refs.cpassword.value + '';
+		var newPass = this.refs.npassword.value;
+		var conPass = this.refs.rpassword.value;
 		
 		if (newPass != conPass) {
 			this.setState({error: true, message: "Passwords do not match."});

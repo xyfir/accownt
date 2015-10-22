@@ -20,7 +20,7 @@ var AccountRecovery = React.createClass({
 			url: 'api/recover',
 			method: 'POST',
 			dataType: 'json',
-			data: {email: React.findDOMNode(this.refs.email).value},
+			data: {email: this.refs.email.value},
 			success: function(result) {
 				if (result.error)
 					this.setState(result);

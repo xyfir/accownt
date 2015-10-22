@@ -31,17 +31,17 @@ module.exports = React.createClass({
 	createProfile: function() {
 		if (this.state.creatingProfile) {
 			var data = {
-				name: React.findDOMNode(this.refs.name).value,
-				email: React.findDOMNode(this.refs.email).value,
-				fname: React.findDOMNode(this.refs.fname).value,
-				lname: React.findDOMNode(this.refs.lname).value,
-				gender: React.findDOMNode(this.refs.gender).value,
-				phone: React.findDOMNode(this.refs.phone).value,
-				birthdate: React.findDOMNode(this.refs.birthdate).value,
-				address: React.findDOMNode(this.refs.address).value,
-				zip: React.findDOMNode(this.refs.zip).value,
-				region: React.findDOMNode(this.refs.region).value,
-				country: React.findDOMNode(this.refs.country).value
+				name: this.refs.name.value,
+				email: this.refs.email.value,
+				fname: this.refs.fname.value,
+				lname: this.refs.lname.value,
+				gender: this.refs.gender.value,
+				phone: this.refs.phone.value,
+				birthdate: this.refs.birthdate.value,
+				address: this.refs.address.value,
+				zip: this.refs.zip.value,
+				region: this.refs.region.value,
+				country: this.refs.country.value
 			};
 			
 			ajax({
