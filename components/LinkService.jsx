@@ -179,4 +179,4 @@ var LinkService = React.createClass({
 	
 });
 
-React.render(<LinkService />, $("#content"));
+ReactDOM.render(<LinkService />, $("#content"));

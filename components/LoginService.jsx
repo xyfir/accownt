@@ -48,4 +48,4 @@ var LoginService = React.createClass({
 	
 });
 
-React.render(<LoginService />, $("#content"));
+ReactDOM.render(<LoginService />, $("#content"));

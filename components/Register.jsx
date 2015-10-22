@@ -50,4 +50,4 @@ var Register = React.createClass({
 	}
 });
 
-React.render(<Register />, $("#content"));
+ReactDOM.render(<Register />, $("#content"));

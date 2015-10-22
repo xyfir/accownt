@@ -53,4 +53,4 @@ var Dashboard = React.createClass({
 	
 });
 
-React.render(<Dashboard />, $("#content"));
+ReactDOM.render(<Dashboard />, $("#content"));

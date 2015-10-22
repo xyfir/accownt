@@ -116,4 +116,4 @@ var AccountRecovery = React.createClass({
 	
 });
 
-React.render(<AccountRecovery />, $("#content"));
+ReactDOM.render(<AccountRecovery />, $("#content"));

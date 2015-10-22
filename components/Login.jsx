@@ -84,4 +84,4 @@ var Login = React.createClass({
 	
 });
 
-React.render(<Login />, $("#content"));
+ReactDOM.render(<Login />, $("#content"));
