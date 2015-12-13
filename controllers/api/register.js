@@ -1,3 +1,5 @@
+var request = require("request");
+var config = require('../../config');
 var bcrypt = require('bcrypt');
 var db = require('../../lib/db'); 
 
@@ -32,16 +34,49 @@ module.exports = {
 					
 					// Create user's account
 					connection.query('INSERT INTO users SET ?', data, function(err, result) {
-						// Send email verification email
-						require('../../lib/email/sendVerification')(result.insertId, req.body.email);
-						
-						res.json({error: false, message: ""});
-						
-						// Create row in security table with user's id
-						var data = {
-							user_id: result.insertId,
-						};
-						connection.query('INSERT INTO security SET ?', data, function() { connection.release(); });
+						// Generate XADID from Xyfir Ads
+						request({
+							url: config.xads + "api/xad-id/" + result.insertId,
+							form: {
+								secret: config.keys.xadid
+							}
+						}, function(err, response, body) {
+							var error = false;
+							
+							if (err) {
+								error = true;
+							}
+							else {
+								body = JSON.parse(body);
+								if (body.error) error = true;
+							}
+							
+							// Delete user and respond with error
+							if (error) {
+								connection.query("DELETE FROM users WHERE id = ?", [result.insertId], function(err, result) {
+									connection.release();
+									res.json({error: true, message: "Unknown error occured"});
+								});
+							}
+							// Set xadid
+							else {
+								connection.query(
+								"UPDATE users SET xad_id = ? WHERE id = ?",
+								[body.xadid, result.insertId],
+								function(err, result) {
+									// Send email verification email
+									require('../../lib/email/sendVerification')(result.insertId, req.body.email);
+									
+									res.json({error: false, message: ""});
+									
+									// Create row in security table with user's id
+									var data = {
+										user_id: result.insertId,
+									};
+									connection.query('INSERT INTO security SET ?', data, function() { connection.release(); });
+								});
+							}
+						});
 					});
 				});
 			});
