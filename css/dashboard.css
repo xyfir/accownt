@@ -58,3 +58,11 @@
 .service-info-optional > h4 {
   color: #777;
 }
+
+.dashboard-body > label {
+  display: block;
+  margin: auto;
+}
+.search-results, .categories {
+  margin: 1em;
+}
