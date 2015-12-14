@@ -49,3 +49,5 @@ var ajax = function(options) {
 		request.send(query);
 	}
 };
+
+var XADS = "http://localhost:3000/";
