@@ -15,6 +15,13 @@ module.exports = React.createClass({
 			url: 'api/dashboard/ads',
 			dataType: 'json',
 			success: function(result) {
+				// Set value of setCategories if user has categories set
+				if (result.info != "") {
+					var temp = JSON.parse(result.info);
+					if (temp.categories)
+						this.setState({setCategories: temp.categories});
+				}
+					
 				// info
 				this.setState(result);
 				
@@ -59,12 +66,12 @@ module.exports = React.createClass({
 	
 	update: function() {
 		var data = {
-			categories: this.state.setCategories,
+			categories: this.state.setCategories.join(','),
 			keywords: this.refs.keywords.value,
 			gender: this.refs.gender.value,
 			age: this.refs.age.value
 		};
-		
+
 		if (data.categories.length > 500)
 			this.setState({error: true, message: "Too many categories provided"});
 		else if (data.keywords.length > 250)
@@ -76,10 +83,9 @@ module.exports = React.createClass({
 				method: "PUT",
 				dataType: "json",
 				success: function(result) {
-					if (result.error) {
-						this.setState({error: true, message: "Could not update profile"});
-					}
-				}.bind(this);
+					// error, message
+					this.setState(result);
+				}.bind(this)
 			});
 		}
 	},
@@ -95,10 +101,8 @@ module.exports = React.createClass({
 			method: "PUT",
 			dataType: "json",
 			success: function(result) {
-				if (result.error) {
-					this.setState({error: true, message: "Could not reset profile"});
-				}
-			}.bind(this);
+				this.setState(result);
+			}.bind(this)
 		});
 	},
 	
@@ -109,6 +113,14 @@ module.exports = React.createClass({
 			userAlert = <Alert type="error" title="Error!">{this.state.message}</Alert>;
 		else if (this.state.message)
 			userAlert = <Alert type="success" title="Success!">{this.state.message}</Alert>;
+		
+		var i = this.state.info == "" ? "" : JSON.parse(this.state.info);
+	
+		var info = {
+			age: i.age || "",
+			gender: i.gender || "",
+			keywords: i.keywords || ""
+		};
 		
 		return (
 			<div className="dashboard-body col-sm-12 col-md-8">
@@ -160,7 +172,7 @@ module.exports = React.createClass({
 				<Button type="primary btn-sm" onClick={this.resetCategories}>Reset</Button>
 				
 				<div className="categories">{
-					this.state.categories.map(function(category) {
+					this.state.setCategories.map(function(category) {
 						return <span>{category}</span>;
 					})
 				}</div>
