@@ -41,12 +41,18 @@ module.exports = {
 			{error: bool}
 	*/
 	update: function(req, res) {
-		var info = JSON.stringify({
-			categories: req.body.categories,
-			keywords: req.body.keywords,
-			gender: req.body.gender,
-			age: req.body.age
-		});
+		var info = {};
+		if (req.body.categories != "") info.categories = req.body.categories;
+		if (req.body.categories != "") info.keywords = req.body.keywords;
+		if (req.body.categories != "") info.gender = req.body.gender;
+		if (req.body.categories != "") info.age = req.body.age;
+		
+		info = JSON.stringify(info);
+		
+		if (info.length > 800) {
+			res.json({error: true});
+			return;
+		}
 		
 		db(function(cn) {
 			// Grab XADID
