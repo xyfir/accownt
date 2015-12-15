@@ -66,3 +66,10 @@
 .search-results, .categories {
   margin: 1em;
 }
+.search-results > span, .categories > span {
+  margin: 0.2em;
+}
+.search-results > span {
+  color: #777;
+  font-size: 90%;
+}
