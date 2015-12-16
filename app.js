@@ -29,7 +29,7 @@ app.use(session({
 app.set('view engine', 'jade');
 
 /* Routes */
-//app.use('/', require('./routes/'));
+app.use('/', require('./routes/'));
 app.use('/api', require('./routes/api/'));
 app.use('/login', require('./routes/login'));
 app.use('/recover', require('./routes/recover'));
