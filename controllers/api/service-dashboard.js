@@ -73,6 +73,7 @@ module.exports = {
 					name: req.body.name,
 					address: req.body.link,
 					owner: req.session.uid,
+					xyfir: req.session.uid < 1000,
 					description: req.body.description
 				};
 				
