@@ -8,12 +8,12 @@ module.exports = {
 		GET api/service/dashboard
 		RETURN
 			{services: [
-				{ services_table_row }
+				{ id: number, name: string }
 			]}
 	*/
 	getAll: function(req, res) {
 		db(function(cn) {
-			var sql = "SELECT * FROM services WHERE owner = ?";
+			var sql = "SELECT id, name FROM services WHERE owner = ?";
 			cn.query(sql, [req.session.uid], function(err, rows) {
 				cn.release();
 				
