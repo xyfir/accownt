@@ -73,3 +73,24 @@
   color: #777;
   font-size: 90%;
 }
+
+.nav, .nav-sub {
+    padding: 1em;
+    background-color: #f7f7f7;
+    margin: auto;
+    border: 1px solid #f0f0f0;
+}
+.nav > .link-lg, .nav-sub > .link-lg {
+    margin: 1em;
+}
+.nav {
+    width: 75%;
+}
+.nav-sub {
+    width: 60%;
+    margin-top: 1em;
+}
+
+table.requested-info, table.requested-data {
+  margin: auto;
+}
