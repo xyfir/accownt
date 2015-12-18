@@ -12,12 +12,12 @@
     "bcrypt": "^0.8.5",
     "body-parser": "^1.13.3",
     "express": "^4.13.3",
+    "express-mysql-session": "^0.4.3",
     "express-session": "^1.11.3",
     "jade": "^1.11.0",
     "mysql": "^2.9.0",
     "nodemailer": "^1.5.0",
     "request": "^2.64.0",
-    "session-file-store": "0.0.19",
     "twilio": "^2.4.0"
   },
   "devDependencies": {

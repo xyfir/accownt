@@ -4,6 +4,7 @@ var express = require('express');
 var session = require('express-session');
 var parser = require('body-parser');
 var config = require('./config');
+var Store = require('express-mysql-session');
 var app = express();
 
 /* Serve Static Files */
@@ -14,15 +15,22 @@ app.use(parser.json());
 app.use(parser.urlencoded({extended: true}));
 
 /* Sessions */
-var SessionStore = require('session-file-store')(session);
+var sessionStore = new Store({
+    host: config.db.host,
+    port: config.db.port,
+    user: config.db.user,
+    password: config.db.password,
+    database: config.db.database,
+    useConnectionPooling: true
+});
 app.use(session({
-	store: new SessionStore,
-	secret: config.session.secret,
-	saveUninitialized: true,
-	resave: true,
-	cookie: {
-		httpOnly: false
-	}
+    secret: config.session.secret,
+    store: sessionStore,
+    saveUninitialized: true,
+    resave: true,
+    cookie: {
+        httpOnly: false
+    }
 }));
 
 /* View Engine */
