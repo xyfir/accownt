@@ -50,4 +50,4 @@ var ajax = function(options) {
 	}
 };
 
-var XADS = "http://localhost:3000/";
+var XADS = "http://localhost:3000/", XACC = "http://localhost:2000/";
