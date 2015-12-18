@@ -13,26 +13,50 @@ var Dashboard = React.createClass({
 		return {view: 'account'};
 	},
 	
-	changeView: function(view) {
-		this.setState({view: view}, function() {return;});
+	componentWillMount: function () {
+        // Set view based on current URL
+        this.routeUpdated();
+    },
+
+	// Set state.view based on current URL
+    routeUpdated: function() {
+        // Parse url
+        var a = document.createElement('a');
+        a.href = location.href;
+
+        // Set state.view based on route
+        switch (a.pathname) {
+            case "/dashboard/security":
+                this.setState({ view: "security" }); break;
+			case "/dashboard/profiles":
+                this.setState({ view: "profiles" }); break;
+			case "/dashboard/services":
+                this.setState({ view: "services" }); break;
+			case "/dashboard/ads":
+                this.setState({ view: "ads" }); break;
+			default:
+                this.setState({ view: "account" });
+        }
+    },
+	
+	changeView: function(route) {
+		route = XACC + "dashboard/" + route;
+        history.pushState({}, '', route);
+        this.routeUpdated();
 	},
 	
 	render: function() {
 		var view;
-		
+
 		switch(this.state.view) {
 			case 'account':
-				view = <Account />;
-				break;
+				view = <Account />;  break;
 			case 'security':
-				view = <Security />;
-				break;
+				view = <Security />; break;
 			case 'profiles':
-				view = <Profiles />;
-				break;
+				view = <Profiles />; break;
 			case 'services':
-				view = <Services />;
-				break;
+				view = <Services />; break;
 			case 'ads':
 				view = <Ads />;
 		}
