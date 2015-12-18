@@ -188,6 +188,11 @@ textarea {
 	height: 7em;
 }
 
+#content {
+	width: 80%;
+	margin: auto;
+}
+
 /* Home Page */
 .home-nav > .link-lg, .home-for-devs > div > .link-lg {
 	margin: 1em;
