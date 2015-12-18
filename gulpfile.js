@@ -1,6 +1,4 @@
-var browserify = require('browserify');
 var streamify = require('gulp-streamify');
-var reactify = require('reactify');
 var source = require('vinyl-source-stream');
 var minify = require('gulp-minify-css');
 var concat = require('gulp-concat');
@@ -23,7 +21,7 @@ gulp.task('css', function() {
 	return gulp.src(sources)
 		.pipe(concat('style.css'))
 		.pipe(minify())
-		//.pipe(gzip())
+		.pipe(argv.prod ? gzip() : gutil.noop())
 		.pipe(gulp.dest('./public/css'));
 });
 
@@ -32,14 +30,13 @@ gulp.task('css', function() {
 	- bundles React componenents
 	- converts JSX -> pure React
 	- minifies / gzip
-	@params
-	- file // React "page" component name, no file extension
 */
 gulp.task('react', function() {
 	// Add JSX transformer to Browserify
-	var b = browserify();
-	b.transform(reactify);
-	b.add('./components/' + argv.file + '.jsx');
+    var b = require('browserify')(
+        './components/' + argv.file + '.jsx', { extensions: '.jsx' }
+    );
+	b.transform(require('reactify'));
 	
 	// Bundle React components and minify JS
 	return b.bundle()
@@ -50,6 +47,6 @@ gulp.task('react', function() {
 				unused: false
 			}
 		}).on('error', gutil.log)))
-		//.pipe(gzip({append: false}))
+		.pipe(argv.prod ? gzip() : gutil.noop())
 		.pipe(gulp.dest('./public/js/react/'));
 });
