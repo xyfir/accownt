@@ -187,3 +187,8 @@ textarea {
 	width: 20em;
 	height: 7em;
 }
+
+/* Home Page */
+.home-nav > .link-lg, .home-for-devs > div > .link-lg {
+	margin: 1em;
+}
