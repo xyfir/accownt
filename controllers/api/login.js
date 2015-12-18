@@ -97,11 +97,6 @@ module.exports = {
 		
 	},
 	
-	// Create session for linked service
-	loginService: function(req, res) {
-
-	},
-	
 	// Generate and send passwordless login link
 	passwordless: function(req, res) {
 		db(function(connection) {
