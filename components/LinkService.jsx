@@ -74,8 +74,8 @@ var LinkService = React.createClass({
 			method: 'POST',
 			dataType: 'json',
 			success: function(data) {
-				// Send parent data object {auth,xid}
-				parent.postMessage(data, data.address);
+				// Redirect user to service's login
+				location.href = data.address + "?auth=" + data.auth + "&xid=" + data.xid;
 			}.bind(this)
 		});
 	},

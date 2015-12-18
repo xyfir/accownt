@@ -34,8 +34,8 @@ var LoginService = React.createClass({
 			success: function(data) {
 				this.setState({error: false, message: "Logged in successfully."});
 				
-				// Send parent data object {auth,xid}
-				parent.postMessage(data, data.address);
+				// Redirect user to service's login
+				location.href = data.address + "?auth=" + data.auth + "&xid=" + data.xid;
 			}.bind(this)
 		});
 	},
