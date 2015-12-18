@@ -141,7 +141,7 @@ module.exports = {
 					res.json({ error: true, message: "An unknown error occured" });
 				}
 				else {
-					res.json({ error: true, message: "Service deleted successfully" });
+					res.json({ error: false, message: "Service deleted successfully" });
 					
 					sql = "DELETE FROM linked_services WHERE service_id = ?";
 					cn.query(sql, [req.params.id], function(err, result) {
