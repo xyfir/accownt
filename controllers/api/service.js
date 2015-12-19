@@ -2,6 +2,14 @@ var db = require('../../lib/db');
 
 module.exports = {
 	
+	/*
+		GET api/service/:service/:xid/:token
+		RETURNED
+			{ error: true } || { xadid?: string[, fname,country,...] }
+		DESCRIPTION
+			Called by service upon successful login
+			Returns xadid and info required/optional data provided by user
+	*/
 	getUser: function(req, res) {
 		db(function(connection) {
 			// Check if xid+serviceid matches
@@ -13,6 +21,14 @@ module.exports = {
 						res.json({error: true});
 						return;
 					}
+					
+					var uid = rows[0].user_id;
+					var getXADID = function(fn) {
+						connection.query('SELECT xad_id FROM users WHERE id = ?', [uid], function(err, rows) {
+							connection.release();
+							fn(rows[0].xad_id);
+						});
+					};
 					
 					// Check if auth token is valid
 					require('../../lib/auth/validateToken')
@@ -26,14 +42,12 @@ module.exports = {
 						var data = JSON.parse(rows[0].info);
 						
 						if (data.profile) {
-							
 							// Grab requested info from service
 							connection.query('SELECT info FROM services WHERE id = ?', [req.params.service], function(err, rows) {
 								var requested = JSON.parse(rows[0].info);
 								
 								// Grab data from profile
 								connection.query('SELECT * FROM profiles WHERE profile_id = ?', [data.profile], function(err, rows) {
-									connection.release();
 									var provided = {};
 									
 									// Loop through requested.required and add data
@@ -57,15 +71,20 @@ module.exports = {
 										}
 									}
 									
-									res.json(provided);
+									getXADID(function(xadid) {
+										provided.xadid = xadid;
+										res.json(provided);
+									});
 								});
 							});
 						}
 						else {
-							connection.release();
-							
-							// Return custom data
-							res.json(data);
+							getXADID(function(xadid) {
+								data.xadid = xadid;
+								
+								// Return custom data
+								res.json(data);
+							});
 						}
 					});
 				}
@@ -73,6 +92,13 @@ module.exports = {
 		});
 	},
 	
+	/*
+		POST api/service/link/:service
+		RETURNED
+			{ error: bool, message: string }
+		DESCRIPTION
+			Link service to user's Xyfir Account
+	*/
 	linkService: function(req, res) {
 		// Check if user provided required information
 		require('../../lib/services/validateData')(req, function(result, info) {
@@ -108,6 +134,14 @@ module.exports = {
 		});
 	},
 	
+	/*
+		POST api/service/session/:service
+		RETURNED
+			{ auth: string, xid: string, address: string }
+		DESCRIPTION
+			Returns user/service's Xyfir ID and session auth token
+			Returns address for redirecting upon successful login to XAcc
+	*/
 	createSession: function(req, res) {
 		// Generate an auth token for uid/service
 		require('../../lib/auth/generateToken')([req.session.uid, req.params.service], function(token, xid) {
@@ -120,6 +154,13 @@ module.exports = {
 		});
 	},
 	
+	/*
+		GET api/service/:service
+		RETURNED
+			{ error: bool, message: string, service?: {}, profiles?: [] }
+		DESCRIPTION
+			Returns to user when linking service to account
+	*/
 	info: function(req, res) {
 		db(function(connection) {
 			connection.query('SELECT name, description, info FROM services WHERE id = ?', [req.params.service], function(err, rows) {
