@@ -17,7 +17,7 @@ ol {
 
 /* FOOTER */
 .footer {
-	border-top: solid .13em #212121;
+	border-top: solid .13em $lblack;
 	padding-top: 1em;
 	margin-top: 5em;
 	margin-left: 6em;
@@ -33,7 +33,7 @@ ol {
 
 /* LOGO */
 .logo {
-	border-bottom: solid 0.13em #212121;
+	border-bottom: solid 0.13em $lblack;
 	width: 80%;
 	margin: auto;
 	margin-bottom: 2em;
@@ -42,13 +42,13 @@ ol {
 .logo > .logo-xyfir {
 	font-size: 275%;
 	font-weight: 700;
-	color: #212121;
+	color: $lblack;
 	display: block;
 	margin-bottom: -0.15em;
 }
 .logo > .logo-accounts {
 	font-size: 225%;
-	color: #0078d7;
+	color: $blue;
 	border-top: solid;
 }
 
@@ -61,17 +61,17 @@ ol {
 	color: #fff;
 }
 .alert-info {
-	background-color: #e5f3fb;
-	color: #1d1d1d;
+	background-color: $lllgray;
+	color: $black;
 }
 .alert-success {
-	background-color: #1ba1e2;
+	background-color: $lblue;
 }
 .alert-error {
-	background-color: #ce352c;
+	background-color: $red;
 }
 .alert-warning {
-	background-color: #fa6800;
+	background-color: $orange;
 }
 
 /* PROGRESS BAR */
@@ -90,7 +90,7 @@ ol {
 	display: block;
 	float: left;
 	width: 0;
-	background-color: #1ba1e2;
+	background-color: $lblue;
 	z-index: 1;
 	text-align: center;
 	height: .625rem;
@@ -101,14 +101,14 @@ ol {
 
 /* LINKS */
 a {
-	color: #0078d7;
+	color: $blue;
 	text-decoration: none;
 }
 a:hover {
-	color: #0099ff;
+	color: $lblue;
 }
 a:focus {
-	color: #212121;
+	color: $lblack;
 }
 .link-lg {
 	font-size: 125%;
@@ -137,25 +137,25 @@ input[type=submit], button, .btn {
 	font-size: 140%;
 }
 .btn-primary {
-	background-color: #2652ec;
+	background-color: $blue;
 }
 .btn-primary:hover {
-	background-color: #5a94f1; 
+	background-color: $lblue; 
 }
 .btn-secondary {
-	background-color: #5c5c5c;
+	background-color: $gray;
 }
 .btn-secondary:hover {
-	background-color: #7e7e7e;
+	background-color: $lgray;
 }
 .btn-danger {
-	background-color: #ce352c;
+	background-color: $red;
 }
 .btn-danger:hover {
-	background-color: #ee574e;
+	background-color: $lred;
 }
 input[type=submit]:focus, button:focus {
-	background-color: #212121;
+	background-color: $lblack;
 }
 
 /* FORMS */
@@ -166,22 +166,22 @@ input[type=text], input[type=password], input[type=email], input[type=tel] {
 	width: 16em;
 }
 input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, input[type=number]:focus, input[type=tel]:focus, textarea:focus, select:focus {
-	border-color: #5c5c5c;
+	border-color: $gray;
 	outline: none;
 }
 input[type=text], input[type=password], input[type=email], input[type=number], input[type=tel], textarea, select {
 	padding: 4px 8px;
-	color: #212121;
-	border: 1px solid #bababa;
+	color: $lblack;
+	border: 1px solid $lgray;
 	background-color: rgba(255,255,255,.8);
 	display: block;
 	margin: 1em auto;
 }
 input[type=text].input-error, input[type=password].input-error, input[type=email].input-error, input[type=number].input-error, input[type=tel].input-error, input[type=search].input-error, textarea.input-error {
-	border-color: #FF2222;
+	border-color: $red;
 }
 p.input-error {
-	color: #FF2222;
+	color: $red;
 }
 textarea {
 	width: 20em;
