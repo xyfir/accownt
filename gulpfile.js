@@ -1,52 +1,62 @@
-var streamify = require('gulp-streamify');
-var source = require('vinyl-source-stream');
-var minify = require('gulp-minify-css');
-var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
-var gutil = require('gulp-util')
-var argv = require('yargs').argv;
-var gzip = require('gulp-gzip');
-var gulp = require('gulp');
+const gutil = require("gulp-util");
+const gzip = require("gulp-gzip");
+const gulp = require("gulp");
+
+const postcss = require("gulp-postcss");
+const precss = require("precss");
+const nano = require("cssnano");
+const ap = require("autoprefixer");
+
+const isDev = require("./config").environment.type == "dev";
 
 /*
 	css
-	- concats css files
+	- imports css files
+    - scss -> css
+	- autoprefixer
 	- minifies / gzip
 */
-gulp.task('css', function() {
-	var sources = [
-		'./css/grid.css', './css/main.css', './css/dashboard.css', './css/step-form.css'
-	];
-	
-	return gulp.src(sources)
-		.pipe(concat('style.css'))
-		.pipe(minify())
-		.pipe(argv.prod ? gzip() : gutil.noop())
-		.pipe(gulp.dest('./public/css'));
+gulp.task("css", function () {
+    return gulp.src("./client/styles/style.css")
+        .pipe(postcss([
+            precss({}),
+            ap({browsers: "last 1 version, > 10%"}),
+            nano({ autoprefixer: false, zindex: false })
+        ]))
+		.pipe(!isDev ? gzip() : gutil.noop())
+		.pipe(gulp.dest("./public/css"));
 });
 
 /*
-	react
-	- bundles React componenents
-	- converts JSX -> pure React
+	client
+    - convert es2015 -> es5
+    - converts JSX -> plain JS
+	- bundles React components
 	- minifies / gzip
 */
-gulp.task('react', function() {
-	// Add JSX transformer to Browserify
-    var b = require('browserify')(
-        './components/' + argv.file + '.jsx', { extensions: '.jsx' }
+gulp.task("client", function () {
+    const browserify = require("browserify");
+    const streamify = require("gulp-streamify");
+    const babelify = require("babelify");
+    const uglify = require("gulp-uglify");
+    const source = require("vinyl-source-stream");
+
+    const extensions = [".jsx", ".js"];
+    
+    const b = browserify(
+        './client/components/App.jsx', { debug: true, extensions: extensions }
     );
-	b.transform(require('reactify'));
-	
-	// Bundle React components and minify JS
-	return b.bundle()
-		.pipe(source(argv.file + '.js'))
-		.pipe(streamify(uglify({
-			mangle: false,
-			compress: {
-				unused: false
-			}
-		}).on('error', gutil.log)))
-		.pipe(argv.prod ? gzip() : gutil.noop())
-		.pipe(gulp.dest('./public/js/react/'));
+    b.transform(babelify.configure({
+        extensions: extensions, presets: ["es2015", "react"]
+    }));
+    
+    return b.bundle()
+		.pipe(source('App.js'))
+        .pipe(streamify(uglify({
+            mangle: false,
+            compress: { unused: false }
+        }))
+        .on('error', gutil.log))
+		.pipe(!isDev ? gzip() : gutil.noop())
+		.pipe(gulp.dest('./public/js/'));
 });
