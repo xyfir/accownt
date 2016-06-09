@@ -12,13 +12,13 @@ router.put("dashboard/ads", require("./dashboard/ads/update"));
 router.get("dashboard/profiles", require("./dashboard/profiles/get-all"));
 router.get("dashboard/profiles/:profile", require("./dashboard/profiles/get-single"));
 router.put("dashboard/profiles/:profile", require("./dashboard/profiles/update"));
-router.del("dashboard/profiles/:profile", require("./dashboard/profiles/remove"));
+router.delete("dashboard/profiles/:profile", require("./dashboard/profiles/remove"));
 
 /* Dashboard - Services */
 router.get("dashboard/services", require("./dashboard/services/get-all"));
 router.get("dashboard/services/:service", require("./dashboard/services/get-single"));
 router.put("dashboard/services/:service", require("./dashboard/services/update"));
-router.del("dashboard/services/:service", require("./dashboard/services/remove"));
+router.delete("dashboard/services/:service", require("./dashboard/services/remove"));
 
 /* Dashboard - Security */
 router.get("dashboard/security", require("./dashboard/security/info"));
@@ -57,7 +57,7 @@ router.post("service/session/:service", require("./service/create-session"));
 router.get("service/dashboard", require("./service/dashboard/get-all"));
 router.post("service/dashboard", require("./service/dashboard/create"));
 router.put("service/dashboard/:id", require("./service/dashboard/edit"));
-router.del("service/dashboard/:id", require("./service/dashboard/remove"));
+router.delete("service/dashboard/:id", require("./service/dashboard/remove"));
 router.get("service/dashboard/:id", require("./service/dashboard/get-single"));
 
 module.exports = router;
