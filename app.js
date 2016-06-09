@@ -32,18 +32,11 @@ app.use(session({
     }
 }));
 
-/* View Engine */
-app.set('view engine', 'jade');
-
-/* Routes */
-app.use('/', require('./routes/'));
-app.use('/api', require('./routes/api/'));
-app.use('/login', require('./routes/login'));
-app.use('/recover', require('./routes/recover'));
-app.use('/service', require('./routes/service'));
-app.use('/register', require('./routes/register'));
-app.use('/dashboard', require('./routes/dashboard'));
+/* Routes / Controlers */
+app.use("/api", require("./controllers/"));
+app.get("/", (req, res) => res.sendFile(__dirname + "/views/Home.html"));
+app.get("/app/*", (req, res) => res.sendFile(__dirname + "/views/App.html"));
 
 app.listen(config.environment.port, () => {
-    console.log("Server running on port ", config.environment.port);
+    console.log("Server running on port", config.environment.port);
 });
