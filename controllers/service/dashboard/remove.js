@@ -1,4 +1,4 @@
-const db = require("../../lib/db");
+const db = require("../../../lib/db");
 
 /*
 	DELETE api/service/dashboard/:id

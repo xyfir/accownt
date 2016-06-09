@@ -1,6 +1,6 @@
-const buildInfo = require("../../lib/service/buildInfo");
-const validate = require("../../lib/service/validate");
-const db = require("../../lib/db");
+const buildInfo = require("../../../lib/service/buildInfo");
+const validate = require("../../../lib/service/validate");
+const db = require("../../../lib/db");
 
 /*
 	POST api/service/dashboard
