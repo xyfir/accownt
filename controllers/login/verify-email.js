@@ -4,7 +4,7 @@ const db = require("../../lib/db");
 /*
     GET api/login/verify-email/:uid/:auth
     DESCRIPTION
-        Attempts to login user with :uid/:auth
+        Verify a users email if :uid/:auth are valid
 */
 module.exports = function(req, res) {
 
