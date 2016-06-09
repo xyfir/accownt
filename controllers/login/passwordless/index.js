@@ -1,5 +1,5 @@
-const validate = require("../../lib/auth/validateToken");
-const db = require("../../lib/db");
+const validate = require("../../../lib/auth/validateToken");
+const db = require("../../../lib/db");
 
 /*
     GET api/login/passwordless/:uid/:auth

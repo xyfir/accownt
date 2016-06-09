@@ -1,4 +1,4 @@
-const db = require("../../lib/db");
+const db = require("../../../lib/db");
 
 /*
     GET api/login/passwordless/:email
@@ -27,15 +27,15 @@ module.exports = function(req, res) {
                     return;
                 }
                 
-                require("../../lib/auth/generateToken")([uid], function(token) {
+                require("../../../lib/auth/generateToken")([uid], token => {
                     const link = "https://accounts.xyfir.com/login/passwordless/" + uid + "/" + token;
                     
                     // Send via sms
                     if (rows[0].passwordless == 1 || rows[0].passwordless == 3)
-                        require("../../lib/sms/sendPasswordless")(rows[0].phone, link);
+                        require("../../../lib/sms/sendPasswordless")(rows[0].phone, link);
                     // Send via email
                     if (rows[0].passwordless == 2 || rows[0].passwordless == 3)
-                        require("../../lib/email/sendPasswordless")(req.params.email, link);
+                        require("../../../lib/email/sendPasswordless")(req.params.email, link);
                         
                     res.json({
                         error: false,
