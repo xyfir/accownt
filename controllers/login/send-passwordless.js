@@ -4,6 +4,8 @@ const db = require("../../lib/db");
     GET api/login/passwordless/:email
     RETURN
         { error: bool, message: string }
+    DESCRIPTION
+        Send user a passwordless login link via sms / email if enabled
 */
 module.exports = function(req, res) {
 
