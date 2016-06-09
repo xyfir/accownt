@@ -39,16 +39,3 @@ module.exports = function(req, res) {
     });
 
 }
-	
-	remove: function(req, res) {
-		db(function(cn) {
-			cn.query("DELETE FROM profiles WHERE profile_id = ? AND user_id = ?", [req.params.profile, req.session.uid], function(err, result) {
-				cn.release();
-				
-				if (!err)
-					res.json({error: false, message: "Profile successfully deleted."});
-				else
-					res.json({error: true, message: "An unknown error occured."});
-			});
-		});
-	},
