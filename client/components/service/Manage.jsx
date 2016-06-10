@@ -14,12 +14,13 @@ export default class Manage extends React.Component {
     render() {
 		// #/service/dashboard/:id[/:action]
 		const id = this.props.hash[3];
+		let view;
 
         switch (this.props.hash[4]) {
             case "edit":
                 view = <Edit id={id} />; break;
             case "delete":
-                view = <Delete id={id} />;
+                view = <Delete id={id} />; break;
 			default:
                 view = <View id={id} />;
         }
