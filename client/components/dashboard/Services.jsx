@@ -1,5 +1,8 @@
 import React from "react";
 
+// Components
+import Service from "./Service";
+
 // Modules
 import request from "../../lib/request";
 
@@ -32,7 +35,7 @@ export default class Services extends React.Component {
 			
 				<div className="service-list">{
 					this.state.services.map(service => {
-						services.push(
+						return (
 							<Service id={service.id} update={this.updateServices} />
 						);
 					})
