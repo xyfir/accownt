@@ -80,8 +80,8 @@ export default class LoginStep extends React.Component {
 					<input type="email" placeholder="Enter your email" ref="email" className={classn} />
 					<input type="password" ref="password" placeholder="Password" onKeyDown={this.onKeydown} />
 					
-					<a href="register">Create Account </a> | 
-					<a href="recover"> Account Recovery </a> | 
+					<a href="#/register">Create Account </a> | 
+					<a href="#/recover"> Account Recovery </a> | 
 					<a onClick={this.onPasswordless}> Passwordless Login</a> 
 				</div>
 				
