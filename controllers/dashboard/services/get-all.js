@@ -8,8 +8,8 @@ const db = require("../../../lib/db");
 module.exports = function(req, res) {
 	
     db(cn => {
-		connection.query("SELECT service_id FROM linked_services WHERE user_id = ?", [req.session.uid], (err, rows) => {
-			connection.release();
+		cn.query("SELECT service_id FROM linked_services WHERE user_id = ?", [req.session.uid], (err, rows) => {
+			cn.release();
 			
 			// Create array of service objects containing service id"s
 			let services = [];

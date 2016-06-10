@@ -11,7 +11,7 @@ const db = require("../../../lib/db");
 module.exports = function(req, res) {
 	
     db(cn => {
-		connection.query("SELECT name, description, info FROM services WHERE id = ?", [req.params.service], (err, rows) => {
+		cn.query("SELECT name, description, info FROM services WHERE id = ?", [req.params.service], (err, rows) => {
 			if (err || rows.length == 0) {
 				res.json({error: true});
 				return;
@@ -25,11 +25,11 @@ module.exports = function(req, res) {
 				}
 			};
 			
-			connection.query(
+			cn.query(
 				"SELECT info FROM linked_services WHERE user_id = ? AND service_id = ?",
 				[req.session.uid, req.params.service],
 				(err, rows) => {
-					connection.release();
+					cn.release();
 					
 					if (err || rows.length == 0) {
 						res.json({error: true});

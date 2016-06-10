@@ -17,11 +17,11 @@ module.exports = function(req, res) {
 		}
 		
 		db(cn => {
-			connection.query(
+			cn.query(
 				"UPDATE linked_services SET info = ? WHERE user_id = ? AND service_id = ?",
 				[JSON.stringify(update), req.session.uid, req.params.service],
 				(err, result) => {
-					connection.release();
+					cn.release();
 					
 					if (err)
 						res.json({error: true, message: "Could not update data."});
