@@ -1,38 +1,37 @@
-var Delete = require("./Delete");
-var Edit = require("./Edit");
-var View = require("./View");
+import React from "react";
 
-module.exports = React.createClass({
+// Components
+import Delete from "./Delete";
+import Edit from "./Edit";
+import View from "./View";
 
-    render: function () {
-		var a = document.createElement('a');
-		a.href = location.href;
+export default class Manage extends React.Component {
 
-		// /panel/dashboard/:id[/:action]
-		var routes = a.pathname.split('/');
+	constructor(props) {
+		super(props);
+	}
 
-		var id = routes[3], action = "view";
+    render() {
+		// #/service/dashboard/:id[/:action]
+		const id = this.props.hash[3];
 
-		if (routes[4] != undefined)
-			action = routes[4];
-		
-		var view;
-
-        switch (action) {
-            case "view":
-                view = (<View id={id} />); break;
+        switch (this.props.hash[4]) {
             case "edit":
-                view = (<Edit id={id} />); break;
+                view = <Edit id={id} />; break;
             case "delete":
-                view = (<Delete id={id} />);
+                view = <Delete id={id} />;
+			default:
+                view = <View id={id} />;
         }
 		
+		const hash = "#/service/dashboard/" + id;
+
 		return (
 			<div>
 				<div className="nav-sub">
-                    <a onClick={this.props.updateRoute.bind(this, id + "/view")} className="link-lg">View</a>
-                    <a onClick={this.props.updateRoute.bind(this, id + "/edit")} className="link-lg">Edit</a>
-					<a onClick={this.props.updateRoute.bind(this, id + "/delete")} className="link-lg">Delete</a>
+                    <a href={hash + "/view"} className="link-lg">View</a>
+                    <a href={hash + "/edit"} className="link-lg">Edit</a>
+					<a href={hash + "/delete"} className="link-lg">Delete</a>
                 </div>
 				
 				{view}
@@ -40,4 +39,4 @@ module.exports = React.createClass({
 		);
     }
 
-});
+}

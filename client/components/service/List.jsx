@@ -1,36 +1,55 @@
-var Button = require("../forms/Button");
+import React from "react";
 
-module.exports = React.createClass({
+// Components
+import Button from "../forms/Button";
+
+// Modules
+import request from "../../lib/request";
+
+export default class List extends React.Component {
 	
-	getInitialState: function() {
-		return { services: [] };
-	},
+	constructor(props) {
+		super(props);
+
+		this.state = { services: [] };
+	}
 	
-	componentWillMount: function() {
-		var url = (window.location.href.indexOf('list') > -1 ? "../" : "") + "../api/service/dashboard";
-		ajax({
-			url: url,
-			dataType: "json",
-			success: function(res) {
-				this.setState(res);
-			}.bind(this)
+	componentWillMount() {
+		request({
+			url: "../api/service/dashboard",
+			success: (res) => this.setState(res)
 		});
-	},
+	}
 	
-	render: function() {
+	render() {
 		return (
 			<div className="service-list">{
-				this.state.services.map(function(service) {
+				this.state.services.map(service => {
 					return (
 						<div className="service-list-view">
-							<h2><a onClick={this.props.updateRoute.bind(this, service.id)}>{service.name}</a></h2>
-							<Button type="secondary" onClick={this.props.updateRoute.bind(this, service.id + "/edit")}>Edit</Button>
-							<Button type="danger" onClick={this.props.updateRoute.bind(this, service.id + "/delete")}>Delete</Button>
+							<h2>
+								<a href={"#/service/dashboard/" + service.id}>
+									{service.name}
+								</a>
+							</h2>
+							
+							<Button
+								type="secondary"
+								onClick={() => {
+									location.hash = "/service/dashboard/" + service.id + "/edit";
+								}}
+							>Edit</Button>
+							<Button
+								type="danger"
+								onClick={() => {
+									location.hash = "/service/dashboard/" + service.id + "/delete";
+								}}
+							>Delete</Button>
 						</div>
 					);
-				}.bind(this))
+				}
 			}</div>
 		);
 	}
 	
-});
+}

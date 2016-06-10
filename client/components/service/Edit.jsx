@@ -1,30 +1,35 @@
-var Alert = require("../misc/Alert");
-var Form = require("./CreateOrEditForm");
+import React from "react";
 
-module.exports = React.createClass({
+// Components
+import Button from "../forms/Button";
+import Form from "./CreateOrEditForm";
 
-	getInitialState: function() {
-		return { error: false, message: "" };
-	},
+// Modules
+import request from "../../lib/request";
+
+export default class Edit extends React.Component {
+	
+	constructor(props) {
+		super(props);
+
+		this.state = { error: false, message: "" };
+
+		this._updateService = this._updateService.bind(this);
+	}
 
 	// Form builds object that can be accepted by API
-	updateService: function(data) {
-		console.log(data);
-		ajax({
-			url: XACC + "api/service/dashboard/" + this.props.id,
-			data: data,
-			method: "PUT",
-			dataType: "json",
-			success: function(res) {
-				this.setState(res);
-			}.bind(this)
+	_updateService(data) {
+		request({
+			url: "../api/service/dashboard/" + this.props.id,
+			data, method: "PUT",
+			success: res => this.setState(res)
 		});
-	},
+	}
 
 	// Form handles input validation errors/notifications
 	// Here we handle error/response from API
-	render: function() {
-		var alert;
+	render() {
+		let alert;
 		if (this.state.error)
 			alert = <Alert type="error" title="Error!">{this.state.message}</Alert>;
 		else if (this.state.message != "")
@@ -34,7 +39,11 @@ module.exports = React.createClass({
 			<div>
 				{alert}
 			
-				<Form buttonText="Update" submit={this.updateService} loadDataFrom={this.props.id} />
+				<Form
+					buttonText="Update"
+					submit={this._updateService}
+					loadDataFrom={this.props.id}
+				/>
 			</div>
 		);
 	}

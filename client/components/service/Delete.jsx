@@ -1,29 +1,40 @@
-var Button = require("../forms/Button");
-var Alert = require("../misc/Alert");
+import React from "react";
 
-module.exports = React.createClass({
+// Components
+import Button from "../forms/Button";
+import Alert from "../misc/Alert";
 
-    getInitialState: function() {
-        return { error: false, message: "", confirm: false };
-    },
+// Modules
+import request from "../../lib/request";
 
-    confirm: function() {
-        ajax({
-            url: XACC + "api/service/dashboard/" + this.props.id,
-            method: "DELETE",
-            dataType: "json",
-            success: function(res) {
+export default class Delete extends React.Component {
+	
+	constructor(props) {
+		super(props);
+
+        this.state = { error: false, message: "", confirm: false };
+
+        this.onConfirm = this.onConfirm.bind(this);
+    }
+
+    onConfirm() {
+        request({
+            url: "../api/service/dashboard/" + this.props.id,
+            method: "DELETE", success: (res) => {
                 res.confirm = true;
                 this.setState(res);
-            }.bind(this)
+            }
         });
-    },
+    }
 
-    render: function() {
+    render() {
         if (this.state.confirm) {
             return(
                 <div className="delete-service">
-                    <Alert type={this.state.error ? "error" : "success"} title={this.state.error ? "Error!" : "Success!"}>
+                    <Alert
+                        type={this.state.error ? "error" : "success"}
+                        title={this.state.error ? "Error!" : "Success!"}
+                    >
                         {this.state.message}
                     </Alert>
                 </div>
@@ -35,10 +46,10 @@ module.exports = React.createClass({
                     <Alert alert="danger" title="Warning!">
                         Are you sure you want to delete this service? All users will be unlinked from your service. This action cannot be undone.
                     </Alert>
-                    <Button onClick={this.confirm}>Delete Service</Button>
+                    <Button onClick={this.onConfirm}>Delete Service</Button>
                 </div>
             );
         }
     }
 
-});
+}

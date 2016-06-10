@@ -1,29 +1,35 @@
-var Alert = require("../misc/Alert");
-var Form = require("./CreateOrEditForm");
+import React from "react";
 
-module.exports = React.createClass({
+// Components
+import Alert from "../misc/Alert";
+import Form from "./CreateOrEditForm";
 
-	getInitialState: function() {
-		return { error: false, message: "" };
-	},
+// Modules
+import request from "../../lib/request";
+
+export default class Create extends React.Component {
+	
+	constructor(props) {
+		super(props);
+
+		this.state = { error: false, message: "" };
+
+		this._createService = this._createService.bind(this);
+	}
 
 	// Form builds object that can be accepted by API
-	createService: function(data) {
-		ajax({
-			url: XACC + "api/service/dashboard",
-			data: data,
-			method: "POST",
-			dataType: "json",
-			success: function(res) {
-				this.setState(res);
-			}.bind(this)
+	_createService(data) {
+		request({
+			url: "../api/service/dashboard",
+			data, method: "POST",
+			success: (res) => this.setState(res)
 		});
-	},
+	}
 
 	// Form handles input validation errors/notifications
 	// Here we handle error/response from API
-	render: function() {
-		var alert;
+	render() {
+		let alert;
 		if (this.state.error)
 			alert = <Alert type="error" title="Error!">{this.state.message}</Alert>;
 		else if (this.state.message != "")
@@ -33,9 +39,9 @@ module.exports = React.createClass({
 			<div>
 				{alert}
 			
-				<Form buttonText="Create Service" submit={this.createService} />
+				<Form buttonText="Create Service" submit={this._createService} />
 			</div>
 		);
 	}
 
-});
+}

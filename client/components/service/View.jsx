@@ -1,44 +1,49 @@
-module.exports = React.createClass({
-	
-	getInitialState: function() {
-		return {
+import React from "react";
+
+// Modules
+import request from "../../lib/request";
+
+export default class View extends React.Component {
+
+	constructor(props) {
+		super(props);
+
+		this.state = {
 			id: 0, name: "", description: "", info: "",
 			owner: 0, address: ""
 		};
-	},
+	}
 	
-	componentWillMount: function() {
-		var url = (window.location.href.indexOf("/view") ? "../" : "")
-			+ "../../api/service/dashboard/" + this.props.id;
-		ajax({
-			url: url,
-			dataType: "json",
-			success: function(res) {
-				if (res.info != "") res.info = JSON.parse(res.info);
+	componentWillMount() {
+		request({
+			url: "../api/service/dashboard/" + this.props.id,
+			success: (res) => {
+				if (res.info != "")
+					res.info = JSON.parse(res.info);
 			
 				this.setState(res);
-			}.bind(this)
+			}
 		});
-	},
+	}
 	
-	render: function() {
+	render() {
 		// Build array that contains dt/dd elements for fieldname(type)/usedfor
-		var requestedData = [], s = this.state;
+		let requestedData = [];
+		const s = this.state;
+
 		if (typeof this.state.info == "object") {
-			[0, 1].forEach(function(i) {
-				var type = i == 0 ? "required" : "optional";
+			[0, 1].forEach(i => {
+				const type = i == 0 ? "required" : "optional";
 				
-				for (var p in s.info[type]) {
-					if (s.info[type].hasOwnProperty(p)) {
-						requestedData.push(
-							<tr>
-								<td>{p}</td>
-								<td>{s.info[type][p]}</td>
-								<td>{type == "required" ? "Yes" : "No"}</td>
-							</tr>
-						);
-					}
-				}
+				Object.keys(s.info[type]).forEach(key => {
+					requestedData.push(
+						<tr>
+							<td>{p}</td>
+							<td>{s.info[type][p]}</td>
+							<td>{type == "required" ? "Yes" : "No"}</td>
+						</tr>
+					);
+				});
 			});
 		}
 	
@@ -61,4 +66,4 @@ module.exports = React.createClass({
 		);
 	}
 	
-});
+}

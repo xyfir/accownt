@@ -1,43 +1,50 @@
-var Button = require("../forms/Button");
-var Alert = require("../misc/Alert");
+import React from "react";
 
-module.exports = React.createClass({
+// Components
+import Button from "../forms/Button";
+import Alert from "../misc/Alert";
 
-	getInitialState: function() {
-		return { error: false, message: "", lf: {}, loading: true };
-	},
+// Modules
+import request from "../../lib/request";
+
+export default class CreateOrEditForm extends React.Component {
+	
+	constructor(props) {
+		super(props);
+
+		this.state = { error: false, message: "", lf: {}, loading: true };
+
+		this.fields = [
+			{ name: "F. Name", ref: "fname", usedFor: "", optional: false, required: false },
+			{ name: "L. Name", ref: "lname", usedFor: "", optional: false, required: false },
+			{ name: "Address", ref: "address", usedFor: "", optional: false, required: false },
+			{ name: "ZIP Code", ref: "zip", usedFor: "", optional: false, required: false },
+			{ name: "Country", ref: "country", usedFor: "", optional: false, required: false },
+			{ name: "Region", ref: "region", usedFor: "", optional: false, required: false },
+			{ name: "Email", ref: "email", usedFor: "", optional: false, required: false },
+			{ name: "Phone #", ref: "phone", usedFor: "", optional: false, required: false },
+			{ name: "Gender", ref: "gender", usedFor: "", optional: false, required: false },
+			{ name: "Birthdate", ref: "birthdate", usedFor: "", optional: false, required: false }
+		];
+
+		this.onValidate = this.onValidate.bind(this);
+	}
 	
 	// Load data from existing service (for editing)
-	componentDidMount: function() {
+	componentDidMount() {
 		if (!!this.props.loadDataFrom) {
-			ajax({
-				url: XACC + "api/service/dashboard/" + this.props.loadDataFrom,
-				dataType: "json",
-				success: function(res) {
-					this.setState({lf: res, loading: false});
-				}.bind(this)
+			request({
+				url: "../api/service/dashboard/" + this.props.loadDataFrom,
+				success: (res) => this.setState({lf: res, loading: false})
 			});
 		}
 		else {
 			this.setState({loading: false});
 		}
-	},
-	
-	fields: [
-		{ name: "F. Name", ref: "fname", usedFor: "", optional: false, required: false },
-		{ name: "L. Name", ref: "lname", usedFor: "", optional: false, required: false },
-		{ name: "Address", ref: "address", usedFor: "", optional: false, required: false },
-		{ name: "ZIP Code", ref: "zip", usedFor: "", optional: false, required: false },
-		{ name: "Country", ref: "country", usedFor: "", optional: false, required: false },
-		{ name: "Region", ref: "region", usedFor: "", optional: false, required: false },
-		{ name: "Email", ref: "email", usedFor: "", optional: false, required: false },
-		{ name: "Phone #", ref: "phone", usedFor: "", optional: false, required: false },
-		{ name: "Gender", ref: "gender", usedFor: "", optional: false, required: false },
-		{ name: "Birthdate", ref: "birthdate", usedFor: "", optional: false, required: false }
-	], 
+	}
 
-	validate: function() {
-		var info = {};
+	onValidate() {
+		let info = {};
 	
 		// Validate service info
 		if (!this.refs.name.value.match(/^[\w\d\s-]{3,25}$/))
@@ -47,20 +54,26 @@ module.exports = React.createClass({
 		else if (!this.refs.description.value.match(/^[\w\d\s-,:\/.&?!@#$%*()]{3,150}$/))
 			this.setState({error: true, message: "Invalid service description"});
 		else {
-			var error = false;
+			let error = false;
 			
 			// Validate all required/optional fields service wants from user
-			this.fields.forEach(function(field) {
+			this.fields.forEach(field => {
 				// Field is marked as optional and/or required
 				if (this.refs["opt-" + field.ref].checked || this.refs["req-" + field.ref].checked) {
 					// Make sure 'Used For' description is valid
 					if (!this.refs["uf-" + field.ref].value.match(/^[\w\d\s-\/]{3,25}$/)) {
-						this.setState({error: true, message: "Invalid 'Used For' description for: " + field.name});
+						this.setState({
+							error: true,
+							message: "Invalid 'Used For' description for: " + field.name
+						});
 						error = true;
 					}
 					// Field cannot be required AND optional
 					else if (this.refs["opt-" + field.ref].checked && this.refs["req-" + field.ref].checked) {
-						this.setState({error: true, message: "Requested user field '" + field.name + "' cannot be both required and optional"});
+						this.setState({
+							error: true,
+							message: "Requested user field '" + field.name + "' cannot be both required and optional"
+						});
 						error = true;
 					}
 					// Add field to info object
@@ -72,55 +85,50 @@ module.exports = React.createClass({
 						};
 					}
 				}
-			}.bind(this));
+			});
 			
 			if (!error) {
 				// Build data object that can be accepted by API
-				var data = {
+				this.props.submit({
 					name: this.refs.name.value,
 					link: this.refs.link.value,
 					info: JSON.stringify(info),
 					description: this.refs.description.value
-				};
-		
-				this.props.submit(data);
+				});
 			}
 		}
-	},
+	}
 
-	render: function() {
+	render() {
+		let alert;
 		if (this.state.error)
-			var alert = <Alert type="error" title="Error!">{this.state.message}</Alert>;
+			alert = <Alert type="error" title="Error!">{this.state.message}</Alert>;
 		else
-			var alert = <div></div>;
+			alert = <div />;
 	
-		var lf = this.state.lf;
+		let lf = this.state.lf;
 		
 		// Set usedFor/optional/required if loadDataFrom
 		if (typeof lf.info == "string" && lf.info != "") {
 			lf.info = JSON.parse(lf.info);
 			
 			// Loop through required{} and then optional{}
-			[0, 1].forEach(function(i) {
-				var type = i == 0 ? "required" : "optional";
+			[0, 1].forEach(t => {
+				const type = t == 0 ? "required" : "optional";
 			
-				for (var prop in lf.info[type]) {
-					if (lf.info[type].hasOwnProperty(prop)) {
-						for (var i = 0; i < this.fields.length; i++) {
-							if (this.fields[i].ref == prop) {
-								this.fields[i][type] = true;
-								this.fields[i].usedFor = lf.info[type][prop];
-								break;
-							}
+				Object.keys(lf.info[type]).forEach(prop => {
+					for (let i = 0; i < this.fields.length; i++) {
+						if (this.fields[i].ref == prop) {
+							this.fields[i][type] = true;
+							this.fields[i].usedFor = lf.info[type][prop];
+							break;
 						}
 					}
-				}
-			}.bind(this));
+				});
+			});
 		}
 	
-		if (this.state.loading) {
-			return <div></div>;
-		}
+		if (this.state.loading) return <div />;
 	
 		return (
 			<div>
@@ -133,7 +141,7 @@ module.exports = React.createClass({
 				<input type="text" ref="name" defaultValue={lf.name || ""} />
 				
 				<label>Description</label>
-				<textarea ref="description" defaultValue={lf.description || ""} ></textarea>
+				<textarea ref="description" defaultValue={lf.description || ""} />
 				
 				<label>Website</label>
 				<input type="text" ref="link" defaultValue={lf.address || ""} />
@@ -152,22 +160,42 @@ module.exports = React.createClass({
 						<th>Field</th><th>Used For</th><th>Required</th><th>Optional</th>
 					</tr>
 					{
-						this.fields.map(function(field) {
+						this.fields.map(field => {
 							return (
 								<tr>
 									<td>{field.name}</td>
-									<td><input type="text" ref={"uf-" + field.ref} defaultValue={field.usedFor} /></td>
-									<td><input type="checkbox" ref={"req-" + field.ref} defaultChecked={field.required} /></td>
-									<td><input type="checkbox" ref={"opt-" + field.ref} defaultChecked={field.optional} /></td>
+									<td>
+										<input
+											type="text"
+											ref={"uf-" + field.ref}
+											defaultValue={field.usedFor}
+										/>
+									</td>
+									<td>
+										<input
+											type="checkbox"
+											ref={"req-" + field.ref}
+											defaultChecked={field.required}
+										/>
+									</td>
+									<td>
+										<input
+											type="checkbox"
+											ref={"opt-" + field.ref}
+											defaultChecked={field.optional}
+										/>
+									</td>
 								</tr>
 							);
 						})
 					}
 				</table>
 			
-				<Button type="primary" onClick={this.validate}>{this.props.buttonText}</Button>
+				<Button type="primary" onClick={this.onValidate}>
+					{this.props.buttonText}
+				</Button>
 			</div>
 		);
 	}
 
-});
+}
