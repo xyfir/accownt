@@ -27,7 +27,6 @@ export default class AccountRecovery extends React.Component {
 		request({
 			url: "../api/recover",
 			method: "POST",
-			dataType: "json",
 			data: {email: this.refs.email.value},
 			success: result => {
 				if (result.error)
@@ -51,12 +50,8 @@ export default class AccountRecovery extends React.Component {
 	
 		request({
 			url: "../api/recover/verify",
-			method: "POST",
-			dataType: "json",
-			data: data,
-			success: result => {
-				this.setState(result);
-			}
+			method: "POST", data,
+			success: result => this.setState(result)
 		});
 	}
 	

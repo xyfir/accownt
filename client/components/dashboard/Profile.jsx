@@ -22,7 +22,6 @@ export default class Profile extends React.Component {
 	componentWillMount() {
 		request({
 			url: "../api/dashboard/profiles/" + this.props.id,
-			dataType: "json",
 			success: (result) => {
 				this.setState({profile: result.profile});
 			}

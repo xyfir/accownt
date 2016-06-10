@@ -48,10 +48,8 @@ export default class Login extends React.Component {
 		data.code = this.state.security.code ? document.querySelector("#code").value : 0;
 	
 		request({
-			url: "api/login/verify",
-			method: "POST",
-			data: data,
-			dataType: "json",
+			url: "../api/login/verify",
+			method: "POST", data,
 			success: result => {
 				if (result.error)
 					this.setState({step: 1});

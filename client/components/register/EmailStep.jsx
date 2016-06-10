@@ -32,7 +32,7 @@ export default class EmailStep extends React.Component {
 
 		// Check if email is available
 		request({
-			url: "api/register/email/" + email,
+			url: "../api/register/email/" + email,
 			dataType: "text",
 			success: result => {
 				if (result == 1) {

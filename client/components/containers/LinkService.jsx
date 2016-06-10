@@ -24,10 +24,7 @@ export default class LinkService extends React.Component {
 	componentWillMount() {
 		request({
 			url: "../api/service/" + this.state.service,
-			dataType: "json",
-			success: data => {
-				this.setState(data);
-			}
+			success: (res) => this.setState(res)
 		});
 	}
 	
@@ -58,10 +55,8 @@ export default class LinkService extends React.Component {
 	
 		request({
 			url: "../api/service/link/" + this.state.service,
-			method: "POST",
-			dataType: "json",
-			data: data,
-			success: data => {
+			method: "POST", data,
+			success: (data) => {
 				if (data.error) {
 					this.setState(data);
 				}
@@ -77,9 +72,7 @@ export default class LinkService extends React.Component {
 	_createSession() {
 		request({
 			url: "../api/service/session/" + this.state.service,
-			method: "POST",
-			dataType: "json",
-			success: data => {
+			method: "POST", success: (data) => {
 				// Redirect user to service's login
 				location.href = data.address + "?auth=" + data.auth + "&xid=" + data.xid;
 			}
