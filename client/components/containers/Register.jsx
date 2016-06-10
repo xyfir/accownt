@@ -2,7 +2,6 @@ import React from "react";
 
 // Components
 import PasswordStep from "../register/PasswordStep";
-import ProgressBar from "../forms/ProgressBar";
 import EmailStep from "../register/EmailStep";
 import FinalStep from "../register/FinalStep";
 
@@ -57,8 +56,6 @@ export default class Register extends React.Component {
 		return (
 			<div>
 				{comp}
-				<hr />
-				<ProgressBar completed={(this.state.step / 3) * 100} />
 			</div>
 		);
 	}
