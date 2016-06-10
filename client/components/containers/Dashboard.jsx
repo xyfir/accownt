@@ -10,10 +10,10 @@ import Services from "../dashboard/Services";
 
 export default class Dashboard extends React.Component {
 	
-	constructor() {
-		this.state = {
-			view: "account"
-		};
+	constructor(props) {
+		super(props);
+		
+		this.state = { view: "account" };
 	}
 	
 	render() {
