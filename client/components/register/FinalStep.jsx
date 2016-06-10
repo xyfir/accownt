@@ -13,18 +13,19 @@ export default class FinalStep extends React.Component {
 		super(props);
 		
 		this.state = {
-			error: false, message: ""
+			error: false, message: "", loading: true
 		};
 	}
 	
 	componentWillMount() {
 		// Attempts to register user
 		request({
-			url: "../api/register/",
+			url: "../api/register",
 			method: "POST",
 			data: this.props.user,
 			success: (result) => {
 				if (result.error) this.setState(result);
+				this.setState({ loading: false });
 			}
 		});
 	}
@@ -47,13 +48,15 @@ export default class FinalStep extends React.Component {
 					You will not be able to login until you verify your email.
 				</Alert>
 				
-				<a className="link-lg" href="login">Login</a>
+				<a className="link-lg" href="#/login">Login</a>
 			</div>
 		);
 	}
 	
 	render() {
-		if (this.state.error)
+		if (this.state.loading)
+			return <div />;
+		else if (this.state.error)
 			return this.renderError();
 		else
 			return this.renderSuccess();
