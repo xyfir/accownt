@@ -28,7 +28,7 @@ module.exports = function(req, res) {
                 }
                 
                 require("../../../lib/auth/generateToken")([uid], token => {
-                    const link = "https://accounts.xyfir.com/login/passwordless/" + uid + "/" + token;
+                    const link = "https://accounts.xyfir.com/api/login/passwordless/" + uid + "/" + token;
                     
                     // Send via sms
                     if (rows[0].passwordless == 1 || rows[0].passwordless == 3)
