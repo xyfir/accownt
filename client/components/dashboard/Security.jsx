@@ -1,117 +1,111 @@
-var Button = require("../forms/Button.jsx");
-var Alert = require("../misc/Alert.jsx");
+import React from "react";
 
-module.exports = React.createClass({
+// Components
+import Button from "../forms/Button";
+import Alert from "../misc/Alert";
+
+// Modules
+import request from "../../lib/request";
+
+export default class Security extends React.Component {
 	
-	getInitialState: function() {
-		return {
-			error: false,
-			message: "",
-			phone: "",
-			whitelist: "",
-			codes: "",
-			passwordless: 0,
-			verifyingSms: false
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			error: false, message: "", phone: "", whitelist: "",
+			codes: "", passwordless: 0, verifyingSms: false
 		};
-	},
+
+		this.onUpdatePasswordless = this.onUpdatePasswordless.bind(this);
+		this.onUpdateWhitelist = this.onUpdateWhitelist.bind(this);
+		this.onChangeWhitelist = this.onChangeWhitelist.bind(this);
+		this.onGenerateCodes = this.onGenerateCodes.bind(this);
+		this.onUpdatePhone = this.onUpdatePhone.bind(this);
+	}
 	
-	componentWillMount: function() {
-		ajax({
-			url: 'api/dashboard/security',
-			dataType: 'json',
-			success: function(result) {
+	componentWillMount() {
+		request({
+			url: "../api/dashboard/security",
+			success: (result) => {
 				// Grab and set security data 
 				this.setState(result);
-			}.bind(this)
+			}
 		});
-	},
+	}
 	
-	updatePhone: function() {
+	onUpdatePhone() {
 		if (this.state.verifyingSms) {
-			ajax({
-				url: 'api/dashboard/security/phone/verify',
-				method: 'PUT',
-				dataType: 'json',
+			request({
+				url: "../api/dashboard/security/phone/verify",
+				method: "PUT",
 				data: {
 					phone: this.refs.phone.value,
 					code: this.refs.smsCode.value
 				},
-				success: function(result) {
+				success: (result) => {
 					this.setState(result);
 					this.setState({verifyingSms: false});
-				}.bind(this)
+				}
 			});
 		}
 		else {
-			var phone = this.refs.phone.value;
+			let phone = this.refs.phone.value;
 			phone = phone ? phone : 0;
 			
-			ajax({
-				url: 'api/dashboard/security/phone',
-				method: 'PUT',
-				dataType: 'json',
-				data: {
-					phone: phone
-				},
-				success: function(result) {
-					return;
-				}.bind(this)
+			request({
+				url: "../api/dashboard/security/phone",
+				method: "PUT", data: { phone },
+				success: (result) => { return; }
 			});
 			
 			if (phone != 0)
 				this.setState({verifyingSms: true});
 		}
-	},
+	}
 	
-	generateCodes: function() {
-		ajax({
-			url: 'api/dashboard/security/codes',
-			method: 'PUT',
-			dataType: 'json',
+	onGenerateCodes() {
+		request({
+			url: "../api/dashboard/security/codes",
+			method: "PUT",
 			data: {
 				type: this.refs.codeType.value,
 				count: this.refs.codeCount.value
 			},
-			success: function(result) {
-				this.setState(result);
-			}.bind(this)
+			success: (result) => this.setState(result)
 		});
-	},
+	}
 	
-	changeWhitelist: function() {
-		this.setState({whitelist: this.refs.whitelist.replace("\n", ",")});
-	},
+	onChangeWhitelist() {
+		this.setState({
+			whitelist: this.refs.whitelist.replace("\n", ",")
+		});
+	}
 	
-	updateWhitelist: function() {
-		ajax({
-			url: 'api/dashboard/security/whitelist',
-			method: 'PUT',
-			dataType: 'json',
+	onUpdateWhitelist() {
+		request({
+			url: "../api/dashboard/security/whitelist",
+			method: "PUT",
 			data: {
 				whitelist: this.refs.whitelist.value.replace("\n", ",")
 			},
-			success: function(result) {
-				this.setState(result);
-			}.bind(this)
+			success: (result) => this.setState(result)
 		});
-	},
+	}
 	
-	updatePasswordless: function() {
-		ajax({
-			url: 'api/dashboard/security/passwordless',
-			method: 'PUT',
-			dataType: 'json',
+	onUpdatePasswordless() {
+		request({
+			url: "../api/dashboard/security/passwordless",
+			method: "PUT",
 			data: {
 				passwordless: this.refs.passwordless.value
 			},
-			success: function(result) {
-				this.setState(result);
-			}.bind(this)
+			success: (result) => this.setState(result)
 		});
-	},
+	}
 	
-	render: function() {
-		var userAlert;
+	render() {
+		let userAlert;
 		
 		if (this.state.error)
 			userAlert = <Alert type="error" title="Error!">{this.state.message}</Alert>;
@@ -119,10 +113,10 @@ module.exports = React.createClass({
 			userAlert = <Alert type="success" title="Success!">{this.state.message}</Alert>;
 		
 		// Create list of codes
-		var codes = "";
+		let codes = "";
 		if (this.state.codes) {
 			codes = [];
-			this.state.codes.split(',').forEach(function(code) {
+			this.state.codes.split(",").forEach(code => {
 				codes.push(<li>{code}</li>);
 			});
 		}
@@ -137,9 +131,15 @@ module.exports = React.createClass({
 					
 					<input type="tel" ref="phone" placeholder={this.state.phone > 0 ? this.state.phone : "Phone #"} />
 					
-					{this.state.verifyingSms ? <input type="text" ref="smsCode" placeholder="Code" /> : ""}
+					{this.state.verifyingSms ? (
+						<input type="text" ref="smsCode" placeholder="Code" />
+					) : (
+						<span />
+					)}
 					
-					<Button onClick={this.updatePhone}>{this.state.verifyingSms ? "Verify Code" : "Update Phone"}</Button>
+					<Button onClick={this.onUpdatePhone}>
+						{this.state.verifyingSms ? "Verify Code" : "Update Phone"}
+					</Button>
 				</div>
 				
 				<hr />
@@ -148,9 +148,7 @@ module.exports = React.createClass({
 					<h2>Security Codes</h2>
 					<p>A numbered list of 5-20 randomly generated words and/or numbers. On login and account recovery a specific code must be entered.</p>
 					
-					<ol>
-						{codes}
-					</ol>
+					<ol>{codes}</ol>
 					
 					<label>Code Type</label>
 					<select ref="codeType">
@@ -162,7 +160,7 @@ module.exports = React.createClass({
 					<label>How Many?</label>
 					<input type="number" ref="codeCount" placeholder="10" />
 					
-					<Button onClick={this.generateCodes}>Generate Codes</Button>
+					<Button onClick={this.onGenerateCodes}>Generate Codes</Button>
 				</div>
 				
 				<hr />
@@ -175,9 +173,13 @@ module.exports = React.createClass({
 						<small>Each address should be separated by a new line.</small>
 					</p>
 					
-					<textarea value={this.state.whitelist.replace(",", "\n")} onChange={this.changeWhitelist} ref="whitelist" />
+					<textarea
+						value={this.state.whitelist.replace(",", "\n")}
+						onChange={this.onChangeWhitelist}
+						ref="whitelist"
+					/>
 					
-					<Button onClick={this.updateWhitelist}>Update Whitelist</Button>
+					<Button onClick={this.onUpdateWhitelist}>Update Whitelist</Button>
 				</div>
 				
 				<hr />
@@ -193,10 +195,10 @@ module.exports = React.createClass({
 						<option value="3">Receive via Both</option>
 					</select>
 					
-					<Button onClick={this.updatePasswordless}>Update</Button>
+					<Button onClick={this.onUpdatePasswordless}>Update</Button>
 				</div>
 			</div>
 		);
 	}
 	
-});
+}

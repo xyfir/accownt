@@ -1,36 +1,33 @@
-var Profile = require('./Profile.jsx');
-var Button = require('../forms/Button.jsx');
-var Alert = require('../misc/Alert.jsx');
+import React from "react";
 
-module.exports = React.createClass({
+// Components
+import Button from "../forms/Button";
+import Alert from "../misc/Alert";
+
+// Modules
+import request from "../../lib/request";
+
+export default class Profiles extends React.Component {
 	
-	getInitialState: function() {
-		return {
-			creatingProfile: false,
-			profiles: [],
-			message: "",
-			count: 0,
-			error: false
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			creatingProfile: false, profiles: [], message: "",
+			count: 0, error: false
 		};
-	},
+
+		this._updateProfiles = this._updateProfiles.bind(this);
+		this.onCreateProfile = this.onCreateProfile.bind(this);
+	}
 	
-	updateProfiles: function() {
-		ajax({
-			url: 'api/dashboard/profiles',
-			dataType: 'json',
-			success: function(result) {
-				this.setState(result);
-			}.bind(this)
-		});
-	},
+	componentWillMount() {
+		this._updateProfiles();
+	}
 	
-	componentWillMount: function() {
-		this.updateProfiles();
-	},
-	
-	createProfile: function() {
+	onCreateProfile() {
 		if (this.state.creatingProfile) {
-			var data = {
+			const data = {
 				name: this.refs.name.value,
 				email: this.refs.email.value,
 				fname: this.refs.fname.value,
@@ -44,39 +41,40 @@ module.exports = React.createClass({
 				country: this.refs.country.value
 			};
 			
-			ajax({
-				url: 'api/dashboard/profiles/',
-				method: 'POST',
-				dataType: 'json',
-				data: data,
-				success: function(result) {
+			request({
+				url: "../api/dashboard/profiles/",
+				method: "POST", data,
+				success: (result) => {
 					this.setState(result);
 					this.setState({creatingProfile: false});
-					this.updateProfiles();
-				}.bind(this)
+					this._updateProfiles();
+				}
 			});
 		}
 		else {
 			this.setState({creatingProfile: true});
 		}
-	},
+	}
+
+	_updateProfiles() {
+		request({
+			url: "../api/dashboard/profiles",
+			success: (result) => this.setState(result)
+		});
+	}
 	
-	render: function() {
-		var userAlert;
+	render() {
+		let userAlert;
+
 		if (this.state.error)
 			userAlert = <Alert type="error" title="Error!">{this.state.message}</Alert>;
 		else if (this.state.message)
 			userAlert = <Alert type="success" title="Success!">{this.state.message}</Alert>;
-			
-	
-		var profiles = [];
-		this.state.profiles.forEach(function(profile) {
-			profiles.push(<Profile picture={profile.picture} name={profile.name} id={profile.profile_id} update={this.updateProfiles} />);
-		}.bind(this));
 		
-		var createProfile;
+		let createProfile;
+		
 		if (this.state.creatingProfile) {
-			createProfile = 
+			createProfile = (
 				<div className="profile-create">
 					<h2>Create a Profile</h2>
 					<p>All fields other than profile name are optional.</p>
@@ -104,7 +102,8 @@ module.exports = React.createClass({
 					<input type="number" placeholder="Zip" ref="zip" />
 					<input type="text" placeholder="Region/State/Province" ref="region" />
 					<input type="text" placeholder="Country (US/CA/UK/etc)" ref="country" />
-				</div>;
+				</div>
+			);
 		}
 	
 		return (
@@ -118,14 +117,23 @@ module.exports = React.createClass({
 				</p>
 				<hr />
 			
-				<div className="profile-list">
-					{profiles}
-				</div>
+				<div className="profile-list">{
+					this.state.profiles.map(profile => {
+						return (
+							<Profile
+								picture={profile.picture}
+								name={profile.name}
+								id={profile.profile_id}
+								update={this._updateProfiles}
+							/>
+						);
+					})
+				}</div>
 				
 				{createProfile}
-				<Button onClick={this.createProfile}>Create Profile</Button>
+				<Button onClick={this.onCreateProfile}>Create Profile</Button>
 			</div>
 		);
 	}
 	
-});
+}

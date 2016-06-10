@@ -1,69 +1,61 @@
-var Button = require('../forms/Button.jsx');
-var Alert = require('../misc/Alert.jsx');
+import React from "react";
 
-module.exports = React.createClass({
+// Components
+import Button from "../forms/Button";
+import Alert from "../misc/Alert";
+
+// Modules
+import request from "../../lib/request";
+
+export default class Service extends React.Component {
 	
-	getInitialState: function() {
-		return {
-			view: 'list',
-			profiles: [],
-			error: false,
-			service: {},
-			message: ""
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			view: "list", profiles: [], error: false,
+			service: {}, message: ""
 		};
-	},
+
+		this.onUpdateService = this.onUpdateService.bind(this);
+		this.onToggleView = this.onToggleView.bind(this);
+		this.onUnlink = this.onUnlink.bind(this);
+		this._update = this._update.bind(this);
+	}
 	
-	update: function() {
-		ajax({
-			url: 'api/dashboard/services/' + this.props.id,
-			dataType: 'json',
-			success: function(result) {
-				this.setState({service: result.service}, function() {return;});
-			}.bind(this)
-		});
-		
-		ajax({
-			url: 'api/dashboard/profiles',
-			dataType: 'json',
-			success: function(result) {
-				this.setState({profiles: result.profiles}, function() {return;});
-			}.bind(this)
-		});
-	},
+	componentWillMount() {
+		this._update();
+	}
 	
-	componentWillMount: function() {
-		this.update();
-	},
-	
-	toggleView: function() {
-		if (this.state.view == 'list')
-			this.setState({view: 'full'});
+	onToggleView() {
+		if (this.state.view == "list")
+			this.setState({view: "full"});
 		else
-			this.setState({view: 'list'});
-	},
+			this.setState({view: "list"});
+	}
 	
-	unlink: function() {
-		ajax({
-			url: 'api/dashboard/services/' + this.props.id,
-			method: 'DELETE',
-			dataType: 'json',
-			success: function(result) {
-				if (!result.error)
-					this.props.update();
-			}.bind(this)
+	onUnlink() {
+		request({
+			url: "../api/dashboard/services/" + this.props.id,
+			method: "DELETE",
+			success: (result) => {
+				if (!result.error) this.props.update();
+			}
 		});
-	},
+	}
 	
-	updateService: function() {
+	onUpdateService() {
+		let data = {};
+
 		if (this.refs.profile.value != 0) {
-			var data = {
+			data = {
 				profile: this.refs.profile.value,
 				required: this.refs.profile_allow_required.checked,
 				optional: this.refs.profile_allow_optional.checked
 			};
 		}
 		else {
-			var data = {
+			data = {
 				email: this.refs.email.value,
 				fname: this.refs.fname.value,
 				lname: this.refs.lname.value,
@@ -77,60 +69,76 @@ module.exports = React.createClass({
 			};
 		}
 		
-		ajax({
-			url: 'api/dashboard/services/' + this.props.id,
-			method: 'PUT',
-			dataType: 'json',
-			data: data,
-			success: function(result) {
-				this.setState(result);
-			}.bind(this)
+		request({
+			url: "../api/dashboard/services/" + this.props.id,
+			method: "PUT", data,
+			success: (result) => this.setState(result)
 		});
-	},
+	}
+
+	_update() {
+		request({
+			url: "../api/dashboard/services/" + this.props.id,
+			success: (result) => {
+				this.setState({service: result.service});
+			}
+		});
+		
+		request({
+			url: "../api/dashboard/profiles",
+			success: (result) => {
+				this.setState({profiles: result.profiles});
+			}
+		});
+	}
 	
-	render: function() {
-		if (this.state.view == 'list') {
+	render() {
+		if (this.state.view == "list") {
 			return (
 				<div className="service-list-view">
 					<h2>{this.state.service.name}</h2>
-					<Button type="secondary" onClick={this.toggleView}>Edit</Button>
-					<Button type="danger" onClick={this.unlink}>Unlink</Button>
+					<Button type="secondary" onClick={this.onToggleView}>Edit</Button>
+					<Button type="danger" onClick={this.onUnlink}>Unlink</Button>
 				</div>
 			);
 		}
 		else {
-			var s = this.state.service;
+			const s = this.state.service;
 			
 			// Build arrays for definition list containing
 			// <required_field><field_description>
-			var requiredInfo = [];
-			for (var key in s.info.requested.required) {
-				if (!s.info.requested.required.hasOwnProperty(key))
-					continue;
-				
-				requiredInfo.push(<dl><dt>{key}</dt><dd>{s.info.requested.required[key]}</dd></dl>);
-			}
-			var optionalInfo = [];
-			for (var key in s.info.requested.optional) {
-				if (!s.info.requested.optional.hasOwnProperty(key))
-					continue;
-				
-				optionalInfo.push(<dl><dt>{key}</dt><dd>{s.info.requested.optional[key]}</dd></dl>);
-			}
+			const requiredInfo = Object.keys(s.info.requested.required).map(key => {
+				return (
+					<dl>
+						<dt>{key}</dt>
+						<dd>{s.info.requested.required[key]}</dd>
+					</dl>
+				);
+			});
+
+			const optionalInfo = Object.keys(s.info.requested.optional).map(key => {
+				return (
+					<dl>
+						<dt>{key}</dt>
+						<dd>{s.info.requested.optional[key]}</dd>
+					</dl>
+				);
+			});
 			
-			// Build array of user's profiles to select
-			var profiles = [];
-			this.state.profiles.forEach(function(profile) {
-				profiles.push(<option value={profile.profile_id}>{profile.name}</option>);
+			// Build array of user"s profiles to select
+			const profiles = this.state.profiles.map(profile => {
+				return (
+					<option value={profile.profile_id}>{profile.name}</option>
+				);
 			});
 			
 			// Create blank form object
-			var form = {
+			let form = {
 				email: "", fname: "", lname: "", phone: "", birthdate: "", address: "",
 				zip: "", region: "", country: "", gender: 0
 			};
 			
-			var loadFromProfile = s.info.provided.profile == undefined ? false : true;
+			const loadFromProfile = s.info.provided.profile == undefined ? false : true;
 			
 			// If user gave service custom data
 			// merge provided data while leaving unprovided fields blank
@@ -138,7 +146,7 @@ module.exports = React.createClass({
 				Object.assign(form, s.info.provided);
 				
 			// Build alert
-			var userAlert;
+			let userAlert;
 			if (this.state.error)
 				userAlert = <Alert type="error" title="Error!">{this.state.message}</Alert>;
 			else if (this.state.message)
@@ -148,9 +156,10 @@ module.exports = React.createClass({
 				<div className="service-form-view">
 					<h2>{s.name}</h2>
 					<p>{s.description}</p>
-					<a className="link-lg" onClick={this.toggleView}>Hide Form</a>
+					<a className="link-lg" onClick={this.onToggleView}>Hide Form</a>
 					
 					{userAlert}
+
 					<hr />
 				
 					<div className="service-info service-info-required">
@@ -162,20 +171,31 @@ module.exports = React.createClass({
 						{optionalInfo}
 					</div>
 					
-					<Button onClick={this.updateService}>Update Service</Button>
+					<Button onClick={this.onUpdateService}>Update Service</Button>
 					
 					<hr />
 					
 					<h2>Load Data From Profile</h2>
 					<p>Choose a profile and {s.name} will automatically access information you allow from the profile.</p>
-					<select ref="profile" className="profile-selector" defaultValue={loadFromProfile ? s.info.provided.profile : 0}>
+					
+					<select
+						ref="profile"
+						className="profile-selector"
+						defaultValue={loadFromProfile ? s.info.provided.profile : 0}
+					>
 						<option value="0">-</option>
 						{profiles}
 					</select>
-					<input type="checkbox" ref="profile_allow_required" defaultChecked={loadFromProfile} />
-						Allow Access to Required Data
-					<input type="checkbox" ref="profile_allow_optional" defaultChecked={loadFromProfile && s.info.provided.optional == "true" ? true: false} />
-						Allow Access to Optional Data
+					<input
+						type="checkbox"
+						ref="profile_allow_required"
+						defaultChecked={loadFromProfile}
+					/>Allow Access to Required Data
+					<input
+						type="checkbox"
+						ref="profile_allow_optional"
+						defaultChecked={loadFromProfile && s.info.provided.optional == "true" ? true: false}
+					/>Allow Access to Optional Data
 					
 					<h3>~~ or ~~</h3>
 					
@@ -208,4 +228,4 @@ module.exports = React.createClass({
 		}
 	}
 	
-});
+}

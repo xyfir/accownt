@@ -1,44 +1,44 @@
-var Service = require('./Service.jsx');
-var Button = require('../forms/Button.jsx');
+import React from "react";
 
-module.exports = React.createClass({
+// Modules
+import request from "../../lib/request";
+
+export default class Services extends React.Component {
 	
-	getInitialState: function() {
-		return {
-			services: []
-		};
-	},
+	constructor(props) {
+		super(props);
+
+		this.state = { services: [] };
+
+		this._updateServices = this._updateServices.bind(this);
+	}
 	
-	updateServices: function() {
-		ajax({
-			url: 'api/dashboard/services',
-			dataType: 'json',
-			success: function(result) {
-				this.setState(result);
-			}.bind(this)
+	componentWillMount() {
+		this._updateServices();
+	}
+
+	_updateServices() {
+		request({
+			url: "../api/dashboard/services",
+			success: (result) => this.setState(result)
 		});
-	},
+	}
 	
-	componentWillMount: function() {
-		this.updateServices();
-	},
-	
-	render: function() {
-		var services = [];
-		this.state.services.forEach(function(service) {
-			services.push(<Service id={service.id} update={this.updateServices} />);
-		}.bind(this));
-	
+	render() {
 		return (
 			<div className="dashboard-body col-sm-12 col-md-8">
 				<h2>Services</h2>
 				<hr />
 			
-				<div className="service-list">
-					{services}
-				</div>
+				<div className="service-list">{
+					this.state.services.map(service => {
+						services.push(
+							<Service id={service.id} update={this.updateServices} />
+						);
+					})
+				}</div>
 			</div>
 		);
 	}
 	
-});
+}
