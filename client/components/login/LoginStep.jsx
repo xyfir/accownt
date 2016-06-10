@@ -1,41 +1,49 @@
-var Button = require("../forms/Button.jsx");
-var Alert = require("../misc/Alert.jsx");
+import React from "react";
 
-module.exports = React.createClass({
+// Components
+import Button from "../forms/Button";
+import Alert from "../misc/Alert";
 
-	getInitialState: function() {
-		return {error: false, message: ""};
-	},
+// Modules
+import request from "../../lib/request";
 
-	login: function() {
-		var email = this.refs.email.value;
-		var password = this.refs.password.value;
+export default class LoginStep extends React.Component {
+
+	constructor(props) {
+		super(props);
 		
-		ajax({
-			url: 'api/login',
-			method: 'POST',
-			dataType: 'json',
-			data: {
-				email: email,
-				password: password
-			},
-			success: function(result) {
-			
+		this.state = {
+			error: false, message: ""
+		};
+
+		this.onPasswordless = this.onPasswordless.bind(this);
+		this.onKeyDown = this.onKeyDown.bind(this);
+		this.onLogin = this.onLogin.bind(this);
+	}
+
+	onLogin() {
+		const email = this.refs.email.value;
+		const password = this.refs.password.value;
+		
+		request({
+			url: "../api/login",
+			method: "POST",
+			data: { email, password },
+			success: result => {
 				if (result.error)
 					this.setState(result);
 				else
 					this.props.next(result);
-				
-			}.bind(this)
+			}
 		});
-	},
+	}
 	
-	keyDown: function(e) {
+	onKeyDown(e) {
 		if (e.keyCode == 13)
-			this.login();
-	},
+			this.onLogin();
+	}
 	
-	passwordless: function() {
+	onPasswordless() {
 		if (this.refs.email.value == "") {
 			this.setState({
 				error: true,
@@ -44,19 +52,16 @@ module.exports = React.createClass({
 			return;
 		}
 		
-		ajax({
-			url: 'api/login/passwordless/' + this.refs.email.value,
-			dataType: 'json',
-			success: function(result) {
-				this.setState(result);
-			}.bind(this)
+		request({
+			url: "../api/login/passwordless/" + this.refs.email.value,
+			success: result => this.setState(result)
 		});
-	},
+	}
 	
-	render: function() {
-		var classn = this.state.error ? "input-error" : "";
-		
-		var userAlert;
+	render() {
+		const classn = this.state.error ? "input-error" : "";
+		let userAlert;
+
 		if (this.state.error)
 			userAlert = <Alert type="error" title="Error!">{this.state.message}</Alert>;
 		else if (this.state.message)
@@ -71,15 +76,18 @@ module.exports = React.createClass({
 			
 				<div className="form-step-body">
 					{userAlert}
+
 					<input type="email" placeholder="Enter your email" ref="email" className={classn} />
-					<input type="password" ref="password" placeholder="Password" onKeyDown={this.keyDown} />
+					<input type="password" ref="password" placeholder="Password" onKeyDown={this.onKeydown} />
+					
 					<a href="register">Create Account </a> | 
 					<a href="recover"> Account Recovery </a> | 
-					<a onClick={this.passwordless}> Passwordless Login</a> 
+					<a onClick={this.onPasswordless}> Passwordless Login</a> 
 				</div>
 				
-				<Button onClick={this.login}>Login</Button>
+				<Button onClick={this.onLogin}>Login</Button>
 			</div>
 		);
 	}
-});
+
+}
