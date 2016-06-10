@@ -50,7 +50,7 @@ export default class Register extends React.Component {
 				comp = <PasswordStep nextStep={this.onNextStep} prevStep={this.onPrevStep} />;
 				break;
 			case 3:
-				comp = <FinalStep prevStep={this.onPrevStep} user={user} />;
+				comp = <FinalStep prevStep={this.onPrevStep} user={this.state.user} />;
 		}
 		
 		return (
