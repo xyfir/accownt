@@ -47,7 +47,7 @@ export default class EmailStep extends React.Component {
 	}
 	
 	onKeyDown(e) {
-		if (e.keyCode == 13) this.onKeyDownStep();
+		if (e.keyCode == 13) this.onNextStep();
 	}
 	
 	render() {
@@ -76,7 +76,7 @@ export default class EmailStep extends React.Component {
 					/>
 				</div>
 				
-				<Button onClick={this.onKeyDownStep}>Next</Button>
+				<Button onClick={this.onNextStep}>Next</Button>
 			</div>
 		);
 	}
