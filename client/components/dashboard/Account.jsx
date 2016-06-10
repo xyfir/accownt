@@ -63,7 +63,7 @@ export default class Account extends React.Component {
 				{userAlert}
 				
 				<h3 style={{marginBottom:"0em"}}>{this.state.email}</h3>
-				<a href="login/logout" className="link-sm">Logout</a>
+				<a href="../api/login/logout" className="link-sm">Logout</a>
 				
 				<input
 					type={this.state.recovered ? "hidden" : "password" }
