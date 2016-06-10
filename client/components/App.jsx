@@ -19,7 +19,7 @@ class App extends React.Component {
             hash: location.hash.split('/')
         };
 
-        window.onhashchange = function() {
+        window.onhashchange = () => {
             this.setState({ hash: location.hash.split('/') });
         };
     }
