@@ -1,43 +1,57 @@
-var EmailStep = require('./register/EmailStep.jsx');
-var PasswordStep = require('./register/PasswordStep.jsx');
-var FinalStep = require('./register/FinalStep.jsx');
-var ProgressBar = require('./forms/ProgressBar.jsx');
+import React from "react";
 
-var user = {};
+// Components
+import PasswordStep from "../register/PasswordStep";
+import ProgressBar from "../register/ProgressBar";
+import EmailStep from "../register/EmailStep";
+import FinalStep from "../register/FinalStep";
 
-var Register = React.createClass({
+export default class Register extends React.Component {
 	
-	getInitialState: function() {
-		return {
-			step: 1
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			step: 1, user: { email: "", password: "" }
+		};
+
+		this.onNextStep = this.onNextStep.bind(this);
+		this.onPrevStep = this.onPrevStep.bind(this);
+	}
+	
+	onNextStep() {
+		if (this.state.step == 1) {
+			this.setState({ user: {
+				email: document.querySelector("#email").value,
+				password: this.state.user.password
+			}});
 		}
-	},
-	
-	nextStep: function() {
-		if (this.state.step == 1)
-			user.email = $("#email").value;
-		if (this.state.step == 2)
-			user.password = $("#password").value;
+		else if (this.state.step == 2) {
+			this.setState({ user: {
+				password: document.querySelector("#password").value,
+				email: this.state.user.email
+			}});
+		}
 	
 		this.setState({step: this.state.step + 1});
-	},
+	}
 	
-	prevStep: function() {
+	onPrevStep() {
 		this.setState({step: this.state.step - 1});
-	},
+	}
 	
-	render: function() {
-		var comp;
+	render() {
+		let comp;
 		
 		switch (this.state.step) {
 			case 1:
-				comp = <EmailStep nextStep={this.nextStep} />;
+				comp = <EmailStep nextStep={this.onNextStep} />;
 				break;
 			case 2:
-				comp = <PasswordStep nextStep={this.nextStep} prevStep={this.prevStep} />;
+				comp = <PasswordStep nextStep={this.onNextStep} prevStep={this.onPrevStep} />;
 				break;
 			case 3:
-				comp = <FinalStep prevStep={this.prevStep} user={user} />;
+				comp = <FinalStep prevStep={this.onPrevStep} user={user} />;
 		}
 		
 		return (
@@ -48,6 +62,5 @@ var Register = React.createClass({
 			</div>
 		);
 	}
-});
 
-ReactDOM.render(<Register />, $("#content"));
+}

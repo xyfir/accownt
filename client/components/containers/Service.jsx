@@ -1,73 +1,40 @@
-/* Route Components */
-var Create = require("./service/Create");
-var Manage = require("./service/Manage");
-var List = require("./service/List");
+import React from "react";
 
-var Service = React.createClass({
+// Components
+import Create from "../service/Create";
+import Manage from "../service/Manage";
+import List from "../service/List";
 
-    getInitialState: function() {
-        return { view: "list" };
-    },
+export default class Service extends React.Component {
 
-    componentWillMount: function () {
-        // Set view based on current URL
-        this.routeUpdated();
-    },
+    constructor(props) {
+        super(props);
+    }
 
-    /*
-        Update URL and call routeUpdate()
-    */
-    updateRoute: function(route) {
-        route = XACC + "service/dashboard/" + route;
-        history.pushState({}, '', route);
-        this.routeUpdated();
-    },
+    render() {
+        let view;
 
-    /*
-        Set state.view based on current URL
-    */
-    routeUpdated: function() {
-        // Parse url
-        var a = document.createElement('a');
-        a.href = location.href;
-
-        // Set state.view based on route
-        switch (a.pathname) {
-            case "/service/dashboard":
-                this.setState({ view: "list" }); break;
-            case "/service/dashboard/list":
-                this.setState({ view: "list" }); break;
-			case "/service/dashboard/create":
-				this.setState({ view: "create" }); break;
-            default:
-                if (a.pathname.match(/^\/service\/dashboard\/\d+\/?(\w+)?$/))
-                    this.setState({ view: "manage" });
-        }
-    },
-
-    render: function () {
-        var view;
-        switch (this.state.view) {
-			case "list":
-				view = <List updateRoute={this.updateRoute} />; break;
-			case "manage":
-				view = <Manage updateRoute={this.updateRoute} />; break;
-			case "create":
-				view = <Create />;
-		}
+        if (this.props.hash[3] == undefined || this.props.hash[3] == "list")
+            view = <List />;
+        else if (this.props.hash[3] == "create")
+            view = <Create />;
+        else
+            view = <Manage />;
 
         return (
             <div>
-                <div className="nav">
-                    <a onClick={this.updateRoute.bind(this, "create")} className="link-lg">Create Service</a>
-                    <a onClick={this.updateRoute.bind(this, "list")} className="link-lg">View Services</a>
-                </div>
+                <nav className="nav">
+                    <a href="#/service/dashboard/create" className="link-lg">
+                        Create Service
+                    </a>
+                    <a href="#/service/dashboard/list" className="link-lg">
+                        View Services
+                    </a>
+                </nav>
 
 				{view}
 			</div>
         );
     }
 
-});
-
-ReactDOM.render(<Service />, $("#content"));
+}

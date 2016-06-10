@@ -1,19 +1,31 @@
-var SmsVerify = require('./login/SmsVerifyStep.jsx');
-var LoginStep = require('./login/LoginStep.jsx');
-var RandCode = require('./login/RandomCodeStep.jsx');
-var Button = require('./forms/Button.jsx');
+import React from "react";
 
-var Login = React.createClass({
+// Components
+import SmsVerify from "../login/SmsVerifyStep";
+import LoginStep from "../login/LoginStep";
+import RandCode from "../login/RandomCodeStep";
+import Button from "../forms/Button";
+
+// Modules
+import request from "../../lib/request";
+
+export default class Login extends React.Component {
 	
-	getInitialState: function() {
-		return {
+	constructor(props) {
+		super(props);
+
+		this.state = {
 			step: 1
-		}
-	},
+		};
+
+		this.onVerify = this.onVerify.bind(this);
+		this.onNext = this.onNext.bind(this);
+		this._login = this._login.bind(this);
+	}
 	
-	next: function(data) {
+	onNext(data) {
 		if (data.loggedIn) {
-			this.login();
+			this._login();
 		}
 		else {
 			// Extra security steps required
@@ -22,40 +34,43 @@ var Login = React.createClass({
 			this.setState({uid: data.uid});
 			this.setState({step: 2});
 		}
-	},
+	}
 	
-	login: function(redirect) {
-		window.location.href = redirect != '' ? redirect : 'dashboard';
-	},
-	
-	verify: function() {
-		var data = {
+	onVerify() {
+		let data = {
 			phone: this.state.security.phone,
 			auth: this.state.auth,
 			uid: this.state.uid
 		};
-		data.smsCode = data.phone ? $("#smsCode").value : 0;
+
+		data.smsCode = data.phone ? document.querySelector("#smsCode").value : 0;
 		data.codeNum = this.state.security.code ? this.state.security.codeNumber : 0;
-		data.code = this.state.security.code ? $("#code").value : 0;
+		data.code = this.state.security.code ? document.querySelector("#code").value : 0;
 	
-		ajax({
-			url: 'api/login/verify',
-			method: 'POST',
+		request({
+			url: "api/login/verify",
+			method: "POST",
 			data: data,
-			dataType: 'json',
-			success: function(result) {
+			dataType: "json",
+			success: result => {
 				if (result.error)
 					this.setState({step: 1});
 				else
-					this.login(result.redirect);
-			}.bind(this)
+					this._login(result.redirect);
+			}
 		});
-	},
+	}
+
+	_login(redirect) {
+		if (redirect != "")
+			location.href = redirect;
+		else
+			location.hash = "/dashboard/account";
+	}
 	
-	render: function() {
-		
+	render() {
 		if (this.state.step == 1) {
-			return <LoginStep next={this.next} />;
+			return <LoginStep next={this.onNext} />;
 		}
 		else {
 			var sms, code, steps = 0;
@@ -70,18 +85,16 @@ var Login = React.createClass({
 			}
 				
 			return (
-				<div className='form-step'>
-					<div className='form-step-body'>
+				<div className="form-step">
+					<div className="form-step-body">
 						{sms}
-						{steps > 1 ? <hr /> : ''}
+						{steps > 1 ? <hr /> : ""}
 						{code}
 					</div>
-					<Button onClick={this.verify}>Login</Button>
+					<Button onClick={this.onVerify}>Login</Button>
 				</div>
 			);
 		}
 	}
 	
-});
-
-ReactDOM.render(<Login />, $("#content"));
+}
