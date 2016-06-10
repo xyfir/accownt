@@ -1,6 +1,7 @@
 import React from "react";
 
 // Components
+import Profile from "./Profile";
 import Button from "../forms/Button";
 import Alert from "../misc/Alert";
 
