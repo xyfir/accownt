@@ -163,7 +163,7 @@ export default class Ads extends React.Component {
 				
 				<label>Keywords</label>
 				<small>
-					A comma delimited list of keywords and phrases of things you"re interested in.
+					A comma delimited list of keywords and phrases of things you're interested in.
 					<br />
 					If you have to view ads, they might as well be of some interest to you.
 				</small>
