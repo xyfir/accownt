@@ -38,8 +38,8 @@ export default class View extends React.Component {
 				Object.keys(s.info[type]).forEach(key => {
 					requestedData.push(
 						<tr>
-							<td>{p}</td>
-							<td>{s.info[type][p]}</td>
+							<td>{key}</td>
+							<td>{s.info[type][key]}</td>
 							<td>{type == "required" ? "Yes" : "No"}</td>
 						</tr>
 					);
