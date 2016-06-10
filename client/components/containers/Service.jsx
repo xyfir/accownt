@@ -19,7 +19,7 @@ export default class Service extends React.Component {
         else if (this.props.hash[3] == "create")
             view = <Create />;
         else
-            view = <Manage />;
+            view = <Manage hash={this.props.hash} />;
 
         return (
             <div>
