@@ -43,10 +43,10 @@ export default class Delete extends React.Component {
         else {
             return(
                 <div className="delete-service">
-                    <Alert alert="danger" title="Warning!">
+                    <Alert alert="error" title="Warning!">
                         Are you sure you want to delete this service? All users will be unlinked from your service. This action cannot be undone.
                     </Alert>
-                    <Button onClick={this.onConfirm}>Delete Service</Button>
+                    <Button onClick={this.onConfirm} type="danger">Delete Service</Button>
                 </div>
             );
         }
