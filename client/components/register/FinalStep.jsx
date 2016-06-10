@@ -1,27 +1,35 @@
-var Button = require("../forms/Button.jsx");
-var Alert = require("../misc/Alert.jsx");
+import React from "react";
 
-module.exports = React.createClass({
+// Components
+import Button from "../forms/Button";
+import Alert from "../misc/Alert";
 
-	getInitialState: function() {
-		return {error: false, message: ""}
-	},
+// Modules
+import request from "../../lib/request";
+
+export default class FinalStep extends React.Component {
+
+	constructor(props) {
+		super(props);
+		
+		this.state = {
+			error: false, message: ""
+		};
+	}
 	
-	// Attempts to register user
-	// Server response sets component state
-	componentWillMount: function() {
-		ajax({
-			url: "api/register/",
+	componentWillMount() {
+		// Attempts to register user
+		request({
+			url: "../api/register/",
 			method: "POST",
 			data: this.props.user,
-			dataType: "json",
-			success: function(result) {
+			success: (result) => {
 				if (result.error) this.setState(result);
-			}.bind(this)
+			}
 		});
-	},
+	}
 	
-	renderError: function() {
+	renderError() {
 		return (
 			<div className="form-step">
 				<Alert type="error" title="Error">{this.state.message}</Alert>
@@ -29,9 +37,9 @@ module.exports = React.createClass({
 				<Button onClick={this.props.prevStep}>Back</Button>
 			</div>
 		);
-	},
+	}
 	
-	renderSuccess: function() {
+	renderSuccess() {
 		return (
 			<div className="form-step">
 				<Alert type="success" title="Account Created">
@@ -42,12 +50,13 @@ module.exports = React.createClass({
 				<a className="link-lg" href="login">Login</a>
 			</div>
 		);
-	},
+	}
 	
-	render: function() {
+	render() {
 		if (this.state.error)
 			return this.renderError();
 		else
 			return this.renderSuccess();
 	}
-});
+
+}

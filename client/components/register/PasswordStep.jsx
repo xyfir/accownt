@@ -1,14 +1,22 @@
-var Button = require("../forms/Button.jsx");
+import React from "react";
 
-module.exports = React.createClass({
+// Components
+import Button from "../forms/Button";
 
-	getInitialState: function() {
-		return {error: false, message: ""};
-	},
+export default class PasswordStep extends React.Component {
 
-	nextStep: function() {
-		var password  = $("#password").value;
-		var repeat = $("#passwordr").value;
+	constructor(props) {
+		super(props);
+
+		this.state = { error: false, message: "" };
+
+		this.onNextStep = this.onNextStep.bind(this);
+		this.onKeyDown = this.onKeyDown.bind(this);
+	}
+
+	onNextStep() {
+		const password  = document.querySelector("#password").value;
+		const repeat = document.querySelector("#passwordr").value;
 		
 		if (password != repeat) {
 			this.setState({error: true, message: "Passwords do not match."});
@@ -20,14 +28,13 @@ module.exports = React.createClass({
 			this.setState({error: false, message: ""})
 			this.props.nextStep();
 		}
-	},
+	}
 	
-	next: function(e) {
-		if (e.keyCode == 13)
-		 this.nextStep();
-	},
+	onKeyDown(e) {
+		if (e.keyCode == 13) this.onNextStep();
+	}
 	
-	render: function() {
+	render() {
 		return (
 			<div className="form-step">
 				<div className="form-step-header">
@@ -39,12 +46,13 @@ module.exports = React.createClass({
 				<div className="form-step-body">
 					<p className="input-error">{this.state.message}</p>
 					<input type="password" id="password" className={this.state.error ? "input-error" : ""} placeholder="Password" />
-					<input type="password" id="passwordr" className={this.state.error ? "input-error" : ""} placeholder="Confirm" onKeyDown={this.next} />
+					<input type="password" id="passwordr" className={this.state.error ? "input-error" : ""} placeholder="Confirm" onKeyDown={this.onKeyDown} />
 				</div>
 				
 				<Button onClick={this.props.prevStep}>Back</Button>
-				<Button onClick={this.nextStep}>Next</Button>
+				<Button onClick={this.onNextStep}>Next</Button>
 			</div>
 		);
 	}
-});
+
+}
