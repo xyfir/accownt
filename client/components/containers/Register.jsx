@@ -2,7 +2,7 @@ import React from "react";
 
 // Components
 import PasswordStep from "../register/PasswordStep";
-import ProgressBar from "../register/ProgressBar";
+import ProgressBar from "../forms/ProgressBar";
 import EmailStep from "../register/EmailStep";
 import FinalStep from "../register/FinalStep";
 

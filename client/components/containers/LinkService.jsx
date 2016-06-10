@@ -1,8 +1,8 @@
 import React from "react";
 
 // Components
-import Button from "../../forms/Button";
-import Alert from "../../misc/Alert";
+import Button from "../forms/Button";
+import Alert from "../misc/Alert";
 
 // Modules
 import request from "../../lib/request";

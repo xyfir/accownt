@@ -47,7 +47,7 @@ export default class List extends React.Component {
 							>Delete</Button>
 						</div>
 					);
-				}
+				})
 			}</div>
 		);
 	}
