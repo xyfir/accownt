@@ -1,80 +1,50 @@
-var Ads = require('./dashboard/Ads.jsx');
-var Nav = require('./dashboard/Nav.jsx');
-var Account = require('./dashboard/Account.jsx');
-var Profiles = require('./dashboard/Profiles.jsx');
-var Security = require('./dashboard/Security.jsx');
-var Services = require('./dashboard/Services.jsx');
+import React from "react";
 
-var currentView = 'account';
+// Components
+import Ads from "../dashboard/Ads";
+import Nav from "../dashboard/Nav";
+import Account from "../dashboard/Account";
+import Profiles from "../dashboard/Profiles";
+import Security from "../dashboard/Security";
+import Services from "../dashboard/Services";
 
-var Dashboard = React.createClass({
+export default class Dashboard extends React.Component {
 	
-	getInitialState: function() {
-		return {view: 'account'};
-	},
+	constructor() {
+		this.state = {
+			view: "account"
+		};
+	}
 	
-	componentWillMount: function () {
-        // Set view based on current URL
-        this.routeUpdated();
-    },
+	render() {
+		let view;
 
-	// Set state.view based on current URL
-    routeUpdated: function() {
-        // Parse url
-        var a = document.createElement('a');
-        a.href = location.href;
-
-        // Set state.view based on route
-        switch (a.pathname) {
-            case "/dashboard/security":
-                this.setState({ view: "security" }); break;
-			case "/dashboard/profiles":
-                this.setState({ view: "profiles" }); break;
-			case "/dashboard/services":
-                this.setState({ view: "services" }); break;
-			case "/dashboard/ads":
-                this.setState({ view: "ads" }); break;
-			default:
-                this.setState({ view: "account" });
-        }
-    },
-	
-	changeView: function(route) {
-		route = XACC + "dashboard/" + route;
-        history.pushState({}, '', route);
-        this.routeUpdated();
-	},
-	
-	render: function() {
-		var view;
-
-		switch(this.state.view) {
-			case 'account':
-				view = <Account />;  break;
-			case 'security':
+		switch(this.props.hash[2]) {
+			case "security":
 				view = <Security />; break;
-			case 'profiles':
+			case "profiles":
 				view = <Profiles />; break;
-			case 'services':
+			case "services":
 				view = <Services />; break;
-			case 'ads':
-				view = <Ads />;
+			case "ads":
+				view = <Ads />; break;
+			default:
+				view = <Account />;
 		}
 		
 		return (
 			<div className="dashboard">
-				<div className="dashboard-nav col-sm-12 col-md-3">
-					<Nav onClick={this.changeView} active={this.state.view}>Account</Nav>
-					<Nav onClick={this.changeView} active={this.state.view}>Security</Nav>
-					<Nav onClick={this.changeView} active={this.state.view}>Profiles</Nav>
-					<Nav onClick={this.changeView} active={this.state.view}>Services</Nav>
-					<Nav onClick={this.changeView} active={this.state.view}>Ads</Nav>
-				</div>
+				<nav className="dashboard-nav col-sm-12 col-md-3">
+					<Nav active={this.props.hash[2] || "account"}>Account</Nav>
+					<Nav active={this.props.hash[2]}>Security</Nav>
+					<Nav active={this.props.hash[2]}>Profiles</Nav>
+					<Nav active={this.props.hash[2]}>Services</Nav>
+					<Nav active={this.props.hash[2]}>Ads</Nav>
+				</nav>
+				
 				{view}
 			</div>
 		);
 	}
 	
-});
-
-ReactDOM.render(<Dashboard />, $("#content"));
+}

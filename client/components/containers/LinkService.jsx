@@ -1,42 +1,48 @@
-var Button = require('./forms/Button.jsx');
-var Alert = require('./misc/Alert.jsx');
+import React from "react";
 
-var serviceId = 0;
+// Components
+import Button from "../../forms/Button";
+import Alert from "../../misc/Alert";
 
-var LinkService = React.createClass({
+// Modules
+import request from "../../lib/request";
+
+export default class LinkService extends React.Component {
 	
-	getInitialState: function() {
-		return {
-			error: false,
-			linked: false,
-			message: ""
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			error: false, linked: false, message: "",
+			service: this.props.hash[2]
 		};
-	},
+
+		this._createSession = this._createSession.bind(this);
+		this.onLink = this.onLink.bind(this);
+	}
 	
-	componentWillMount: function() {
-		serviceId = window.location.pathname.split('/')[2];
-	
-		ajax({
-			url: '../api/service/' + serviceId,
-			dataType: 'json',
-			success: function(data) {
-				this.setState(data, function() {
-					console.log(JSON.stringify(this.state));
-				});
-			}.bind(this)
+	componentWillMount() {
+		request({
+			url: "../api/service/" + this.state.service,
+			dataType: "json",
+			success: data => {
+				this.setState(data);
+			}
 		});
-	},
+	}
 	
-	link: function() {
+	onLink() {
+		let data = {};
+
 		if (this.refs.profile.value != 0) {
-			var data = {
+			data = {
 				profile: this.refs.profile.value,
 				required: this.refs.profile_allow_required.checked,
 				optional: this.refs.profile_allow_optional.checked
 			};
 		}
 		else {
-			var data = {
+			data = {
 				email: this.refs.email.value,
 				fname: this.refs.fname.value,
 				lname: this.refs.lname.value,
@@ -50,38 +56,39 @@ var LinkService = React.createClass({
 			};
 		}
 	
-		ajax({
-			url: '../api/service/link/' + serviceId,
-			method: 'POST',
-			dataType: 'json',
+		request({
+			url: "../api/service/link/" + this.state.service,
+			method: "POST",
+			dataType: "json",
 			data: data,
-			success: function(data) {
+			success: data => {
 				if (data.error) {
 					this.setState(data);
 				}
 				else {
 					this.setState(data);
 					this.setState({linked: true});
-					this.createSession();
+					this._createSession();
 				}
-			}.bind(this)
+			}
 		});
-	},
+	}
 	
-	createSession: function() {
-		ajax({
-			url: '../api/service/session/' + serviceId,
-			method: 'POST',
-			dataType: 'json',
-			success: function(data) {
+	_createSession() {
+		request({
+			url: "../api/service/session/" + this.state.service,
+			method: "POST",
+			dataType: "json",
+			success: data => {
 				// Redirect user to service's login
 				location.href = data.address + "?auth=" + data.auth + "&xid=" + data.xid;
-			}.bind(this)
+			}
 		});
-	},
+	}
 	
-	render: function() {
-		var userAlert;
+	render() {
+		let userAlert;
+
 		if (this.state.error)
 			userAlert = <Alert type="error" title="Error!">{this.state.message}</Alert>;
 		else if (this.state.message)
@@ -91,29 +98,30 @@ var LinkService = React.createClass({
 			return <div>{userAlert}</div>;
 		}
 		else {
-			var s = this.state.service;
+			let s = this.state.service;
 		
 			// Build arrays for definition list containing
 			// <required_field><field_description>
-			var requiredInfo = [];
-			for (var key in s.requested.required) {
-				if (!s.requested.required.hasOwnProperty(key))
-					continue;
-				
-				requiredInfo.push(<dl><dt>{key}</dt><dd>{s.requested.required[key]}</dd></dl>);
-			}
-			var optionalInfo = [];
-			for (var key in s.requested.optional) {
-				if (!s.requested.optional.hasOwnProperty(key))
-					continue;
-				
-				optionalInfo.push(<dl><dt>{key}</dt><dd>{s.requested.optional[key]}</dd></dl>);
-			}
+			let requiredInfo = [];
+			Object.keys(s.requested.required).forEach(key => {
+				requiredInfo.push(
+					<dl><dt>{key}</dt><dd>{s.requested.required[key]}</dd></dl>
+				);
+			});
 			
-			// Build array of user's profiles to select
-			var profiles = [];
-			this.state.profiles.forEach(function(profile) {
-				profiles.push(<option value={profile.profile_id}>{profile.name}</option>);
+			let optionalInfo = [];
+			Object.keys(s.requested.optional).forEach(key => {
+				optionalInfo.push(
+					<dl><dt>{key}</dt><dd>{s.requested.optional[key]}</dd></dl>
+				);
+			});
+			
+			// Build array of user"s profiles to select
+			let profiles = [];
+			this.state.profiles.forEach(profile => {
+				profiles.push(
+					<option value={profile.profile_id}>{profile.name}</option>
+				);
 			});
 		
 			return (
@@ -133,7 +141,7 @@ var LinkService = React.createClass({
 						{optionalInfo}
 					</div>
 					
-					<Button onClick={this.link}>Link Service</Button>
+					<Button onClick={this.onLink}>Link Service</Button>
 					
 					<hr />
 					
@@ -177,6 +185,4 @@ var LinkService = React.createClass({
 		}
 	}
 	
-});
-
-ReactDOM.render(<LinkService />, $("#content"));
+}
