@@ -1,45 +1,54 @@
-var Button = require('../forms/Button.jsx');
+import React from "react";
 
-module.exports = React.createClass({
+// Components
+import Button from "../forms/Button";
+import Alert from "../misc/Alert";
+
+// Modules
+import request from "../../lib/request";
+
+export default class Profile extends React.Component {
 	
-	getInitialState: function() {
-		return {
-			view: 'list',
-			profile: {}
-		};
-	},
+	constructor(props) {
+		super(props);
+
+		this.state = { view: "list", profile: {} };
+
+		this.onUpdateProfile = this.onUpdateProfile.bind(this);
+		this.onDeleteProfile = this.onDeleteProfile.bind(this);
+		this.onToggleView = this.onToggleView.bind(this);
+	}
 	
-	componentWillMount: function() {
-		ajax({
-			url: 'api/dashboard/profiles/' + this.props.id,
-			dataType: 'json',
-			success: function(result) {
+	componentWillMount() {
+		request({
+			url: "../api/dashboard/profiles/" + this.props.id,
+			dataType: "json",
+			success: (result) => {
 				this.setState({profile: result.profile});
-			}.bind(this)
+			}
 		});
-	},
+	}
 	
-	toggleView: function() {
-		if (this.state.view == 'list')
-			this.setState({view: 'full'});
+	onToggleView() {
+		if (this.state.view == "list")
+			this.setState({view: "full"});
 		else
-			this.setState({view: 'list'});
-	},
+			this.setState({view: "list"});
+	}
 	
-	deleteProfile: function() {
-		ajax({
-			url: 'api/dashboard/profiles/' + this.props.id,
-			method: 'DELETE',
-			dataType: 'json',
-			success: function(result) {
+	onDeleteProfile() {
+		request({
+			url: "../api/dashboard/profiles/" + this.props.id,
+			method: "DELETE",
+			success: (result) => {
 				if (!result.error)
 					this.props.update();
-			}.bind(this)
+			}
 		});
-	},
+	}
 	
-	updateProfile: function() {
-		var data = {
+	onUpdateProfile() {
+		const data = {
 			name: this.refs.name.value,
 			email: this.refs.email.value,
 			fname: this.refs.fname.value,
@@ -53,35 +62,32 @@ module.exports = React.createClass({
 			country: this.refs.country.value
 		};
 		
-		ajax({
-			url: 'api/dashboard/profiles/' + this.props.id,
-			method: 'PUT',
-			dataType: 'json',
-			data: data,
-			success: function(result) {
-				if (!result.error)
-					this.props.update();
-			}.bind(this)
+		request({
+			url: "../api/dashboard/profiles/" + this.props.id,
+			method: "PUT", data,
+			success: (result) => {
+				if (!result.error) this.props.update();
+			}
 		});
-	},
+	}
 	
-	render: function() {
-		if (this.state.view == 'list') {
+	render() {
+		if (this.state.view == "list") {
 			return (
 				<div className="profile-list-view">
 					<h2>{this.state.profile.name}</h2>
-					<Button type="secondary" onClick={this.toggleView}>Edit</Button>
-					<Button type="danger" onClick={this.deleteProfile}>Delete</Button>
+					<Button type="secondary" onClick={this.onToggleView}>Edit</Button>
+					<Button type="danger" onClick={this.onDeleteProfile}>Delete</Button>
 				</div>
 			);
 		}
 		else {
-			var p = this.state.profile;
+			const p = this.state.profile;
 		
 			return (
 				<div className="profile-form-view">
 					<h2>{p.name}</h2>
-					<a className="link-lg" onClick={this.toggleView}>Hide Form</a>
+					<a className="link-lg" onClick={this.onToggleView}>Hide Form</a>
 					<hr />
 				
 					<input type="text" placeholder="Profile Name" ref="name" defaultValue={p.name} />
@@ -107,10 +113,10 @@ module.exports = React.createClass({
 					<input type="text" placeholder="Region/State/Province" ref="region" defaultValue={p.region} />
 					<input type="text" placeholder="Country (US/CA/UK/etc)" ref="country" defaultValue={p.country} />
 					
-					<Button onClick={this.updateProfile}>Update Profile</Button>
+					<Button onClick={this.onUpdateProfile}>Update Profile</Button>
 				</div>
 			);
 		}
 	}
 	
-});
+}

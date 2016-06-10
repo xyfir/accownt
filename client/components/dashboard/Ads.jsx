@@ -1,23 +1,39 @@
-var Button = require("../forms/Button.jsx");
-var Alert = require("../misc/Alert.jsx");
+import React from "react";
 
-module.exports = React.createClass({
+// Components
+import Button from "../forms/Button";
+import Alert from "../misc/Alert";
+
+// Modules
+import request from "../../lib/request";
+
+// Constants
+import { XADS } from "../../constants/config";
+
+export default class Ads extends React.Component {
 	
-	getInitialState: function() {
-		return {
+	constructor(props) {
+		super(props);
+
+		this.state = {
 			categories: [], searchResults: [], setCategories: [],
 			error: false, message: "", info: ""
 		};
-	},
+
+		this.onSearchCategories = this.onSearchCategories.bind(this);
+		this.onResetCategories = this.onResetCategories.bind(this);
+		this.onAddCategory = this.onAddCategory.bind(this);
+		this.onUpdate = this.onUpdate.bind(this);
+		this.onReset = this.onReset.bind(this);
+	}
 	
-	componentWillMount: function() {
-		ajax({
-			url: 'api/dashboard/ads',
-			dataType: 'json',
-			success: function(result) {
+	componentWillMount() {
+		request({
+			url: "../api/dashboard/ads",
+			success: result => {
 				// Set value of setCategories if user has categories set
 				if (result.info != "") {
-					var temp = JSON.parse(result.info);
+					let temp = JSON.parse(result.info);
 					if (temp.categories)
 						this.setState({setCategories: temp.categories});
 				}
@@ -25,23 +41,22 @@ module.exports = React.createClass({
 				// info
 				this.setState(result);
 				
-				ajax({
+				request({
 					url: XADS + "api/pub/categories",
-					dataType: "json",
-					success: function(result) {
+					success: result => {
 						// categories
 						this.setState(result);
-					}.bind(this)
+					}
 				});
-			}.bind(this)
+			}
 		});
-	},
+	}
 	
-	searchCategories: function() {
-		results = [];
+	onSearchCategories() {
+		let results = [];
 		
-		this.state.categories.forEach(function(category) {
-			var found = 0;
+		this.state.categories.forEach(category => {
+			let found = 0;
 			
 			if (category.indexOf(this.refs.category.value) != -1 && found < 5) {
 				found++;
@@ -50,23 +65,23 @@ module.exports = React.createClass({
 		});
 		
 		this.setState({searchResults: results});
-	},
+	}
 	
-	addCategory: function() {
+	onAddCategory() {
 		if (this.state.setCategories.indexOf(this.refs.category.value) == -1 && this.state.setCategories.length < 6) {
 			this.setState({
 				setCategories: this.state.setCategories.concat(this.refs.category.value)
 			});
 		}
-	},
+	}
 	
-	resetCategories: function() {
+	onResetCategories() {
 		this.setState({setCategories: []});
-	},
+	}
 	
-	update: function() {
-		var data = {
-			categories: this.state.setCategories.join(','),
+	onUpdate() {
+		const data = {
+			categories: this.state.setCategories.join(","),
 			keywords: this.refs.keywords.value,
 			gender: this.refs.gender.value,
 			age: this.refs.age.value
@@ -77,46 +92,42 @@ module.exports = React.createClass({
 		else if (data.keywords.length > 250)
 			this.setState({error: true, message: "Too many keywords provided"});
 		else {
-			ajax({
-				url: "api/dashboard/ads",
+			request({
+				url: "../api/dashboard/ads",
 				data: data,
 				method: "PUT",
-				dataType: "json",
-				success: function(result) {
+				success: result => {
 					// error, message
 					this.setState(result);
-				}.bind(this)
+				}
 			});
 		}
-	},
+	}
 	
-	reset: function() {
-		var data = {
+	onReset() {
+		const data = {
 			categories: "", keywords: "", gender: "", age: ""
 		};
 	
-		ajax({
-			url: "api/dashboard/ads",
+		request({
+			url: "../api/dashboard/ads",
 			data: data,
 			method: "PUT",
-			dataType: "json",
-			success: function(result) {
-				this.setState(result);
-			}.bind(this)
+			success: result => this.setState(result)
 		});
-	},
+	}
 	
-	render: function() {
-		var userAlert;
+	render() {
+		let userAlert;
 		
 		if (this.state.error)
 			userAlert = <Alert type="error" title="Error!">{this.state.message}</Alert>;
 		else if (this.state.message)
 			userAlert = <Alert type="success" title="Success!">{this.state.message}</Alert>;
 		
-		var i = this.state.info == "" ? "" : JSON.parse(this.state.info);
+		const i = this.state.info == "" ? "" : JSON.parse(this.state.info);
 	
-		var info = {
+		const info = {
 			age: i.age || "",
 			gender: i.gender || "",
 			keywords: i.keywords || ""
@@ -152,7 +163,7 @@ module.exports = React.createClass({
 				
 				<label>Keywords</label>
 				<small>
-					A comma delimited list of keywords and phrases of things you're interested in.
+					A comma delimited list of keywords and phrases of things you"re interested in.
 					<br />
 					If you have to view ads, they might as well be of some interest to you.
 				</small>
@@ -160,27 +171,27 @@ module.exports = React.createClass({
 				
 				<label>Categories</label>
 				<small>Like keywords, select categories that interest you.</small>
-				<input type="text" ref="category" onChange={this.searchCategories} />
+				<input type="text" ref="category" onChange={this.onSearchCategories} />
 				
 				<div className="search-results">{
-					this.state.searchResults.map(function(category) {
+					this.state.searchResults.map(category => {
 						return <span>{category}</span>;
 					})
 				}</div>
 				
-				<Button type="primary btn-sm" onClick={this.addCategory}>Add</Button>
-				<Button type="primary btn-sm" onClick={this.resetCategories}>Reset</Button>
+				<Button type="primary btn-sm" onClick={this.onAddCategory}>Add</Button>
+				<Button type="primary btn-sm" onClick={this.onResetCategories}>Reset</Button>
 				
 				<div className="categories">{
-					this.state.setCategories.map(function(category) {
+					this.state.setCategories.map(category => {
 						return <span>{category}</span>;
 					})
 				}</div>
 				
-				<Button onClick={this.update}>Update Profile</Button>
-				<Button onClick={this.reset}>Reset Profile</Button>
+				<Button onClick={this.onUpdate}>Update Profile</Button>
+				<Button onClick={this.onReset}>Reset Profile</Button>
 			</div>
 		);
 	}
 	
-});
+}
