@@ -50,8 +50,8 @@ router.get("/register/email/:email", require("./register/check-email"));
 /* Service */
 router.post("/service/:service", require("./service/info"));
 router.post("/service/link/:service", require("./service/link-service"));
-router.get("/service/:service/:xid/:token", require("./service/get-user"));
 router.post("/service/session/:service", require("./service/create-session"));
+router.get("/service/:service/:key/:xid/:token", require("./service/get-user"));
 
 /* Service - Dashboard */
 router.get("/service/dashboard", require("./service/dashboard/get-all"));
@@ -59,5 +59,6 @@ router.post("/service/dashboard", require("./service/dashboard/create"));
 router.put("/service/dashboard/:id", require("./service/dashboard/edit"));
 router.delete("/service/dashboard/:id", require("./service/dashboard/remove"));
 router.get("/service/dashboard/:id", require("./service/dashboard/get-single"));
+router.put("/service/dashboard/:id/key", require("./service/dashboard/generate-key"));
 
 module.exports = router;
