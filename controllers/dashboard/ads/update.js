@@ -36,7 +36,7 @@ module.exports = function(req, res) {
             
             // Attempt to update XAD Profile
             request({
-                url: config.xads + "api/xad-id/" + req.session.uid + "/" + rows[0].xad_id,
+                url: config.addresses.xads + "api/xad-id/" + req.session.uid + "/" + rows[0].xad_id,
                 form: {
                     secret: config.keys.xadid,
                     info: info

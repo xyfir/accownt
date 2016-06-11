@@ -74,7 +74,7 @@ module.exports = function(req, res) {
     
     // Add random words to list
     require("request")(
-        config.randword + config.keys.randword + "?count=" + words,
+        config.addresses.randword + config.keys.randword + "?count=" + words,
         (err, response, body) => {
             JSON.parse(body).words.forEach(word => {
                 codes.push(word);

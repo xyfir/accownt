@@ -19,7 +19,7 @@ module.exports = function(req, res) {
             }
             
             request({
-                url: config.xads + "api/xad-id/" + req.session.uid + "/" + rows[0].xad_id
+                url: config.addresses.xads + "api/xad-id/" + req.session.uid + "/" + rows[0].xad_id
                     + "?secret=" + config.keys.xadid,
             }, (err, response, body) => {
                 if (err)

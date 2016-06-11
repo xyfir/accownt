@@ -42,7 +42,7 @@ module.exports = function(req, res) {
                 cn.query("INSERT INTO users SET ?", data, (err, result) => {
                     // Generate XADID from Xyfir Ads
                     request({
-                        url: config.xads + "api/xad-id/" + result.insertId,
+                        url: config.addresses.xads + "api/xad-id/" + result.insertId,
                         form: {
                             secret: config.keys.xadid
                         }
