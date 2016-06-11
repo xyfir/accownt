@@ -10,8 +10,10 @@ export default class View extends React.Component {
 
 		this.state = {
 			id: 0, name: "", description: "", info: "",
-			owner: 0, address: ""
+			owner: 0, address: "", service_key: ""
 		};
+
+		this.onGenerateKey = this.onGenerateKey.bind(this);
 	}
 	
 	componentWillMount() {
@@ -22,6 +24,17 @@ export default class View extends React.Component {
 					res.info = JSON.parse(res.info);
 			
 				this.setState(res);
+			}
+		});
+	}
+
+	onGenerateKey() {
+		request({
+			url: "../api/service/dashboard/" + this.props.id + "/key",
+			method: "PUT", success: (res) => {
+				if (!res.error) {
+					this.setState({ service_key: res.key });
+				}
 			}
 		});
 	}
@@ -49,7 +62,7 @@ export default class View extends React.Component {
 	
 		return (
 			<div>
-				<h2>{this.state.name}</h2>
+				<h2>{this.state.name} ({this.state.id})</h2>
 				<p>{this.state.description}</p>
 				<a href={this.state.address}>{this.state.address}</a>
 				
@@ -62,6 +75,12 @@ export default class View extends React.Component {
 				
 					{requestedData}
 				</table>
+
+				<hr />
+
+				<h3>Service Key</h3>
+				<span className="service-key">{this.state.service_key}</span>
+				<a onClick={this.onGenerateKey}>Generate New Service Key</a>
 			</div>
 		);
 	}
