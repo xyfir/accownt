@@ -14,7 +14,7 @@ export default class LinkService extends React.Component {
 
 		this.state = {
 			error: false, linked: false, message: "",
-			service: this.props.hash[2]
+			id: this.props.hash[2]
 		};
 
 		this._createSession = this._createSession.bind(this);
@@ -23,7 +23,7 @@ export default class LinkService extends React.Component {
 	
 	componentWillMount() {
 		request({
-			url: "../api/service/" + this.state.service,
+			url: "../api/service/" + this.state.id,
 			success: (res) => this.setState(res)
 		});
 	}
@@ -54,7 +54,7 @@ export default class LinkService extends React.Component {
 		}
 	
 		request({
-			url: "../api/service/link/" + this.state.service,
+			url: "../api/service/link/" + this.state.id,
 			method: "POST", data,
 			success: (data) => {
 				if (data.error) {
@@ -71,7 +71,7 @@ export default class LinkService extends React.Component {
 	
 	_createSession() {
 		request({
-			url: "../api/service/session/" + this.state.service,
+			url: "../api/service/session/" + this.state.id,
 			method: "POST", success: (data) => {
 				// Redirect user to service's login
 				location.href = data.address + "?auth=" + data.auth + "&xid=" + data.xid;
