@@ -1,3 +1,4 @@
+const randomstring = require("randomstring");
 const buildInfo = require("../../../lib/service/buildInfo");
 const validate = require("../../../lib/service/validate");
 const db = require("../../../lib/db");
@@ -39,7 +40,8 @@ module.exports = function(req, res) {
 				address: req.body.link,
 				owner: req.session.uid,
 				xyfir: req.session.uid < 1000,
-				description: req.body.description
+				description: req.body.description,
+				service_key: randomstring.generate(20)
 			};
 			
 			cn.query(sql, data, (err, result) => {
