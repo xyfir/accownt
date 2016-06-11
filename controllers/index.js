@@ -56,7 +56,7 @@ router.get("/service/dashboard/:id", require("./service/dashboard/get-single"));
 router.put("/service/dashboard/:id/key", require("./service/dashboard/generate-key"));
 
 /* Service */
-router.post("/service/:service", require("./service/info"));
+router.get("/service/:service", require("./service/info"));
 router.post("/service/link/:service", require("./service/link-service"));
 router.post("/service/session/:service", require("./service/create-session"));
 router.get("/service/:service/:key/:xid/:token", require("./service/get-user"));
