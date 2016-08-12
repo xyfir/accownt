@@ -179,13 +179,24 @@ input[type=text], input[type=password], input[type=email], input[type=number], i
 input[type=text].input-error, input[type=password].input-error, input[type=email].input-error, input[type=number].input-error, input[type=tel].input-error, input[type=search].input-error, textarea.input-error {
 	border-color: $red;
 }
-p.input-error {
+p.input-error, span.error {
 	color: $red;
 }
 textarea {
 	width: 20em;
 	height: 7em;
 }
+label {
+	display: block;
+	font-weight: bold;
+}
+.input-description {
+    font-size: 90%;
+    color: $dgray;
+    display: block;
+    width: 80%;
+    margin: auto;
+} 
 
 #content {
 	width: 80%;
@@ -195,4 +206,12 @@ textarea {
 /* Home Page */
 .home-nav > .link-lg, .home-for-devs > div > .link-lg {
 	margin: 1em;
+}
+
+.g-recaptcha {
+	display: inline-block;
+}
+
+.recaptcha-wrapper {
+	text-align: center;
 }
