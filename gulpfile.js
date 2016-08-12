@@ -24,7 +24,7 @@ gulp.task("css", function () {
             nano({ autoprefixer: false, zindex: false })
         ]))
 		.pipe(!isDev ? gzip() : gutil.noop())
-		.pipe(gulp.dest("./public/css"));
+		.pipe(gulp.dest("./static/css"));
 });
 
 /*
@@ -58,5 +58,5 @@ gulp.task("client", function () {
         }))
         .on('error', gutil.log))
 		.pipe(!isDev ? gzip() : gutil.noop())
-		.pipe(gulp.dest('./public/js/'));
+		.pipe(gulp.dest('./static/js/'));
 });
