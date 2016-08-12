@@ -52,9 +52,9 @@ module.exports = function(req, res) {
     
     const success = function() {
         // Shuffle array
-        for (var i = codes.length - 1; i > 0; i--) {
-            var j = Math.floor(Math.random() * (i + 1));
-            var temp = codes[i];//te
+        for (let i = codes.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            let temp = codes[i];//te
             codes[i] = codes[j];
             codes[j] = temp;
         }
@@ -74,7 +74,7 @@ module.exports = function(req, res) {
     
     // Add random words to list
     require("request")(
-        config.addresses.randword + config.keys.randword + "?count=" + words,
+        config.addresses.randomWords + "?count=" + words,
         (err, response, body) => {
             JSON.parse(body).words.forEach(word => {
                 codes.push(word);
