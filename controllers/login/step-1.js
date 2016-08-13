@@ -41,8 +41,6 @@ module.exports = function(req, res) {
             
             // Verify password
             bcrypt.compare(req.body.password, rows[0].password, (err, match) => {
-
-                console.log("verify pass", rows[0]);
                 
                 // Password is incorrect
                 // or login was correct but user hit login attempts limit
