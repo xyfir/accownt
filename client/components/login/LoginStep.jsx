@@ -13,7 +13,7 @@ export default class LoginStep extends React.Component {
 		super(props);
 		
 		this.state = {
-			error: false, message: ""
+			error: false, message: "", loginAttempts: 0
 		};
 
 		this.onPasswordless = this.onPasswordless.bind(this);
@@ -59,7 +59,6 @@ export default class LoginStep extends React.Component {
 	}
 	
 	render() {
-		const classn = this.state.error ? "input-error" : "";
 		let userAlert;
 
 		if (this.state.error)
@@ -71,14 +70,32 @@ export default class LoginStep extends React.Component {
 			<div className="form-step">
 				<div className="form-step-header">
 					<h2>Login</h2>
-					<hr />
+					<span className="login-attempts">{
+						this.state.loginAttempts > 0 ? (
+							this.state.loginAttempts >= 5 ? (
+								"You have hit the incorrect login attempt limit. "
+									+ "Please wait 15 minutes."
+							) : (
+								(5 - this.state.loginAttempts) + " login attempt(s) remaining."
+							)
+						) : ""
+					}</span>
 				</div>
 			
 				<div className="form-step-body">
 					{userAlert}
 
-					<input type="email" placeholder="Enter your email" ref="email" className={classn} />
-					<input type="password" ref="password" placeholder="Password" onKeyDown={this.onKeydown} />
+					<input
+						type="email"
+						placeholder="Enter your email"
+						ref="email"
+					/>
+					<input
+						type="password"
+						ref="password"
+						placeholder="Password"
+						onKeyDown={this.onKeydown}
+					/>
 					
 					<a href="#/register">Create Account </a> | 
 					<a href="#/recover"> Account Recovery </a> | 
