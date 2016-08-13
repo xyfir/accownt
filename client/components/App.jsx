@@ -46,6 +46,9 @@ class App extends React.Component {
             
             case "service":
                 return <Service hash={this.state.hash} />;
+
+            default:
+                location.href = "../";
         }
 	}
 	
