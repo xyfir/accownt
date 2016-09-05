@@ -23,7 +23,7 @@ gulp.task("css", function () {
             ap({browsers: "last 1 version, > 10%"}),
             nano({ autoprefixer: false, zindex: false })
         ]))
-		.pipe(!isDev ? gzip() : gutil.noop())
+		//.pipe(!isDev ? gzip() : gutil.noop())
 		.pipe(gulp.dest("./static/css"));
 });
 
@@ -57,6 +57,6 @@ gulp.task("client", function () {
             compress: { unused: false }
         }))
         .on('error', gutil.log))
-		.pipe(!isDev ? gzip() : gutil.noop())
+		//.pipe(!isDev ? gzip() : gutil.noop())
 		.pipe(gulp.dest('./static/js/'));
 });
