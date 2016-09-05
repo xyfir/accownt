@@ -23,7 +23,7 @@ const sessionStore = new Store({
     useConnectionPooling: true
 });
 app.use(session({
-    secret: config.session.secret,
+    secret: config.keys.session,
     store: sessionStore,
     saveUninitialized: true,
     resave: true,
