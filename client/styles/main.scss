@@ -31,23 +31,27 @@ ol {
 
 /* LOGO */
 .logo {
+	
 	border-bottom: solid 0.13em $lblack;
 	width: 80%;
 	margin: auto;
 	margin-bottom: 2em;
 	padding-bottom: 1em;
-}
-.logo > .logo-xyfir {
-	font-size: 275%;
-	font-weight: 700;
-	color: $lblack;
-	display: block;
-	margin-bottom: -0.15em;
-}
-.logo > .logo-accounts {
-	font-size: 225%;
-	color: $blue;
-	border-top: solid;
+
+	.xyfir {
+		font-size: 275%;
+		font-weight: 700;
+		color: $lblack;
+		display: block;
+		margin-bottom: -0.15em;
+	}
+	
+	.accounts {
+		font-size: 225%;
+		color: $blue;
+		border-top: solid;
+	}
+
 }
 
 /* ALERTS */
