@@ -22,7 +22,12 @@ export default class Account extends React.Component {
 	componentWillMount() {
 		request({
 			url: "../api/dashboard/account",
-			success: (result) => this.setState(result)
+			success: (result) => {
+				if (result.loggedIn)
+					this.setState(result);
+				else
+					location.hash = "/login";
+			}
 		});
 	}
 	
