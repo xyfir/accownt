@@ -36,7 +36,7 @@ export default class Services extends React.Component {
 				<div className="service-list">{
 					this.state.services.map(service => {
 						return (
-							<Service id={service.id} update={this.updateServices} />
+							<Service id={service.id} update={this._updateServices} />
 						);
 					})
 				}</div>
