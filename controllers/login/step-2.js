@@ -20,6 +20,7 @@ module.exports = function(req, res) {
                 error: false, loggedIn: true,
                 redirect: req.session.redirect ? req.session.redirect : ""
             });
+            req.session.redirect = "";
         }
     });
     
