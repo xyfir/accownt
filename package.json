@@ -20,7 +20,8 @@
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
     "request": "^2.74.0",
-    "twilio": "^2.10.0"
+    "twilio": "^2.10.0",
+    "validator": "^5.6.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.1",
