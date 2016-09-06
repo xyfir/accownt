@@ -1,5 +1,7 @@
 const db = require("../../lib/db");
 
+const config = require("../../config");
+
 /*
 	GET api/service/:service
 	RETURNED
@@ -8,6 +10,13 @@ const db = require("../../lib/db");
 		Returns to user when linking service to account
 */
 module.exports = function(req, res) {
+
+	if (!req.session.uid) {
+		req.session.redirect = config.addresses.xacc
+			+ "app/#/login/" + req.params.service;
+		res.json(({ error: true, message: "Not logged in" }));
+		return;
+	}
 	
     db(cn => {
 		cn.query("SELECT name, description, info FROM services WHERE id = ?", [req.params.service], (err, rows) => {
