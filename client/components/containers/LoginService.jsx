@@ -23,13 +23,16 @@ export default class LoginService extends React.Component {
 		request({
 			url: "../api/service/" + this.state.service,
 			success: data => {
-				if (data.error && data.message.indexOf("already linked") > -1) {
-					this.createSession();
-				}
-				else {
-					// User hasn't linked service yet
+				// User is not logged in
+				// After login user will be redirect back here
+				if (data.error || data.message == "Not logged in")
+					location.hash = "/login";
+				// Create session
+				else if (data.error && data.message.indexOf("already linked") > -1)
+					this._createSession();
+				// User hasn't linked service yet
+				else
 					location.hash = "/register/" + this.state.service;
-				}
 			}
 		});
 	}
