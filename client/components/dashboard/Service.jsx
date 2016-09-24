@@ -14,10 +14,10 @@ export default class Service extends React.Component {
 
 		this.state = {
 			view: "list", profiles: [], error: false,
-			service: {}, message: ""
+			service: {}, message: "",
+			updateTab: "profile"
 		};
 
-		this.onUpdateService = this.onUpdateService.bind(this);
 		this.onToggleView = this.onToggleView.bind(this);
 		this.onUnlink = this.onUnlink.bind(this);
 		this._update = this._update.bind(this);
@@ -25,6 +25,10 @@ export default class Service extends React.Component {
 	
 	componentWillMount() {
 		this._update();
+	}
+
+	onChangeUpdateTab(view) {
+		this.setState({ updateTab: view });
 	}
 	
 	onToggleView() {
@@ -97,40 +101,17 @@ export default class Service extends React.Component {
 			return (
 				<div className="service-list-view">
 					<h2>{this.state.service.name}</h2>
-					<Button type="secondary" onClick={this.onToggleView}>Edit</Button>
-					<Button type="danger" onClick={this.onUnlink}>Unlink</Button>
+					<Button type="secondary" onClick={this.onToggleView}>
+						<span className="icon-edit" />Edit
+					</Button>
+					<Button type="danger" onClick={this.onUlink}>
+						<span className="icon-delete" />Unlink
+					</Button>
 				</div>
 			);
 		}
 		else {
 			const s = this.state.service;
-			
-			// Build arrays for definition list containing
-			// <required_field><field_description>
-			const requiredInfo = Object.keys(s.info.requested.required).map(key => {
-				return (
-					<dl>
-						<dt>{key}</dt>
-						<dd>{s.info.requested.required[key]}</dd>
-					</dl>
-				);
-			});
-
-			const optionalInfo = Object.keys(s.info.requested.optional).map(key => {
-				return (
-					<dl>
-						<dt>{key}</dt>
-						<dd>{s.info.requested.optional[key]}</dd>
-					</dl>
-				);
-			});
-			
-			// Build array of user"s profiles to select
-			const profiles = this.state.profiles.map(profile => {
-				return (
-					<option value={profile.profile_id}>{profile.name}</option>
-				);
-			});
 			
 			// Create blank form object
 			let form = {
@@ -154,75 +135,174 @@ export default class Service extends React.Component {
 		
 			return (
 				<div className="service-form-view">
-					<h2>{s.name}</h2>
-					<p>{s.description}</p>
-					<a className="link-lg" onClick={this.onToggleView}>Hide Form</a>
+					<a
+						className="icon-close"
+						onClick={this.onToggleView}
+						title="Close Form"
+					/>
+
+					<h2 className="service-name">{s.name}</h2>
+					<p className="service-description">{s.description}</p>
 					
 					{userAlert}
+				
+					<section className="service-info">
+						<div className="required">
+							<span className="title">Required Information</span>
+							{Object.keys(s.info.requested.required).map(key => {
+								return (
+									<dl>
+										<dt>{key}</dt>
+										<dd>{s.info.requested.required[key]}</dd>
+									</dl>
+								);
+							})}
+						</div>
+						
+						<div className="optional">
+							<span className="title">Optional Information</span>
+							{Object.keys(s.info.requested.optional).length ? (
+								Object.keys(s.info.requested.optional).map(key => {
+									return (
+										<dl>
+											<dt>{key}</dt>
+											<dd>{s.info.requested.optional[key]}</dd>
+										</dl>
+									);
+								})
+							) : (
+								"None"
+							)}
+						</div>
+					</section>
 
-					<hr />
-				
-					<div className="service-info service-info-required">
-						<h4>required information:</h4>
-						{requiredInfo}
-					</div>
-					<div className="service-info service-info-optional">
-						{optionalInfo.length > 0 ? <h4>optional information:</h4> : ""}
-						{optionalInfo}
-					</div>
-					
-					<Button onClick={this.onUpdateService}>Update Service</Button>
-					
-					<hr />
-					
-					<h2>Load Data From Profile</h2>
-					<p>Choose a profile and {s.name} will automatically access information you allow from the profile.</p>
-					
-					<select
-						ref="profile"
-						className="profile-selector"
-						defaultValue={loadFromProfile ? s.info.provided.profile : 0}
-					>
-						<option value="0">-</option>
-						{profiles}
-					</select>
-					<input
-						type="checkbox"
-						ref="profile_allow_required"
-						defaultChecked={loadFromProfile}
-					/>Allow Access to Required Data
-					<input
-						type="checkbox"
-						ref="profile_allow_optional"
-						defaultChecked={loadFromProfile && s.info.provided.optional == "true" ? true: false}
-					/>Allow Access to Optional Data
-					
-					<h3>~~ or ~~</h3>
-					
-					<h2>Set Custom Data</h2>
-					<p>Set data that only this service will be able to access.</p>
-				
-					<input type="email" placeholder="Email" ref="email" defaultValue={form.email} /> 
-					
-					<br />
-					
-					<input type="text" placeholder="First Name" ref="fname" defaultValue={form.fname} />
-					<input type="text" placeholder="Last Name" ref="lname" defaultValue={form.lname} />
-					<select ref="gender" defaultValue={form.gender}>
-						<option value="0">-</option>
-						<option value="1">Male</option>
-						<option value="2">Female</option>
-						<option value="3">Other</option>
-					</select>
-					<input type="tel" placeholder="Phone Number" ref="phone" defaultValue={form.phone} />
-					<input type="text" placeholder="Birthdate (2020-07-31)" ref="birthdate" defaultValue={form.birthdate} />
-					
-					<br />
-					
-					<input type="text" placeholder="Address" ref="address" defaultValue={form.address} />
-					<input type="number" placeholder="Zip" ref="zip" defaultValue={form.zip} />
-					<input type="text" placeholder="Region/State/Province" ref="region" defaultValue={form.region} />
-					<input type="text" placeholder="Country (US/CA/UK/etc)" ref="country" defaultValue={form.country} />
+					<section className="update-service">
+						<nav className="nav-bar">
+							<a onClick={() => this.onChangeUpdateTab("profile")}>
+								Load Data From Profile
+							</a>
+							<a onClick={() => this.onChangeUpdateTab("custom")}>
+								Set Custom Data
+							</a>
+						</nav>
+
+						{this.state.updateTab == "profile" ? (
+							<div className="profile">
+								<p>
+									Choose a profile and {s.name} will automatically access information you allow from the profile.
+								</p>
+								
+								<select
+									ref="profile"
+									className="profile-selector"
+									defaultValue={loadFromProfile ? s.info.provided.profile : 0}
+								>
+									<option value="0">-</option>
+									{this.state.profiles.map(profile => {
+										return (
+											<option value={profile.profile_id}>{profile.name}</option>
+										);
+									})}
+								</select>
+								<input
+									type="checkbox"
+									ref="profile_allow_required"
+									defaultChecked={loadFromProfile}
+								/>Allow Access to Required Data
+								<input
+									type="checkbox"
+									ref="profile_allow_optional"
+									defaultChecked={
+										loadFromProfile && s.info.provided.optional == "true"
+										? true: false
+									}
+								/>Allow Access to Optional Data
+							</div>
+						) : this.state.updateTab == "custom" ? (
+							<div className="custom">
+								<p>Set data that only this service will be able to access.</p>
+							
+								<label>Email</label>
+								<input
+									type="email"
+									ref="email"
+									defaultValue={form.email}
+								/> 
+								
+								<br />
+								
+								<label>First Name</label>
+								<input
+									type="text"
+									ref="fname"
+									defaultValue={form.fname}
+								/>
+								
+								<label>Last Name</label>
+								<input
+									type="text"
+									ref="lname"
+									defaultValue={form.lname}
+								/>
+								
+								<label>Gender</label>
+								<select ref="gender" defaultValue={form.gender}>
+									<option value="0">-</option>
+									<option value="1">Male</option>
+									<option value="2">Female</option>
+									<option value="3">Other</option>
+								</select>
+								
+								<label>Phone #</label>
+								<input
+									type="tel"
+									ref="phone"
+									defaultValue={form.phone}
+								/>
+								
+								<label>Birthdate</label>
+								<input
+									type="text"
+									ref="birthdate"
+									defaultValue={form.birthdate}
+								/>
+								
+								<br />
+								
+								<label>Address</label>
+								<input
+									type="text"
+									ref="address"
+									defaultValue={form.address}
+								/>
+								
+								<label>Zip Code</label>
+								<input
+									type="number"
+									ref="zip"
+									defaultValue={form.zip}
+								/>
+								
+								<label>State/Province/Region Code</label>
+								<input
+									type="text"
+									ref="region"
+									defaultValue={form.region}
+								/>
+								
+								<label>Country Code</label>
+								<input
+									type="text"
+									ref="country"
+									defaultValue={form.country}
+								/>
+							</div>
+						) : (
+							<div />
+						)}
+
+						<Button onClick={() => this.onUpdateService()}>Update Service</Button>
+					</section>
 				</div>
 			);
 		}
