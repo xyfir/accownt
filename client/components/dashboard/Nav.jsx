@@ -4,22 +4,32 @@ export default class Nav extends React.Component {
 	
 	constructor(props) {
 		super(props);
-
-		this.onClick = this.onClick.bind(this);
-	}
-
-	onClick() {
-		location.hash = "/dashboard/" + this.props.children.toLowerCase();
 	}
 
 	render() {
-		const active = this.props.children.toLowerCase() == this.props.active
-			? " dashboard-nav-active" : "";
-	
 		return (
-			<div className={"col-sm-12" + active} onClick={this.onClick}>
-				{this.props.children}
-			</div>
+			<nav className="dashboard-nav">
+				<a
+					href="#/dashboard/account"
+					className={this.props.active == "account" ? "active" : ""}
+				>Account</a>
+				<a
+					href="#/dashboard/security"
+					className={this.props.active == "security" ? "active" : ""}
+				>Security</a>
+				<a
+					href="#/dashboard/profiles"
+					className={this.props.active == "profiles" ? "active" : ""}
+				>Profiles</a>
+				<a
+					href="#/dashboard/services"
+					className={this.props.active == "services" ? "active" : ""}
+				>Services</a>
+				<a
+					href="#/dashboard/ads"
+					className={this.props.active == "ads" ? "active" : ""}
+				>Ads</a>
+			</nav>
 		);
 	}
 	
