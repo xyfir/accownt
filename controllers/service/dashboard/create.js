@@ -40,8 +40,7 @@ module.exports = function(req, res) {
 				address: req.body.link,
 				owner: req.session.uid,
 				xyfir: req.session.uid < 1000,
-				description: req.body.description,
-				service_key: randomstring.generate(20)
+				description: req.body.description
 			};
 			
 			cn.query(sql, data, (err, result) => {
