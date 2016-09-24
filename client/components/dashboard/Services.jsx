@@ -29,10 +29,7 @@ export default class Services extends React.Component {
 	
 	render() {
 		return (
-			<div className="dashboard-body col-sm-12 col-md-8">
-				<h2>Services</h2>
-				<hr />
-			
+			<div className="dashboard-body dashboard-services">
 				<div className="service-list">{
 					this.state.services.map(service => {
 						return (
