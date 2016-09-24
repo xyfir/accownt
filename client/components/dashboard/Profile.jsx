@@ -75,8 +75,12 @@ export default class Profile extends React.Component {
 			return (
 				<div className="profile-list-view">
 					<h2>{this.state.profile.name}</h2>
-					<Button type="secondary" onClick={this.onToggleView}>Edit</Button>
-					<Button type="danger" onClick={this.onDeleteProfile}>Delete</Button>
+					<Button type="secondary" onClick={this.onToggleView}>
+						<span className="icon-edit" />Edit
+					</Button>
+					<Button type="danger" onClick={this.onDeleteProfile}>
+						<span className="icon-delete" />Delete
+					</Button>
 				</div>
 			);
 		}
@@ -85,32 +89,57 @@ export default class Profile extends React.Component {
 		
 			return (
 				<div className="profile-form-view">
-					<h2>{p.name}</h2>
-					<a className="link-lg" onClick={this.onToggleView}>Hide Form</a>
-					<hr />
+					<a
+						className="icon-close"
+						onClick={this.onToggleView}
+						title="Close Form"
+					/>
+
+					<h2 className="profile-name">{p.name}</h2>
 				
-					<input type="text" placeholder="Profile Name" ref="name" defaultValue={p.name} />
-					<input type="email" placeholder="Email" ref="email" defaultValue={p.email} />
+					<label>Profile Name</label>
+					<input type="text" ref="name" defaultValue={p.name} />
+					
+					<label>Email</label>
+					<input type="email" ref="email" defaultValue={p.email} />
 					
 					<br />
 					
-					<input type="text" placeholder="First Name" ref="fname" defaultValue={p.fname} />
-					<input type="text" placeholder="Last Name" ref="lname" defaultValue={p.lname} />
+					<label>First Name</label>
+					<input type="text" ref="fname" defaultValue={p.fname} />
+					
+					<label>Last Name</label>
+					<input type="text" ref="lname" defaultValue={p.lname} />
+					
+					<label>Gender</label>
 					<select ref="gender" defaultValue={p.gender}>
 						<option value="0">-</option>
 						<option value="1">Male</option>
 						<option value="2">Female</option>
 						<option value="3">Other</option>
 					</select>
-					<input type="tel" placeholder="Phone Number" ref="phone" defaultValue={p.phone} />
-					<input type="text" placeholder="Birthdate (2020-07-31)" ref="birthdate" defaultValue={p.birthdate} />
+					
+					<label>Phone #</label>
+					<input type="tel" ref="phone" defaultValue={p.phone} />
+					
+					<label>Birthdate</label>
+					<input type="text" ref="birthdate" defaultValue={p.birthdate} />
 					
 					<br />
 					
-					<input type="text" placeholder="Address" ref="address" defaultValue={p.address} />
-					<input type="number" placeholder="Zip" ref="zip" defaultValue={p.zip} />
-					<input type="text" placeholder="Region/State/Province" ref="region" defaultValue={p.region} />
-					<input type="text" placeholder="Country (US/CA/UK/etc)" ref="country" defaultValue={p.country} />
+					<label>Address</label>
+					<input type="text" ref="address" defaultValue={p.address} />
+					
+					<label>Zip Code</label>
+					<input type="number" ref="zip" defaultValue={p.zip} />
+					
+					<label>State/Province/Region Code</label>
+					<input type="text" ref="region" defaultValue={p.region} />
+					
+					<label>Country Code</label>
+					<input type="text" ref="country" defaultValue={p.country} />
+
+					<br />
 					
 					<Button onClick={this.onUpdateProfile}>Update Profile</Button>
 				</div>
