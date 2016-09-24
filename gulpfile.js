@@ -60,3 +60,14 @@ gulp.task("client", function () {
 		//.pipe(!isDev ? gzip() : gutil.noop())
 		.pipe(gulp.dest('./static/js/'));
 });
+
+/*
+	fontello
+    - get font and css files from fontello
+    - place in ./static/fontello
+*/
+gulp.task("fontello", function() {
+    return gulp.src("fontello.json")
+        .pipe(require("gulp-fontello")())
+        .pipe(gulp.dest("./static/fontello"));
+});
