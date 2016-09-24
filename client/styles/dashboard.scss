@@ -206,11 +206,17 @@ nav.nav-bar {
     margin-top: 1em;
 }
 
+.service-view {
+    
+    input.service-key {
+        display: inline;
+    }
+
+    ol {
+        margin: auto;
+    }
+
+}
 table.requested-info, table.requested-data {
   margin: auto;
-}
-.service-key {
-    display: block;
-    margin-top: -0.8em;
-    margin-bottom: 0.5em;
 }
