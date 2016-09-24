@@ -34,13 +34,7 @@ export default class Dashboard extends React.Component {
 		
 		return (
 			<div className="dashboard">
-				<nav className="dashboard-nav col-sm-12 col-md-3">
-					<Nav active={this.props.hash[2] || "account"}>Account</Nav>
-					<Nav active={this.props.hash[2]}>Security</Nav>
-					<Nav active={this.props.hash[2]}>Profiles</Nav>
-					<Nav active={this.props.hash[2]}>Services</Nav>
-					<Nav active={this.props.hash[2]}>Ads</Nav>
-				</nav>
+				<Nav active={this.props.hash[2] || "account"} />
 				
 				{view}
 			</div>
