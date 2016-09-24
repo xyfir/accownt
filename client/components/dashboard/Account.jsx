@@ -64,7 +64,7 @@ export default class Account extends React.Component {
 			userAlert = <Alert type="success" title="Success!">{this.state.message}</Alert>;
 		
 		return (
-			<div className="dashboard-body col-sm-12 col-md-8">
+			<div className="dashboard-body dashboard-account">
 				{userAlert}
 				
 				<h3 style={{marginBottom:"0em"}}>{this.state.email}</h3>
