@@ -10,7 +10,7 @@ export default class View extends React.Component {
 
 		this.state = {
 			id: 0, name: "", description: "", info: "",
-			owner: 0, address: "", service_key: ""
+			owner: 0, address: "", keys: []
 		};
 
 		this.onGenerateKey = this.onGenerateKey.bind(this);
@@ -31,9 +31,24 @@ export default class View extends React.Component {
 	onGenerateKey() {
 		request({
 			url: "../api/service/dashboard/" + this.props.id + "/key",
-			method: "PUT", success: (res) => {
+			method: "POST", success: (res) => {
 				if (!res.error) {
-					this.setState({ service_key: res.key });
+					this.setState({
+						keys: this.state.keys.concat([res.key])
+					});
+				}
+			}
+		});
+	}
+
+	onDeleteKey(key) {
+		request({
+			url: "../api/service/dashboard/" + this.props.id + "/key",
+			method: "DELETE", data: {key}, success: (res) => {
+				if (!res.error) {
+					this.setState({
+						keys: this.state.keys.filter(k => k != key)
+					});
 				}
 			}
 		});
@@ -61,7 +76,7 @@ export default class View extends React.Component {
 		}
 	
 		return (
-			<div>
+			<div className="service-view">
 				<h2>{this.state.name} ({this.state.id})</h2>
 				<p>{this.state.description}</p>
 				<a href={this.state.address}>{this.state.address}</a>
@@ -78,8 +93,24 @@ export default class View extends React.Component {
 
 				<hr />
 
-				<h3>Service Key</h3>
-				<span className="service-key">{this.state.service_key}</span>
+				<label>Service Keys</label>
+				<ol>{this.state.keys.map(k => {
+					return (
+						<li>
+							<input
+								type="text"
+								value={k}
+								onClick={(e) => e.target.select()}
+								className="service-key"
+							/>
+							<a
+								title="Delete Service Key"
+								onClick={() => this.onDeleteKey(k)}
+								className="icon-delete"
+							/>
+						</li>
+					);
+				})}</ol>
 				<a onClick={this.onGenerateKey}>Generate New Service Key</a>
 			</div>
 		);
