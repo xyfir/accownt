@@ -14,8 +14,14 @@ const db = require("../../lib/db");
 */
 module.exports = function(req, res) {
 
-	let sql = "SELECT id FROM services WHERE id = ? AND service_key = ?";
-	let vars = [req.params.service, req.params.key];
+	let sql = `
+		SELECT id FROM services WHERE id IN (
+			SELECT service_id FROM service_keys
+			WHERE service_id = ? AND service_key = ?
+		)
+	`, vars = [
+		req.params.service, req.params.key
+	];
 
     db(cn => cn.query(sql, vars, (err, rows) =>{
 		if (err || !rows.length) {
