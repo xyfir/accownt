@@ -134,8 +134,7 @@ export default class Ads extends React.Component {
 		};
 		
 		return (
-			<div className="dashboard-body col-sm-12 col-md-8">
-				<h3>Ad Profile</h3>
+			<div className="dashboard-body dashboard-ads">
 				<p>
 					Your ad profile is utilized across the Xyfir Network to help serve you more personalized ads that you may be interested in.
 					<br />
@@ -179,8 +178,12 @@ export default class Ads extends React.Component {
 					})
 				}</div>
 				
-				<Button type="primary btn-sm" onClick={this.onAddCategory}>Add</Button>
-				<Button type="primary btn-sm" onClick={this.onResetCategories}>Reset</Button>
+				<Button type="secondary btn-sm" onClick={this.onAddCategory}>
+					Add
+				</Button>
+				<Button type="danger btn-sm" onClick={this.onResetCategories}>
+					Reset
+				</Button>
 				
 				<div className="categories">{
 					this.state.setCategories.map(category => {
@@ -189,7 +192,7 @@ export default class Ads extends React.Component {
 				}</div>
 				
 				<Button onClick={this.onUpdate}>Update Profile</Button>
-				<Button onClick={this.onReset}>Reset Profile</Button>
+				<Button type="danger" onClick={this.onReset}>Reset Profile</Button>
 			</div>
 		);
 	}
