@@ -53,7 +53,8 @@ router.post("/service/dashboard", require("./service/dashboard/create"));
 router.put("/service/dashboard/:id", require("./service/dashboard/edit"));
 router.delete("/service/dashboard/:id", require("./service/dashboard/remove"));
 router.get("/service/dashboard/:id", require("./service/dashboard/get-single"));
-router.put("/service/dashboard/:id/key", require("./service/dashboard/generate-key"));
+router.post("/service/dashboard/:id/key", require("./service/dashboard/generate-key"));
+router.delete("/service/dashboard/:id/key", require("./service/dashboard/delete-key"));
 
 /* Service */
 router.get("/service/:service", require("./service/info"));
