@@ -2,25 +2,40 @@ const randomstring = require("randomstring");
 const db = require("../../../lib/db");
 
 /*
-	PUT api/service/dashboard/:id/key
+	POST api/service/dashboard/:id/key
 	RETURNED
 		{ error: boolean, key?: string }
 	DESCRIPTION
-		Regenerate service's private key
+		Generate a new service key for service
 */
 module.exports = function(req, res) {
 	
-    const key  = randomstring.generate(20);
-    const sql  = "UPDATE services SET service_key = ? WHERE id = ? AND owner = ?";
-    const vars = [key, req.params.id, req.session.uid];
+    const key = randomstring.generate(20);
+    
+    let sql  = `
+        SELECT * FROM services WHERE id = ? AND owner = ?
+    `, vars = [
+        req.params.id, req.session.uid
+    ];
 
-    db(cn => cn.query(sql, vars, (err, result) => {
-        cn.release();
-        
-        if (err | !result.affectedRows)
+    db(cn => cn.query(sql, vars, (err, rows) => {
+        if (err || !rows.length) {
+            cn.release();
             res.json({ error: true });
-        else
-            res.json({ error: false, key });
+        }
+        else {
+            sql = "INSERT INTO service_keys (service_id, service_key) VALUES (?, ?)";
+            vars = [req.params.id, key];
+
+            cn.query(sql, vars, (err, result) => {
+                cn.release();
+
+                if (err || !result.affectedRows)
+                    res.json({ error: true });
+                else
+                    res.json({ error: false, key });
+            });
+        }
     }));
 
 }
