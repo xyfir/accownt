@@ -86,7 +86,6 @@ export default class Login extends React.Component {
 				<div className="form-step">
 					<div className="form-step-body">
 						{sms}
-						{steps > 1 ? <hr /> : ""}
 						{code}
 					</div>
 					<Button onClick={this.onVerify}>Login</Button>
