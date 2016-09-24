@@ -38,13 +38,13 @@ export default class List extends React.Component {
 								onClick={() => {
 									location.hash = "/service/dashboard/" + service.id + "/edit";
 								}}
-							>Edit</Button>
+							><span className="icon-edit" />Edit</Button>
 							<Button
 								type="danger"
 								onClick={() => {
 									location.hash = "/service/dashboard/" + service.id + "/delete";
 								}}
-							>Delete</Button>
+							><span className="icon-delete" />Delete</Button>
 						</div>
 					);
 				})
