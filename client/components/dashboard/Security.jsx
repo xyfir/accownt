@@ -112,27 +112,28 @@ export default class Security extends React.Component {
 		else if (this.state.message)
 			userAlert = <Alert type="success" title="Success!">{this.state.message}</Alert>;
 		
-		// Create list of codes
-		let codes = "";
-		if (this.state.codes) {
-			codes = [];
-			this.state.codes.split(",").forEach(code => {
-				codes.push(<li>{code}</li>);
-			});
-		}
-		
 		return (
-			<div className="dashboard-body col-sm-12 col-md-8">
+			<div className="dashboard-body dashboard-security">
 				{userAlert}
 				
-				<div>
+				<section className="2fa">
 					<h2>Two Factor Authentication</h2>
-					<p>Upon login and account recovery we will send a code to your phone via SMS.</p>
+					<p>
+						Upon login and account recovery we will send a code to your phone via SMS.
+					</p>
 					
-					<input type="tel" ref="phone" placeholder={this.state.phone > 0 ? this.state.phone : "Phone #"} />
+					<label>Phone #</label>
+					<input
+						ref="phone"
+						type="tel"
+						defaultValue={this.state.phone > 0 ? this.state.phone : ""}
+					/>
 					
 					{this.state.verifyingSms ? (
-						<input type="text" ref="smsCode" placeholder="Code" />
+						<div>
+							<label>Verification Code</label>
+							<input type="text" ref="smsCode" />
+						</div>
 					) : (
 						<span />
 					)}
@@ -140,15 +141,19 @@ export default class Security extends React.Component {
 					<Button onClick={this.onUpdatePhone}>
 						{this.state.verifyingSms ? "Verify Code" : "Update Phone"}
 					</Button>
-				</div>
+				</section>
 				
-				<hr />
-				
-				<div>
+				<section className="security-codes">
 					<h2>Security Codes</h2>
-					<p>A numbered list of 5-20 randomly generated words and/or numbers. On login and account recovery a specific code must be entered.</p>
+					<p>
+						A numbered list of 5-20 randomly generated words and/or numbers. On login and account recovery a specific code must be entered.
+					</p>
 					
-					<ol>{codes}</ol>
+					<ol>{
+						this.state.codes.split(",").map(code => {
+							return <li>{code}</li>;
+						})
+					}</ol>
 					
 					<label>Code Type</label>
 					<select ref="codeType">
@@ -158,14 +163,17 @@ export default class Security extends React.Component {
 					</select>
 					
 					<label>How Many?</label>
-					<input type="number" ref="codeCount" placeholder="10" />
+					<input
+						type="number"
+						ref="codeCount"
+						max="20"
+						min="5"
+					/>
 					
 					<Button onClick={this.onGenerateCodes}>Generate Codes</Button>
-				</div>
+				</section>
 				
-				<hr />
-				
-				<div>
+				<section className="ip-whitelist">
 					<h2>IP Whitelist</h2>
 					<p>
 						Only allow logins from a list of whitelisted IP addresses.
@@ -180,13 +188,11 @@ export default class Security extends React.Component {
 					/>
 					
 					<Button onClick={this.onUpdateWhitelist}>Update Whitelist</Button>
-				</div>
+				</section>
 				
-				<hr />
-				
-				<div>
+				<section className="passwordless-login">
 					<h2>Passwordless Login</h2>
-					<p>Login with a link sent to your email or phone.</p>
+					<p>Login via a link sent to your email or phone.</p>
 					
 					<select ref="passwordless">
 						<option value="0">Disabled</option>
@@ -196,7 +202,7 @@ export default class Security extends React.Component {
 					</select>
 					
 					<Button onClick={this.onUpdatePasswordless}>Update</Button>
-				</div>
+				</section>
 			</div>
 		);
 	}
