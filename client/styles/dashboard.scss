@@ -1,68 +1,183 @@
-.dashboard-nav {
-  padding: 0.4em;
-  text-align: center;
+nav.dashboard-nav {
+    
+    padding: 0.4em;
+    text-align: center;
+    background-color: $llgray;
+
+    a {
+        font-size: 1.5em;
+        margin: 0.3em;
+        padding: 0.2em;
+        cursor: pointer;
+    }
+
+    a:hover {
+        color: $blue;
+        background-color: $lgray;
+    }
+
+    a.active, a.active:hover {
+        background-color: $lblack;
+        color: white;
+    }
+
 }
-.dashboard-nav > .col-sm-12 {
-  background-color: #eee;
-  font-size: 2em;
-  margin: 0.3em;
-  padding: 0.2em;
+
+.dashboard-body {
+
+    h2 {
+        margin-bottom: -0.5em;
+    }
+
+    label {
+        display: block;
+        margin: auto;
+    }
+
 }
-.dashboard-nav > .col-sm-12:hover {
-  background-color: #ddd;
+
+.dashboard-security {
+
+    section {
+        border-bottom: solid $llgray 0.2em;
+        padding-bottom: 1em;
+    }
+
 }
-.dashboard-nav > .dashboard-nav-active:hover, .dashboard-nav > .dashboard-nav-active {
-  background-color: #212121;
-  color: #fff;
+
+.dashboard-profiles, .dashboard-services {
+
+    .profile-form-view, .service-form-view {
+
+        position: relative;
+
+        h2.profile-name {
+            border-bottom: solid 0.1em $llgray;
+            margin-bottom: 1em;
+        }
+
+        .icon-close {
+            position: absolute;
+            right: 2%;
+            top: 2%;
+        }
+
+    }
+
+}
+
+.dashboard-services {
+
+    .service-form-view {
+
+        section.service-info {
+            
+            border-bottom: solid 0.2em $llgray;
+            border-top: solid 0.2em $llgray;
+
+
+            .required, .optional {
+
+                .title {
+                    font-weight: bold;
+                }
+
+                dl {
+                    
+                    margin: 0em;
+
+                    dt {
+                        margin-right: 0.5em;
+                    }
+                    dt, dd {
+                        display: inline;
+                    }
+                    dt::after {
+                        content: ":"
+                    }
+                    dd {
+                        margin-left: 0em;
+                    }
+
+                }
+
+            }
+
+        }
+
+        section.update-service {
+
+            button {
+                margin: 1em;
+            }
+
+        }
+
+    }
+
+}
+
+nav.nav-bar {
+    
+    padding: 1em;
+    background-color: $lllgray;
+    margin: 1em auto;
+    border: 0.1em solid $llgray;
+    width: 75%;
+
+    a {
+        margin: 1em;
+        font-size: 110%;
+    }
+
+}
+
+.modal {
+
+    position: fixed;
+    background-color: white;
+    top: 15%;
+    left: 15%;
+    right: 15%;
+    bottom: 15%;
+    overflow-y: auto;
+    z-index: 1;
+    border: solid 0.1em $llgray;
+    padding: 1em;
+    box-shadow: 0.1em 0.1em 0.3em $black;
+
+    .icon-close {
+        position: absolute;
+        right: 2%;
+        top: 2%;
+    }
+
 }
 
 .profile-list-view, .service-list-view {
-  display: table;
+    display: table;
 }
 .profile-list-view > *, .service-list-view > * {
-  display: table-cell;
-  padding: 0.5em;
+    display: table-cell;
+    padding: 0.5em;
 }
 .profile-list-view > h2, .service-list-view > h2 {
-  border-right: 1px solid #ddd;
-  min-width: 13em;
+    border-right: 1px solid #ddd;
+    min-width: 13em;
 }
 .profile-list-view, .profile-form-view, .service-list-view, .service-form-view {
-  border: 1px solid #ddd;
-  margin: 1em auto;
-  padding: 1em;
-  width: 80%;
+    border: 1px solid #ddd;
+    margin: 1em auto;
+    padding: 0.5em;
+    width: 80%;
 }
 .profile-selector {
-  height: 2.5em;
-  width: 18em;
-  font-size: 125%;
-  margin: 1em auto;
+    height: 2.5em;
+    width: 18em;
+    font-size: 125%;
+    margin: 1em auto;
 }
 
-.service-info > h4 {
-  margin-bottom: -0.5em;
-}
-.service-info > dl > dt {
-  font-weight: 700;
-}
-.service-info > dl > dd {
-  margin-left: 0px;
-}
-.service-info > dl > dt::after {
-  content: ":"
-}
-.service-info-required > h4 {
-  color: #F00;
-}
-.service-info-optional > h4 {
-  color: #777;
-}
-
-.dashboard-body > label {
-  display: block;
-  margin: auto;
-}
 .search-results, .categories {
   margin: 1em;
 }
