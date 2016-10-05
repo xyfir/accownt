@@ -1,8 +1,11 @@
-const express = require('express');
-const session = require('express-session');
-const parser = require('body-parser');
-const config = require('./config');
-const Store = require('express-mysql-session');
+require("app-module-path").addPath(__dirname);
+
+const express = require("express");
+const session = require("express-session");
+const parser = require("body-parser");
+const Store = require("express-mysql-session");
+
+const config = require("config");
 
 let app = express();
 
