@@ -1,19 +1,25 @@
-const db = require("../../lib/db");
+const validateToken = require("lib/tokens/validate");
+const generateToken = require("lib/tokens/generate");
+const db = require("lib/db");
 	
 /*
 	GET api/service/:service/:key/:xid/:token
 	RETURNED
-		{ error: true } || { xadid?: string[, fname,country,...] }
+		{
+			error: boolean, message?: string,
+			xadid?: string,
+			accessToken?: string?
+			fname, country, ...
+		}
 	DESCRIPTION
-		Called by service upon successful login
+		Called by service upon successful login OR with access token to start new session
 		Returns xadid and info required/optional data provided by user
-		-
-		Check :service / :key
-		Check :service / :xid
-		Check :xid's uid / :token 
+		:token can be authorization (starts with 1) or access token (starts with 2)
+		Generates and returns an access token if :token starts with 1 
 */
 module.exports = function(req, res) {
 
+	// Verify service exists and service key is valid
 	let sql = `
 		SELECT id FROM services WHERE id IN (
 			SELECT service_id FROM service_keys
@@ -26,45 +32,70 @@ module.exports = function(req, res) {
     db(cn => cn.query(sql, vars, (err, rows) =>{
 		if (err || !rows.length) {
 			cn.release();
-			res.json({ error: true });
-			return;
+			res.json({
+				error: true, message: "Service id and key do not match"
+			}); return;
 		}
 
-		// Check if xid+serviceid matches
+		// Check if xid matches service
 		sql = "SELECT user_id, info FROM linked_services WHERE service_id = ? AND xyfir_id = ?";
 		vars = [req.params.service, req.params.xid];
 
 		cn.query(sql, vars, (err, rows) => {
-			if (err || rows.length == 0) {
+			if (err || !rows.length) {
 				cn.release();
-				res.json({error: true});
-				return;
+				res.json({
+					error: true, message: "Xyfir ID not linked to service"
+				}); return;
 			}
 			
 			const uid = rows[0].user_id;
-			const getXADID = function(fn) {
+
+			// Get user's Xyfir Ads profile id
+			// Generate access token if needed
+			// Return info to user
+			const finish = function(data) {
 				cn.query("SELECT xad_id FROM users WHERE id = ?", [uid], (err, rows) => {
 					cn.release();
-					fn(rows[0].xad_id);
+					
+					data.xadid = rows[0].xad_id;
+					data.error = false;
+
+					// Generate access token
+					if (req.params.token.substr(0, 1) == 1) {
+						generateToken({
+							user: uid, service: req.params.service, type: 2
+						}, token => {
+							data.accessToken = token;
+							res.json(data);
+						});
+					}
+					// User already has access token
+					else {
+						res.json(data);
+					}
 				});
 			};
 			
-			// Check if auth token is valid
-			require("../../lib/auth/validateToken")
-			([rows[0].user_id, req.params.service], req.params.token, isValid => {
+			// Check if authentication/access token is valid
+			validateToken({
+				user: uid, service: req.params.service,
+				token: req.params.token
+			}, isValid => {
 				if (!isValid) {
-					res.json({error: true});
+					res.json({ error: true, message: "Invalid token" });
 					return;
 				}
 				
 				// Grab info that user provided to service
 				let data = JSON.parse(rows[0].info);
 				
+				// Pull data for service from profile
 				if (data.profile) {
+					// Grab requested info from service
 					sql = "SELECT info FROM services WHERE id = ?";
 					vars = [req.params.service];
 
-					// Grab requested info from service
 					cn.query(sql, vars, (err, rows) => {
 						let requested = JSON.parse(rows[0].info);
 						
@@ -96,20 +127,13 @@ module.exports = function(req, res) {
 								}
 							}
 							
-							getXADID(xadid => {
-								provided.xadid = xadid;
-								res.json(provided);
-							});
+							finish(provided);
 						});
 					});
 				}
+				// User provided custom data for service
 				else {
-					getXADID(xadid => {
-						data.xadid = xadid;
-						
-						// Return custom data
-						res.json(data);
-					});
+					finish(data);
 				}
 			});
 		});
