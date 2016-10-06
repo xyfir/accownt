@@ -117,6 +117,36 @@ nav.dashboard-nav {
 
 }
 
+.dashboard-tokens {
+
+    .token {
+
+        margin: 1em;
+        padding: 1em;
+        background-color: $llgray;
+
+        dl {
+            
+            margin: 0em;
+
+            dt {
+                font-weight: bold;
+            }
+
+            dd {
+                margin: 0em;
+            }
+
+        }
+
+        button {
+            margin-top: 1em;
+        }
+
+    }
+
+}
+
 nav.nav-bar {
     
     padding: 1em;
