@@ -16,40 +16,55 @@ ol {
 }
 
 /* FOOTER */
-.footer {
-	border-top: solid .13em $lblack;
-	padding-top: 1em;
-	margin-top: 5em;
-}
-.footer > a {
-	margin: auto 0.5em;
-}
-.footer > span {
-	display: block;
-	margin-top: 0.5em;
-}
-
-/* LOGO */
-.logo {
+footer {
 	
-	border-bottom: solid 0.13em $lblack;
-	width: 80%;
-	margin: auto;
-	margin-bottom: 2em;
-	padding-bottom: 1em;
+	background-color: $llgray;
+	position: fixed;
+	left: 0%;
+	right: 0%;
+	bottom: 0%;
+	padding: 0.2em;
 
-	.xyfir {
-		font-size: 275%;
-		font-weight: 700;
-		color: $lblack;
-		display: block;
-		margin-bottom: -0.15em;
+	a {
+		margin: 0.5em;
 	}
-	
-	.accounts {
-		font-size: 225%;
-		color: $blue;
-		border-top: solid;
+
+}
+
+/* HEADER */
+header {
+
+	nav {
+		
+		position: fixed;
+		top: 0%;
+		left: 0%;
+		right: 0%;
+		background-color: $llgray;
+		padding: 0.5em;
+
+		a {
+			margin: 0.5em;
+		}
+
+		.logo {
+		
+			font-size: 125%;
+			position: fixed;
+			margin: 0em;
+			left: 5%;
+
+			.xyfir {
+				font-weight: 700;
+				color: $lblack;
+			}
+			
+			.accounts {
+				color: $blue;
+			}
+
+		}
+
 	}
 
 }
@@ -205,11 +220,7 @@ label {
 #content {
 	width: 80%;
 	margin: auto;
-}
-
-/* Home Page */
-.home-nav > .link-lg, .home-for-devs > div > .link-lg {
-	margin: 1em;
+	padding: 2em;
 }
 
 .g-recaptcha {
@@ -218,4 +229,8 @@ label {
 
 .recaptcha-wrapper {
 	text-align: center;
+}
+
+.home-for-users p, .home-for-devs p {
+	margin-top: -1em;
 }
