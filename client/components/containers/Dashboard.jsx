@@ -1,12 +1,13 @@
 import React from "react";
 
 // Components
-import Ads from "../dashboard/Ads";
-import Nav from "../dashboard/Nav";
-import Account from "../dashboard/Account";
-import Profiles from "../dashboard/Profiles";
-import Security from "../dashboard/Security";
-import Services from "../dashboard/Services";
+import Ads from "components/dashboard/Ads";
+import Nav from "components/dashboard/Nav";
+import Account from "components/dashboard/Account";
+import Profiles from "components/dashboard/Profiles";
+import Security from "components/dashboard/Security";
+import Services from "components/dashboard/Services";
+import AccessTokens from "components/dashboard/Tokens";
 
 export default class Dashboard extends React.Component {
 	
@@ -26,6 +27,8 @@ export default class Dashboard extends React.Component {
 				view = <Profiles />; break;
 			case "services":
 				view = <Services />; break;
+			case "tokens":
+				view = <AccessTokens />; break;
 			case "ads":
 				view = <Ads />; break;
 			default:
