@@ -12,6 +12,7 @@
     "app-module-path": "^2.0.0",
     "bcrypt": "^0.8.7",
     "body-parser": "^1.15.2",
+    "cron": "^1.1.0",
     "express": "^4.14.0",
     "express-mysql-session": "^1.2.0",
     "express-session": "^1.14.1",
