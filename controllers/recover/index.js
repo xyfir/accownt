@@ -1,5 +1,4 @@
-const validate = require("../../lib/auth/validateToken");
-const db = require("../../lib/db");
+const validateToken = require("lib/tokens/validate");
 
 /*
     GET api/recover/:uid/:auth
@@ -8,7 +7,9 @@ const db = require("../../lib/db");
 */
 module.exports = function(req, res) {
     
-    validate([req.params.uid], req.params.auth, isValid => {
+    validateToken({
+        user: req.params.uid, token: req.params.auth
+    }, isValid => {
         if (isValid) {
             // Set account_recovery session variable to true
             // When user logs in they can then change password without current

@@ -1,5 +1,5 @@
-const validate = require("../../lib/auth/validateToken");
-const db = require("../../lib/db");
+const validateToken = require("lib/tokens/validate");
+const db = require("lib/db");
 
 /*
     GET api/login/verify-email/:uid/:auth
@@ -8,12 +8,14 @@ const db = require("../../lib/db");
 */
 module.exports = function(req, res) {
 
-    validate([req.params.uid], req.params.auth, isValid => {
+    validateToken({
+        user: req.params.uid, token: req.params.auth
+    }, isValid => {
         if (isValid) {
-            require("../lib/login/doLogin")(req, req.params.uid);
+            require("lib/login/doLogin")(req, req.params.uid);
             
             // Set verified
-            require("../lib/db")(cn => {
+            db(cn => {
                 cn.query("UPDATE users SET verified = ? WHERE id = ?", [1, req.params.uid], (err, result) => {
                     cn.release();
                     
