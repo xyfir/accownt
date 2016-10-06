@@ -1,5 +1,6 @@
+const generateToken = require("lib/tokens/generate");
 const bcrypt = require("bcrypt");
-const db = require("../../lib/db");
+const db = require("lib/db");
 
 /*
     POST api/login
@@ -106,7 +107,9 @@ module.exports = function(req, res) {
                                 };
                                 
                                 // Generate auth token
-                                require("../../lib/auth/generateToken")([uid], token => {
+                                generateToken({
+                                    user: uid, type: 1
+                                }, token => {
                                     response.auth = token;
                                     res.json(response);
                                 });
