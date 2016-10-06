@@ -27,99 +27,94 @@
     </head>
   
     <body>
-        <div id="container" class="container">
-            <div class="logo">
-                <a href="#">
+        <header>
+            <nav>
+                <a class="logo" href="#">
                     <span class="xyfir">XYFIR</span>
                     <span class="accounts">ACCOUNTS</span>
                 </a>
-            </div>
+                <a href="app/#/login" class="link-lg">Sign In</a>
+                <a href="app/#/dashboard" class="link-lg">Dashboard</a>
+                <a href="app/#/service/dashboard" class="link-lg">Service Dashboard</a>
+                <a href="app/#/register" class="link-lg">Register</a>
+            </nav>
+        </header>
+
+        <div id="content">
+            <section class="home-for-users">
+                <h2>For Users</h2>
+
+                <div>
+                    <h3>Control Your Data</h3>
+                    <p>See and control exactly what information each service needs and will access when linking to your Xyfir Account.</p>
+                </div>
+                
+                <div>
+                    <h3>Easy Login</h3>
+                    <p>A couple clicks to authorize a login with a service is all that's needed if you're already logged into your Xyfir Account. No typing!</p>
+                </div>
+
+                <div>
+                    <h3>Profiles</h3>
+                    <p>Create multiple profiles with different information for use with linking to different services.</p>
+                </div>
+                
+                <div>
+                    <h3>Ad Profile</h3>
+                    <p>Control what information is shared across the Xyfir Network and utilized to provide relevant ads for you.</p>
+                </div>
+                
+                <div>
+                    <h3>One Account, Multiple Sites</h3>
+                    <p>Create one account and access the entire Xyfir Network. Also available are any third party sites that allow login with Xyfir Accounts.</p>
+                </div>
+                
+                <div>
+                    <h3>Manage Linked Services</h3>
+                    <p>Modify your data for, see what data is being accessed by, and remove services that are linked to your Xyfir Account.</p>
+                </div>
+                
+                <div>
+                    <h3>Security</h3>
+                    <p>We offer SMS 2-Factor-Authentication, random security codes, IP whitelisting, and more to keep your account secure.</p>
+                </div>
+                
+                <div>
+                    <h3>Passwordless Login</h3>
+                    <p>Simply enable passwordless login, request an authorization link, and click the link sent to you via SMS or email and you're logged in!</p>
+                </div>
+            </section>
             
-            <div id="content">
-                <nav class="home-nav">
-                    <a href="app/#/login" class="link-lg">Sign In</a>
-                    <a href="app/#/dashboard" class="link-lg">Dashboard</a>
-                    <a href="app/#/register" class="link-lg">Register</a>
-                </nav>
-
-                <hr>
-                
-                <section class="home-for-users">
-                    <h2>For Users</h2>
-
-                    <div>
-                        <h3>Control Your Data</h3>
-                        <p>See and control exactly what information each service needs and will access when linking to your Xyfir Account.</p>
-                    </div>
-                    
-                    <div>
-                        <h3>Easy Login</h3>
-                        <p>A couple clicks to authorize a login with a service is all that's needed if you're already logged into your Xyfir Account. No typing!</p>
-                    </div>
-
-                    <div>
-                        <h3>Profiles</h3>
-                        <p>Create multiple profiles with different information for use with linking to different services.</p>
-                    </div>
-                    
-                    <div>
-                        <h3>Ad Profile</h3>
-                        <p>Control what information is shared across the Xyfir Network and utilized to provide relevant ads for you.</p>
-                    </div>
-                    
-                    <div>
-                        <h3>One Account, Multiple Sites</h3>
-                        <p>Create one account and access the entire Xyfir Network. Also available are any third party sites that allow login with Xyfir Accounts.</p>
-                    </div>
-                    
-                    <div>
-                        <h3>Manage Linked Services</h3>
-                        <p>Modify your data for, see what data is being accessed by, and remove services that are linked to your Xyfir Account.</p>
-                    </div>
-                    
-                    <div>
-                        <h3>Security</h3>
-                        <p>We offer SMS 2-Factor-Authentication, random security codes, IP whitelisting, and more to keep your account secure.</p>
-                    </div>
-                    
-                    <div>
-                        <h3>Passwordless Login</h3>
-                        <p>Simply enable passwordless login, request an authorization link, and click the link sent to you via SMS or email and you're logged in!</p>
-                    </div>
-                </section>
-                
-                <hr>
-                
-                <section class="home-for-devs">
-                    <h2>For Developers</h2>
-
-                    <div>
-                        <h3>Simple Login</h3>
-                        <p>Simplify your login system. Let us deal with account management, recovery, security, and so on. Implement our API and be done with it.</p>
-                    </div>
-                    
-                    <div>
-                        <h3>Simple API</h3>
-                        <p>Create a service, tell us what information your service requires or wants from users, and we'll return it to you upon login or registration.</p>
-                    </div>
-                    
-                    <div>
-                        <h3>Resources / Documentation</h3>
-                        <a href="app/#/service/dashboard" class="link-lg">Create or Manage a Service</a>
-                        <a href="https://xyfir.com/#/documentation/xyfir-accounts/integration" class="link-lg">API Documentation</a>
-                    </div>
-                </section>
-            </div>
+            <hr>
             
-            <footer class="col-sm-12 footer">
-                <a href="https://xyfir.com/#/network">Xyfir Network</a>
-                <a href="https://xyfir.com/#/contact">Contact Us</a>
-                <a href="https://xyfir.com/#/documentation/xyfir-accounts/privacy">Privacy</a>
-                <a href="https://xyfir.com/#/documentation/xyfir-accounts/tos">Terms of Service</a>
-                <a href="https://xyfir.com/#/about">About Us</a>
-                <a href="https://ads.xyfir.com/">Advertise</a>
-                <span>Xyfir 2015-</span>
-            </footer>
+            <section class="home-for-devs">
+                <h2>For Developers</h2>
+
+                <div>
+                    <h3>Simple Login</h3>
+                    <p>Simplify your login system. Let us deal with account management, recovery, security, and so on. Implement our API and be done with it.</p>
+                </div>
+                
+                <div>
+                    <h3>Simple API</h3>
+                    <p>Create a service, tell us what information your service requires or wants from users, and we'll return it to you upon login or registration.</p>
+                </div>
+                
+                <div>
+                    <h3>Resources / Documentation</h3>
+                    <a href="app/#/service/dashboard" class="link-lg">Create or Manage a Service</a>
+                    <a href="https://xyfir.com/#/documentation/xyfir-accounts/integration" class="link-lg">API Documentation</a>
+                </div>
+            </section>
         </div>
+            
+        <footer>
+            <a href="https://xyfir.com/#/network">Xyfir Network</a>
+            <a href="https://xyfir.com/#/contact">Contact Us</a>
+            <a href="https://xyfir.com/#/documentation/xyfir-accounts/privacy">Privacy</a>
+            <a href="https://xyfir.com/#/documentation/xyfir-accounts/tos">Terms of Service</a>
+            <a href="https://xyfir.com/#/about">About Us</a>
+            <a href="https://ads.xyfir.com/">Advertise</a>
+        </footer>
     </body>
 </html>
