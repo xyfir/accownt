@@ -1,4 +1,5 @@
-const db = require("../../lib/db");
+const generateToken = require("lib/tokens/generate");
+const db = require("lib/db");
 
 /*
     POST api/recover
@@ -48,7 +49,9 @@ module.exports = function(req, res) {
                             };
                             
                             // Generate auth token
-                            require("../../lib/auth/generateToken")([uid], token => {
+                            generateToken({
+                                user: uid, type: 1
+                            }, token => {
                                 response.auth = token;
                                 res.json(response);
                             });

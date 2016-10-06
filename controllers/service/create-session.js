@@ -1,4 +1,5 @@
-const db = require("../../lib/db");
+const generateToken = require("lib/tokens/generate");
+const db = require("lib/db");
 
 /*
 	POST api/service/session/:service
@@ -11,8 +12,9 @@ const db = require("../../lib/db");
 module.exports = function(req, res) {
 	
     // Generate an auth token for uid/service
-	require("../../lib/auth/generateToken")
-    ([req.session.uid, req.params.service], (token, xid) => {
+	generateToken({
+		user: req.session.uid, service: req.params.service, type: 1
+	}, (token, xid) => {
 		db(cn => {
 			cn.query("SELECT address FROM services WHERE id = ?", [req.params.service], (err, rows) => {
 				cn.release();

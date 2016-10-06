@@ -1,4 +1,5 @@
-const db = require("../../../lib/db");
+const generateToken = require("lib/tokens/generate");
+const db = require("lib/db");
 
 /*
     GET api/login/passwordless/:email
@@ -27,7 +28,9 @@ module.exports = function(req, res) {
                     return;
                 }
                 
-                require("../../../lib/auth/generateToken")([uid], token => {
+                generateToken({
+                    user: uid, type: 1
+                }, token => {
                     const link = "https://accounts.xyfir.com/api/login/passwordless/" + uid + "/" + token;
                     
                     // Send via sms
