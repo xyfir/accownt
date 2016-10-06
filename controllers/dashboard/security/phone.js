@@ -1,4 +1,5 @@
-const db = require("../../../lib/db");
+const sendCode = require("lib/sms/send-code");
+const db = require("lib/db");
 
 /*
     PUT api/dashboard/security/phone
@@ -16,7 +17,7 @@ module.exports = function(req, res) {
             if (err || !result.affectedRows)
                 res.json({ error: true, message: "An unknown error occured" });
             else if (req.body.phone != 0)
-                require("../../../lib/sms/sendCode")(req.session.uid, req.body.phone);
+                sendCode(req.session.uid, req.body.phone);
         });
     });
 

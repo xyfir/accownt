@@ -1,5 +1,5 @@
-const verify = require("../../../lib/sms/verifyCode");
-const db = require("../../../lib/db");
+const verify = require("lib/sms/verify-code");
+const db = require("lib/db");
 
 /*
     PUT api/dashboard/security/phone/verify

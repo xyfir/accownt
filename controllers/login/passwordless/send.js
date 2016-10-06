@@ -1,3 +1,4 @@
+const sendPasswordlessSMS = require("lib/sms/send-passwordless");
 const generateToken = require("lib/tokens/generate");
 const db = require("lib/db");
 
@@ -35,7 +36,7 @@ module.exports = function(req, res) {
                     
                     // Send via sms
                     if (rows[0].passwordless == 1 || rows[0].passwordless == 3)
-                        require("../../../lib/sms/sendPasswordless")(rows[0].phone, link);
+                        sendPasswordlessSMS(rows[0].phone, link);
                     // Send via email
                     if (rows[0].passwordless == 2 || rows[0].passwordless == 3)
                         require("../../../lib/email/sendPasswordless")(req.params.email, link);
