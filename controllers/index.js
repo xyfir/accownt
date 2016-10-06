@@ -28,6 +28,10 @@ router.put("/dashboard/security/whitelist", require("./dashboard/security/whitel
 router.put("/dashboard/security/phone/verify", require("./dashboard/security/verify-phone"));
 router.put("/dashboard/security/passwordless", require("./dashboard/security/passwordless"));
 
+/* Dashboard - Tokens */
+router.get("/dashboard/tokens", require("./dashboard/tokens/get"));
+router.delete("/dashboard/tokens", require("./dashboard/tokens/delete"));
+
 /* Login */
 router.post("/login", require("./login/step-1"));
 router.get("/login/logout", require("./login/logout"));
