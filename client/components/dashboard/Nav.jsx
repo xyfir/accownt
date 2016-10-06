@@ -26,6 +26,10 @@ export default class Nav extends React.Component {
 					className={this.props.active == "services" ? "active" : ""}
 				>Services</a>
 				<a
+					href="#/dashboard/tokens"
+					className={this.props.active == "tokens" ? "active" : ""}
+				>Tokens</a>
+				<a
 					href="#/dashboard/ads"
 					className={this.props.active == "ads" ? "active" : ""}
 				>Ads</a>
