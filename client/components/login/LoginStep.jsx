@@ -97,9 +97,11 @@ export default class LoginStep extends React.Component {
 						onKeyDown={this.onKeydown}
 					/>
 					
-					<a href="#/register">Create Account </a> | 
-					<a href="#/recover"> Account Recovery </a> | 
-					<a onClick={this.onPasswordless}> Passwordless Login</a> 
+					<nav className="login-links">
+						<a href="#/register">Create Account</a>
+						<a href="#/recover">Account Recovery</a>
+						<a onClick={this.onPasswordless}>Passwordless Login</a>
+					</nav>
 				</div>
 				
 				<Button onClick={this.onLogin}>Login</Button>
