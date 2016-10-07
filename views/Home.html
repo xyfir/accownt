@@ -33,10 +33,12 @@
                     <span class="xyfir">XYFIR</span>
                     <span class="accounts">ACCOUNTS</span>
                 </a>
-                <a href="app/#/login" class="link-lg">Sign In</a>
-                <a href="app/#/dashboard" class="link-lg">Dashboard</a>
-                <a href="app/#/service/dashboard" class="link-lg">Service Dashboard</a>
-                <a href="app/#/register" class="link-lg">Register</a>
+                <div class="links">
+                    <a href="app/#/login" class="link-lg">Sign In</a>
+                    <a href="app/#/dashboard" class="link-lg">Dashboard</a>
+                    <a href="app/#/service/dashboard" class="link-lg">Service Dashboard</a>
+                    <a href="app/#/register" class="link-lg">Register</a>
+                </div>
             </nav>
         </header>
 
@@ -100,11 +102,7 @@
                     <p>Create a service, tell us what information your service requires or wants from users, and we'll return it to you upon login or registration.</p>
                 </div>
                 
-                <div>
-                    <h3>Resources / Documentation</h3>
-                    <a href="app/#/service/dashboard" class="link-lg">Create or Manage a Service</a>
-                    <a href="https://xyfir.com/#/documentation/xyfir-accounts/integration" class="link-lg">API Documentation</a>
-                </div>
+                <a href="https://xyfir.com/#/documentation/xyfir-accounts/integration" class="link-lg">Integration Documentation</a>
             </section>
         </div>
             
@@ -116,5 +114,17 @@
             <a href="https://xyfir.com/#/about">About Us</a>
             <a href="https://ads.xyfir.com/">Advertise</a>
         </footer>
+
+        <script>
+            var s = document.createElement("style");
+
+            s.innerHTML = "#content {margin-top: "
+                + document.querySelector("header nav").offsetHeight
+                + "px; margin-bottom: "
+                + document.querySelector("footer").offsetHeight
+                + "px;}";
+
+            document.body.appendChild(s);
+        </script>
     </body>
 </html>
