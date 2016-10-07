@@ -3,6 +3,7 @@ import { render } from "react-dom";
 
 // Components
 import AccountRecovery from "./containers/AccountRecovery";
+import DynamicStyles from "./misc/DynamicStyles";
 import LoginService from "./containers/LoginService";
 import LinkService from "./containers/LinkService";
 import Dashboard from "./containers/Dashboard";
@@ -25,31 +26,42 @@ class App extends React.Component {
     }
 	
 	render() {
+        let view;
+
 		switch (this.state.hash[1]) {
             case "recover":
-                return <AccountRecovery hash={this.state.hash} />;
+                view = <AccountRecovery hash={this.state.hash} />; break;
             
             case "login":
                 if (this.state.hash[2] === undefined)
-                    return <Login hash={this.state.hash} />;
+                    view = <Login hash={this.state.hash} />;
                 else
-                    return <LoginService hash={this.state.hash} />;
+                    view = <LoginService hash={this.state.hash} />;
+                break;
 
             case "register":
                 if (this.state.hash[2] === undefined)
-                    return <Register hash={this.state.hash} />;
+                    view = <Register hash={this.state.hash} />;
                 else
-                    return <LinkService hash={this.state.hash} />;
+                    view = <LinkService hash={this.state.hash} />;
+                break;
 
             case "dashboard":
-                return <Dashboard hash={this.state.hash} />;
+                view = <Dashboard hash={this.state.hash} />; break;
             
             case "service":
-                return <Service hash={this.state.hash} />;
+                view = <Service hash={this.state.hash} />; break;
 
             default:
                 location.href = "../";
         }
+
+        return (
+            <div className="app">
+                {view}
+                <DynamicStyles />
+            </div>
+        )
 	}
 	
 }
