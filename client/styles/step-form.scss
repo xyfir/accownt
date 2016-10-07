@@ -1,12 +1,16 @@
-.form-step-body > input {
-	height: 1.5em;
-	width: 18em;
-	font-size: 125%;
-	margin: 1em auto;
-}
 .form-step-body {
+	
 	margin-bottom: 1em;
-}
-.form-step-header > p {
-	margin-top: -1em;
+
+	input {
+		height: 1.5em;
+		width: 50%;
+		font-size: 125%;
+		margin: 1em auto;
+	}
+
+	p {
+		margin-top: -1em;
+	}
+
 }
