@@ -51,9 +51,7 @@ header {
 		.logo {
 		
 			font-size: 125%;
-			position: fixed;
 			margin: 0em;
-			left: 5%;
 
 			.xyfir {
 				font-weight: 700;
@@ -68,6 +66,10 @@ header {
 
 	}
 
+}
+
+nav.login-links > a {
+	margin: 0.25em;
 }
 
 /* ALERTS */
@@ -221,7 +223,7 @@ label {
 #content {
 	width: 80%;
 	margin: auto;
-	padding: 2em;
+	padding: 1em;
 }
 
 .g-recaptcha {
