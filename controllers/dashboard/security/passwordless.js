@@ -1,4 +1,4 @@
-const db = require("../../../lib/db");
+const db = require("lib/db");
 
 /*
     PUT api/dashboard/security/passwordless
@@ -10,20 +10,26 @@ const db = require("../../../lib/db");
 module.exports = function(req, res) {
     
     // Validate data
-    if (req.body.passwordless > 6) {
-        res.json({error: true, message: "Invalid data."});
+    if (req.body.passwordless > 2) {
+        res.json({ error: true, message: "Invalid data." });
         return;
     }
     
-    db(cn => {
-        cn.query("UPDATE security SET passwordless = ? WHERE user_id = ?", [req.body.passwordless, req.session.uid], (err, result) => {
-            cn.release();
-            
-            if (err || !result.affectedRows)
-                res.json({ error: true, message: "An unknown error occured" });
-            else
-                res.json({error: false, message: "Passwordless login option successfully updated."});
-        });
-    });
+    let sql = "UPDATE security SET passwordless = ? WHERE user_id = ?"; 
+    let vars = [req.body.passwordless, req.session.uid];
+
+    db(cn => cn.query(sql, vars, (err, result) => {
+        cn.release();
+        
+        if (err || !result.affectedRows) {
+            res.json({ error: true, message: "An unknown error occured" });
+        }
+        else {
+            res.json({
+                error: false,
+                message: "Passwordless login option successfully updated."
+            });
+        }
+    }));
 
 }
