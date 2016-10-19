@@ -13,7 +13,8 @@ export default class LoginStep extends React.Component {
 		super(props);
 		
 		this.state = {
-			error: false, message: "", loginAttempts: 0
+			error: false, message: "", loginAttempts: 0,
+			passwordless: false
 		};
 
 		this.onPasswordless = this.onPasswordless.bind(this);
@@ -57,6 +58,15 @@ export default class LoginStep extends React.Component {
 			success: result => this.setState(result)
 		});
 	}
+
+	onPasswordlessLogin() {
+		if (this.refs.passwordless.value) {
+			const code = this.refs.passwordless.value.split('_');
+
+			location.href = "https://accounts.xyfir.com/api/login/passwordless/"
+				+ code[0] + "/" + code[1];
+		}
+	}
 	
 	render() {
 		let userAlert;
@@ -66,47 +76,81 @@ export default class LoginStep extends React.Component {
 		else if (this.state.message)
 			userAlert = <Alert type="success" title="Success!">{this.state.message}</Alert>;
 	
-		return (
-			<div className="form-step">
-				<div className="form-step-header">
-					<h2>Login</h2>
-					<span className="login-attempts">{
-						this.state.loginAttempts > 0 ? (
-							this.state.loginAttempts >= 5 ? (
-								"You have hit the incorrect login attempt limit. "
-									+ "Please wait 15 minutes."
-							) : (
-								(5 - this.state.loginAttempts) + " login attempt(s) remaining."
-							)
-						) : ""
-					}</span>
-				</div>
-			
-				<div className="form-step-body">
-					{userAlert}
-
-					<input
-						type="email"
-						placeholder="Enter your email"
-						ref="email"
-					/>
-					<input
-						type="password"
-						ref="password"
-						placeholder="Password"
-						onKeyDown={this.onKeydown}
-					/>
+		if (this.state.passwordless) {
+			return (
+				<div className="form-step passwordless">
+					<section className="form-step-header">
+						<h2>Passwordless Login</h2>
+						<p>
+							A message was sent to your {
+								this.state.passwordless == 1 ? "phone" : "email"
+							} that contains a passwordless login link and an authorization code.
+							<br />
+							Click the link to bypass this step or copy and paste the authorization code below.
+						</p>
+					</section>
 					
-					<nav className="login-links">
-						<a href="#/register">Create Account</a>
-						<a href="#/recover">Account Recovery</a>
-						<a onClick={this.onPasswordless}>Passwordless Login</a>
-					</nav>
+					<section className="form-step-body">
+						<form onSubmit={this.onPasswordlessLogin}>
+							<label>Authorization Code</label>
+							<input type="text" ref="passwordless" />
+						</form>
+						
+						<Button onClick={this.onPasswordlessLogin}>
+							Login
+						</Button>
+					</section>
 				</div>
-				
-				<Button onClick={this.onLogin}>Login</Button>
-			</div>
-		);
+			)
+		}
+		else {
+			return (
+				<div className="form-step">
+					<section className="form-step-header">
+						<h2>Login</h2>
+						<span className="login-attempts">{
+							this.state.loginAttempts > 0 ? (
+								this.state.loginAttempts >= 5 ? (
+									"You have hit the incorrect login attempt limit. "
+										+ "Please wait 15 minutes."
+								) : (
+									(5 - this.state.loginAttempts)
+									+ " login attempt(s) remaining."
+								)
+							) : ""
+						}</span>
+					</section>
+					
+					<section className="form-step-body">
+						{userAlert}
+
+						<form onSubmit={this.onLogin}>
+							<label>Email</label>
+							<input
+								type="email"
+								placeholder="user@email.com"
+								ref="email"
+							/>
+
+							<label>Password</label>
+							<input
+								type="password"
+								ref="password"
+								onKeyDown={this.onKeydown}
+							/>
+						</form>
+						
+						<nav className="login-links">
+							<a href="#/register">Create Account</a>
+							<a href="#/recover">Account Recovery</a>
+							<a onClick={this.onPasswordless}>Passwordless Login</a>
+						</nav>
+
+						<Button onClick={this.onLogin}>Login</Button>
+					</section>
+				</div>
+			);
+		}
 	}
 
 }
