@@ -5,11 +5,24 @@ import Create from "../service/Create";
 import Manage from "../service/Manage";
 import List from "../service/List";
 
+// Modules
+import request from "lib/request";
+
 export default class Service extends React.Component {
 
     constructor(props) {
         super(props);
     }
+
+    componentWillMount() {
+		request({
+			url: "../api/dashboard/account",
+			success: (result) => {
+				if (!result.loggedIn)
+					location.hash = "/login";
+			}
+		});
+	}
 
     render() {
         let view;
@@ -22,7 +35,7 @@ export default class Service extends React.Component {
             view = <Manage hash={this.props.hash} />;
 
         return (
-            <div>
+            <div class="service-dashboard">
                 <nav className="nav">
                     <a href="#/service/dashboard/create" className="link-lg">
                         Create Service
