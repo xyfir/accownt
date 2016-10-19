@@ -14,9 +14,7 @@ export default class Login extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {
-			step: 1
-		};
+		this.state = { step: 1 };
 
 		this.onVerify = this.onVerify.bind(this);
 		this.onNext = this.onNext.bind(this);
@@ -71,24 +69,27 @@ export default class Login extends React.Component {
 			return <LoginStep next={this.onNext} />;
 		}
 		else {
-			var sms, code, steps = 0;
-		
-			if (this.state.security.phone) {
-				sms = <SmsVerify />;
-				steps++;
-			}
-			if (this.state.security.code) {
-				code = <RandCode codeNum={this.state.security.codeNumber + 1} />;
-				steps++;
-			}
-				
 			return (
 				<div className="form-step">
-					<div className="form-step-body">
-						{sms}
-						{code}
-					</div>
-					<Button onClick={this.onVerify}>Login</Button>
+					<section className="form-step-body">
+						<form onSubmit={this.onVerify}>
+							{this.state.security.phone ? (
+								<SmsVerify />
+							) : (
+								<div />
+							)}
+							
+							{this.state.security.code ? (
+								<RandCode codeNum={
+									this.state.security.codeNumber + 1
+								} />
+							) : (
+								<div />
+							)}
+						</form>
+
+						<Button onClick={this.onVerify}>Login</Button>
+					</section>
 				</div>
 			);
 		}
