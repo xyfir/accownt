@@ -1,3 +1,4 @@
+const sendPasswordlessEmail = require("lib/email/send-passwordless");
 const sendPasswordlessSMS = require("lib/sms/send-passwordless");
 const generateToken = require("lib/tokens/generate");
 const db = require("lib/db");
@@ -5,7 +6,7 @@ const db = require("lib/db");
 /*
     GET api/login/passwordless/:email
     RETURN
-        { error: bool, message: string }
+        { error: bool, message: string, passwordless?: number }
     DESCRIPTION
         Send user a passwordless login link via sms / email if enabled
 */
@@ -32,18 +33,17 @@ module.exports = function(req, res) {
                 generateToken({
                     user: uid, type: 1
                 }, token => {
-                    const link = "https://accounts.xyfir.com/api/login/passwordless/" + uid + "/" + token;
-                    
                     // Send via sms
-                    if (rows[0].passwordless == 1 || rows[0].passwordless == 3)
-                        sendPasswordlessSMS(rows[0].phone, link);
+                    if (rows[0].passwordless == 1)
+                        sendPasswordlessSMS(rows[0].phone, uid, token);
                     // Send via email
-                    if (rows[0].passwordless == 2 || rows[0].passwordless == 3)
-                        require("../../../lib/email/sendPasswordless")(req.params.email, link);
+                    if (rows[0].passwordless == 2)
+                        sendPasswordlessEmail(req.params.email, uid, token);
                         
                     res.json({
                         error: false,
-                        message: "Passwordless login link sent. It will expire in 10 minutes."
+                        message: "Passwordless login link sent. It will expire in 10 minutes.",
+                        type: rows[0].passwordless
                     });
                 });
             });
