@@ -198,7 +198,6 @@ export default class Security extends React.Component {
 						<option value="0">Disabled</option>
 						<option value="1">Receive via SMS</option>
 						<option value="2">Receive via Email</option>
-						<option value="3">Receive via Both</option>
 					</select>
 					
 					<Button onClick={this.onUpdatePasswordless}>Update</Button>
