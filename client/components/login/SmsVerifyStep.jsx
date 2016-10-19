@@ -1,9 +1,14 @@
 import React from "react";
 
-export default class SmsVerifyStep extends React.Component {
+export default class SmsVerificationStep extends React.Component {
 
 	render() {
-		return <input type="number"  id="smsCode" placeholder="SMS Code" />;
+		return (
+			<div class="sms-code">
+				<label>SMS Verification Code</label>
+				<input type="number" id="smsCode" />
+			</div>
+		);
 	}
 
 }

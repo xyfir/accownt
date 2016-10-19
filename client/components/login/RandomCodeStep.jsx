@@ -4,11 +4,10 @@ export default class RandomCodeStep extends React.Component {
 	
 	render() {
 		return (
-			<input
-				type="text"
-				id="code"
-				placeholder={"Security Code #" + this.props.codeNum}
-			/>
+			<div class="security-code">
+				<label>Security Code #{this.props.codeNum}</label>
+				<input type="text" id="code" />
+			</div>
 		);
 	}
 
