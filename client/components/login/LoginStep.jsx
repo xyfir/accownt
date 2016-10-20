@@ -17,12 +17,14 @@ export default class LoginStep extends React.Component {
 			passwordless: false
 		};
 
+		this.onPasswordlessLogin = this.onPasswordlessLogin.bind(this);
 		this.onPasswordless = this.onPasswordless.bind(this);
-		this.onKeyDown = this.onKeyDown.bind(this);
 		this.onLogin = this.onLogin.bind(this);
 	}
 
-	onLogin() {
+	onLogin(e) {
+		e.preventDefault();
+		
 		const email = this.refs.email.value;
 		const password = this.refs.password.value;
 		
@@ -39,18 +41,13 @@ export default class LoginStep extends React.Component {
 		});
 	}
 	
-	onKeyDown(e) {
-		if (e.keyCode == 13)
-			this.onLogin();
-	}
-	
 	onPasswordless() {
 		if (this.refs.email.value == "") {
 			this.setState({
 				error: true,
-				message: "You must enter your email before attempting a passwordless login."
-			});
-			return;
+				message: "You must enter your email before attempting "
+					+ "a passwordless login."
+			}); return;
 		}
 		
 		request({
@@ -59,7 +56,9 @@ export default class LoginStep extends React.Component {
 		});
 	}
 
-	onPasswordlessLogin() {
+	onPasswordlessLogin(e) {
+		e.preventDefault();
+
 		if (this.refs.passwordless.value) {
 			const code = this.refs.passwordless.value.split('_');
 
@@ -94,11 +93,9 @@ export default class LoginStep extends React.Component {
 						<form onSubmit={this.onPasswordlessLogin}>
 							<label>Authorization Code</label>
 							<input type="text" ref="passwordless" />
+
+							<Button>Login</Button>
 						</form>
-						
-						<Button onClick={this.onPasswordlessLogin}>
-							Login
-						</Button>
 					</section>
 				</div>
 			)
@@ -126,18 +123,12 @@ export default class LoginStep extends React.Component {
 
 						<form onSubmit={this.onLogin}>
 							<label>Email</label>
-							<input
-								type="email"
-								placeholder="user@email.com"
-								ref="email"
-							/>
+							<input type="email" ref="email" />
 
 							<label>Password</label>
-							<input
-								type="password"
-								ref="password"
-								onKeyDown={this.onKeydown}
-							/>
+							<input type="password" ref="password" />
+
+							<Button>Login</Button>
 						</form>
 						
 						<nav className="login-links">
@@ -145,8 +136,6 @@ export default class LoginStep extends React.Component {
 							<a href="#/recover">Account Recovery</a>
 							<a onClick={this.onPasswordless}>Passwordless Login</a>
 						</nav>
-
-						<Button onClick={this.onLogin}>Login</Button>
 					</section>
 				</div>
 			);
