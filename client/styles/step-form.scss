@@ -1,16 +1,23 @@
 .form-step-body {
-	
-	margin-bottom: 1em;
 
 	input {
 		height: 1.5em;
-		width: 60%;
+		width: 70%;
 		font-size: 125%;
-		margin: 1em auto;
+		max-width: 25em;
+		margin-top: 0.3em;
 	}
 
 	p {
 		margin-top: -1em;
+	}
+
+	button {
+		margin-bottom: 1em;
+	}
+
+	label {
+		font-size: 110%;
 	}
 
 }
