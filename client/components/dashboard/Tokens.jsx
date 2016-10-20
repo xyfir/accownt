@@ -62,7 +62,7 @@ export default class AccessTokens extends React.Component {
                     <br />
                     It is recommended to delete any tokens you don't recognize or if one of your devices are stolen or compromised. Deleting a token only means that the device which has stored that token will have to login to the corresponding service before it can access your account.
                 </p>
-                <div class="tokens">{
+                <div className="tokens">{
                     this.state.tokens.map((token, i) => {
                         return (
                             <div className="token">
@@ -99,7 +99,7 @@ export default class AccessTokens extends React.Component {
                         );
                     })
                 }</div>
-            }</section>
+            </section>
 		);
 	}
 	
