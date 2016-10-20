@@ -34,7 +34,9 @@ export default class Login extends React.Component {
 		}
 	}
 	
-	onVerify() {
+	onVerify(e) {
+		e.preventDefault();
+
 		let data = {
 			phone: this.state.security.phone,
 			auth: this.state.auth,
@@ -86,9 +88,9 @@ export default class Login extends React.Component {
 							) : (
 								<div />
 							)}
-						</form>
 
-						<Button onClick={this.onVerify}>Login</Button>
+							<Button>Login</Button>
+						</form>
 					</section>
 				</div>
 			);
