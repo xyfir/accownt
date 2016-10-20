@@ -14,7 +14,8 @@ export default class Security extends React.Component {
 
 		this.state = {
 			error: false, message: "", phone: "", whitelist: "",
-			codes: "", passwordless: 0, verifyingSms: false
+			codes: "", passwordless: 0, verifyingSms: false,
+			loading: true
 		};
 
 		this.onUpdatePasswordless = this.onUpdatePasswordless.bind(this);
@@ -28,7 +29,7 @@ export default class Security extends React.Component {
 		request({
 			url: "../api/dashboard/security",
 			success: (result) => {
-				// Grab and set security data 
+				result.loading = false;
 				this.setState(result);
 			}
 		});
@@ -78,7 +79,7 @@ export default class Security extends React.Component {
 	
 	onChangeWhitelist() {
 		this.setState({
-			whitelist: this.refs.whitelist.replace("\n", ",")
+			whitelist: this.refs.whitelist.value.replace("\n", ",")
 		});
 	}
 	
@@ -105,6 +106,8 @@ export default class Security extends React.Component {
 	}
 	
 	render() {
+		if (this.state.loading) return <div />;
+
 		let userAlert;
 		
 		if (this.state.error)
@@ -126,7 +129,7 @@ export default class Security extends React.Component {
 					<input
 						ref="phone"
 						type="tel"
-						defaultValue={this.state.phone > 0 ? this.state.phone : ""}
+						defaultValue={+this.state.phone || ""}
 					/>
 					
 					{this.state.verifyingSms ? (
@@ -178,7 +181,7 @@ export default class Security extends React.Component {
 					<p>
 						Only allow logins from a list of whitelisted IP addresses.
 						<br />
-						<small>Each address should be separated by a new line.</small>
+						Each address should be separated by a new line.
 					</p>
 					
 					<textarea
@@ -192,9 +195,16 @@ export default class Security extends React.Component {
 				
 				<section className="passwordless-login">
 					<h2>Passwordless Login</h2>
-					<p>Login via a link sent to your email or phone.</p>
+					<p>
+						Login via a link or authorization code sent to your email or phone.
+						<br />
+						Your password and other security measures will not be used.
+					</p>
 					
-					<select ref="passwordless">
+					<select
+						ref="passwordless"
+						defaultValue={this.state.passwordless}
+					>
 						<option value="0">Disabled</option>
 						<option value="1">Receive via SMS</option>
 						<option value="2">Receive via Email</option>
