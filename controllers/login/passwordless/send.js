@@ -43,7 +43,7 @@ module.exports = function(req, res) {
                     res.json({
                         error: false,
                         message: "Passwordless login link sent. It will expire in 10 minutes.",
-                        type: rows[0].passwordless
+                        passwordless: rows[0].passwordless
                     });
                 });
             });
