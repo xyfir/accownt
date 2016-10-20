@@ -41,8 +41,9 @@ header {
 		left: 0%;
 		right: 0%;
 		background-color: $llgray;
-		padding: 0.5em;
+		padding: 0.8em;
 		z-index: 2;
+		border-bottom: solid 0.1em $lgray;
 
 		a {
 			margin: 0.5em;
