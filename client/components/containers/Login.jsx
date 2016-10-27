@@ -23,7 +23,7 @@ export default class Login extends React.Component {
 	
 	onNext(data) {
 		if (data.loggedIn) {
-			this._login();
+			this._login(data.redirect);
 		}
 		else {
 			// Extra security steps required
