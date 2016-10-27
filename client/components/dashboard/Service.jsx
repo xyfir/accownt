@@ -1,11 +1,10 @@
 import React from "react";
 
 // Components
-import Button from "../forms/Button";
-import Alert from "../misc/Alert";
+import Button from "components/forms/Button";
 
 // Modules
-import request from "../../lib/request";
+import request from "lib/request";
 
 export default class Service extends React.Component {
 	
@@ -13,13 +12,9 @@ export default class Service extends React.Component {
 		super(props);
 
 		this.state = {
-			view: "list", profiles: [], error: false,
-			service: {}, message: "",
-			updateTab: "profile"
+			view: "list", profiles: [], service: {}, updateTab: "profile"
 		};
 
-		this.onToggleView = this.onToggleView.bind(this);
-		this.onUnlink = this.onUnlink.bind(this);
 		this._update = this._update.bind(this);
 	}
 	
@@ -39,13 +34,24 @@ export default class Service extends React.Component {
 	}
 	
 	onUnlink() {
-		request({
-			url: "../api/dashboard/services/" + this.props.id,
-			method: "DELETE",
-			success: (result) => {
-				if (!result.error) this.props.update();
-			}
-		});
+		swal({
+            title: "Are you sure?",
+            text: `
+				You will no longer be able to access your account with this service.
+			`,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Unlink"
+        }, () => {
+            request({
+				url: "../api/dashboard/services/" + this.props.id,
+				method: "DELETE",
+				success: (result) => {
+					if (!result.error) this.props.update();
+				}
+			});
+        });
 	}
 	
 	onUpdateService() {
@@ -76,7 +82,12 @@ export default class Service extends React.Component {
 		request({
 			url: "../api/dashboard/services/" + this.props.id,
 			method: "PUT", data,
-			success: (result) => this.setState(result)
+			success: (result) => {
+				if (result.error)
+					swal("Error", result.message, "error");
+				else
+					swal("Success", result.message, "success");
+			}
 		});
 	}
 
@@ -101,10 +112,10 @@ export default class Service extends React.Component {
 			return (
 				<div className="service-list-view">
 					<h2>{this.state.service.name}</h2>
-					<Button type="secondary" onClick={this.onToggleView}>
+					<Button type="secondary" onClick={() => this.onToggleView()}>
 						<span className="icon-edit" />Edit
 					</Button>
-					<Button type="danger" onClick={this.onUlink}>
+					<Button type="danger" onClick={() => this.onUnlink()}>
 						<span className="icon-delete" />Unlink
 					</Button>
 				</div>
@@ -125,26 +136,17 @@ export default class Service extends React.Component {
 			// merge provided data while leaving unprovided fields blank
 			if (!loadFromProfile)
 				Object.assign(form, s.info.provided);
-				
-			// Build alert
-			let userAlert;
-			if (this.state.error)
-				userAlert = <Alert type="error" title="Error!">{this.state.message}</Alert>;
-			else if (this.state.message)
-				userAlert = <Alert type="success" title="Success!">{this.state.message}</Alert>;
 		
 			return (
 				<div className="service-form-view">
 					<a
 						className="icon-close"
-						onClick={this.onToggleView}
+						onClick={() => this.onToggleView()}
 						title="Close Form"
 					/>
 
 					<h2 className="service-name">{s.name}</h2>
 					<p className="service-description">{s.description}</p>
-					
-					{userAlert}
 				
 					<section className="service-info">
 						<div className="required">
