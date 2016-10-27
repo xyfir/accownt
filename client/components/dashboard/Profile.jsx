@@ -1,11 +1,10 @@
 import React from "react";
 
 // Components
-import Button from "../forms/Button";
-import Alert from "../misc/Alert";
+import Button from "components/forms/Button";
 
 // Modules
-import request from "../../lib/request";
+import request from "lib/request";
 
 export default class Profile extends React.Component {
 	
@@ -36,14 +35,29 @@ export default class Profile extends React.Component {
 	}
 	
 	onDeleteProfile() {
-		request({
-			url: "../api/dashboard/profiles/" + this.props.id,
-			method: "DELETE",
-			success: (result) => {
-				if (!result.error)
-					this.props.update();
-			}
-		});
+		swal({
+            title: "Are you sure?",
+            text: "This action cannot be undone.",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Delete"
+        }, () => {
+			request({
+				url: "../api/dashboard/profiles/" + this.props.id,
+				method: "DELETE",
+				success: (result) => {
+					if (result.error) {
+						setTimeout(
+							() => swal("Error", result.message, "error"), 1000
+						);
+					}
+					else {
+						this.props.update();
+					}
+				}
+			});
+        });
 	}
 	
 	onUpdateProfile() {
