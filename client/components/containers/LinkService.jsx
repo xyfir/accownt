@@ -1,11 +1,10 @@
 import React from "react";
 
 // Components
-import Button from "../forms/Button";
-import Alert from "../misc/Alert";
+import Button from "components/forms/Button";
 
 // Modules
-import request from "../../lib/request";
+import request from "lib/request";
 
 export default class LinkService extends React.Component {
 	
@@ -13,12 +12,10 @@ export default class LinkService extends React.Component {
 		super(props);
 
 		this.state = {
-			error: false, linked: false, message: "",
-			id: this.props.hash[2]
+			linked: false, dataTab: "profile", id: this.props.hash[2]
 		};
 
 		this._createSession = this._createSession.bind(this);
-		this.onLink = this.onLink.bind(this);
 	}
 	
 	componentWillMount() {
@@ -26,6 +23,10 @@ export default class LinkService extends React.Component {
 			url: "../api/service/" + this.state.id,
 			success: (res) => this.setState(res)
 		});
+	}
+
+	onChangeTab(tab) {
+		this.setState({ dataTab: tab });
 	}
 	
 	onLink() {
@@ -56,13 +57,12 @@ export default class LinkService extends React.Component {
 		request({
 			url: "../api/service/link/" + this.state.id,
 			method: "POST", data,
-			success: (data) => {
-				if (data.error) {
-					this.setState(data);
+			success: (res) => {
+				if (res.error) {
+					swal("Error", res.message, "error");
 				}
 				else {
-					this.setState(data);
-					this.setState({linked: true});
+					this.setState({ linked: true });
 					this._createSession();
 				}
 			}
@@ -74,105 +74,139 @@ export default class LinkService extends React.Component {
 			url: "../api/service/session/" + this.state.id,
 			method: "POST", success: (data) => {
 				// Redirect user to service's login
-				location.href = data.address + "?auth=" + data.auth + "&xid=" + data.xid;
+				location.href = `${data.address}?auth=${data.auth}&xid=${data.xid}`;
 			}
 		});
 	}
 	
 	render() {
-		let userAlert;
-
-		if (this.state.error)
-			userAlert = <Alert type="error" title="Error!">{this.state.message}</Alert>;
-		else if (this.state.message)
-			userAlert = <Alert type="success" title="Success!">{this.state.message}</Alert>;
-			
 		if (this.state.linked || !this.state.service) {
-			return <div>{userAlert}</div>;
+			return <div />;
 		}
 		else {
 			let s = this.state.service;
-		
-			// Build arrays for definition list containing
-			// <required_field><field_description>
-			let requiredInfo = [];
-			Object.keys(s.requested.required).forEach(key => {
-				requiredInfo.push(
-					<dl><dt>{key}</dt><dd>{s.requested.required[key]}</dd></dl>
-				);
-			});
-			
-			let optionalInfo = [];
-			Object.keys(s.requested.optional).forEach(key => {
-				optionalInfo.push(
-					<dl><dt>{key}</dt><dd>{s.requested.optional[key]}</dd></dl>
-				);
-			});
-			
-			// Build array of user"s profiles to select
-			let profiles = [];
-			this.state.profiles.forEach(profile => {
-				profiles.push(
-					<option value={profile.profile_id}>{profile.name}</option>
-				);
-			});
-		
+			console.log("state", this.state);
 			return (
-				<div className="service-form-view">
-					<h2>{s.name}</h2>
-					<p>{s.description}</p>
-					
-					{userAlert}
-					<hr />
-				
-					<div className="service-info service-info-required">
-						<h4>required information:</h4>
-						{requiredInfo}
-					</div>
-					<div className="service-info service-info-optional">
-						{optionalInfo.length > 0 ? <h4>optional information:</h4> : ""}
-						{optionalInfo}
-					</div>
-					
-					<Button onClick={this.onLink}>Link Service</Button>
-					
-					<hr />
-					
-					<h2>Load Data From Profile</h2>
-					<p>Choose a profile and {s.name} will automatically access information you allow from the profile.</p>
-					<select ref="profile" className="profile-selector">
-						<option value="0">-</option>
-						{profiles}
-					</select>
-					<input type="checkbox" ref="profile_allow_required" defaultChecked={true} />Allow Access to Required Data
-					<input type="checkbox" ref="profile_allow_optional"/>Allow Access to Optional Data
-					
-					<h3>~~ or ~~</h3>
-					
-					<h2>Set Custom Data</h2>
-					<p>Set data that only this service will be able to access.</p>
-				
-					<input type="email" placeholder="Email" ref="email" /> 
-					
-					<br />
-					
-					<input type="text" placeholder="First Name" ref="fname" />
-					<input type="text" placeholder="Last Name" ref="lname" />
-					<select ref="gender">
-						<option value="0">-</option>
-						<option value="1">Male</option>
-						<option value="2">Female</option>
-						<option value="3">Other</option>
-					</select>
-					<input type="tel" placeholder="Phone Number" ref="phone" />
-					<input type="text" placeholder="Birthdate (2020-07-31)" ref="birthdate" />
-					
-					<br />
-					
-					<input type="text" placeholder="Address" ref="address" />
-					<input type="number" placeholder="Zip" ref="zip" />
-					<input type="text" placeholder="Region/State/Province" ref="region" />
-					<input type="text" placeholder="Country (US/CA/UK/etc)" ref="country" />
+				<div className="link-service service-form-view">
+					<h2 className="service-name">{s.name}</h2>
+					<p className="service-description">{s.description}</p>
+
+					<section className="service-info">
+						<div className="required">
+							<span className="title">Required Information</span>
+							{Object.keys(s.requested.required).map(key => {
+								return (
+									<dl>
+										<dt>{key}</dt>
+										<dd>{s.requested.required[key]}</dd>
+									</dl>
+								);
+							})}
+						</div>
+						
+						<div className="optional">
+							<span className="title">Optional Information</span>
+							{Object.keys(s.requested.optional).length ? (
+								Object.keys(s.requested.optional).map(key => {
+									return (
+										<dl>
+											<dt>{key}</dt>
+											<dd>{s.requested.optional[key]}</dd>
+										</dl>
+									);
+								})
+							) : (
+								<dl>None</dl>
+							)}
+						</div>
+					</section>
+
+					<section className="link-service">
+						<nav className="nav-bar">
+							<a onClick={() => this.onChangeTab("profile")}>
+								Load Data From Profile
+							</a>
+							<a onClick={() => this.onChangeTab("custom")}>
+								Set Custom Data
+							</a>
+						</nav>
+
+						{this.state.dataTab == "profile" ? (
+							<div className="profile">
+								<p>
+									Choose a profile and {s.name} will automatically access information you allow from the profile.
+								</p>
+								
+								<select
+									ref="profile"
+									className="profile-selector"
+								>
+									<option value="0">-</option>
+									{this.state.profiles.map(profile => {
+										return (
+											<option value={profile.profile_id}>{profile.name}</option>
+										);
+									})}
+								</select>
+								<input
+									type="checkbox"
+									ref="profile_allow_required"
+									defaultChecked={true}
+								/>Allow Access to Required Data
+								<input
+									type="checkbox"
+									ref="profile_allow_optional"
+								/>Allow Access to Optional Data
+							</div>
+						) : this.state.dataTab == "custom" ? (
+							<div className="custom">
+								<p>Set data that only this service will be able to access.</p>
+							
+								<label>Email</label>
+								<input type="email" ref="email" /> 
+								
+								<br />
+								
+								<label>First Name</label>
+								<input type="text" ref="fname" />
+								
+								<label>Last Name</label>
+								<input type="text" ref="lname" />
+								
+								<label>Gender</label>
+								<select ref="gender">
+									<option value="0">-</option>
+									<option value="1">Male</option>
+									<option value="2">Female</option>
+									<option value="3">Other</option>
+								</select>
+								
+								<label>Phone #</label>
+								<input type="tel" ref="phone" />
+								
+								<label>Birthdate</label>
+								<input type="text" ref="birthdate" />
+								
+								<br />
+								
+								<label>Address</label>
+								<input type="text" ref="address" />
+								
+								<label>Zip Code</label>
+								<input type="number" ref="zip" />
+								
+								<label>State/Province/Region Code</label>
+								<input type="text" ref="region" />
+								
+								<label>Country Code</label>
+								<input type="text" ref="country" />
+							</div>
+						) : (
+							<div />
+						)}
+
+						<Button onClick={() => this.onLink()}>Link Service</Button>
+					</section>
 				</div>
 			);
 		}
