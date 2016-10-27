@@ -96,31 +96,6 @@ nav.login-links > a {
 	background-color: $orange;
 }
 
-/* PROGRESS BAR */
-.progress-bar {
-	display: block;
-	position: relative;
-	width: 100%;
-	height: auto;
-	margin: .625rem 0;
-	background: #eeeeee;
-	overflow: hidden;
-	border: 1px solid #ddd;
-}
-.progress-bar-completed {
-	position: relative;
-	display: block;
-	float: left;
-	width: 0;
-	background-color: $lblue;
-	z-index: 1;
-	text-align: center;
-	height: .625rem;
-	line-height: .625rem;
-	color: #ffffff;
-}
-
-
 /* LINKS */
 a {
 	color: $blue;
