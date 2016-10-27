@@ -10,6 +10,7 @@ router.put("/dashboard/ads", require("./dashboard/ads/update"));
 
 /* Dashboard - Profiles */
 router.get("/dashboard/profiles", require("./dashboard/profiles/get-all"));
+router.post("/dashboard/profiles", require("./dashboard/profiles/create"));
 router.get("/dashboard/profiles/:profile", require("./dashboard/profiles/get-single"));
 router.put("/dashboard/profiles/:profile", require("./dashboard/profiles/update"));
 router.delete("/dashboard/profiles/:profile", require("./dashboard/profiles/remove"));
