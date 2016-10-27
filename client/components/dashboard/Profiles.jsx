@@ -2,11 +2,10 @@ import React from "react";
 
 // Components
 import Profile from "./Profile";
-import Button from "../forms/Button";
-import Alert from "../misc/Alert";
+import Button from "components/forms/Button";
 
 // Modules
-import request from "../../lib/request";
+import request from "lib/request";
 
 export default class Profiles extends React.Component {
 	
@@ -14,8 +13,7 @@ export default class Profiles extends React.Component {
 		super(props);
 
 		this.state = {
-			creatingProfile: false, profiles: [], message: "",
-			count: 0, error: false
+			creatingProfile: false, profiles: []
 		};
 
 		this._updateProfiles = this._updateProfiles.bind(this);
@@ -41,12 +39,18 @@ export default class Profiles extends React.Component {
 		};
 		
 		request({
-			url: "../api/dashboard/profiles/",
+			url: "../api/dashboard/profiles",
 			method: "POST", data,
 			success: (result) => {
-				this.setState(result);
-				this.setState({creatingProfile: false});
-				this._updateProfiles();
+				this.setState({ creatingProfile: false });
+
+				if (result.error) {
+					swal("Error", result.message, "error");
+				}
+				else {
+					swal("Success", result.message, "success");
+					this._updateProfiles();
+				}
 			}
 		});
 	}
@@ -59,17 +63,8 @@ export default class Profiles extends React.Component {
 	}
 	
 	render() {
-		let userAlert;
-
-		if (this.state.error)
-			userAlert = <Alert type="error" title="Error!">{this.state.message}</Alert>;
-		else if (this.state.message)
-			userAlert = <Alert type="success" title="Success!">{this.state.message}</Alert>;
-	
 		return (
 			<div className="dashboard-body dashboard-profiles">
-				{userAlert}
-				
 				<p>
 					Profiles allow you to easily give services linked to your Xyfir Account access to required or optional information. 
 					When linking a service to your Xyfir Account you will be able to choose a profile to for the service to access.
