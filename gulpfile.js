@@ -64,6 +64,34 @@ gulp.task("client", function () {
 });
 
 /*
+	copy-libs
+    - get localforage / sweetalert / epub.js / jszip
+    - copy to ./static/js
+*/
+gulp.task("copy-libs", function() {
+    return gulp.src([
+        "./node_modules/sweetalert/dist/sweetalert.min.js"
+    ]).pipe(gulp.dest("./static/js"));
+});
+
+/*
+	copy-css
+    - get sweetalert.css
+    - postcss modifiers
+    - copy to ./static/css
+*/
+gulp.task("copy-css", function() {
+    return gulp.src([
+        "./node_modules/sweetalert/dist/sweetalert.css"
+    ]).pipe(postcss([
+        ap({browsers: "last 1 version, > 10%"}),
+        nano({ autoprefixer: false, zindex: false })
+    ]))
+    //.pipe(!isDev ? gzip() : gutil.noop())
+    .pipe(gulp.dest("./static/css"));
+});
+
+/*
 	fontello
     - get font and css files from fontello
     - place in ./static/fontello
