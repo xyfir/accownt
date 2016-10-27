@@ -173,7 +173,7 @@ export default class Service extends React.Component {
 									);
 								})
 							) : (
-								"None"
+								<dl>None</dl>
 							)}
 						</div>
 					</section>
