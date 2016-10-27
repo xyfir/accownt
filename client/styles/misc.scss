@@ -67,51 +67,59 @@ nav.dashboard-nav {
 
 }
 
-.dashboard-services {
+.profile-list-view, .profile-form-view, .service-list-view, .service-form-view {
+    border: 1px solid #ddd;
+    margin: 1em auto;
+    padding: 0.5em;
+    width: 80%;
+}
 
-    .service-form-view {
+div.link-service.service-form-view {
+    border: none;
+}
 
-        section.service-info {
-            
-            border-bottom: solid 0.2em $llgray;
-            border-top: solid 0.2em $llgray;
+.service-form-view {
+
+    section.service-info {
+        
+        padding: 1em 0em;
+        border-bottom: solid 0.2em $llgray;
+        border-top: solid 0.2em $llgray;
 
 
-            .required, .optional {
+        .required, .optional {
 
-                .title {
-                    font-weight: bold;
+            .title {
+                font-weight: bold;
+            }
+
+            dl {
+                
+                margin: 0em;
+
+                dt {
+                    margin-right: 0.5em;
                 }
-
-                dl {
-                    
-                    margin: 0em;
-
-                    dt {
-                        margin-right: 0.5em;
-                    }
-                    dt, dd {
-                        display: inline;
-                    }
-                    dt::after {
-                        content: ":"
-                    }
-                    dd {
-                        margin-left: 0em;
-                    }
-
+                dt, dd {
+                    display: inline;
+                }
+                dt::after {
+                    content: ":"
+                }
+                dd {
+                    margin-left: 0em;
                 }
 
             }
 
         }
 
-        section.update-service {
+    }
 
-            button {
-                margin: 1em;
-            }
+    section.update-service, section.link-service {
 
+        button {
+            margin: 1em;
         }
 
     }
@@ -195,12 +203,6 @@ nav.nav-bar {
 .profile-list-view > h2, .service-list-view > h2 {
     border-right: 1px solid #ddd;
     min-width: 13em;
-}
-.profile-list-view, .profile-form-view, .service-list-view, .service-form-view {
-    border: 1px solid #ddd;
-    margin: 1em auto;
-    padding: 0.5em;
-    width: 80%;
 }
 .profile-selector {
     height: 2.5em;
