@@ -33,7 +33,8 @@ export default class CreateOrEditForm extends React.Component {
 	componentDidMount() {
 		if (!!this.props.loadDataFrom) {
 			request({
-				url: "../api/service/dashboard/" + this.props.loadDataFrom,
+				url: "../api/dashboard/developer/services/"
+					+ this.props.loadDataFrom,
 				success: (res) => this.setState({lf: res, loading: false})
 			});
 		}

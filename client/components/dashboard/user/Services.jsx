@@ -22,7 +22,7 @@ export default class Services extends React.Component {
 
 	_updateServices() {
 		request({
-			url: "../api/dashboard/services",
+			url: "../api/dashboard/user/services",
 			success: (result) => this.setState(result)
 		});
 	}

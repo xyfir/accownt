@@ -18,7 +18,7 @@ export default class View extends React.Component {
 	
 	componentWillMount() {
 		request({
-			url: "../api/service/dashboard/" + this.props.id,
+			url: "../api/dashboard/developer/services/" + this.props.id,
 			success: (res) => {
 				if (res.info != "")
 					res.info = JSON.parse(res.info);
@@ -30,7 +30,7 @@ export default class View extends React.Component {
 
 	onGenerateKey() {
 		request({
-			url: "../api/service/dashboard/" + this.props.id + "/key",
+			url: "../api/dashboard/developer/services/" + this.props.id + "/key",
 			method: "POST", success: (res) => {
 				if (!res.error) {
 					this.setState({
@@ -43,7 +43,7 @@ export default class View extends React.Component {
 
 	onDeleteKey(key) {
 		request({
-			url: "../api/service/dashboard/" + this.props.id + "/key",
+			url: "../api/dashboard/developer/services/" + this.props.id + "/key",
 			method: "DELETE", data: {key}, success: (res) => {
 				if (!res.error) {
 					this.setState({

@@ -19,7 +19,7 @@ export default class CreateService extends React.Component {
 	// Form builds object that can be accepted by API
 	_createService(data) {
 		request({
-			url: "../api/service/dashboard",
+			url: "../api/dashboard/developer/services",
 			data, method: "POST",
 			success: (res) => {
 				if (res.error)

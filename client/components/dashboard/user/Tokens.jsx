@@ -13,7 +13,7 @@ export default class AccessTokens extends React.Component {
 	
 	componentWillMount() {
         request({
-			url: "../api/dashboard/services",
+			url: "../api/dashboard/user/services",
 			success: (result) => {
                 this.setState(result);
                 this._getTokens();
@@ -27,7 +27,7 @@ export default class AccessTokens extends React.Component {
         console.log("onDelete", token);
 
         request({
-            url: "../api/dashboard/tokens",
+            url: "../api/dashboard/user/tokens",
             method: "DELETE", data: {
                 service: token.service_id, token: token.token
             }, success: (res) => {
@@ -39,7 +39,7 @@ export default class AccessTokens extends React.Component {
 
 	_getTokens() {
 		request({
-			url: "../api/dashboard/tokens",
+			url: "../api/dashboard/user/tokens",
 			success: (result) => {
                 this.setState(result);
 

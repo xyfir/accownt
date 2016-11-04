@@ -18,7 +18,7 @@ export default class Edit extends React.Component {
 	// Form builds object that can be accepted by API
 	_updateService(data) {
 		request({
-			url: "../api/service/dashboard/" + this.props.id,
+			url: "../api/dashboard/developer/services/" + this.props.id,
 			data, method: "PUT",
 			success: res => {
 				if (res.error)

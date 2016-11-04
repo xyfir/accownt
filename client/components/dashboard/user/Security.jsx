@@ -25,7 +25,7 @@ export default class Security extends React.Component {
 	
 	componentWillMount() {
 		request({
-			url: "../api/dashboard/security",
+			url: "../api/dashboard/user/security",
 			success: (result) => {
 				result.loading = false;
 				this.setState(result);
@@ -36,7 +36,7 @@ export default class Security extends React.Component {
 	onUpdatePhone() {
 		if (this.state.verifyingSms) {
 			request({
-				url: "../api/dashboard/security/phone/verify",
+				url: "../api/dashboard/user/security/phone/verify",
 				method: "PUT",
 				data: {
 					phone: this.refs.phone.value,
@@ -53,7 +53,7 @@ export default class Security extends React.Component {
 			phone = phone ? phone : 0;
 			
 			request({
-				url: "../api/dashboard/security/phone",
+				url: "../api/dashboard/user/security/phone",
 				method: "PUT", data: { phone },
 				success: (result) => 1
 			});
@@ -65,7 +65,7 @@ export default class Security extends React.Component {
 	
 	onGenerateCodes() {
 		request({
-			url: "../api/dashboard/security/codes",
+			url: "../api/dashboard/user/security/codes",
 			method: "PUT",
 			data: {
 				type: this.refs.codeType.value,
@@ -86,7 +86,7 @@ export default class Security extends React.Component {
 	
 	onUpdateWhitelist() {
 		request({
-			url: "../api/dashboard/security/whitelist",
+			url: "../api/dashboard/user/security/whitelist",
 			method: "PUT",
 			data: {
 				whitelist: this.refs.whitelist.value.replace("\n", ",")
@@ -97,7 +97,7 @@ export default class Security extends React.Component {
 	
 	onUpdatePasswordless() {
 		request({
-			url: "../api/dashboard/security/passwordless",
+			url: "../api/dashboard/user/security/passwordless",
 			method: "PUT",
 			data: {
 				passwordless: this.refs.passwordless.value

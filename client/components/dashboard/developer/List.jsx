@@ -16,7 +16,7 @@ export default class List extends React.Component {
 	
 	componentWillMount() {
 		request({
-			url: "../api/service/dashboard",
+			url: "../api/dashboard/developer/services",
 			success: (res) => this.setState(res)
 		});
 	}

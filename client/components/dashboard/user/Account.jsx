@@ -18,7 +18,7 @@ export default class Account extends React.Component {
 	
 	componentWillMount() {
 		request({
-			url: "../api/dashboard/account",
+			url: "../api/dashboard/user/account",
 			success: (result) => {
 				if (result.loggedIn)
 					this.setState(result);
@@ -45,7 +45,7 @@ export default class Account extends React.Component {
 		}
 		else {
 			request({
-				url: "../api/dashboard/account",
+				url: "../api/dashboard/user/account",
 				method: "PUT",
 				data: {
 					currentPassword: curPass,

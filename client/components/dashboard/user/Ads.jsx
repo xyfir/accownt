@@ -27,7 +27,7 @@ export default class Ads extends React.Component {
 	
 	componentWillMount() {
 		request({
-			url: "../api/dashboard/ads",
+			url: "../api/dashboard/user/ads",
 			success: result => {
 				// Set value of setCategories if user has categories set
 				if (result.info != "") {
@@ -96,7 +96,7 @@ export default class Ads extends React.Component {
 			this._alert(true, "Too many keywords provided");
 		else {
 			request({
-				url: "../api/dashboard/ads",
+				url: "../api/dashboard/user/ads",
 				data: data,
 				method: "PUT",
 				success: result => this._alert(result.error, result.message)
@@ -110,7 +110,7 @@ export default class Ads extends React.Component {
 		};
 	
 		request({
-			url: "../api/dashboard/ads",
+			url: "../api/dashboard/user/ads",
 			data: data,
 			method: "PUT",
 			success: result => this._alert(result.error, result.message)

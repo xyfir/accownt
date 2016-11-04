@@ -63,7 +63,7 @@ export default class Login extends React.Component {
 		if (redirect != "")
 			location.href = redirect;
 		else
-			location.hash = "/dashboard/account";
+			location.hash = "/dashboard/user/account";
 	}
 	
 	render() {

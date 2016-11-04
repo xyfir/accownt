@@ -45,7 +45,7 @@ export default class Service extends React.Component {
             confirmButtonText: "Unlink"
         }, () => {
             request({
-				url: "../api/dashboard/services/" + this.props.id,
+				url: "../api/dashboard/user/services/" + this.props.id,
 				method: "DELETE",
 				success: (result) => {
 					if (!result.error) this.props.update();
@@ -80,7 +80,7 @@ export default class Service extends React.Component {
 		}
 		
 		request({
-			url: "../api/dashboard/services/" + this.props.id,
+			url: "../api/dashboard/user/services/" + this.props.id,
 			method: "PUT", data,
 			success: (result) => {
 				if (result.error)
@@ -93,14 +93,14 @@ export default class Service extends React.Component {
 
 	_update() {
 		request({
-			url: "../api/dashboard/services/" + this.props.id,
+			url: "../api/dashboard/user/services/" + this.props.id,
 			success: (result) => {
 				this.setState({service: result.service});
 			}
 		});
 		
 		request({
-			url: "../api/dashboard/profiles",
+			url: "../api/dashboard/user/profiles",
 			success: (result) => {
 				this.setState({profiles: result.profiles});
 			}

@@ -19,7 +19,7 @@ export default class Delete extends React.Component {
 
     onConfirm() {
         request({
-            url: "../api/service/dashboard/" + this.props.id,
+            url: "../api/dashboard/developer/services/" + this.props.id,
             method: "DELETE", success: (res) => {
                 res.confirm = true;
                 this.setState(res);

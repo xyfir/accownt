@@ -20,7 +20,7 @@ export default class Profile extends React.Component {
 	
 	componentWillMount() {
 		request({
-			url: "../api/dashboard/profiles/" + this.props.id,
+			url: "../api/dashboard/user/profiles/" + this.props.id,
 			success: (result) => {
 				this.setState({profile: result.profile});
 			}
@@ -44,7 +44,7 @@ export default class Profile extends React.Component {
             confirmButtonText: "Delete"
         }, () => {
 			request({
-				url: "../api/dashboard/profiles/" + this.props.id,
+				url: "../api/dashboard/user/profiles/" + this.props.id,
 				method: "DELETE",
 				success: (result) => {
 					if (result.error) {
@@ -76,7 +76,7 @@ export default class Profile extends React.Component {
 		};
 		
 		request({
-			url: "../api/dashboard/profiles/" + this.props.id,
+			url: "../api/dashboard/user/profiles/" + this.props.id,
 			method: "PUT", data,
 			success: (result) => {
 				if (!result.error) this.props.update();

@@ -39,7 +39,7 @@ export default class Profiles extends React.Component {
 		};
 		
 		request({
-			url: "../api/dashboard/profiles",
+			url: "../api/dashboard/user/profiles",
 			method: "POST", data,
 			success: (result) => {
 				this.setState({ creatingProfile: false });
@@ -57,7 +57,7 @@ export default class Profiles extends React.Component {
 
 	_updateProfiles() {
 		request({
-			url: "../api/dashboard/profiles",
+			url: "../api/dashboard/user/profiles",
 			success: (result) => this.setState(result)
 		});
 	}
