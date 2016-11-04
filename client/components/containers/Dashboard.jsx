@@ -12,13 +12,15 @@ export default class Dashboard extends React.Component {
 	}
 	
 	render() {
+		const hash = location.hash.split('/');
+
 		switch(this.props.hash[2]) {
 			case "user":
-				return <UserDashboard />;
+				return <UserDashboard hash={hash} />;
 			case "developer":
-				return <DeveloperDashboard />;
+				return <DeveloperDashboard hash={hash} />;
 			case "affiliate":
-				return <AffiliateDashboard />;
+				return <AffiliateDashboard hash={hash} />;
 		}
 	}
 	
