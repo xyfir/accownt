@@ -1,37 +1,46 @@
 const router = require('express').Router();
 
-/* Dashboard - Account */
-router.get("/dashboard/account", require("./dashboard/account/info"));
-router.put("/dashboard/account", require("./dashboard/account/update"));
+/* Dashboard - Developer - Services */
+router.get("/dashboard/developer/services", require("./dashboard/developer/services/get-all"));
+router.post("/dashboard/developer/services", require("./dashboard/developer/services/create"));
+router.put("/dashboard/developer/services/:id", require("./dashboard/developer/services/edit"));
+router.delete("/dashboard/developer/services/:id", require("./dashboard/developer/services/remove"));
+router.get("/dashboard/developer/services/:id", require("./dashboard/developer/services/get-single"));
+router.post("/dashboard/developer/services/:id/key", require("./dashboard/developer/services/generate-key"));
+router.delete("/dashboard/developer/services/:id/key", require("./dashboard/developer/services/delete-key"));
 
-/* Dashboard - Ads */
-router.get("/dashboard/ads", require("./dashboard/ads/info"));
-router.put("/dashboard/ads", require("./dashboard/ads/update"));
+/* Dashboard - User - Account */
+router.get("/dashboard/user/account", require("./dashboard/user/account/info"));
+router.put("/dashboard/user/account", require("./dashboard/user/account/update"));
 
-/* Dashboard - Profiles */
-router.get("/dashboard/profiles", require("./dashboard/profiles/get-all"));
-router.post("/dashboard/profiles", require("./dashboard/profiles/create"));
-router.get("/dashboard/profiles/:profile", require("./dashboard/profiles/get-single"));
-router.put("/dashboard/profiles/:profile", require("./dashboard/profiles/update"));
-router.delete("/dashboard/profiles/:profile", require("./dashboard/profiles/remove"));
+/* Dashboard - User - Ads */
+router.get("/dashboard/user/ads", require("./dashboard/user/ads/info"));
+router.put("/dashboard/user/ads", require("./dashboard/user/ads/update"));
 
-/* Dashboard - Services */
-router.get("/dashboard/services", require("./dashboard/services/get-all"));
-router.get("/dashboard/services/:service", require("./dashboard/services/get-single"));
-router.put("/dashboard/services/:service", require("./dashboard/services/update"));
-router.delete("/dashboard/services/:service", require("./dashboard/services/remove"));
+/* Dashboard - User - Profiles */
+router.get("/dashboard/user/profiles", require("./dashboard/user/profiles/get-all"));
+router.post("/dashboard/user/profiles", require("./dashboard/user/profiles/create"));
+router.get("/dashboard/user/profiles/:profile", require("./dashboard/user/profiles/get-single"));
+router.put("/dashboard/user/profiles/:profile", require("./dashboard/user/profiles/update"));
+router.delete("/dashboard/user/profiles/:profile", require("./dashboard/user/profiles/remove"));
 
-/* Dashboard - Security */
-router.get("/dashboard/security", require("./dashboard/security/info"));
-router.put("/dashboard/security/codes", require("./dashboard/security/codes"));
-router.put("/dashboard/security/phone", require("./dashboard/security/phone"));
-router.put("/dashboard/security/whitelist", require("./dashboard/security/whitelist"));
-router.put("/dashboard/security/phone/verify", require("./dashboard/security/verify-phone"));
-router.put("/dashboard/security/passwordless", require("./dashboard/security/passwordless"));
+/* Dashboard - User - Services */
+router.get("/dashboard/user/services", require("./dashboard/user/services/get-all"));
+router.get("/dashboard/user/services/:service", require("./dashboard/user/services/get-single"));
+router.put("/dashboard/user/services/:service", require("./dashboard/user/services/update"));
+router.delete("/dashboard/user/services/:service", require("./dashboard/user/services/remove"));
 
-/* Dashboard - Tokens */
-router.get("/dashboard/tokens", require("./dashboard/tokens/get"));
-router.delete("/dashboard/tokens", require("./dashboard/tokens/delete"));
+/* Dashboard - User - Security */
+router.get("/dashboard/user/security", require("./dashboard/user/security/info"));
+router.put("/dashboard/user/security/codes", require("./dashboard/user/security/codes"));
+router.put("/dashboard/user/security/phone", require("./dashboard/user/security/phone"));
+router.put("/dashboard/user/security/whitelist", require("./dashboard/user/security/whitelist"));
+router.put("/dashboard/user/security/phone/verify", require("./dashboard/user/security/verify-phone"));
+router.put("/dashboard/user/security/passwordless", require("./dashboard/user/security/passwordless"));
+
+/* Dashboard - User - Tokens */
+router.get("/dashboard/user/tokens", require("./dashboard/user/tokens/get"));
+router.delete("/dashboard/user/tokens", require("./dashboard/user/tokens/delete"));
 
 /* Login */
 router.post("/login", require("./login/step-1"));
@@ -51,15 +60,6 @@ router.get("/recover/:uid/:auth", require("./recover/"));
 /* Register */
 router.post("/register", require("./register/create-account"));
 router.get("/register/email/:email", require("./register/check-email"));
-
-/* Service - Dashboard */
-router.get("/service/dashboard", require("./service/dashboard/get-all"));
-router.post("/service/dashboard", require("./service/dashboard/create"));
-router.put("/service/dashboard/:id", require("./service/dashboard/edit"));
-router.delete("/service/dashboard/:id", require("./service/dashboard/remove"));
-router.get("/service/dashboard/:id", require("./service/dashboard/get-single"));
-router.post("/service/dashboard/:id/key", require("./service/dashboard/generate-key"));
-router.delete("/service/dashboard/:id/key", require("./service/dashboard/delete-key"));
 
 /* Service */
 router.get("/service/:service", require("./service/info"));
