@@ -1,3 +1,5 @@
+/* USER DASHBOARD */
+
 nav.dashboard-nav {
     
     padding: 0.4em;
@@ -37,45 +39,118 @@ nav.dashboard-nav {
 
 }
 
-.dashboard-security {
+.dashboard-user {
+    
+    .dashboard-security {
 
-    section {
-        border-bottom: solid $llgray 0.2em;
-        padding-bottom: 1em;
+        section {
+            border-bottom: solid $llgray 0.2em;
+            padding-bottom: 1em;
+        }
+    
+    }
+
+    .dashboard-profiles, .dashboard-services {
+
+        .profile-form-view, .service-form-view {
+
+            position: relative;
+
+            h2.profile-name {
+                border-bottom: solid 0.1em $llgray;
+                margin-bottom: 1em;
+            }
+
+            .icon-close {
+                position: absolute;
+                right: 2%;
+                top: 2%;
+            }
+
+        }
+
+    }
+
+    .dashboard-tokens {
+
+        .token {
+
+            margin: 1em;
+            padding: 1em;
+            background-color: $llgray;
+
+            dl {
+                
+                margin: 0em;
+
+                dt {
+                    font-weight: bold;
+                }
+
+                dd {
+                    margin: 0em;
+                }
+
+            }
+
+            button {
+                margin-top: 1em;
+            }
+
+        }
+
+    }
+
+    .dashboard-ads {
+
+        .search-results, .categories {
+
+            margin: 1em;
+
+            span {
+                margin: 0.2em;
+            }
+
+        }
+
+        .search-results > span {
+            color: #777;
+            font-size: 90%;
+        }
+
     }
 
 }
 
-.dashboard-profiles, .dashboard-services {
+/* DEVELOPER DASHBOARD */
 
-    .profile-form-view, .service-form-view {
+.dashboard-developer {
 
-        position: relative;
-
-        h2.profile-name {
-            border-bottom: solid 0.1em $llgray;
-            margin-bottom: 1em;
+    .service-view {
+        
+        input.service-key {
+            display: inline;
         }
 
-        .icon-close {
-            position: absolute;
-            right: 2%;
-            top: 2%;
+        ol {
+            margin: auto;
+        }
+
+        table.requested-info, table.requested-data {
+            margin: auto;
         }
 
     }
 
 }
+
+/* SHARED */
 
 .profile-list-view, .profile-form-view, .service-list-view, .service-form-view {
     border: 1px solid #ddd;
     margin: 1em auto;
     padding: 0.5em;
     width: 80%;
-}
-
-div.link-service.service-form-view {
-    border: none;
 }
 
 .service-form-view {
@@ -126,36 +201,6 @@ div.link-service.service-form-view {
 
 }
 
-.dashboard-tokens {
-
-    .token {
-
-        margin: 1em;
-        padding: 1em;
-        background-color: $llgray;
-
-        dl {
-            
-            margin: 0em;
-
-            dt {
-                font-weight: bold;
-            }
-
-            dd {
-                margin: 0em;
-            }
-
-        }
-
-        button {
-            margin-top: 1em;
-        }
-
-    }
-
-}
-
 nav.nav-bar {
     
     padding: 1em;
@@ -194,62 +239,38 @@ nav.nav-bar {
 }
 
 .profile-list-view, .service-list-view {
+    
     display: table;
+
+    h2 {
+        border-right: 1px solid #ddd;
+        min-width: 13em;
+    }
+
 }
+
 .profile-list-view > *, .service-list-view > * {
     display: table-cell;
     padding: 0.5em;
 }
-.profile-list-view > h2, .service-list-view > h2 {
-    border-right: 1px solid #ddd;
-    min-width: 13em;
+
+.nav, .nav-sub {
+    
+    width: 70%;
+    padding: 0.2em;
+    background-color: $lllgray;
+    margin: 1em auto;
+    border: 0.1em solid $llgray;
+
+    .link-lg {
+        margin: 1em;
+    }
+
 }
+
 .profile-selector {
     height: 2.5em;
     width: 18em;
     font-size: 125%;
     margin: 1em auto;
-}
-
-.search-results, .categories {
-  margin: 1em;
-}
-.search-results > span, .categories > span {
-  margin: 0.2em;
-}
-.search-results > span {
-  color: #777;
-  font-size: 90%;
-}
-
-.nav, .nav-sub {
-    padding: 1em;
-    background-color: #f7f7f7;
-    margin: auto;
-    border: 1px solid #f0f0f0;
-}
-.nav > .link-lg, .nav-sub > .link-lg {
-    margin: 1em;
-}
-.nav {
-    width: 75%;
-}
-.nav-sub {
-    width: 60%;
-    margin-top: 1em;
-}
-
-.service-view {
-    
-    input.service-key {
-        display: inline;
-    }
-
-    ol {
-        margin: auto;
-    }
-
-}
-table.requested-info, table.requested-data {
-  margin: auto;
 }
