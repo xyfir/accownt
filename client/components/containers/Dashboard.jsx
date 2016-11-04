@@ -1,13 +1,9 @@
 import React from "react";
 
 // Components
-import Ads from "components/dashboard/Ads";
-import Nav from "components/dashboard/Nav";
-import Account from "components/dashboard/Account";
-import Profiles from "components/dashboard/Profiles";
-import Security from "components/dashboard/Security";
-import Services from "components/dashboard/Services";
-import AccessTokens from "components/dashboard/Tokens";
+import AffiliateDashboard from "components/dashboard/affiliate/AffiliateDashboard";
+import DeveloperDashboard from "components/dashboard/developer/DeveloperDashboard";
+import UserDashboard from "components/dashboard/user/UserDashboard";
 
 export default class Dashboard extends React.Component {
 	
@@ -16,30 +12,14 @@ export default class Dashboard extends React.Component {
 	}
 	
 	render() {
-		let view;
-
 		switch(this.props.hash[2]) {
-			case "security":
-				view = <Security />; break;
-			case "profiles":
-				view = <Profiles />; break;
-			case "services":
-				view = <Services />; break;
-			case "tokens":
-				view = <AccessTokens />; break;
-			case "ads":
-				view = <Ads />; break;
-			default:
-				view = <Account />;
+			case "user":
+				return <UserDashboard />;
+			case "developer":
+				return <DeveloperDashboard />;
+			case "affiliate":
+				return <AffiliateDashboard />;
 		}
-		
-		return (
-			<div className="dashboard">
-				<Nav active={this.props.hash[2] || "account"} />
-				
-				{view}
-			</div>
-		);
 	}
 	
 }
