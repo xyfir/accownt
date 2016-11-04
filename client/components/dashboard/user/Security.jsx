@@ -1,11 +1,10 @@
 import React from "react";
 
 // Components
-import Button from "../forms/Button";
-import Alert from "../misc/Alert";
+import Button from "components/forms/Button";
 
 // Modules
-import request from "../../lib/request";
+import request from "lib/request";
 
 export default class Security extends React.Component {
 	
@@ -13,9 +12,8 @@ export default class Security extends React.Component {
 		super(props);
 
 		this.state = {
-			error: false, message: "", phone: "", whitelist: "",
-			codes: "", passwordless: 0, verifyingSms: false,
-			loading: true
+			phone: "", whitelist: "", codes: "", passwordless: 0,
+			verifyingSms: false, loading: true
 		};
 
 		this.onUpdatePasswordless = this.onUpdatePasswordless.bind(this);
@@ -45,8 +43,8 @@ export default class Security extends React.Component {
 					code: this.refs.smsCode.value
 				},
 				success: (result) => {
-					this.setState(result);
-					this.setState({verifyingSms: false});
+					this._alert(result.error, result.message);
+					this.setState({ verifyingSms: false });
 				}
 			});
 		}
@@ -57,11 +55,11 @@ export default class Security extends React.Component {
 			request({
 				url: "../api/dashboard/security/phone",
 				method: "PUT", data: { phone },
-				success: (result) => { return; }
+				success: (result) => 1
 			});
 			
 			if (phone != 0)
-				this.setState({verifyingSms: true});
+				this.setState({ verifyingSms: true });
 		}
 	}
 	
@@ -73,7 +71,10 @@ export default class Security extends React.Component {
 				type: this.refs.codeType.value,
 				count: this.refs.codeCount.value
 			},
-			success: (result) => this.setState(result)
+			success: (result) => {
+				this._alert(result.error, result.message);
+				this.setState({ codes: result.codes });
+			}
 		});
 	}
 	
@@ -90,7 +91,7 @@ export default class Security extends React.Component {
 			data: {
 				whitelist: this.refs.whitelist.value.replace("\n", ",")
 			},
-			success: (result) => this.setState(result)
+			success: (result) => this._alert(result.error, result.message)
 		});
 	}
 	
@@ -101,24 +102,22 @@ export default class Security extends React.Component {
 			data: {
 				passwordless: this.refs.passwordless.value
 			},
-			success: (result) => this.setState(result)
+			success: (result) => this._alert(result.error, result.message)
 		});
+	}
+
+	_alert(error, message) {
+		if (error)
+			swal("Error", message, "error");
+		else
+			swal("Success", message, "success");
 	}
 	
 	render() {
 		if (this.state.loading) return <div />;
 
-		let userAlert;
-		
-		if (this.state.error)
-			userAlert = <Alert type="error" title="Error!">{this.state.message}</Alert>;
-		else if (this.state.message)
-			userAlert = <Alert type="success" title="Success!">{this.state.message}</Alert>;
-		
 		return (
 			<div className="dashboard-body dashboard-security">
-				{userAlert}
-				
 				<section className="2fa">
 					<h2>Two Factor Authentication</h2>
 					<p>

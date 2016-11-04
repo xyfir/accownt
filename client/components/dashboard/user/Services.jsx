@@ -4,7 +4,7 @@ import React from "react";
 import Service from "./Service";
 
 // Modules
-import request from "../../lib/request";
+import request from "lib/request";
 
 export default class Services extends React.Component {
 	

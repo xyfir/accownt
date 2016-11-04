@@ -1,20 +1,17 @@
 import React from "react";
 
 // Components
-import Button from "../forms/Button";
-import Alert from "../misc/Alert";
+import Button from "components/forms/Button";
 
 // Modules
-import request from "../../lib/request";
+import request from "lib/request";
 
 export default class Account extends React.Component {
 	
 	constructor(props) {
 		super(props);
 
-		this.state = {
-			error: false, message: "", email: "", recovered: false
-		};
+		this.state = { email: "", recovered: false };
 
 		this.onUpdatePassword = this.onUpdatePassword.bind(this);
 	}
@@ -37,10 +34,14 @@ export default class Account extends React.Component {
 		const conPass = this.refs.rpassword.value;
 		
 		if (newPass != conPass) {
-			this.setState({error: true, message: "Passwords do not match."});
+			swal("Error", "Passwords do not match.", "error");
 		}
 		else if (newPass.length < 12) {
-			this.setState({error: true, message: "Password needs to be at least 12 characters long."});
+			swal(
+				"Error",
+				"Password needs to be at least 12 characters long.",
+				"error"
+			);
 		}
 		else {
 			request({
@@ -50,24 +51,20 @@ export default class Account extends React.Component {
 					currentPassword: curPass,
 					newPassword: newPass
 				},
-				success: (result) => this.setState(result)
+				success: (result) => {
+					if (result.error)
+						swal("Error", this.state.message, "error");
+					else if (this.state.message)
+						swal("Success", this.state.message, "success");
+				}
 			});
 		}
 	}
 	
 	render() {
-		let userAlert;
-		
-		if (this.state.error)
-			userAlert = <Alert type="error" title="Error!">{this.state.message}</Alert>;
-		else if (this.state.message)
-			userAlert = <Alert type="success" title="Success!">{this.state.message}</Alert>;
-		
 		return (
 			<div className="dashboard-body dashboard-account">
-				{userAlert}
-				
-				<h3 style={{marginBottom:"0em"}}>{this.state.email}</h3>
+				<h3>{this.state.email}</h3>
 				<a href="../api/login/logout" className="link-sm">Logout</a>
 				
 				<input

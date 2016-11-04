@@ -1,14 +1,13 @@
 import React from "react";
 
 // Components
-import Button from "../forms/Button";
-import Alert from "../misc/Alert";
+import Button from "components/forms/Button";
 
 // Modules
-import request from "../../lib/request";
+import request from "lib/request";
 
 // Constants
-import { XADS } from "../../constants/config";
+import { XADS } from "constants/config";
 
 export default class Ads extends React.Component {
 	
@@ -16,8 +15,7 @@ export default class Ads extends React.Component {
 		super(props);
 
 		this.state = {
-			categories: [], searchResults: [], setCategories: [],
-			error: false, message: "", info: ""
+			categories: [], searchResults: [], setCategories: [], info: ""
 		};
 
 		this.onSearchCategories = this.onSearchCategories.bind(this);
@@ -64,19 +62,24 @@ export default class Ads extends React.Component {
 			}
 		});
 		
-		this.setState({searchResults: results});
+		this.setState({ searchResults: results });
 	}
 	
 	onAddCategory() {
-		if (this.state.setCategories.indexOf(this.refs.category.value) == -1 && this.state.setCategories.length < 6) {
+		if (
+			this.state.setCategories.indexOf(this.refs.category.value) == -1
+			&& this.state.setCategories.length < 6
+		) {
 			this.setState({
-				setCategories: this.state.setCategories.concat(this.refs.category.value)
+				setCategories: this.state.setCategories.concat(
+					this.refs.category.value
+				)
 			});
 		}
 	}
 	
 	onResetCategories() {
-		this.setState({setCategories: []});
+		this.setState({ setCategories: [] });
 	}
 	
 	onUpdate() {
@@ -88,18 +91,15 @@ export default class Ads extends React.Component {
 		};
 
 		if (data.categories.length > 500)
-			this.setState({error: true, message: "Too many categories provided"});
+			this._alert(true, "Too many categories provided");
 		else if (data.keywords.length > 250)
-			this.setState({error: true, message: "Too many keywords provided"});
+			this._alert(true, "Too many keywords provided");
 		else {
 			request({
 				url: "../api/dashboard/ads",
 				data: data,
 				method: "PUT",
-				success: result => {
-					// error, message
-					this.setState(result);
-				}
+				success: result => this._alert(result.error, result.message)
 			});
 		}
 	}
@@ -113,18 +113,18 @@ export default class Ads extends React.Component {
 			url: "../api/dashboard/ads",
 			data: data,
 			method: "PUT",
-			success: result => this.setState(result)
+			success: result => this._alert(result.error, result.message)
 		});
+	}
+
+	_alert(error, message) {
+		if (error)
+			swal("Error", message, "error");
+		else
+			swal("Success", message, "success");
 	}
 	
 	render() {
-		let userAlert;
-		
-		if (this.state.error)
-			userAlert = <Alert type="error" title="Error!">{this.state.message}</Alert>;
-		else if (this.state.message)
-			userAlert = <Alert type="success" title="Success!">{this.state.message}</Alert>;
-		
 		const i = this.state.info == "" ? "" : JSON.parse(this.state.info);
 	
 		const info = {
@@ -140,8 +140,6 @@ export default class Ads extends React.Component {
 					<br />
 					If this is a feature you do not want to utilize, simply leave your ad profile blank.
 				</p>
-			
-				{userAlert}
 				
 				<label>Age Range</label>
 				<select ref="age" defaultValue={info.age}>
