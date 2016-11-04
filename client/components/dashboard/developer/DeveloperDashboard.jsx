@@ -1,14 +1,14 @@
 import React from "react";
 
 // Components
-import Create from "../service/Create";
-import Manage from "../service/Manage";
-import List from "../service/List";
+import Create from "./Create";
+import Manage from "./Manage";
+import List from "./List";
 
 // Modules
 import request from "lib/request";
 
-export default class Service extends React.Component {
+export default class DeveloperDashboard extends React.Component {
 
     constructor(props) {
         super(props);
@@ -18,8 +18,7 @@ export default class Service extends React.Component {
 		request({
 			url: "../api/dashboard/account",
 			success: (result) => {
-				if (!result.loggedIn)
-					location.hash = "/login";
+				if (!result.loggedIn) location.hash = "/login";
 			}
 		});
 	}
@@ -27,7 +26,7 @@ export default class Service extends React.Component {
     render() {
         let view;
 
-        if (this.props.hash[3] == undefined || this.props.hash[3] == "list")
+        if (!this.props.hash[3] || this.props.hash[3] == "list")
             view = <List />;
         else if (this.props.hash[3] == "create")
             view = <Create />;
@@ -35,12 +34,12 @@ export default class Service extends React.Component {
             view = <Manage hash={this.props.hash} />;
 
         return (
-            <div class="service-dashboard">
+            <div className="dashboard-developer">
                 <nav className="nav">
-                    <a href="#/service/dashboard/create" className="link-lg">
+                    <a href="#/dashboard/developer/create" className="link-lg">
                         Create Service
                     </a>
-                    <a href="#/service/dashboard/list" className="link-lg">
+                    <a href="#/dashboard/developer/list" className="link-lg">
                         View Services
                     </a>
                 </nav>

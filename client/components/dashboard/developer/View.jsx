@@ -1,7 +1,7 @@
 import React from "react";
 
 // Modules
-import request from "../../lib/request";
+import request from "lib/request";
 
 export default class View extends React.Component {
 

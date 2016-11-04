@@ -1,18 +1,17 @@
 import React from "react";
 
 // Components
-import Button from "../forms/Button";
-import Alert from "../misc/Alert";
+import Button from "components/forms/Button";
 
 // Modules
-import request from "../../lib/request";
+import request from "lib/request";
 
 export default class CreateOrEditForm extends React.Component {
 	
 	constructor(props) {
 		super(props);
 
-		this.state = { error: false, message: "", lf: {}, loading: true };
+		this.state = { lf: {}, loading: true };
 
 		this.fields = [
 			{ name: "F. Name", ref: "fname", usedFor: "", optional: false, required: false },
@@ -48,33 +47,40 @@ export default class CreateOrEditForm extends React.Component {
 	
 		// Validate service info
 		if (!this.refs.name.value.match(/^[\w\d\s-]{3,25}$/))
-			this.setState({error: true, message: "Invalid service name"});
+			swal("Error", "Invalid service name", "error");
 		else if (!this.refs.link.value.match(/^[\w\d-&?:\/.=]{1,100}$/))
-			this.setState({error: true, message: "Invalid service link"});
+			swal("Error", "Invalid service link", "error");
 		else if (!this.refs.description.value.match(/^[\w\d\s-,:\/.&?!@#$%*()]{3,150}$/))
-			this.setState({error: true, message: "Invalid service description"});
+			swal("Error", "Invalid service description", "error");
 		else {
 			let error = false;
 			
 			// Validate all required/optional fields service wants from user
 			this.fields.forEach(field => {
 				// Field is marked as optional and/or required
-				if (this.refs["opt-" + field.ref].checked || this.refs["req-" + field.ref].checked) {
+				if (
+					this.refs["opt-" + field.ref].checked
+					|| this.refs["req-" + field.ref].checked
+				) {
 					// Make sure 'Used For' description is valid
 					if (!this.refs["uf-" + field.ref].value.match(/^[\w\d\s-\/]{3,25}$/)) {
-						this.setState({
-							error: true,
-							message: "Invalid 'Used For' description for: " + field.name
-						});
-						error = true;
+						swal(
+							"Error",
+							"Invalid 'Used For' description for: " + field.name,
+							"error"
+						); error = true;
 					}
 					// Field cannot be required AND optional
-					else if (this.refs["opt-" + field.ref].checked && this.refs["req-" + field.ref].checked) {
-						this.setState({
-							error: true,
-							message: "Requested user field '" + field.name + "' cannot be both required and optional"
-						});
-						error = true;
+					else if (
+						this.refs["opt-" + field.ref].checked
+						&& this.refs["req-" + field.ref].checked
+					) {
+						swal(
+							"Error",
+							"Requested user field '" + field.name
+								+ "' cannot be both required and optional",
+							"error"
+						); error = true;
 					}
 					// Add field to info object
 					else {
@@ -100,12 +106,6 @@ export default class CreateOrEditForm extends React.Component {
 	}
 
 	render() {
-		let alert;
-		if (this.state.error)
-			alert = <Alert type="error" title="Error!">{this.state.message}</Alert>;
-		else
-			alert = <div />;
-	
 		let lf = this.state.lf;
 		
 		// Set usedFor/optional/required if loadDataFrom
@@ -132,10 +132,10 @@ export default class CreateOrEditForm extends React.Component {
 	
 		return (
 			<div>
-				{alert}
-				
 				<h3>Service Info</h3>
-				<p>Information that users will see when registering or logging in to your service via Xyfir Accounts.</p>
+				<p>
+					Information that users will see when registering or logging in to your service via Xyfir Accounts.
+				</p>
 				
 				<label>Name</label>
 				<input type="text" ref="name" defaultValue={lf.name || ""} />
@@ -159,36 +159,34 @@ export default class CreateOrEditForm extends React.Component {
 					<tr>
 						<th>Field</th><th>Used For</th><th>Required</th><th>Optional</th>
 					</tr>
-					{
-						this.fields.map(field => {
-							return (
-								<tr>
-									<td>{field.name}</td>
-									<td>
-										<input
-											type="text"
-											ref={"uf-" + field.ref}
-											defaultValue={field.usedFor}
-										/>
-									</td>
-									<td>
-										<input
-											type="checkbox"
-											ref={"req-" + field.ref}
-											defaultChecked={field.required}
-										/>
-									</td>
-									<td>
-										<input
-											type="checkbox"
-											ref={"opt-" + field.ref}
-											defaultChecked={field.optional}
-										/>
-									</td>
-								</tr>
-							);
-						})
-					}
+					{this.fields.map(field => {
+						return (
+							<tr>
+								<td>{field.name}</td>
+								<td>
+									<input
+										type="text"
+										ref={"uf-" + field.ref}
+										defaultValue={field.usedFor}
+									/>
+								</td>
+								<td>
+									<input
+										type="checkbox"
+										ref={"req-" + field.ref}
+										defaultChecked={field.required}
+									/>
+								</td>
+								<td>
+									<input
+										type="checkbox"
+										ref={"opt-" + field.ref}
+										defaultChecked={field.optional}
+									/>
+								</td>
+							</tr>
+						);
+					})}
 				</table>
 			
 				<Button type="primary" onClick={this.onValidate}>

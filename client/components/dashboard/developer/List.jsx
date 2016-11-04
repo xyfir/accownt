@@ -1,10 +1,10 @@
 import React from "react";
 
 // Components
-import Button from "../forms/Button";
+import Button from "components/forms/Button";
 
 // Modules
-import request from "../../lib/request";
+import request from "lib/request";
 
 export default class List extends React.Component {
 	
@@ -28,7 +28,7 @@ export default class List extends React.Component {
 					return (
 						<div className="service-list-view">
 							<h2>
-								<a href={"#/service/dashboard/" + service.id}>
+								<a href={"#/dashboard/developer/" + service.id}>
 									{service.name}
 								</a>
 							</h2>
@@ -36,13 +36,15 @@ export default class List extends React.Component {
 							<Button
 								type="secondary"
 								onClick={() => {
-									location.hash = "/service/dashboard/" + service.id + "/edit";
+									location.hash = "/dashboard/developer/"
+										+ service.id + "/edit";
 								}}
 							><span className="icon-edit" />Edit</Button>
 							<Button
 								type="danger"
 								onClick={() => {
-									location.hash = "/service/dashboard/" + service.id + "/delete";
+									location.hash = "/dashboard/developer/"
+										+ service.id + "/delete";
 								}}
 							><span className="icon-delete" />Delete</Button>
 						</div>

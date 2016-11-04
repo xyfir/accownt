@@ -12,7 +12,7 @@ export default class Manage extends React.Component {
 	}
 
     render() {
-		// #/service/dashboard/:id[/:action]
+		// #/dashboard/developer/:id[/:action]
 		const id = this.props.hash[3];
 		let view;
 
@@ -25,10 +25,10 @@ export default class Manage extends React.Component {
                 view = <View id={id} />;
         }
 		
-		const hash = "#/service/dashboard/" + id;
+		const hash = "#/dashboard/developer/" + id;
 
 		return (
-			<div>
+			<div className="dashboard-body dashboard-manage">
 				<div className="nav-sub">
                     <a href={hash + "/view"} className="link-lg">View</a>
                     <a href={hash + "/edit"} className="link-lg">Edit</a>
