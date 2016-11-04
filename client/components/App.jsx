@@ -8,7 +8,6 @@ import LoginService from "./containers/LoginService";
 import LinkService from "./containers/LinkService";
 import Dashboard from "./containers/Dashboard";
 import Register from "./containers/Register";
-import Service from "./containers/Service";
 import Login from "./containers/Login";
 
 class App extends React.Component {
@@ -48,9 +47,6 @@ class App extends React.Component {
 
             case "dashboard":
                 view = <Dashboard hash={this.state.hash} />; break;
-            
-            case "service":
-                view = <Service hash={this.state.hash} />; break;
 
             default:
                 location.href = "../";
