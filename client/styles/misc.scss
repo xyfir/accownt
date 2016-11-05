@@ -144,6 +144,103 @@ nav.dashboard-nav {
 
 }
 
+/* AFFILIATE DASHBOARD */
+
+.dashboard-affiliate {
+
+    .campaigns-list {
+
+        .campaign {
+
+            border-bottom: solid 0.2em $lgray;
+            padding-bottom: 1em;
+            margin-bottom: 1em;
+
+            .code, .promo-name {
+                font-size: 120%;
+                font-weight: bold;
+            }
+
+            .code {
+                color: $dgray;
+            }
+            
+            .code:after {
+                content: ": ";
+            }
+
+            .promo-description {
+                display: block;
+            }
+
+            .signups, .purchases, .earnings {
+                margin: 0.4em;
+                font-size: 85%
+            }
+
+            .icon-delete {
+                display: block;
+            }
+
+        }
+
+        .campaign:last-child {
+            border-bottom: none;
+            padding-bottom: 0em;
+            margin-bottom: 0em;
+        }
+
+    }
+
+    .create-campaign {
+
+        section.promotions {
+
+            max-height: 15em;
+            overflow: auto;
+
+            .promo-campaign {
+
+                width: 80%;
+                margin: 0 auto;
+
+                .name {
+                    font-weight: bold;
+                }
+
+                .description {
+                    display: block;
+                }
+
+            }
+
+            .promo-campaign.selected > .name {
+                font-style: italic;
+            }
+
+        }
+
+        section.form {
+
+        }
+
+    }
+
+    section {
+        
+        background-color: $lllgray;
+        padding: 0.5em;
+        margin: 1em auto;
+        width: 80%;
+
+        >h3, >h2, >h1, >p {
+            margin: 0em;
+        }
+
+    }
+
+}
+
 /* SHARED */
 
 .profile-list-view, .profile-form-view, .service-list-view, .service-form-view {
