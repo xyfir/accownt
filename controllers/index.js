@@ -1,5 +1,11 @@
 const router = require('express').Router();
 
+/* Dashboard - Affiliate */
+router.get("/dashboard/affiliate", require("./dashboard/affiliate/get-campaigns"));
+router.post("/dashboard/affiliate", require("./dashboard/affiliate/create-campaign"));
+router.delete("/dashboard/affiliate/:code", require("./dashboard/affiliate/delete-campaign"));
+router.get("/dashboard/affiliate/promotions", require("./dashboard/affiliate/get-promotions"));
+
 /* Dashboard - Developer - Services */
 router.get("/dashboard/developer/services", require("./dashboard/developer/services/get-all"));
 router.post("/dashboard/developer/services", require("./dashboard/developer/services/create"));
