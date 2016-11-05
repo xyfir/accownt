@@ -1,6 +1,8 @@
 import React from "react";
 
 // Components
+import Create from "./Create";
+import List from "./List";
 
 // Modules
 import request from "lib/request";
@@ -26,8 +28,21 @@ export default class AffiliateDashboard extends React.Component {
     render() {
         return (
             <div className="dashboard-affiliate">
+                <nav className="nav">
+                    <a href="#/dashboard/affiliate/create" className="link-lg">
+                        Create Campaign
+                    </a>
+                    <a href="#/dashboard/affiliate/list" className="link-lg">
+                        View Campaigns
+                    </a>
+                </nav>
                 
-			</div>
+                {this.props.hash[3] == "create" ? (
+                    <Create />
+                ) : (
+                    <List />
+                )}
+            </div>
         );
     }
 
