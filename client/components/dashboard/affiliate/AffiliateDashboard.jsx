@@ -18,7 +18,7 @@ export default class AffiliateDashboard extends React.Component {
 				if (!result.loggedIn)
                     location.hash = "/login";
                 else if (!result.affiliate)
-                    locoation.hash = "/dashboard/user";
+                    location.hash = "/dashboard/user";
 			}
 		});
 	}
