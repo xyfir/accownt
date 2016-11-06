@@ -2,7 +2,6 @@ import React from "react";
 
 // Components
 import Ads from "./Ads";
-import Nav from "./Nav";
 import Account from "./Account";
 import Profiles from "./Profiles";
 import Security from "./Security";
@@ -35,7 +34,32 @@ export default class UserDashboard extends React.Component {
 		
 		return (
 			<div className="dashboard-user">
-				<Nav active={this.props.hash[3] || "account"} />
+				<nav className="nav">
+					<a
+						href="#/dashboard/user/account"
+						className="link-lg"
+					>Account</a>
+					<a
+						href="#/dashboard/user/security"
+						className="link-lg"
+					>Security</a>
+					<a
+						href="#/dashboard/user/profiles"
+						className="link-lg"
+					>Profiles</a>
+					<a
+						href="#/dashboard/user/services"
+						className="link-lg"
+					>Services</a>
+					<a
+						href="#/dashboard/user/tokens"
+						className="link-lg"
+					>Tokens</a>
+					<a
+						href="#/dashboard/user/ads"
+						className="link-lg"
+					>Ads</a>
+				</nav>
 				
 				{view}
 			</div>
