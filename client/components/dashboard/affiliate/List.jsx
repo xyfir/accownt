@@ -57,12 +57,20 @@ export default class ListAffiliateCampaigns extends React.Component {
 
                 <section className="campaigns">{
                     this.state.campaigns.map(c => {
+                        const link = c.promo.link.replace("%CODE%", c.code);
+
                         return (
                             <div className="campaign" key={c.code}>
                                 <span className="code">{c.code}</span>
                                 <span className="promo-name">{
                                     c.promo.name
                                 }</span>
+
+                                <a
+                                    href={link}
+                                    target="_blank"
+                                    className="promo-link"
+                                >{link}</a>
                                 
                                 <span className="promo-description">{
                                     c.promo.description

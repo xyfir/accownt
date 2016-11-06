@@ -6,7 +6,7 @@ const db = require("lib/db");
         { campaigns: [{
             code: string, signups: number, purchases: number,
             earnings: number, promo: {
-                id: number, name: string, description: string
+                id: number, name: string, description: string, link: string
             }
         }] }
     DESCRIPTION
@@ -44,7 +44,7 @@ module.exports = function(req, res) {
                     for (let p of promos) {
                         if (c.promo_id == p.id) {
                             promo = {
-                                id: p.id, name: p.name,
+                                id: p.id, name: p.name, link: p.link,
                                 description: p.description
                             }; break;
                         }
