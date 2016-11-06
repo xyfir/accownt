@@ -13,7 +13,7 @@ export default class CreateAffiliateCampaign extends React.Component {
 
     componentWillMount() {
 		request({
-			url: "../api/dashboard/affiliate/promotions",
+			url: "../api/affiliate/promotions",
 			success: (result) => this.setState(result)
 		});
 	}
