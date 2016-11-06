@@ -12,8 +12,6 @@ export default class Account extends React.Component {
 		super(props);
 
 		this.state = { email: "", recovered: false };
-
-		this.onUpdatePassword = this.onUpdatePassword.bind(this);
 	}
 	
 	componentWillMount() {
@@ -28,7 +26,9 @@ export default class Account extends React.Component {
 		});
 	}
 	
-	onUpdatePassword() {
+	onUpdatePassword(e) {
+		e.preventDefault();
+
 		const curPass = this.refs.cpassword.value + "";
 		const newPass = this.refs.npassword.value;
 		const conPass = this.refs.rpassword.value;
@@ -64,18 +64,34 @@ export default class Account extends React.Component {
 	render() {
 		return (
 			<div className="dashboard-body dashboard-account">
-				<h3>{this.state.email}</h3>
-				<a href="../api/login/logout" className="link-sm">Logout</a>
+				<section className="main">
+					<h3>{this.state.email}</h3>
+					<a href="../api/login/logout" className="link-sm">
+						Logout
+					</a>
+				</section>
 				
-				<input
-					type={this.state.recovered ? "hidden" : "password" }
-					ref="cpassword"
-					placeholder="Current Password"
-				/>
-				<input type="password" ref="npassword" placeholder="New Password" />
-				<input type="password" ref="rpassword" placeholder="Confirm" />
-				
-				<Button onClick={this.onUpdatePassword}>Update Password</Button>
+				<section className="change-password">
+					<form onSubmit={(e) => this.onUpdatePassword(e)}>
+						<input
+							type={this.state.recovered ? "hidden" : "password" }
+							ref="cpassword"
+							placeholder="Current Password"
+						/>
+						<input
+							type="password"
+							ref="npassword"
+							placeholder="New Password"
+						/>
+						<input
+							type="password"
+							ref="rpassword"
+							placeholder="Confirm"
+						/>
+
+						<Button>Update Password</Button>
+					</form>
+				</section>
 			</div>
 		);
 	}

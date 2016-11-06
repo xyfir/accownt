@@ -101,20 +101,24 @@ export default class AccountRecovery extends React.Component {
 		else {
 			return (
 				<div className="form-step">
-					<div className="form-step-header">
+					<section className="form-step-header">
 						<h2>Account Recovery</h2>
 						<p>
 							Enter the email you use to login with. Emails only linked to a profile will not work.
 						</p>
-						<hr />
-					</div>
+					</section>
 				
-					<div className="form-step-body">
+					<section className="form-step-body">
 						{userAlert}
-						<input type="email" placeholder="Enter your email" ref="email" />
-					</div>
-					
-					<Button onClick={this.onNext}>Next</Button>
+						
+						<input
+							type="email"
+							placeholder="Enter your email"
+							ref="email"
+						/>
+						
+						<Button onClick={this.onNext}>Next</Button>
+					</section>
 				</div>
 			);
 		}

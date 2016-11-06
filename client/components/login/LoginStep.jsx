@@ -1,11 +1,11 @@
 import React from "react";
 
 // Components
-import Button from "../forms/Button";
-import Alert from "../misc/Alert";
+import Button from "components/forms/Button";
+import Alert from "components/misc/Alert";
 
 // Modules
-import request from "../../lib/request";
+import request from "lib/request";
 
 export default class LoginStep extends React.Component {
 

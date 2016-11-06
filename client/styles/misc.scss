@@ -1,65 +1,12 @@
 /* USER DASHBOARD */
 
-nav.dashboard-nav {
-    
-    padding: 0.4em;
-    text-align: center;
-    background-color: $llgray;
-    border: solid 0.1em $lgray;
-
-    a {
-        font-size: 1.5em;
-        margin: 0.3em;
-        padding: 0.2em;
-        cursor: pointer;
-    }
-
-    a:hover {
-        color: $blue;
-        background-color: $lgray;
-    }
-
-    a.active, a.active:hover {
-        background-color: $lblack;
-        color: white;
-    }
-
-}
-
-.dashboard-body {
-
-    h2 {
-        margin-bottom: -0.5em;
-    }
-
-    label {
-        display: block;
-        margin: auto;
-    }
-
-}
-
 .dashboard-user {
-    
-    .dashboard-security {
-
-        section {
-            border-bottom: solid $llgray 0.2em;
-            padding-bottom: 1em;
-        }
-    
-    }
 
     .dashboard-profiles, .dashboard-services {
 
         .profile-form-view, .service-form-view {
 
             position: relative;
-
-            h2.profile-name {
-                border-bottom: solid 0.1em $llgray;
-                margin-bottom: 1em;
-            }
 
             .icon-close {
                 position: absolute;
@@ -169,7 +116,7 @@ nav.dashboard-nav {
                 content: ": ";
             }
 
-            .promo-description {
+            .promo-description, .promo-link {
                 display: block;
             }
 
@@ -220,23 +167,6 @@ nav.dashboard-nav {
 
         }
 
-        section.form {
-
-        }
-
-    }
-
-    section {
-        
-        background-color: $lllgray;
-        padding: 0.5em;
-        margin: 1em auto;
-        width: 80%;
-
-        >h3, >h2, >h1, >p {
-            margin: 0em;
-        }
-
     }
 
 }
@@ -244,7 +174,7 @@ nav.dashboard-nav {
 /* SHARED */
 
 .profile-list-view, .profile-form-view, .service-list-view, .service-form-view {
-    border: 1px solid #ddd;
+    background-color: $llgray;
     margin: 1em auto;
     padding: 0.5em;
     width: 80%;
@@ -351,7 +281,7 @@ nav.nav-bar {
     padding: 0.5em;
 }
 
-.nav, .nav-sub {
+.nav {
     
     width: 70%;
     padding: 0.2em;

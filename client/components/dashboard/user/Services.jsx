@@ -30,13 +30,18 @@ export default class Services extends React.Component {
 	render() {
 		return (
 			<div className="dashboard-body dashboard-services">
-				<div className="service-list">{
-					this.state.services.map(service => {
-						return (
-							<Service id={service.id} update={this._updateServices} />
-						);
-					})
-				}</div>
+				<section className="services">
+					<div className="service-list">{
+						this.state.services.map(service => {
+							return (
+								<Service
+									id={service.id}
+									update={this._updateServices}
+								/>
+							);
+						})
+					}</div>
+				</section>
 			</div>
 		);
 	}

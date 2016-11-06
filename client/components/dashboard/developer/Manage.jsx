@@ -29,7 +29,7 @@ export default class Manage extends React.Component {
 
 		return (
 			<div className="dashboard-body dashboard-manage">
-				<div className="nav-sub">
+				<div className="nav">
                     <a href={hash + "/view"} className="link-lg">View</a>
                     <a href={hash + "/edit"} className="link-lg">Edit</a>
 					<a href={hash + "/delete"} className="link-lg">Delete</a>

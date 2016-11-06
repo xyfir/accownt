@@ -65,22 +65,27 @@ export default class Profiles extends React.Component {
 	render() {
 		return (
 			<div className="dashboard-body dashboard-profiles">
-				<p>
-					Profiles allow you to easily give services linked to your Xyfir Account access to required or optional information. 
-					When linking a service to your Xyfir Account you will be able to choose a profile to for the service to access.
-				</p>
+				<section className="info">
+					<p>
+						Profiles allow you to easily give services linked to your Xyfir Account access to required or optional information.
+						<br />
+						When linking a service to your Xyfir Account you will be able to choose a profile to for the service to access.
+					</p>
+				</section>
 			
-				<div className="profile-list">{
-					this.state.profiles.map(profile => {
-						return (
-							<Profile
-								name={profile.name}
-								id={profile.profile_id}
-								update={this._updateProfiles}
-							/>
-						);
-					})
-				}</div>
+				<section className="profiles">
+					<div className="profile-list">{
+						this.state.profiles.map(profile => {
+							return (
+								<Profile
+									name={profile.name}
+									id={profile.profile_id}
+									update={this._updateProfiles}
+								/>
+							);
+						})
+					}</div>
+				</section>
 				
 				{this.state.creatingProfile ? (
 					<div className="modal profile-create">
@@ -140,9 +145,11 @@ export default class Profiles extends React.Component {
 					<div />
 				)}
 
-				<Button onClick={() => this.setState({ creatingProfile: true })}>
-					Create Profile
-				</Button>
+				<section className="create-profile">
+					<Button
+						onClick={() => this.setState({ creatingProfile: true })}
+					>Create Profile</Button>
+				</section>
 			</div>
 		);
 	}

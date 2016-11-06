@@ -92,40 +92,44 @@ export default class Register extends React.Component {
 					this.state.message
 				}</span>
 
-				<label>Email</label>
-				<span className="input-description">
-					Your email will be used to login to your account, receive notifications, and for account recovery.
-				</span>
-				<input
-					ref="email"
-					type="email"
-					onChange={() => this.onCheckEmail()}
-					placeholder="user@email.com"
-				/>
+				<section className="fields">
+					<label>Email</label>
+					<span className="input-description">
+						Your email will be used to login to your account, receive notifications, and for account recovery.
+					</span>
+					<input
+						ref="email"
+						type="email"
+						onChange={() => this.onCheckEmail()}
+						placeholder="user@email.com"
+					/>
 
-				<label>Password</label>
-				<span className="input-description">
-					A password should contain letters, numbers, special characters and be over 12 characters long.
-				</span>
-				<input
-					ref="password"
-					type="password"
-				/>
-				<input
-					ref="passwordr"
-					type="password"
-				/>
+					<label>Password</label>
+					<span className="input-description">
+						A password should contain letters, numbers, special characters and be over 12 characters long.
+					</span>
+					<input
+						ref="password"
+						type="password"
+					/>
+					<input
+						ref="passwordr"
+						type="password"
+					/>
+				</section>
 
-				<div className="recaptcha-wrapper">
+				<section className="recaptcha-wrapper">
 					<div
 						className="g-recaptcha"
 						data-sitekey={RECAPTCHA_KEY}
 					/>
-				</div>
+				</section>
 
-				<button onClick={() => this.onSubmit()} className="btn-primary">
-					Create account
-				</button>
+				<section className="controls">
+					<button onClick={() => this.onSubmit()} className="btn-primary">
+						Create account
+					</button>
+				</section>
 			</div>
 		);
 	}

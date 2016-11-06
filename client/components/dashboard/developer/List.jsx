@@ -23,7 +23,7 @@ export default class List extends React.Component {
 	
 	render() {
 		return (
-			<div className="service-list">{
+			<section className="service-list">{
 				this.state.services.map(service => {
 					return (
 						<div className="service-list-view">
@@ -50,7 +50,7 @@ export default class List extends React.Component {
 						</div>
 					);
 				})
-			}</div>
+			}</section>
 		);
 	}
 	

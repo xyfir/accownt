@@ -54,15 +54,18 @@ export default class AccessTokens extends React.Component {
         if (this.state.loading) return <div />;
 
 		return (
-			<section className="dashboard-body dashboard-tokens">
-                <p>
-                    Access tokens are generated when you login to a service via Xyfir Accounts.
-                    <br />
-                    Access tokens allow previously authorized devices to access services that use Xyfir Accounts without having to login for each session.
-                    <br />
-                    It is recommended to delete any tokens you don't recognize or if one of your devices are stolen or compromised. Deleting a token only means that the device which has stored that token will have to login to the corresponding service before it can access your account.
-                </p>
-                <div className="tokens">{
+			<div className="dashboard-body dashboard-tokens">
+                <section className="info">
+                    <p>
+                        Access tokens are generated when you login to a service via Xyfir Accounts.
+                        <br />
+                        Access tokens allow previously authorized devices to access services that use Xyfir Accounts without having to login for each session.
+                        <br />
+                        It is recommended to delete any tokens you don't recognize or if one of your devices are stolen or compromised. Deleting a token only means that the device which has stored that token will have to login to the corresponding service before it can access your account.
+                    </p>
+                </section>
+
+                <section className="tokens">{
                     this.state.tokens.map((token, i) => {
                         return (
                             <div className="token">
@@ -98,8 +101,8 @@ export default class AccessTokens extends React.Component {
                             </div>
                         );
                     })
-                }</div>
-            </section>
+                }</section>
+            </div>
 		);
 	}
 	

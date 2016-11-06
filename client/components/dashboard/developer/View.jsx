@@ -77,41 +77,45 @@ export default class View extends React.Component {
 	
 		return (
 			<div className="service-view">
-				<h2>{this.state.name} ({this.state.id})</h2>
-				<p>{this.state.description}</p>
-				<a href={this.state.address}>{this.state.address}</a>
+				<section className="main">
+					<h2>{this.state.name} ({this.state.id})</h2>
+					<p>{this.state.description}</p>
+					<a href={this.state.address}>{this.state.address}</a>
+				</section>
 				
-				<hr />
-				
-				<table className="requested-data">
-					<tr>
-						<th>Field</th><th>Used For</th><th>Required</th>
-					</tr>
-				
-					{requestedData}
-				</table>
+				<section className="requested">
+					<table className="requested-data">
+						<tr>
+							<th>Field</th><th>Used For</th><th>Required</th>
+						</tr>
+					
+						{requestedData}
+					</table>
+				</section>
 
-				<hr />
-
-				<label>Service Keys</label>
-				<ol>{this.state.keys.map(k => {
-					return (
-						<li>
-							<input
-								type="text"
-								value={k}
-								onClick={(e) => e.target.select()}
-								className="service-key"
-							/>
-							<a
-								title="Delete Service Key"
-								onClick={() => this.onDeleteKey(k)}
-								className="icon-delete"
-							/>
-						</li>
-					);
-				})}</ol>
-				<a onClick={this.onGenerateKey}>Generate New Service Key</a>
+				<section className="service-keys">
+					<label>Service Keys</label>
+					<ol>{this.state.keys.map(k => {
+						return (
+							<li>
+								<input
+									type="text"
+									value={k}
+									onClick={(e) => e.target.select()}
+									className="service-key"
+								/>
+								<a
+									title="Delete Service Key"
+									onClick={() => this.onDeleteKey(k)}
+									className="icon-delete"
+								/>
+							</li>
+						);
+					})}</ol>
+					<a onClick={this.onGenerateKey}>
+						Generate New Service Key
+					</a>
+				</section>
 			</div>
 		);
 	}

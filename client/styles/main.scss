@@ -14,6 +14,18 @@ ol {
 	width: 12em;
 	margin: 2em auto;
 }
+section {
+	
+	background-color: $lllgray;
+	padding: 0.5em;
+	margin: 1em auto;
+	width: 80%;
+
+	>h3, >h2, >h1, >p {
+		margin: 0em;
+	}
+
+}
 
 /* FOOTER */
 footer {
@@ -120,7 +132,6 @@ input[type=submit], button, .btn {
 	height: 3.142em;
 	min-width: 7em;
 	color:#fff;
-	padding: 5px 10px;
 	border: 0;
 	text-transform: uppercase;
 	border-radius: 0.15em;

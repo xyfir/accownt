@@ -133,66 +133,82 @@ export default class CreateOrEditForm extends React.Component {
 	
 		return (
 			<div>
-				<h3>Service Info</h3>
-				<p>
-					Information that users will see when registering or logging in to your service via Xyfir Accounts.
-				</p>
+				<section className="main">
+					<h3>Service Info</h3>
+					<p>
+						Information that users will see when registering or logging in to your service via Xyfir Accounts.
+					</p>
+					
+					<label>Name</label>
+					<input
+						type="text"
+						ref="name"
+						defaultValue={lf.name || ""}
+					/>
+					
+					<label>Description</label>
+					<textarea
+						ref="description"
+						defaultValue={lf.description || ""}
+					/>
+					
+					<label>Website</label>
+					<input
+						type="text"
+						ref="link"
+						defaultValue={lf.address || ""}
+					/>
+				</section>
 				
-				<label>Name</label>
-				<input type="text" ref="name" defaultValue={lf.name || ""} />
-				
-				<label>Description</label>
-				<textarea ref="description" defaultValue={lf.description || ""} />
-				
-				<label>Website</label>
-				<input type="text" ref="link" defaultValue={lf.address || ""} />
-				
-				<hr />
-				
-				<h3>Requested Information</h3>
-				<p>
-					This is the information your services wants or needs from a user's account.
-					<br />
-					'Used For' should shortly summarize <em>why</em> your service wants/needs that field from the user.
-				</p>
-				
-				<table className="requested-info">
-					<tr>
-						<th>Field</th><th>Used For</th><th>Required</th><th>Optional</th>
-					</tr>
-					{this.fields.map(field => {
-						return (
-							<tr>
-								<td>{field.name}</td>
-								<td>
-									<input
-										type="text"
-										ref={"uf-" + field.ref}
-										defaultValue={field.usedFor}
-									/>
-								</td>
-								<td>
-									<input
-										type="checkbox"
-										ref={"req-" + field.ref}
-										defaultChecked={field.required}
-									/>
-								</td>
-								<td>
-									<input
-										type="checkbox"
-										ref={"opt-" + field.ref}
-										defaultChecked={field.optional}
-									/>
-								</td>
-							</tr>
-						);
-					})}
-				</table>
+				<section className="requested-info">
+					<h3>Requested Information</h3>
+					<p>
+						This is the information your services wants or needs from a user's account.
+						<br />
+						'Used For' should shortly summarize <em>why</em> your service wants/needs that field from the user.
+					</p>
+					
+					<table className="requested-info">
+						<tr>
+							<th>Field</th><th>Used For</th>
+							<th>Required</th><th>Optional</th>
+						</tr>
+						{this.fields.map(field => {
+							return (
+								<tr>
+									<td>{field.name}</td>
+									<td>
+										<input
+											type="text"
+											ref={"uf-" + field.ref}
+											defaultValue={field.usedFor}
+										/>
+									</td>
+									<td>
+										<input
+											type="checkbox"
+											ref={"req-" + field.ref}
+											defaultChecked={field.required}
+										/>
+									</td>
+									<td>
+										<input
+											type="checkbox"
+											ref={"opt-" + field.ref}
+											defaultChecked={field.optional}
+										/>
+									</td>
+								</tr>
+							);
+						})}
+					</table>
+				</section>
 			
-				<Button type="primary" onClick={this.onValidate}>
-					{this.props.buttonText}
-				</Button>
+				<section className="controls">
+					<Button type="primary" onClick={this.onValidate}>
+						{this.props.buttonText}
+					</Button>
+				</section>
 			</div>
 		);
 	}

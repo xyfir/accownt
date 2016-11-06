@@ -135,62 +135,76 @@ export default class Ads extends React.Component {
 		
 		return (
 			<div className="dashboard-body dashboard-ads">
-				<p>
-					Your ad profile is utilized across the Xyfir Network to help serve you more personalized ads that you may be interested in.
-					<br />
-					If this is a feature you do not want to utilize, simply leave your ad profile blank.
-				</p>
+				<section className="info">
+					<p>
+						Your ad profile is utilized across the Xyfir Network to help serve you more personalized ads that you may be interested in.
+						<br />
+						If this is a feature you do not want to utilize, simply leave your ad profile blank.
+					</p>
+				</section>
 				
-				<label>Age Range</label>
-				<select ref="age" defaultValue={info.age}>
-					<option value="1">18-24</option>
-					<option value="2">25-34</option>
-					<option value="3">35-44</option>
-					<option value="4">45-54</option>
-					<option value="5">55-64</option>
-					<option value="6">65+</option>
-				</select>
-				
-				<label>Gender</label>
-				<select ref="gender" defaultValue={info.gender}>
-					<option value="1">Male</option>
-					<option value="2">Female</option>
-					<option value="3">Other</option>
-				</select>
-				
-				<label>Keywords</label>
-				<small>
-					A comma delimited list of keywords and phrases of things you're interested in.
-					<br />
-					If you have to view ads, they might as well be of some interest to you.
-				</small>
-				<textarea ref="keywords" defaultValue={info.keywords}></textarea>
-				
-				<label>Categories</label>
-				<small>Like keywords, select categories that interest you.</small>
-				<input type="text" ref="category" onChange={this.onSearchCategories} />
-				
-				<div className="search-results">{
-					this.state.searchResults.map(category => {
-						return <span>{category}</span>;
-					})
-				}</div>
-				
-				<Button type="secondary btn-sm" onClick={this.onAddCategory}>
-					Add
-				</Button>
-				<Button type="danger btn-sm" onClick={this.onResetCategories}>
-					Reset
-				</Button>
-				
-				<div className="categories">{
-					this.state.setCategories.map(category => {
-						return <span>{category}</span>;
-					})
-				}</div>
-				
-				<Button onClick={this.onUpdate}>Update Profile</Button>
-				<Button type="danger" onClick={this.onReset}>Reset Profile</Button>
+				<section className="update-profile">
+					<label>Age Range</label>
+					<select ref="age" defaultValue={info.age}>
+						<option value="1">18-24</option>
+						<option value="2">25-34</option>
+						<option value="3">35-44</option>
+						<option value="4">45-54</option>
+						<option value="5">55-64</option>
+						<option value="6">65+</option>
+					</select>
+					
+					<label>Gender</label>
+					<select ref="gender" defaultValue={info.gender}>
+						<option value="1">Male</option>
+						<option value="2">Female</option>
+						<option value="3">Other</option>
+					</select>
+					
+					<label>Keywords</label>
+					<small>
+						A comma delimited list of keywords and phrases of things you're interested in.
+						<br />
+						If you have to view ads, they might as well be of some interest to you.
+					</small>
+					<textarea ref="keywords" defaultValue={info.keywords} />
+					
+					<label>Categories</label>
+					<small>
+						Like keywords, select categories that interest you.
+					</small>
+					<input
+						type="text"
+						ref="category"
+						onChange={this.onSearchCategories}
+					/>
+					
+					<div className="search-results">{
+						this.state.searchResults.map(category => {
+							return <span>{category}</span>;
+						})
+					}</div>
+					
+					<Button type="secondary btn-sm" onClick={this.onAddCategory}>
+						Add
+					</Button>
+					<Button type="danger btn-sm" onClick={this.onResetCategories}>
+						Reset
+					</Button>
+					
+					<div className="categories">{
+						this.state.setCategories.map(category => {
+							return <span>{category}</span>;
+						})
+					}</div>
+					
+					<Button onClick={this.onUpdate}>
+						Update Profile
+					</Button>
+					<Button type="danger" onClick={this.onReset}>
+						Reset Profile
+					</Button>
+				</section>
 			</div>
 		);
 	}
