@@ -105,9 +105,6 @@ export default class Register extends React.Component {
 					/>
 
 					<label>Password</label>
-					<span className="input-description">
-						A password should contain letters, numbers, special characters and be over 12 characters long.
-					</span>
 					<input
 						ref="password"
 						type="password"
