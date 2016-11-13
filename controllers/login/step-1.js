@@ -1,3 +1,4 @@
+const sendVerificationEmail = require("lib/email/send-verification");
 const generateToken = require("lib/tokens/generate");
 const bcrypt = require("bcrypt");
 const db = require("lib/db");
@@ -70,7 +71,7 @@ module.exports = function(req, res) {
                 
                 // Check if account's email is verified
                 if (rows[0].verified == 0) {
-                    require("../../lib/email/sendVerification")(uid, req.body.email);
+                    sendVerificationEmail(uid, req.body.email);
                     res.json({
                         error: true,
                         message: "You cannot login until you've verified your email. A new verification link has been sent to your email."
@@ -86,7 +87,7 @@ module.exports = function(req, res) {
                         if (security.noSecurity) {
                             // User has no extra security measures
                             // Login user
-                            require("../../lib/login/doLogin")(req, uid);
+                            req.session.uid = uid;
                             res.json({
                                 error: false, loggedIn: true, redirect:
                                     req.session.redirect ? req.session.redirect : ""
