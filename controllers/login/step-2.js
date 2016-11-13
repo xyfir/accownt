@@ -15,7 +15,7 @@ module.exports = function(req, res) {
         }
         else {
             // Complete login process
-            require("../../lib/login/doLogin")(req, req.body.uid);
+            req.session.uid = req.body.uid;
             res.json({
                 error: false, loggedIn: true,
                 redirect: req.session.redirect ? req.session.redirect : ""
