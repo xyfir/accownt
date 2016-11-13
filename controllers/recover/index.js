@@ -3,7 +3,7 @@ const validateToken = require("lib/tokens/validate");
 /*
     GET api/recover/:uid/:auth
     DESCRIPTION
-        If recovery link is valid, log in user and set session.recovered = true
+        If recovery link is valid, login user and set session.recovered = true
 */
 module.exports = function(req, res) {
     
@@ -16,7 +16,10 @@ module.exports = function(req, res) {
             req.session.recovered = true;
             req.session.uid = req.params.uid;
 
-            res.redirect(req.session.redirect ? req.session.redirect : "/app/#/dashboard");
+            res.redirect(
+                req.session.redirect
+                ? req.session.redirect : "/app/#/dashboard/user"
+            );
         }
         else {
             res.redirect("/app/#/login");

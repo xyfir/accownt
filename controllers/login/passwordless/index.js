@@ -13,7 +13,10 @@ module.exports = function(req, res) {
     }, isValid => {
         if (isValid) {
             req.session.uid = req.params.uid;
-            res.redirect(req.session.redirect ? req.session.redirect : "/app/#/dashboard");
+            res.redirect(
+                req.session.redirect
+                ? req.session.redirect : "/app/#/dashboard/user"
+            );
         }
         else {
             res.redirect("/app/#/login");
