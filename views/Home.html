@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>Xyfir Accounts</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         
         <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700" rel="stylesheet" type="text/css">
         <link rel="stylesheet" type="text/css" href="/static/css/style.css">
@@ -33,17 +34,23 @@
                     <span class="xyfir">XYFIR</span>
                     <span class="accounts">ACCOUNTS</span>
                 </a>
-                <div class="links">
-                    <a href="app/#/login" class="link-lg">Sign In</a>
-                    <a href="app/#/dashboard/user" class="link-lg">Dashboard</a>
-                    <a href="app/#/dashboard/affiliate" class="link-lg">Affiliate</a>
-                    <a href="app/#/dashboard/developer" class="link-lg">Developer</a>
-                    <a href="app/#/register" class="link-lg">Register</a>
-                </div>
             </nav>
         </header>
 
-        <div id="content">
+        <main id="content">
+            <section class="home-login-links">
+                <a href="app/#/login">Sign In</a>
+                <a href="app/#/register">Register</a>
+            </section>
+
+            <section class="home-dashboard-links">
+                <h2>Dashboards</h2>
+
+                <a href="app/#/dashboard/user">User</a>
+                <a href="app/#/dashboard/affiliate">Affiliate</a>
+                <a href="app/#/dashboard/developer">Developer</a>
+            </section>
+
             <section class="home-for-users">
                 <h2>For Users</h2>
 
@@ -101,9 +108,9 @@
                     <p>Create a service, tell us what information your service requires or wants from users, and we'll return it to you upon login or registration.</p>
                 </div>
                 
-                <a href="https://xyfir.com/#/documentation/xyfir-accounts/integration" class="link-lg">Integration Documentation</a>
+                <a href="https://xyfir.com/#/documentation/xyfir-accounts/integration">Integration Documentation</a>
             </section>
-        </div>
+        </main>
             
         <footer>
             <a href="https://xyfir.com/#/network">Xyfir Network</a>
@@ -118,10 +125,7 @@
             var s = document.createElement("style");
 
             s.innerHTML = "#content {margin-top: "
-                + document.querySelector("header nav").offsetHeight
-                + "px; margin-bottom: "
-                + document.querySelector("footer").offsetHeight
-                + "px;}";
+                + document.querySelector("header nav").scrollHeight + "px;}";
 
             document.body.appendChild(s);
         </script>
