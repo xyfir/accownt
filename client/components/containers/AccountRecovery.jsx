@@ -78,21 +78,19 @@ export default class AccountRecovery extends React.Component {
 			
 			return (
 				<div className="form-step">
-					<div className="form-step-header">
+					<section className="form-step-header">
 						<h2>Security</h2>
 						<p>
 							Your account has extra security measures enabled. 
 							You must enter the correct information before receiving an account recovery email. 
 						</p>
-						<hr />
-					</div>
+					</section>
 				
-					<div className="form-step-body">
+					<section className="form-step-body">
 						{userAlert}
 						{sms}
-						{steps > 1 ? <hr /> : ""}
 						{code}
-					</div>
+					</section>
 					
 					<Button onClick={this.onVerify}>Recover Account</Button>
 				</div>
