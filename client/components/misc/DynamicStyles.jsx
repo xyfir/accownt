@@ -12,9 +12,6 @@ export default class DynamicStyles extends React.Component {
                 margin-top: ${
                     document.querySelector("header nav").offsetHeight
                 }px;
-                margin-bottom: ${
-                    document.querySelector("footer").offsetHeight
-                }px;
             }
         `;
     }
