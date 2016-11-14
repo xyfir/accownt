@@ -301,3 +301,30 @@ nav.nav-bar {
     font-size: 125%;
     margin: 1em auto;
 }
+
+/* HOME */
+.home-for-users p, .home-for-devs p {
+	margin-top: -1em;
+}
+
+section.home-login-links, section.home-dashboard-links {
+    
+    a {
+        display: inline-block;
+        font-size: 125%;
+        margin: 0em 0.4em;
+    }
+
+}
+
+/* MISC */
+nav.login-links {
+    
+    margin-top: 1em;
+
+    a {
+        display: inline-block;
+        margin: 0em 0.25em;
+    }
+
+}

@@ -1,14 +1,17 @@
-/* MISC */
 * {
 	line-height: 142%;
 	font-family: "Source Sans Pro",Calibri,Candara,sans-serif;
 	text-align: center;
 }
-hr {
-	border: 0;
-    height: 1px;
-	margin: 2em;
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+body {
+	margin: 0;
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+}
+main#content {
+	padding: 1em;
+	flex: 1;
 }
 ol {
 	width: 12em;
@@ -31,15 +34,12 @@ section {
 footer {
 	
 	background-color: $llgray;
-	position: fixed;
-	left: 0%;
-	right: 0%;
-	bottom: 0%;
 	padding: 0.2em;
 	border-top: solid 0.1em $lgray;
 
 	a {
-		margin: 0.5em;
+		display: inline-block;
+		margin: 0em 0.5em;
 	}
 
 }
@@ -54,7 +54,7 @@ header {
 		left: 0%;
 		right: 0%;
 		background-color: $llgray;
-		padding: 0.8em;
+		padding-top: 0.8em;
 		z-index: 2;
 		border-bottom: solid 0.1em $lgray;
 
@@ -80,10 +80,6 @@ header {
 
 	}
 
-}
-
-nav.login-links > a {
-	margin: 0.25em;
 }
 
 /* ALERTS */
@@ -206,12 +202,6 @@ label {
     display: block;
     width: 80%;
     margin: auto;
-} 
-
-#content {
-	width: 80%;
-	margin: auto;
-	padding: 1em;
 }
 
 .g-recaptcha {
@@ -220,8 +210,4 @@ label {
 
 .recaptcha-wrapper {
 	text-align: center;
-}
-
-.home-for-users p, .home-for-devs p {
-	margin-top: -1em;
 }
