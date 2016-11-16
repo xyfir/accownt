@@ -21,7 +21,12 @@ export default class LinkService extends React.Component {
 	componentWillMount() {
 		request({
 			url: "../api/service/" + this.state.id,
-			success: (res) => this.setState(res)
+			success: (res) => {
+				if (!res.profiles.length)
+					res.dataTab = "custom";
+				
+				this.setState(res);
+			}
 		});
 	}
 
@@ -29,7 +34,9 @@ export default class LinkService extends React.Component {
 		this.setState({ dataTab: tab });
 	}
 	
-	onLink() {
+	onLink(e) {
+		e.preventDefault();
+
 		let data = {};
 
 		if (this.refs.profile.value != 0) {
@@ -132,19 +139,37 @@ export default class LinkService extends React.Component {
 						</nav>
 
 						{this.state.dataTab == "profile" ? (
-							<div className="profile">
+							<form
+								className="profile"
+								onSubmit={(e) => this.onLink(e)}
+							>
 								<p>
 									Choose a profile and {s.name} will automatically access information you allow from the profile.
+									
+									{!this.state.profiles.length ? (
+										<strong>
+											<br />
+											You don't have any profiles to link!
+										</strong>
+									) : (
+										<span />
+									)}
 								</p>
 								
 								<select
 									ref="profile"
 									className="profile-selector"
+									defaultValue="0"
 								>
-									<option value="0">-</option>
+									<option value="0">
+										Select a profile
+									</option>
+									
 									{this.state.profiles.map(profile => {
 										return (
-											<option value={profile.profile_id}>{profile.name}</option>
+											<option value={profile.profile_id}>{
+												profile.name
+											}</option>
 										);
 									})}
 								</select>
@@ -157,10 +182,17 @@ export default class LinkService extends React.Component {
 									type="checkbox"
 									ref="profile_allow_optional"
 								/>Allow Access to Optional Data
-							</div>
+
+								<Button>Link Service</Button>
+							</form>
 						) : this.state.dataTab == "custom" ? (
-							<div className="custom">
-								<p>Set data that only this service will be able to access.</p>
+							<form
+								className="custom"
+								onSubmit={(e) => this.onLink(e)}
+							>
+								<p>
+									Set data that only this service will be able to access.
+								</p>
 							
 								<label>Email</label>
 								<input type="email" ref="email" /> 
@@ -200,12 +232,12 @@ export default class LinkService extends React.Component {
 								
 								<label>Country Code</label>
 								<input type="text" ref="country" />
-							</div>
+
+								<Button>Link Service</Button>
+							</form>
 						) : (
 							<div />
 						)}
-
-						<Button onClick={() => this.onLink()}>Link Service</Button>
 					</section>
 				</div>
 			);
