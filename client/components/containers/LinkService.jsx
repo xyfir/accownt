@@ -39,7 +39,7 @@ export default class LinkService extends React.Component {
 
 		let data = {};
 
-		if (this.refs.profile.value != 0) {
+		if (this.state.dataTab == "profile") {
 			data = {
 				profile: this.refs.profile.value,
 				required: this.refs.profile_allow_required.checked,
