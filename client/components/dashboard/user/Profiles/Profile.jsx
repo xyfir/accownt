@@ -137,7 +137,7 @@ export default class Profile extends React.Component {
 					<input type="tel" ref="phone" defaultValue={p.phone} />
 					
 					<label>Birthdate</label>
-					<input type="text" ref="birthdate" defaultValue={p.birthdate} />
+					<input type="date" ref="birthdate" defaultValue={p.birthdate} />
 					
 					<br />
 					
