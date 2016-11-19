@@ -185,6 +185,9 @@ input[type=text], input[type=password], input[type=email], input[type=number], i
 input[type=text].input-error, input[type=password].input-error, input[type=email].input-error, input[type=number].input-error, input[type=tel].input-error, input[type=search].input-error, textarea.input-error {
 	border-color: $red;
 }
+input:disabled, select:disabled {
+	background-color: rgb(235, 235, 235);
+}
 p.input-error, span.error {
 	color: $red;
 }
