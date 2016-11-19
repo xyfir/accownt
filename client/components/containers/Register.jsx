@@ -1,20 +1,20 @@
 import React from "react";
 
 // Components
-import Button from "../forms/Button";
+import Button from "components/forms/Button";
 
 // Modules
-import request from "../../lib/request";
+import request from "lib/request";
 
 // Constants
-import { RECAPTCHA_KEY } from "../../constants/config";
+import { RECAPTCHA_KEY } from "constants/config";
 
 export default class Register extends React.Component {
 	
 	constructor(props) {
 		super(props);
 
-		this.state = { error: false, message: "" };
+		this.state = { error: false, message: "", created: false };
 
 		// Load reCAPTCHA lib
         let element = document.createElement("script");
@@ -30,33 +30,19 @@ export default class Register extends React.Component {
 			passwordr: this.refs.passwordr.value,
 			recaptcha: grecaptcha.getResponse()
 		};
-
-		const emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-		let error = "";
 		
-		// Verify data
-		if (!emailRegex.test(data.email))
-			error = "Please enter a valid email.";
-		else if (data.password != data.passwordr)
-			error = "Passwords do not match.";
-		
-		if (error) {
-			this.setState({ error: true, message: error });
+		if (data.password != data.passwordr) {
+			this.setState({ error: true, message: "Passwords do not match." });
 		}
 		else {
 			// Attempt to register user
 			request({
 				url: "../api/register",
 				method: "POST", data, success: (result) => {
-					if (result.error) {
+					if (result.error)
 						this.setState(result);
-					}
-					else {
-						this.setState({
-							error: false, message: "Account created."
-								+ " You will not be able to login until you verify your email."
-						});
-					}
+					else
+						this.setState({ created: true });
 				}
 			});
 		}
@@ -73,7 +59,8 @@ export default class Register extends React.Component {
 					dataType: "text", success: (result) => {
 						if (result == 1) {
 							this.setState({
-								error: true, message: "Email is already linked to an account."
+								error: true,
+								message: "Email is already linked to an account."
 							});
 						}
 						else {
@@ -86,9 +73,29 @@ export default class Register extends React.Component {
 	}
 	
 	render() {
+		if (this.state.created) {
+			return (
+				<div className="register account-created">
+					<section className="info">
+						<span>
+							Account created successfully. A verification link has been sent to your email.
+							<br />
+							You will not be able to login until you verify your email.
+						</span>
+					</section>
+
+					<section className="controls">
+						<Button type="primary" onClick={
+							() => location.hash = "#/login"
+						}>Continue to Login</Button>
+					</section>
+				</div>
+			)
+		}
+
 		return (
 			<div className="register form-step-body">
-				<span className={"message" + (this.state.error ? " error" : "")}>{
+				<span className={this.state.error ? "error" : ""}>{
 					this.state.message
 				}</span>
 
