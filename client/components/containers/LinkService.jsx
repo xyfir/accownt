@@ -16,6 +16,7 @@ export default class LinkService extends React.Component {
 		};
 
 		this._createSession = this._createSession.bind(this);
+		this._isDisabled = this._isDisabled.bind(this);
 	}
 	
 	componentWillMount() {
@@ -85,6 +86,11 @@ export default class LinkService extends React.Component {
 			}
 		});
 	}
+
+	_isDisabled(key) {
+		return !this.state.service.requested.required[key]
+			&& !this.state.service.requested.optional[key];
+	}
 	
 	render() {
 		if (this.state.linked || !this.state.service) {
@@ -92,7 +98,7 @@ export default class LinkService extends React.Component {
 		}
 		else {
 			let s = this.state.service;
-			console.log("state", this.state);
+			
 			return (
 				<div className="link-service service-form-view">
 					<h2 className="service-name">{s.name}</h2>
@@ -173,15 +179,18 @@ export default class LinkService extends React.Component {
 										);
 									})}
 								</select>
-								<input
-									type="checkbox"
-									ref="profile_allow_required"
-									defaultChecked={true}
-								/>Allow Access to Required Data
-								<input
-									type="checkbox"
-									ref="profile_allow_optional"
-								/>Allow Access to Optional Data
+								
+								<div>
+									<input
+										type="checkbox"
+										ref="profile_allow_required"
+										defaultChecked={true}
+									/>Allow Access to Required Data
+									<input
+										type="checkbox"
+										ref="profile_allow_optional"
+									/>Allow Access to Optional Data
+								</div>
 
 								<Button>Link Service</Button>
 							</form>
@@ -195,18 +204,33 @@ export default class LinkService extends React.Component {
 								</p>
 							
 								<label>Email</label>
-								<input type="email" ref="email" /> 
+								<input
+									type="email"
+									ref="email"
+									disabled={this._isDisabled("email")}
+								/> 
 								
 								<br />
 								
 								<label>First Name</label>
-								<input type="text" ref="fname" />
+								<input
+									type="text"
+									ref="fname"
+									disabled={this._isDisabled("fname")}
+								/>
 								
 								<label>Last Name</label>
-								<input type="text" ref="lname" />
+								<input
+									type="text"
+									ref="lname"
+									disabled={this._isDisabled("lname")}
+								/>
 								
 								<label>Gender</label>
-								<select ref="gender">
+								<select
+									ref="gender"
+									disabled={this._isDisabled("gender")}
+								>
 									<option value="0">-</option>
 									<option value="1">Male</option>
 									<option value="2">Female</option>
@@ -214,24 +238,48 @@ export default class LinkService extends React.Component {
 								</select>
 								
 								<label>Phone #</label>
-								<input type="tel" ref="phone" />
+								<input
+									type="tel"
+									ref="phone"
+									disabled={this._isDisabled("phone")}
+								/>
 								
 								<label>Birthdate</label>
-								<input type="text" ref="birthdate" />
+								<input
+									type="date"
+									ref="birthdate"
+									disabled={this._isDisabled("birthdate")}
+								/>
 								
 								<br />
 								
 								<label>Address</label>
-								<input type="text" ref="address" />
+								<input
+									type="text"
+									ref="address"
+									disabled={this._isDisabled("address")}
+								/>
 								
 								<label>Zip Code</label>
-								<input type="number" ref="zip" />
+								<input
+									type="number"
+									ref="zip"
+									disabled={this._isDisabled("zip")}
+								/>
 								
 								<label>State/Province/Region Code</label>
-								<input type="text" ref="region" />
+								<input
+									type="text"
+									ref="region"
+									disabled={this._isDisabled("region")}
+								/>
 								
 								<label>Country Code</label>
-								<input type="text" ref="country" />
+								<input
+									type="text"
+									ref="country"
+									disabled={this._isDisabled("country")}
+								/>
 
 								<Button>Link Service</Button>
 							</form>
