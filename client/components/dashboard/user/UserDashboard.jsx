@@ -3,7 +3,7 @@ import React from "react";
 // Components
 import Ads from "./Ads";
 import Account from "./Account";
-import Profiles from "./Profiles";
+import Profiles from "./Profiles/Index";
 import Security from "./Security";
 import Services from "./Services";
 import AccessTokens from "./Tokens";
