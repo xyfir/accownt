@@ -112,11 +112,17 @@ export default class Service extends React.Component {
 			return (
 				<div className="service-list-view">
 					<h2>{this.state.service.name}</h2>
+
 					<Button type="secondary" onClick={() => this.onToggleView()}>
 						<span className="icon-edit" />Edit
 					</Button>
 					<Button type="danger" onClick={() => this.onUnlink()}>
 						<span className="icon-delete" />Unlink
+					</Button>
+					<Button type="primary" onClick={
+						() => window.open(this.state.service.address)
+					}>
+						<span className="icon-link" />Site
 					</Button>
 				</div>
 			);
@@ -126,11 +132,11 @@ export default class Service extends React.Component {
 			
 			// Create blank form object
 			let form = {
-				email: "", fname: "", lname: "", phone: "", birthdate: "", address: "",
-				zip: "", region: "", country: "", gender: 0
+				email: "", fname: "", lname: "", phone: "", birthdate: "",
+				address: "", zip: "", region: "", country: "", gender: 0
 			};
 			
-			const loadFromProfile = s.info.provided.profile == undefined ? false : true;
+			const loadFromProfile = !!s.info.provided.profile;
 			
 			// If user gave service custom data
 			// merge provided data while leaving unprovided fields blank
@@ -145,7 +151,12 @@ export default class Service extends React.Component {
 						title="Close Form"
 					/>
 
-					<h2 className="service-name">{s.name}</h2>
+					<h2 className="service-name">
+						<a target="_blank" href={s.address}>{
+							s.name
+						}</a>
+					</h2>
+					
 					<p className="service-description">{s.description}</p>
 				
 					<section className="service-info">
@@ -164,11 +175,11 @@ export default class Service extends React.Component {
 						<div className="optional">
 							<span className="title">Optional Information</span>
 							{Object.keys(s.info.requested.optional).length ? (
-								Object.keys(s.info.requested.optional).map(key => {
+								Object.keys(s.info.requested.optional).map(k => {
 									return (
 										<dl>
-											<dt>{key}</dt>
-											<dd>{s.info.requested.optional[key]}</dd>
+											<dt>{k}</dt>
+											<dd>{s.info.requested.optional[k]}</dd>
 										</dl>
 									);
 								})
@@ -197,15 +208,18 @@ export default class Service extends React.Component {
 								<select
 									ref="profile"
 									className="profile-selector"
-									defaultValue={loadFromProfile ? s.info.provided.profile : 0}
+									defaultValue={s.info.provided.profile || 0}
 								>
 									<option value="0">-</option>
-									{this.state.profiles.map(profile => {
+									{this.state.profiles.map(p => {
 										return (
-											<option value={profile.profile_id}>{profile.name}</option>
+											<option value={p.profile_id}>{
+												p.name
+											}</option>
 										);
 									})}
 								</select>
+
 								<input
 									type="checkbox"
 									ref="profile_allow_required"
@@ -215,14 +229,17 @@ export default class Service extends React.Component {
 									type="checkbox"
 									ref="profile_allow_optional"
 									defaultChecked={
-										loadFromProfile && s.info.provided.optional == "true"
-										? true: false
+										loadFromProfile
+										&& s.info.provided.optional == "true"
+										? true : false
 									}
 								/>Allow Access to Optional Data
 							</div>
 						) : this.state.updateTab == "custom" ? (
 							<div className="custom">
-								<p>Set data that only this service will be able to access.</p>
+								<p>
+									Set data that only this service will be able to access.
+								</p>
 							
 								<label>Email</label>
 								<input
@@ -303,7 +320,9 @@ export default class Service extends React.Component {
 							<div />
 						)}
 
-						<Button onClick={() => this.onUpdateService()}>Update Service</Button>
+						<Button onClick={() => this.onUpdateService()}>
+							Update Service
+						</Button>
 					</section>
 				</div>
 			);
