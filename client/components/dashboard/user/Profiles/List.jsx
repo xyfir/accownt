@@ -13,9 +13,15 @@ export default class ProfileList extends React.Component {
 		super(props);
 
 		this.state = { profiles: [] };
+
+		this._updateProfiles = this._updateProfiles.bind(this);
 	}
 	
 	componentWillMount() {
+		this._updateProfiles();
+	}
+
+	_updateProfiles() {
 		request({
 			url: "../api/dashboard/user/profiles",
 			success: (result) => this.setState(result)
