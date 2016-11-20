@@ -160,6 +160,13 @@ export default class LinkService extends React.Component {
 									) : (
 										<span />
 									)}
+
+									<br />
+
+									<a href={
+										"#/dashboard/user/profiles/create?rdr="
+										+ encodeURIComponent(location.hash)
+									}>Create New Profile</a>
 								</p>
 								
 								<select
