@@ -1,5 +1,7 @@
-const config = require("config");
+const rword = require("rword");
 const db = require("lib/db");
+
+const config = require("config");
 
 /*
     PUT api/dashboard/user/security/codes
@@ -9,28 +11,38 @@ const db = require("lib/db");
         { error: bool, codes: string, message: string }
 */
 module.exports = function(req, res) {
+
+    let sql = "", vars = [];
 		
     // Check if user is removing all codes
     if (req.body.count == 0) {
-        db(cn => {
-            cn.query("UPDATE security SET codes = '' WHERE user_id = ?", [req.session.uid], (err, result) => {
-                cn.release();
-                res.json({error: false, codes: "", message: "Security codes removed from account."});
+        sql = `
+            UPDATE security SET codes = '' WHERE user_id = ?
+        `, vars = [
+            req.session.uid
+        ];
+
+        db(cn => cn.query(sql, vars, (err, result) => {
+            cn.release();
+            res.json({
+                error: false, codes: "",
+                message: "Security codes removed from account."
             });
-        });
+        }));
         return;
     }
     
     // Check provided data
-    if (req.body.type > 3 || req.body.type == 0 || req.body.count > 20 || req.body.count < 5) {
-        res.json({error: true, message: "Invalid data."});
+    if (
+        req.body.type > 3 || req.body.type == 0
+        || req.body.count > 20 || req.body.count < 5
+    ) {
+        res.json({ error: true, message: "Invalid data." });
         return;
     }
     
     // req.body.type: 1 = numbers, 2 = words, 3 = both
-    let codes = [];
-    let words = 0;
-    let numbers = 0;
+    let codes = [], words = 0, numbers = 0;
     
     // Calculate number of numbers to generate
     if (req.body.type == 1)
@@ -50,38 +62,38 @@ module.exports = function(req, res) {
         codes.push(Math.floor(Math.random() * (10000 - 1000) + 1000));
     }
     
-    const success = function() {
-        // Shuffle array
-        for (let i = codes.length - 1; i > 0; i--) {
-            let j = Math.floor(Math.random() * (i + 1));
-            let temp = codes[i];//te
-            codes[i] = codes[j];
-            codes[j] = temp;
-        }
+    // Generate words
+    if (words > 0) {
+        const rWords = rword(words);
+
+        typeof rWords == "string"
+            ? codes.push(rWords)
+            : rWords.forEach(w => codes.push(w));
+    }
+
+    // Shuffle array
+    for (let i = codes.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
         
-        // Save list to database
-        db(cn => {
-            cn.query("UPDATE security SET codes = ? WHERE user_id = ?", [codes.toString(), req.session.uid], (err, result) => {
-                cn.release();
-                
-                res.json({codes: codes.toString(), error: false, message: "Security codes successfully updated."});
-            });
+        let temp = codes[i];
+        codes[i] = codes[j];
+        codes[j] = temp;
+    }
+
+    sql = `
+        UPDATE security SET codes = ? WHERE user_id = ?
+    `, vars = [
+        codes.join(","), req.session.uid
+    ];
+    
+    // Save list to database
+    db(cn => cn.query(sql, vars, (err, result) => {
+        cn.release();
+        
+        res.json({
+            codes: codes.toString(), error: false,
+            message: "Security codes successfully updated."
         });
-    };
-    
-    if (req.body.type == 1)
-        success();
-    
-    // Add random words to list
-    require("request")(
-        config.addresses.randomWords + "?count=" + words,
-        (err, response, body) => {
-            JSON.parse(body).words.forEach(word => {
-                codes.push(word);
-            });
-            
-            success();
-        }
-    );
+    }));
 
 }
