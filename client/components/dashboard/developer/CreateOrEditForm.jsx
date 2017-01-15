@@ -49,7 +49,7 @@ export default class CreateOrEditForm extends React.Component {
 		// Validate service info
 		if (!this.refs.name.value.match(/^[\w\d\s-]{3,25}$/))
 			swal("Error", "Invalid service name", "error");
-		else if (!this.refs.link.value.match(/^[\w\d-&?:\/.=]{1,100}$/))
+		else if (!this.refs.link.value.match(/^https?:\/\/.{1,92}$/))
 			swal("Error", "Invalid service link", "error");
 		else if (!this.refs.description.value.match(/^[\w\d\s-,:\/.&?!@#$%*()]{3,150}$/))
 			swal("Error", "Invalid service description", "error");
