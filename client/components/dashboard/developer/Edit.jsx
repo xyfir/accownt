@@ -22,9 +22,9 @@ export default class Edit extends React.Component {
 			data, method: "PUT",
 			success: res => {
 				if (res.error)
-					swal("Error", result.message, "error");
+					swal("Error", res.message, "error");
 				else
-					swal("Success", result.message, "success");
+					swal("Success", res.message, "success");
 			}
 		});
 	}

@@ -23,9 +23,9 @@ export default class CreateService extends React.Component {
 			data, method: "POST",
 			success: (res) => {
 				if (res.error)
-					swal("Error", result.message, "error");
+					swal("Error", res.message, "error");
 				else
-					swal("Success", result.message, "success");
+					swal("Success", res.message, "success");
 			}
 		});
 	}
