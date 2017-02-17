@@ -10,8 +10,7 @@ export default class LinkService extends React.Component {
     super(props);
 
     this.state = {
-      linked: false, dataTab: 'profile', id: this.props.hash[2],
-      error: ''
+      linked: false, dataTab: 'profile', id: this.props.hash[2]
     };
 
     this._createSession = this._createSession.bind(this);
@@ -20,19 +19,17 @@ export default class LinkService extends React.Component {
   
   componentWillMount() {
     request
-      .get('../api/service' + this.state.id)
+      .get('../api/service/' + this.state.id)
       .end((err, res) => {
-        if (err || !res.error) {
-          if (res.message == 'Not logged in')
+        if (err || res.body.error) {
+          if (res.body.message == 'Not logged in')
             location.hash = "#/login";
-          else
-            this.setState({ error: (res.message || 'Unknown error') });
         }
         else {
-          if (!res.profiles.length)
-            res.dataTab = 'custom';
+          if (!res.body.profiles.length)
+            res.body.dataTab = 'custom';
           
-          this.setState(res);
+          this.setState(res.body);
         }
       });
   }
@@ -42,7 +39,7 @@ export default class LinkService extends React.Component {
   }
   
   onLink(e) {
-    e.preventDefault();
+    e && e.preventDefault();
 
     let data = {};
 
@@ -68,29 +65,29 @@ export default class LinkService extends React.Component {
       };
     }
   
-    request({
-      url: '../api/service/link/' + this.state.id,
-      method: 'POST', data,
-      success: (res) => {
-        if (res.error) {
-          swal('Error', res.message, 'error');
+    request
+      .post('../api/service/link/' + this.state.id)
+      .send(data)
+      .end((err, res) => {
+        if (err || res.body.error) {
+          swal('Error', res.body.message, 'error');
         }
         else {
           this.setState({ linked: true });
           this._createSession();
         }
-      }
-    });
+      });
   }
   
   _createSession() {
-    request({
-      url: '../api/service/session/' + this.state.id,
-      method: 'POST', success: (data) => {
+    request
+      .post('../api/service/session/' + this.state.id)
+      .end((err, res) => {
+        const data = res.body || {};
+
         // Redirect user to service's login
         location.href = `${data.address}?auth=${data.auth}&xid=${data.xid}`;
-      }
-    });
+      })
   }
 
   _isDisabled(key) {
