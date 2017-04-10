@@ -1,65 +1,74 @@
-const generateToken = require("lib/tokens/generate");
-const db = require("lib/db");
+const initiateSecurityProcess = require('lib/security/initiate');
+const sendRecoveryEmail = require('lib/email/send-recovery');
+const generateToken = require('lib/tokens/generate');
+const mysql = require('lib/mysql');
 
 /*
-    POST api/recover
-    REQUIRED
-        email: string
-    RETURN
-        {
-            error: bool, message?: string, uid?: number,
-            auth?: string, security?: { ** }
-        }
+  POST api/recover
+  REQUIRED
+    email: string
+  RETURN
+    {
+      error: bool, message?: string, uid?: number,
+      auth?: string, security?: object
+    }
 */
-module.exports = function(req, res) {
-    
-    db(cn => {
-        cn.query("SELECT id FROM users WHERE email = ? AND verified = ?", [req.body.email, 1], (err, rows) => {
-            if (rows.length == 0) {
-                cn.release();
-                res.json({error: true, message: "An unknown error occured."});
-                return;
-            }
-            
-            const uid = rows[0].id;
-            
-            cn.query("SELECT phone, codes, addresses FROM security WHERE user_id = ?", [uid], (err, rows) => {
-                cn.release();
-                
-                require("../../lib/security/initiate")(uid, req, rows[0], security => {
-                    if (security.noSecurity) {
-                        // User has no extra security measures
-                        // Send account recovery email
-                        require("../../lib/email/sendRecovery")(uid, req.body.email)
-                        res.json({error: false, message: "An account recovery link has been sent to your email."});
-                    }
-                    else {
-                        if (security.error) {
-                            res.json(security); //{error,message}
-                        }
-                        else {
-                            // Send security object back to client
-                            let response = {
-                                security: security,
-                                error: false,
-                                message: "",
-                                email: req.body.email,
-                                uid: uid,
-                                auth: ""
-                            };
-                            
-                            // Generate auth token
-                            generateToken({
-                                user: uid, type: 1
-                            }, token => {
-                                response.auth = token;
-                                res.json(response);
-                            });
-                        }
-                    }
-                });
-            });
-        });
-    });
+module.exports = async function(req, res) {
+
+  const db = new mysql();
+
+  try {
+    await db.getConnection();
+
+    let rows = await db.query(
+      'SELECT id FROM users WHERE email = ? AND verified = ?',
+      [req.body.email, 1]
+    );
+
+    if (!rows.length) throw 'An unknown error occured';
+
+    const uid = rows[0].id;
+
+    rows = await db.query(
+      'SELECT phone, codes FROM security WHERE user_id = ?',
+      [uid]
+    );
+    db.release();
+
+    const security = await initiateSecurityProcess(uid, rows[0]);
+
+    if (security.noSecurity) {
+      // User has no extra security measures
+      // Send account recovery email
+      sendRecoveryEmail(uid, req.body.email);
+      res.json({
+        error: false,
+        message: 'An account recovery link has been sent to your email'
+      });
+    }
+    else if (security.error) {
+      res.json(security);
+    }
+    else {
+      // Send security object back to client
+      const response = {
+        error: false, message: '', email: req.body.email, auth: '',
+        uid, security
+      };
+      
+      // Generate auth token
+      generateToken({
+        user: uid, type: 1
+      },
+      token => {
+        response.auth = token;
+        res.json(response);
+      });
+    }
+  }
+  catch (err) {
+    db.release();
+    res.json({ error: true, message: err });
+  }
 
 }
