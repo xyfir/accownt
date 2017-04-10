@@ -1,25 +1,27 @@
-const db = require("lib/db");
+const mysql = require('lib/mysql');
 
 /*
-    GET api/dashboard/user/security
-    RETURN
-        {
-            phone: string, codes: string, whitelist: string,
-            passwordless: boolean
-        }
+  GET api/dashboard/user/security
+  RETURN
+    { error: boolean, phone: string, codes: string, passwordless: number }
 */
-module.exports = function(req, res) {
-    
-    db(cn => {
-        cn.query("SELECT * FROM security WHERE user_id = ?", [req.session.uid], (err, rows) => {
-            cn.release();
-            res.json({
-                phone: rows[0].phone,
-                codes: rows[0].codes,
-                whitelist: rows[0].addresses,
-                passwordless: rows[0].passwordless
-            });
-        });
-    });
+module.exports = async function(req, res) {
+
+  const db = new mysql();
+
+  try {
+    await db.getConnection();
+
+    const rows = await db.query(
+      'SELECT * FROM security WHERE user_id = ?',
+      [req.session.uid]
+    );
+    db.release();
+
+    res.json(rows[0]);
+  }
+  catch (err) {
+    res.json({ error: true });
+  }
 
 }
