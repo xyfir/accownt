@@ -1,66 +1,55 @@
-import React from "react";
+import request from 'superagent';
+import React from 'react';
 
 // Components
-import Profile from "./Profile";
-import Button from "components/forms/Button";
-
-// Modules
-import request from "lib/request";
+import Profile from './Profile';
+import Button from 'components/forms/Button';
 
 export default class ProfileList extends React.Component {
-	
-	constructor(props) {
-		super(props);
+  
+  constructor(props) {
+    super(props);
 
-		this.state = { profiles: [] };
+    this.state = { profiles: [] };
+  }
+  
+  componentWillMount() {
+    request
+      .get('../api/dashboard/user/profiles')
+      .end((err, res) => !err && this.setState(res.body));
+  }
+  
+  render() {
+    return (
+      <div className='dashboard-body dashboard-profiles'>
+        <section className='info'>
+          <p>
+            Profiles allow you to easily give services linked to your Xyfir Account access to required or optional information.
+            <br />
+            When linking a service to your Xyfir Account you will be able to choose a profile to for the service to access.
+          </p>
+        </section>
+      
+        <section className='profiles'>
+          <div className='profile-list'>{
+            this.state.profiles.map(profile =>
+              <Profile
+                id={profile.profile_id}
+                key={profile.profile_id}
+                name={profile.name}
+              />
+            )
+          }</div>
+        </section>
 
-		this._updateProfiles = this._updateProfiles.bind(this);
-	}
-	
-	componentWillMount() {
-		this._updateProfiles();
-	}
-
-	_updateProfiles() {
-		request({
-			url: "../api/dashboard/user/profiles",
-			success: (result) => this.setState(result)
-		});
-	}
-	
-	render() {
-		return (
-			<div className="dashboard-body dashboard-profiles">
-				<section className="info">
-					<p>
-						Profiles allow you to easily give services linked to your Xyfir Account access to required or optional information.
-						<br />
-						When linking a service to your Xyfir Account you will be able to choose a profile to for the service to access.
-					</p>
-				</section>
-			
-				<section className="profiles">
-					<div className="profile-list">{
-						this.state.profiles.map(profile => {
-							return (
-								<Profile
-									name={profile.name}
-									id={profile.profile_id}
-									update={this._updateProfiles}
-								/>
-							);
-						})
-					}</div>
-				</section>
-
-				<section className="create-profile">
-					<button
-						className="btn-primary"
-						onClick={() => location.hash += "/create"}
-					>Create Profile</button>
-				</section>
-			</div>
-		);
-	}
-	
+        <section className='create-profile'>
+          <button
+            className='btn-primary'
+            onClick={() => location.hash += '/create'}
+          >Create Profile</button>
+        </section>
+      </div>
+    );
+  }
+  
 }
