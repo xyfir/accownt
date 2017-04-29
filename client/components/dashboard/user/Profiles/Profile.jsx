@@ -1,5 +1,6 @@
 import request from 'superagent';
 import React from 'react';
+import b from 'based-blob';
 
 // Components
 import Button from 'components/forms/Button';
@@ -12,6 +13,9 @@ export default class Profile extends React.Component {
     this.state = { view: 'list', profile: {} };
   }
   
+  /**
+   * Load the profile's full data.
+   */
   componentWillMount() {
     request
       .get('../api/dashboard/user/profiles/' + this.props.id)
@@ -20,10 +24,16 @@ export default class Profile extends React.Component {
       );
   }
   
+  /**
+   * Switch between 'list' and 'full' views.
+   */
   onToggleView() {
     this.setState({ view: this.state.view == 'list' ? 'full' : 'list' });
   }
   
+  /**
+   * Delete the profile if the user accepts confirmation prompt.
+   */
   onDeleteProfile() {
     swal({
       title: 'Are you sure?',
@@ -47,10 +57,25 @@ export default class Profile extends React.Component {
         })
     );
   }
+
+  /**
+   * Converts image to a base64 url data string and saves the string to 
+   * `this.refs.picture.src`.
+   * @param {Event} e
+   */
+  onUploadPicture(e) {
+    b.toBase64(e.target.files[0]).then(
+      b64 => this.refs.picture.src = b64
+    );
+  }
   
+  /**
+   * Sends the form's values and reloads the page regardless of response.
+   * @param {Event} e 
+   */
   onUpdateProfile(e) {
     e && e.preventDefault();
-    
+
     request
       .put('../api/dashboard/user/profiles/' + this.props.id)
       .send({
@@ -64,7 +89,8 @@ export default class Profile extends React.Component {
         address: this.refs.address.value,
         zip: this.refs.zip.value,
         region: this.refs.region.value,
-        country: this.refs.country.value
+        country: this.refs.country.value,
+        picture: this.refs.picture.src
       })
       .end((err, res) => location.reload());
   }
@@ -140,6 +166,13 @@ export default class Profile extends React.Component {
           
           <label>Country Code</label>
           <input type='text' ref='country' defaultValue={p.country} />
+
+          <div className='picture'>
+            <label>Profile Picture</label>
+            <input type='file' onChange={e => this.onUploadPicture(e)} />
+
+            <img src={p.picture} ref='picture' />
+          </div>
 
           <br />
           
