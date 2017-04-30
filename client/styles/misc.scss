@@ -195,19 +195,6 @@
   }
 }
 
-nav.nav-bar {
-  padding: 1em;
-  background-color: $lllgray;
-  margin: 1em auto;
-  border: 0.1em solid $llgray;
-  width: 75%;
-
-  a {
-    margin: 1em;
-    font-size: 110%;
-  }
-}
-
 .modal {
   position: fixed;
   background-color: white;
@@ -240,18 +227,6 @@ nav.nav-bar {
 .profile-list-view > *, .service-list-view > * {
   display: table-cell;
   padding: 0.5em;
-}
-
-.nav {
-  width: 70%;
-  padding: 0.2em;
-  background-color: $lllgray;
-  margin: 1em auto;
-  border: 0.1em solid $llgray;
-
-  .link-lg {
-    margin: 1em;
-  }
 }
 
 .profile-selector {
