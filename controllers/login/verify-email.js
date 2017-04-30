@@ -25,12 +25,12 @@ module.exports = function(req, res) {
             db(cn => cn.query(sql, vars, (err, result) => {
                 if (err || !result.affectedRows) {
                     cn.release();
-                    res.redirect("/app/#/login");
+                    res.redirect("/#/login");
                 }
                 else {
                     res.redirect(
                         req.session.redirect
-                        ? req.session.redirect : "/app/#/dashboard/user"
+                        ? req.session.redirect : "/#/dashboard/user"
                     );
                     req.session.redirect = "";
 
@@ -54,7 +54,7 @@ module.exports = function(req, res) {
             }));
         }
         else {
-            res.redirect("/app/#/login");
+            res.redirect("/#/login");
         }
     });
 

@@ -13,7 +13,7 @@ module.exports = function(req, res) {
 
 	if (!req.session.uid) {
 		req.session.redirect = config.addresses.xacc
-			+ "app/#/login/" + req.params.service;
+			+ "#/login/" + req.params.service;
 		res.json(({ error: true, message: "Not logged in" }));
 		return;
 	}
