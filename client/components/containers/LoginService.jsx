@@ -39,7 +39,7 @@ export default class LoginService extends React.Component {
 	
 	_createSession() {
 		request({
-			url: "../api/service/session/" + this.state.service,
+			url: `../api/service/${this.state.service}/session`,
 			method: "POST",
 			success: data => {
 				this.setState({

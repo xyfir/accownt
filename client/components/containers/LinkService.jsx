@@ -10,7 +10,7 @@ export default class LinkService extends React.Component {
     super(props);
 
     this.state = {
-      linked: false, dataTab: 'profile', id: this.props.hash[2]
+      linked: false, tab: 'profile', id: this.props.hash[2]
     };
 
     this._createSession = this._createSession.bind(this);
@@ -27,7 +27,7 @@ export default class LinkService extends React.Component {
         }
         else {
           if (!res.body.profiles.length)
-            res.body.dataTab = 'custom';
+            res.body.tab = 'custom';
           
           this.setState(res.body);
         }
@@ -35,7 +35,7 @@ export default class LinkService extends React.Component {
   }
 
   onChangeTab(tab) {
-    this.setState({ dataTab: tab });
+    this.setState({ tab });
   }
   
   onLink(e) {
@@ -43,7 +43,7 @@ export default class LinkService extends React.Component {
 
     let data = {};
 
-    if (this.state.dataTab == 'profile') {
+    if (this.state.tab == 'profile') {
       data = {
         profile: this.refs.profile.value,
         required: this.refs.profile_allow_required.checked,
@@ -66,7 +66,7 @@ export default class LinkService extends React.Component {
     }
   
     request
-      .post('../api/service/link/' + this.state.id)
+      .post(`../api/service/${this.state.id}/link`)
       .send(data)
       .end((err, res) => {
         if (err || res.body.error) {
@@ -81,7 +81,7 @@ export default class LinkService extends React.Component {
   
   _createSession() {
     request
-      .post('../api/service/session/' + this.state.id)
+      .post(`../api/service/${this.state.id}/session`)
       .end((err, res) => {
         const data = res.body || {};
 
@@ -100,7 +100,7 @@ export default class LinkService extends React.Component {
       return <div />;
     }
     else {
-      let s = this.state.service;
+      const s = this.state.service;
       
       return (
         <div className='link-service service-form-view'>
@@ -147,7 +147,7 @@ export default class LinkService extends React.Component {
               </a>
             </nav>
 
-            {this.state.dataTab == 'profile' ? (
+            {this.state.tab == 'profile' ? (
               <form
                 className='profile'
                 onSubmit={(e) => this.onLink(e)}
@@ -204,7 +204,7 @@ export default class LinkService extends React.Component {
 
                 <Button>Link Service</Button>
               </form>
-            ) : this.state.dataTab == 'custom' ? (
+            ) : this.state.tab == 'custom' ? (
               <form
                 className='custom'
                 onSubmit={(e) => this.onLink(e)}
