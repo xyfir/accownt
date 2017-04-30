@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "app-module-path": "^2.2.0",
+    "based-blob": "^1.0.0",
     "bcrypt": "^1.0.2",
     "body-parser": "^1.17.1",
     "cron": "^1.2.1",
@@ -17,11 +18,11 @@
     "express-mysql-session": "^1.2.0",
     "express-session": "^1.15.2",
     "mailcomposer": "^4.0.2",
-    "mailgun-js": "^0.9.1",
+    "mailgun-js": "^0.10.1",
     "mysql": "^2.13.0",
     "randomstring": "^1.1.5",
-    "react": "^15.5.3",
-    "react-dom": "^15.5.3",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
     "request": "^2.81.0",
     "rword": "^2.1.0",
     "superagent": "^3.5.2",
@@ -44,6 +45,7 @@
     "gulp-uglify": "^2.1.2",
     "gulp-util": "^3.0.8",
     "precss": "^1.4.0",
+    "uglify-js": "github:mishoo/UglifyJS2#harmony",
     "vinyl-source-stream": "^1.1.0"
   }
 }
