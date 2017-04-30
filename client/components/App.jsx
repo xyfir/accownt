@@ -3,12 +3,12 @@ import React from 'react';
 
 // Components
 import AccountRecovery from './containers/AccountRecovery';
-import DynamicStyles from './misc/DynamicStyles';
 import LoginService from './containers/LoginService';
 import LinkService from './containers/LinkService';
 import Dashboard from './containers/Dashboard';
 import Register from './containers/Register';
 import Login from './containers/Login';
+import Home from './containers/Home';
 
 // react-md
 import Subheader from 'react-md/lib/Subheaders';
@@ -36,7 +36,8 @@ class App extends React.Component {
 
     switch (this.state.hash[1]) {
       case 'recover':
-        view = <AccountRecovery hash={this.state.hash} />; break;
+        view = <AccountRecovery hash={this.state.hash} />;
+        break;
       
       case 'login':
         if (!this.state.hash[2])
@@ -53,16 +54,24 @@ class App extends React.Component {
         break;
 
       case 'dashboard':
-        view = <Dashboard hash={this.state.hash} />; break;
+        view = <Dashboard hash={this.state.hash} />;
+        break;
 
       default:
-        location.href = '../';
+        view = <Home hash={this.state.hash} />;
     }
 
     return (
       <div className='app'>
         <Toolbar
           colored
+          actions={[
+            <Button
+              icon
+              key='home'
+              onClick={() => location.hash = '#/'}
+            >home</Button>
+          ]}
           title='Xyfir Accounts'
           nav={
             <Button
