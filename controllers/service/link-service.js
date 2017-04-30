@@ -1,47 +1,43 @@
-const db = require("../../lib/db");
+const validateData = require('lib/services/validate-data');
+const rstring = require('randomstring');
+const mysql = require('lib/mysql');
 
 /*
-	POST api/service/link/:service
-	RETURNED
-		{ error: bool, message: string }
-	DESCRIPTION
-		Link service to user"s Xyfir Account
+  POST api/service/:service/link
+  RETURNED
+    { error: bool, message: string }
+  DESCRIPTION
+    Link service to user's Xyfir Account
 */
-module.exports = function(req, res) {
-	
+module.exports = async function(req, res) {
+
+  const db = new mysql();
+  
+  try {
     // Check if user provided required information
-	require("../../lib/services/validateData")(req, (result, info) => {
-		if (result == "valid") {
-			// Generate xyfir id
-			const xid = require("crypto")
-				.createHash("sha256")
-				.update(
-                    req.session.uid + "-" + req.params.service
-                    + "-" + (Math.random() * 1000000)
-                ).digest("hex");
-			
-			const insert = {
-				user_id: req.session.uid,
-				service_id: req.params.service,
-				xyfir_id: xid,
-				info: JSON.stringify(info)
-			};
-			
-			db(cn => {
-				// Create row in linked_services
-				cn.query("INSERT INTO linked_services SET ?", insert, (err, result) => {
-					cn.release();
-					
-					if (err)
-						res.json({error: true, message: "An unknown error occured."});
-					else
-						res.json({error: false, message: "Service linked to account."});
-				});
-			});
-		}
-		else {
-			res.json({error: true, message: result});
-		}
-	});
+    let { result, info } = await validateData(req);
+
+    if (result != 'valid') throw result;
+    
+    const insert = {
+      service_id: req.params.service, xyfir_id: rstring.generate(64),
+      info: JSON.stringify(info), user_id: req.session.uid
+    };
+
+    await db.getConnection();
+
+    result = await db.query(
+      'INSERT INTO linked_services SET ?', insert
+    );
+    db.release();
+
+    if (!result.affectedRows) throw 'An unknown error occured';
+    
+    res.json({ error: false, message: 'Service linked to account' });
+  }
+  catch (err) {
+    db.release();
+    res.json({ error: true, message: err });
+  }
 
 }
