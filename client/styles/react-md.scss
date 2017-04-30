@@ -1,0 +1,13 @@
+@import '../../node_modules/react-md/src/scss/_react-md.scss';
+
+$md-primary-color: $md-blue-500;
+
+@include react-md-everything;
+
+.md-no-scroll {
+  width: 100%;
+}
+
+.md-tabs-content > div > div {
+  height: initial !important;
+}
