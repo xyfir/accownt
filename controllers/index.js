@@ -154,8 +154,11 @@ router.get('/register/email/:email', require('./register/check-email'));
 
 /* Service */
 router.get('/service/:service', require('./service/info'));
-router.post('/service/link/:service', require('./service/link-service'));
-router.post('/service/session/:service', require('./service/create-session'));
+router.post('/service/:service/link', require('./service/link-service'));
+router.post('/service/:service/session', require('./service/create-session'));
+router.get('/service/:service/user', require('./service/get-user'));
+
+/* Service - DEPRECATED */
 router.get('/service/:service/:key/:xid/:token', require('./service/get-user'));
 
 module.exports = router;
