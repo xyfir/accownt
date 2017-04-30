@@ -4,7 +4,7 @@
     <title>Xyfir Accounts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="/static/css/style.css">
 
     <!-- Icons -->
@@ -37,15 +37,6 @@
   </head>
   
   <body>
-    <header>
-      <nav>
-        <a class="logo" href="#">
-          <span class="xyfir">XYFIR</span>
-          <span class="accounts">ACCOUNTS</span>
-        </a>
-      </nav>
-    </header>
-
     <main id="content">
       <section class="home-login-links">
         <a href="app/#/login">Sign In</a>
@@ -129,15 +120,5 @@
       <a href="https://xyfir.com/#/about">About Us</a>
       <a href="https://ads.xyfir.com/">Advertise</a>
     </footer>
-
-    <script>
-      const s = document.createElement("style");
-
-      s.innerHTML = `#content { margin-top: ${
-        document.querySelector("header nav").scrollHeight
-      }px; }`;
-
-      document.body.appendChild(s);
-    </script>
   </body>
 </html>
