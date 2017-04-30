@@ -1,26 +1,28 @@
-const validateToken = require("lib/tokens/validate");
-const db = require("lib/db");
+const validateToken = require('lib/tokens/validate');
 
 /*
-    GET api/login/passwordless/:uid/:auth
-    DESCRIPTION
-        Attempts to login user with :uid/:auth
+  GET api/login/passwordless/:uid/:auth
+  DESCRIPTION
+    Attempts to login user with :uid/:auth
 */
-module.exports = function(req, res) {
+module.exports = async function(req, res) {
 
-    validateToken({
-        user: req.params.uid, token: req.params.auth
-    }, isValid => {
-        if (isValid) {
-            req.session.uid = req.params.uid;
-            res.redirect(
-                req.session.redirect
-                ? req.session.redirect : "/app/#/dashboard/user"
-            );
-        }
-        else {
-            res.redirect("/app/#/login");
-        }
+  try {
+    const isValid = await validateToken({
+      user: req.params.uid, token: req.params.auth
     });
+
+    if (!isValid) throw '';
+
+    req.session.uid = req.params.uid;
+
+    res.redirect(
+      req.session.redirect ? req.session.redirect : '/#/dashboard/user'
+    );
+    req.session.redirect = '';
+  }
+  catch (err) {
+    res.redirect('/#/login');
+  }
 
 }
