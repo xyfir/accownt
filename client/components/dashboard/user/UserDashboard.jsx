@@ -1,3 +1,4 @@
+import request from 'superagent';
 import React from 'react';
 
 // Components
@@ -12,6 +13,12 @@ export default class UserDashboard extends React.Component {
   
   constructor(props) {
     super(props);
+  }
+
+  componentWillMount() {
+    request
+      .get('../api/dashboard/user/account')
+      .end((err, res) => !res.body.loggedIn && (location.hash = '/login'));
   }
   
   render() {

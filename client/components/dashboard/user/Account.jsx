@@ -15,12 +15,7 @@ export default class Account extends React.Component {
   componentWillMount() {
     request
       .get('../api/dashboard/user/account')
-      .end((err, res) => {
-        if (res.body.loggedIn)
-          this.setState(res.body);
-        else
-          location.hash = '/login';
-      });
+      .end((err, res) => this.setState(res.body));
   }
   
   onUpdatePassword(e) {
