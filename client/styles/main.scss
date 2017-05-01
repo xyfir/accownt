@@ -68,9 +68,6 @@ a {
 a:hover {
   color: $lblue;
 }
-a:focus {
-  color: $lblack;
-}
 .link-lg {
   font-size: 125%;
 }
@@ -113,9 +110,6 @@ button[class^='btn-'] {
 }
 .btn-danger:hover {
   background-color: $lred;
-}
-input[type=submit]:focus, button:focus {
-  background-color: $lblack;
 }
 
 /* FORMS */
