@@ -38,6 +38,7 @@ app.use(session({
 /* Routes / Controlers */
 app.use('/api', require('./controllers/'));
 app.get('/', (req, res) => res.sendFile(__dirname + '/views/App.html'));
+app.get('/app', (req, res) => res.sendFile(__dirname + '/views/Redirect.html'));
 
 app.listen(config.environment.port, () => {
   console.log('Server running on port', config.environment.port);
