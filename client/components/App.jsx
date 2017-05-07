@@ -24,7 +24,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      hash: location.hash.split('?')[0].split('/'), drawer: true
+      hash: location.hash.split('?')[0].split('/'), drawer: false
     };
 
     window.onhashchange = () =>
@@ -32,34 +32,30 @@ class App extends React.Component {
   }
   
   render() {
-    let view;
+    const view = (() => {
+      switch (this.state.hash[1]) {
+        case 'recover':
+          return <AccountRecovery hash={this.state.hash} />;
+        
+        case 'login':
+          if (!this.state.hash[2])
+            return <Login hash={this.state.hash} />;
+          else
+            return <LoginService hash={this.state.hash} />;
 
-    switch (this.state.hash[1]) {
-      case 'recover':
-        view = <AccountRecovery hash={this.state.hash} />;
-        break;
-      
-      case 'login':
-        if (!this.state.hash[2])
-          view = <Login hash={this.state.hash} />;
-        else
-          view = <LoginService hash={this.state.hash} />;
-        break;
+        case 'register':
+          if (!this.state.hash[2])
+            return <Register hash={this.state.hash} />;
+          else
+            return <LinkService hash={this.state.hash} />;
 
-      case 'register':
-        if (!this.state.hash[2])
-          view = <Register hash={this.state.hash} />;
-        else
-          view = <LinkService hash={this.state.hash} />;
-        break;
+        case 'dashboard':
+          return <Dashboard hash={this.state.hash} />;
 
-      case 'dashboard':
-        view = <Dashboard hash={this.state.hash} />;
-        break;
-
-      default:
-        view = <Home hash={this.state.hash} />;
-    }
+        default:
+          return <Home hash={this.state.hash} />;
+      }
+    })();
 
     return (
       <div className='app'>
