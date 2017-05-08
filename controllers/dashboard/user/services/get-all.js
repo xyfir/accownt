@@ -1,23 +1,36 @@
-const db = require("lib/db");
+const mysql = require('lib/mysql');
 
 /*
-    GET api/dashboard/user/services
-    RETURN
-        { services: [{ id: number, name: string }] }
-	DESCRIPTION
-		Return all linked services
+  GET api/dashboard/user/services
+  RETURN
+    { services: [{
+      id: number, name: string, description: string, address: string
+    }] }
+DESCRIPTION
+    Return all linked services
 */
-module.exports = function(req, res) {
+module.exports = async function(req, res) {
 
-	let sql = `
-		SELECT id, name FROM services WHERE id IN (
-			SELECT service_id FROM linked_services WHERE user_id = ?
-		)
-	`;
-	
-    db(cn => cn.query(sql, [req.session.uid], (err, rows) => {
-		cn.release();
-		res.json({ services: rows });
-	}));
+  const db = new mysql();
+
+  try {
+    await db.getConnection();
+
+    const sql = `
+      SELECT id, name, description, address FROM services
+      WHERE id IN (
+        SELECT service_id FROM linked_services WHERE user_id = ?
+      )
+    `,
+    vars = [
+      req.session.uid
+    ],
+    services = await db.query(sql, vars);
+    
+    res.json({ services });
+  }
+  catch (err) {
+    res.json({ services: [] });
+  }
 
 }
