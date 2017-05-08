@@ -2,6 +2,11 @@ const gutil = require('gulp-util');
 const sass = require('gulp-sass');
 const gulp = require('gulp');
 
+const config = require('./config');
+
+const prod = config.environment.type == 'prod';
+process.env.NODE_ENV = prod ? 'production' : config.environment.type;
+
 gulp.task('css', () =>
   gulp.src('./client/styles/style.css')
     .pipe(
@@ -30,11 +35,13 @@ gulp.task('client', () => {
   
   return b.bundle()
     .pipe(source('App.js'))
-    .pipe(streamify(uglify({
-      mangle: false,
-      compress: { unused: false }
-    }))
-    .on('error', gutil.log))
+    .pipe(
+      prod ? streamify(uglify({
+        mangle: false,
+        compress: { unused: false }
+      }))
+      .on('error', gutil.log) : gutil.noop()
+    )
     .pipe(gulp.dest('./static/js/'));
 });
 
