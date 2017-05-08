@@ -188,9 +188,22 @@
     }
   }
 
-  section.update-service, section.link-service {
+  section.update-service {
     button {
       margin: 1em;
+    }
+  }
+}
+
+div.link-service {
+  form.custom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    >div {
+      width: 90%;
+      max-width: 20em;
     }
   }
 }
