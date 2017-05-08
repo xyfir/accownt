@@ -1,13 +1,13 @@
 require('app-module-path').addPath(__dirname);
 
+const SessionStore = require('express-mysql-session');
 const express = require('express');
 const session = require('express-session');
 const parser = require('body-parser');
-const Store = require('express-mysql-session');
 
 const config = require('config');
 
-let app = express();
+const app = express();
 
 /* Serve Static Files */
 app.use('/static', express.static(__dirname + '/static'));
@@ -17,23 +17,22 @@ app.use(parser.json({ limit: '2mb' }));
 app.use(parser.urlencoded({ extended: true, limit: '2mb' }));
 
 /* Sessions */
-const sessionStore = new Store({
-  host: config.db.host,
-  port: config.db.port,
-  user: config.db.user,
-  password: config.db.password,
-  database: config.db.database,
-  useConnectionPooling: true
-});
-app.use(session({
-  secret: config.keys.session,
-  store: sessionStore,
-  saveUninitialized: true,
-  resave: true,
-  cookie: {
-    httpOnly: false
-  }
-}));
+app.use(
+  session({
+    saveUninitialized: true,
+    store:  new SessionStore({
+      host: config.db.host,
+      port: config.db.port,
+      user: config.db.user,
+      password: config.db.password,
+      database: config.db.database,
+      useConnectionPooling: true
+    }),
+    secret: config.keys.session,
+    resave: true,
+    cookie: { httpOnly: false }
+  })
+);
 
 /* Routes / Controlers */
 app.use('/api', require('./controllers/'));
