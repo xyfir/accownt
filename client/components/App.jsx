@@ -60,7 +60,7 @@ class App extends React.Component {
     return (
       <div className='app'>
         <Toolbar
-          colored
+          colored fixed
           actions={[
             <Button
               icon
@@ -138,7 +138,7 @@ class App extends React.Component {
           type={Drawer.DrawerTypes.TEMPORARY}
         />
 
-        {view}
+        <div className='main md-toolbar-relative'>{view}</div>
       </div>
     )
   }
