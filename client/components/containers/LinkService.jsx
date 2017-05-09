@@ -34,7 +34,7 @@ export default class LinkService extends React.Component {
   
   componentWillMount() {
     request
-      .get('../api/service/' + this.state.id)
+      .get('api/service/' + this.state.id)
       .end((err, res) => {
         if (err || res.body.error) {
           if (res.body.message == 'Not logged in')
@@ -73,7 +73,7 @@ export default class LinkService extends React.Component {
     };
   
     request
-      .post(`../api/service/${this.state.id}/link`)
+      .post(`api/service/${this.state.id}/link`)
       .send(data)
       .end((err, res) => {
         if (err || res.body.error)
@@ -89,7 +89,7 @@ export default class LinkService extends React.Component {
    */
   _createSession() {
     request
-      .post(`../api/service/${this.state.id}/session`)
+      .post(`api/service/${this.state.id}/session`)
       .end((err, res) => {
         const data = res.body || {};
 
