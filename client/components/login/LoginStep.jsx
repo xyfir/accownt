@@ -77,7 +77,7 @@ export default class LoginStep extends React.Component {
 	
 		if (this.state.passwordless) {
 			return (
-				<div className="form-step passwordless">
+				<div className="form-step passwordless old">
 					<section className="form-step-header">
 						<h2>Passwordless Login</h2>
 						<p>
@@ -102,7 +102,7 @@ export default class LoginStep extends React.Component {
 		}
 		else {
 			return (
-				<div className="form-step">
+				<div className="form-step old">
 					<section className="form-step-header">
 						<h2>Login</h2>
 						<span className="login-attempts">{

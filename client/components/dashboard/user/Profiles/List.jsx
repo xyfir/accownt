@@ -21,7 +21,7 @@ export default class ProfileList extends React.Component {
   
   render() {
     return (
-      <div className='dashboard-body dashboard-profiles'>
+      <div className='dashboard-body dashboard-profiles old'>
         <section className='info'>
           <p>
             Profiles allow you to easily give services linked to your Xyfir Account access to required or optional information.

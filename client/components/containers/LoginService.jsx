@@ -54,7 +54,7 @@ export default class LoginService extends React.Component {
 	
 	render() {
 		if (this.state.message)
-			return <Alert type="success" title="Success!">{this.state.message}</Alert>;
+			return <div className='old'><Alert type="success" title="Success!">{this.state.message}</Alert></div>;
 		else
 			return <div />;
 	}

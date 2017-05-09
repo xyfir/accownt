@@ -91,7 +91,7 @@ export default class Security extends React.Component {
     if (this.state.loading) return <div />;
 
     return (
-      <div className='dashboard-body dashboard-security'>
+      <div className='dashboard-body dashboard-security old'>
         <section className='2fa'>
           <h2>Two Factor Authentication</h2>
           <p>

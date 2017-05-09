@@ -72,7 +72,7 @@ export default class Login extends React.Component {
 		}
 		else {
 			return (
-				<div className="form-step">
+				<div className="form-step old">
 					<section className="form-step-body">
 						<form onSubmit={this.onVerify}>
 							{this.state.security.phone ? (

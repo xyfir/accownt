@@ -8,7 +8,7 @@ export default class Home extends React.Component {
   
   render() {
     return (
-      <div className='home'>
+      <div className='home old'>
         <section className='home-login-links'>
           <a href='#/login'>Sign In</a>
           <a href='#/register'>Register</a>

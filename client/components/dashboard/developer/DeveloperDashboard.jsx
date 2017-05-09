@@ -28,7 +28,7 @@ export default class DeveloperDashboard extends React.Component {
     else
       view = <Manage hash={this.props.hash} />;
 
-    return <div className='dashboard-developer'>{view}</div>;
+    return <div className='dashboard-developer old'>{view}</div>;
   }
 
 }

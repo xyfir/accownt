@@ -50,7 +50,7 @@ export default class CreateProfile extends React.Component {
 	render() {
 		return (
             <form
-                className="profile-create"
+                className="profile-create old"
                 onSubmit={(e) => this.onCreateProfile(e)}
             >
                 <section className="info">

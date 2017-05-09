@@ -134,7 +134,7 @@ export default class Ads extends React.Component {
 		};
 		
 		return (
-			<div className="dashboard-body dashboard-ads">
+			<div className="dashboard-body dashboard-ads old">
 				<section className="info">
 					<p>
 						Your ad profile is utilized across the Xyfir Network to help serve you more personalized ads that you may be interested in.

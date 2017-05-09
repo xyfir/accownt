@@ -75,7 +75,7 @@ export default class Register extends React.Component {
 	render() {
 		if (this.state.created) {
 			return (
-				<div className="register account-created">
+				<div className="register account-created old">
 					<section className="info">
 						<span>
 							Account created successfully. A verification link has been sent to your email.
@@ -94,7 +94,7 @@ export default class Register extends React.Component {
 		}
 
 		return (
-			<div className="register form-step-body">
+			<div className="register form-step-body old">
 				<span className={this.state.error ? "error" : ""}>{
 					this.state.message
 				}</span>

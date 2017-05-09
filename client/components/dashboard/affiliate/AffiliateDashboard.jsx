@@ -24,7 +24,7 @@ export default class AffiliateDashboard extends React.Component {
 
   render() {
     return (
-      <div className='dashboard-affiliate'>
+      <div className='dashboard-affiliate old'>
         {this.props.hash[3] == 'create' ? (
           <Create />
         ) : (

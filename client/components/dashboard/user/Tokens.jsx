@@ -46,7 +46,7 @@ export default class AccessTokens extends React.Component {
     if (this.state.loading) return <div />;
 
     return (
-      <div className='dashboard-body dashboard-tokens'>
+      <div className='dashboard-body dashboard-tokens old'>
         <section className='info'>
           <p>
             Access tokens are generated when you login to a service via Xyfir Accounts.

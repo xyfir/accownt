@@ -46,7 +46,7 @@ export default class Account extends React.Component {
   
   render() {
     return (
-      <div className='dashboard-body dashboard-account'>
+      <div className='dashboard-body dashboard-account old'>
         <section className='main'>
           <h3>{this.state.email}</h3>
           <a href='../api/login/logout' className='link-sm'>

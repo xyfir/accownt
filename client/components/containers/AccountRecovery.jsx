@@ -67,7 +67,7 @@ export default class AccountRecovery extends React.Component {
       }
       
       return (
-        <div className='form-step'>
+        <div className='form-step old'>
           <section className='form-step-header'>
             <h2>Security</h2>
             <p>
@@ -91,7 +91,7 @@ export default class AccountRecovery extends React.Component {
     }
     else {
       return (
-        <div className='form-step'>
+        <div className='form-step old'>
           <section className='form-step-header'>
             <h2>Account Recovery</h2>
             <p>
