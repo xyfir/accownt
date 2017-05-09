@@ -5,7 +5,7 @@ import React from 'react';
 import Ads from './Ads';
 import Account from './Account';
 import Security from './Security';
-import Profiles from './Profiles/Index';
+import Profiles from './profiles/Index';
 import Services from './services/Index';
 import AccessTokens from './Tokens';
 
