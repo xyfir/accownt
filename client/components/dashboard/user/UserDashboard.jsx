@@ -4,9 +4,9 @@ import React from 'react';
 // Components
 import Ads from './Ads';
 import Account from './Account';
-import Profiles from './Profiles/Index';
 import Security from './Security';
-import Services from './Services';
+import Profiles from './Profiles/Index';
+import Services from './services/Index';
 import AccessTokens from './Tokens';
 
 export default class UserDashboard extends React.Component {
@@ -17,7 +17,7 @@ export default class UserDashboard extends React.Component {
 
   componentWillMount() {
     request
-      .get('../api/dashboard/user/account')
+      .get('api/dashboard/user/account')
       .end((err, res) => !res.body.loggedIn && (location.hash = '/login'));
   }
   
