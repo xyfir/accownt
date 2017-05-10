@@ -1,57 +1,34 @@
-import React from "react";
+import request from 'superagent';
+import React from 'react';
 
-// Components
-import Button from "components/forms/Button";
+// react-md
+import ListItem from 'react-md/lib/Lists/ListItem';
+import List from 'react-md/lib/Lists/List';
 
-// Modules
-import request from "lib/request";
+export default class ListServices extends React.Component {
+  
+  constructor(props) {
+    super(props);
 
-export default class List extends React.Component {
-	
-	constructor(props) {
-		super(props);
-
-		this.state = { services: [] };
-	}
-	
-	componentWillMount() {
-		request({
-			url: "../api/dashboard/developer/services",
-			success: (res) => this.setState(res)
-		});
-	}
-	
-	render() {
-		return (
-			<section className="service-list">{
-				this.state.services.map(service => {
-					return (
-						<div className="service-list-view">
-							<h2>
-								<a href={"#/dashboard/developer/" + service.id}>
-									{service.name}
-								</a>
-							</h2>
-							
-							<Button
-								type="secondary"
-								onClick={() => {
-									location.hash = "/dashboard/developer/"
-										+ service.id + "/edit";
-								}}
-							><span className="icon-edit" />Edit</Button>
-							<Button
-								type="danger"
-								onClick={() => {
-									location.hash = "/dashboard/developer/"
-										+ service.id + "/delete";
-								}}
-							><span className="icon-delete" />Delete</Button>
-						</div>
-					);
-				})
-			}</section>
-		);
-	}
-	
+    this.state = { services: [] };
+  }
+  
+  componentWillMount() {
+    request
+      .get('api/dashboard/developer/services')
+      .end((err, res) => !err && this.setState(res.body));
+  }
+  
+  render() {
+    return (
+      <List
+        className='services md-paper md-paper--1 section'
+      >{this.state.services.map(s =>
+        <a href={'#/dashboard/developer/' + s.id}>
+          <ListItem key={s.id} primaryText={s.name} />
+        </a>
+      )}</List>
+    );
+  }
+  
 }
