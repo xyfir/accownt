@@ -1,61 +1,60 @@
-const db = require("lib/db");
+const mysql = require('lib/mysql');
 
 /*
-    GET api/dashboard/user/services/:service
-    RETURN
-        {
-			error: bool, message?: string, service?: {
-				name: string, description: string, address: string, info: {
-					requested: {}, provided: {}
-				}
-			}
-		}
-	DESCRIPTION
-		Return a service's info and user-provided data to the service
+  GET api/dashboard/user/services/:service
+  RETURN
+    {
+      error: bool, message?: string,
+      service?: {
+        name: string, description: string, address: string,
+        info: { requested: object, provided: object }
+      }
+    }
+  DESCRIPTION
+    Return a service's info and user-provided data to the service
 */
-module.exports = function(req, res) {
+module.exports = async function(req, res) {
 
-	let sql = `
-		SELECT name, description, address, info FROM services WHERE id = ?
-	`, vars = [
-		req.params.service
-	];
-	
-    db(cn => cn.query(sql, vars, (err, rows) => {
-		if (err || rows.length == 0) {
-			res.json({ error: true });
-			return;
-		}
-		
-		let data = {
-			name: rows[0].name,
-			address: rows[0].address,
-			description: rows[0].description,
-			info: {
-				requested: JSON.parse(rows[0].info),
-				provided: {}
-			}
-		};
-		
-		sql = `
-			SELECT info FROM linked_services
-			WHERE user_id = ? AND service_id = ?
-		`, vars = [
-			req.session.uid, req.params.service
-		];
+  const db = new mysql();
 
-		cn.query(sql, vars, (err, rows) => {
-			cn.release();
-			
-			if (err || rows.length == 0) {
-				res.json({ error: true });
-				return;
-			}
-			
-			data.info.provided = JSON.parse(rows[0].info);
-			
-			res.json({ error: false, service: data });
-		});
-	}));
+  try {
+    await db.getConnection();
+
+    let sql = `
+      SELECT name, description, url_main AS address, info
+      FROM services WHERE id = ?
+    `,
+    vars = [
+      req.params.service
+    ],
+    rows = await db.query(sql, vars);
+
+    if (!rows.length) throw 'Could not find service';
+
+    const service = rows[0];
+    service.info = {
+      requested: JSON.parse(service.info), provided: {}
+    };
+    
+    sql = `
+      SELECT info FROM linked_services
+      WHERE user_id = ? AND service_id = ?
+    `,
+    vars = [
+      req.session.uid, req.params.service
+    ],
+    rows = await db.query(sql, vars);
+
+    db.release();
+
+    if (!rows.length) throw 'Account is not linked to service';
+
+    service.info.provided = JSON.parse(rows[0].info);
+    res.json({ error: false, service });
+  }
+  catch (err) {
+    db.release();
+    res.json({ error: true, message: err });
+  }
 
 }
