@@ -62,8 +62,6 @@ export default class ViewLinkedService extends React.Component {
       address: this.refs.address.getField().value,
       birthdate: this.refs.birthdate.state.value
     };
-
-    console.log('data', data); return;
   
     request
       .put('api/dashboard/user/services/' + this.state.id)
