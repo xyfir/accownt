@@ -6,10 +6,10 @@ const config = require('config');
 /*
   POST api/service/:service/session
   RETURNED
-    { auth: string, xid: string, address: string }
+    { redirect: string }
   DESCRIPTION
-    Returns user/service's Xyfir ID and session auth token
-    Returns address for redirecting upon successful login to XAcc
+    Generates an authentication token for a service linked to the user's 
+    account and returns a url to redirect the client to.
 */
 module.exports = async function(req, res) {
 
@@ -25,7 +25,7 @@ module.exports = async function(req, res) {
 
     // Get service's address to redirect to
     const sql = `
-      SELECT address FROM services WHERE id = ?
+      SELECT url_login AS url FROM services WHERE id = ?
     `,
     vars = [
       req.params.service
@@ -36,11 +36,11 @@ module.exports = async function(req, res) {
 
     if (!rows.length) throw 'Unknown error';
     
-    res.json({ auth: token, xid, address: rows[0].address });
+    res.json({ redirect: `${rows[0].url}?auth=${token}&xid=${xid}` });
   }
   catch (err) {
     db.release();
-    res.json({ auth: '', xid: '', address: config.addresses.xacc });
+    res.json({ redirect: config.addresses.xacc });
   }
 
 }
