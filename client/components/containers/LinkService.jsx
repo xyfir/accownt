@@ -85,17 +85,14 @@ export default class LinkService extends React.Component {
   
   /**
    * Creates a session linked to the user and service. Redirect the user to 
-   * the service's login page with auth and xid passed.
+   * the service's login route.
    */
   _createSession() {
     request
       .post(`api/service/${this.state.id}/session`)
-      .end((err, res) => {
-        const data = res.body || {};
-
-        // Redirect user to service's login
-        location.href = `${data.address}?auth=${data.auth}&xid=${data.xid}`;
-      })
+      .end((err, res) =>
+        !err && location.replace(res.body.redirect)
+      );
   }
 
   /**
