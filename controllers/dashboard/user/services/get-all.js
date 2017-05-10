@@ -17,7 +17,7 @@ module.exports = async function(req, res) {
     await db.getConnection();
 
     const sql = `
-      SELECT id, name, description, address FROM services
+      SELECT id, name, description, url_main AS address FROM services
       WHERE id IN (
         SELECT service_id FROM linked_services WHERE user_id = ?
       )
@@ -30,6 +30,7 @@ module.exports = async function(req, res) {
     res.json({ services });
   }
   catch (err) {
+    db.release();
     res.json({ services: [] });
   }
 
