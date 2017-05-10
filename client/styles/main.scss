@@ -44,6 +44,24 @@ a {
   text-align: center;
 }
 
+/* NAVBAR */
+nav.navbar-sub {
+  background-color: $md-primary-color;
+  margin-bottom: 1em;
+  padding: 0.25em 0em;
+  display: flex;
+  margin: 0em 1em;
+
+  >a {
+    color: white;
+    flex: 1;
+    
+    &:hover {
+      color: $lgray;
+    }
+  }
+}
+
 /* Old styles for views not using react-md */
 .old {
   section {
