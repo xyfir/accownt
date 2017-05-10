@@ -1,123 +1,146 @@
-import React from "react";
+import request from 'superagent';
+import React from 'react';
+import copy from 'copyr';
 
-// Modules
-import request from "lib/request";
+// react-md
+import Subheader from 'react-md/lib/Subheaders';
+import TextField from 'react-md/lib/TextFields';
+import ListItem from 'react-md/lib/Lists/ListItem';
+import Button from 'react-md/lib/Buttons/Button';
+import Dialog from 'react-md/lib/Dialogs';
+import Paper from 'react-md/lib/Papers';
+import List from 'react-md/lib/Lists/List';
 
-export default class View extends React.Component {
+export default class ViewService extends React.Component {
 
-	constructor(props) {
-		super(props);
+  constructor(props) {
+    super(props);
 
-		this.state = {
-			id: 0, name: "", description: "", info: "",
-			owner: 0, address: "", keys: []
-		};
+    this.state = {
+      loading: true, selected: '', keys: [],
+      id: 0, name: '', description: '', info: '', owner: 0, address: ''
+    };
+  }
+  
+  componentWillMount() {
+    request
+      .get('api/dashboard/developer/services/' + this.props.id)
+      .end((err, res) => {
+        if (!err) {
+          const data = res.body;
+          data.requested = [];
 
-		this.onGenerateKey = this.onGenerateKey.bind(this);
-	}
-	
-	componentWillMount() {
-		request({
-			url: "../api/dashboard/developer/services/" + this.props.id,
-			success: (res) => {
-				if (res.info != "")
-					res.info = JSON.parse(res.info);
-			
-				this.setState(res);
-			}
-		});
-	}
+          if (data.info) {
+            data.info = JSON.parse(data.info);
 
-	onGenerateKey() {
-		request({
-			url: "../api/dashboard/developer/services/" + this.props.id + "/key",
-			method: "POST", success: (res) => {
-				if (!res.error) {
-					this.setState({
-						keys: this.state.keys.concat([res.key])
-					});
-				}
-			}
-		});
-	}
+            for (let i = 0; i < 2; i++) {
+              const type = i == 0 ? 'required' : 'optional';
 
-	onDeleteKey(key) {
-		request({
-			url: "../api/dashboard/developer/services/" + this.props.id + "/key",
-			method: "DELETE", data: {key}, success: (res) => {
-				if (!res.error) {
-					this.setState({
-						keys: this.state.keys.filter(k => k != key)
-					});
-				}
-			}
-		});
-	}
-	
-	render() {
-		// Build array that contains dt/dd elements for fieldname(type)/usedfor
-		let requestedData = [];
-		const s = this.state;
+              Object.keys(data.info[type]).forEach(key =>
+                data.requested.push({
+                  field: key, usedFor: data.info[type][key], required: i == 0
+                })
+              );
+            }
+          }
 
-		if (typeof this.state.info == "object") {
-			[0, 1].forEach(i => {
-				const type = i == 0 ? "required" : "optional";
-				
-				Object.keys(s.info[type]).forEach(key => {
-					requestedData.push(
-						<tr>
-							<td>{key}</td>
-							<td>{s.info[type][key]}</td>
-							<td>{type == "required" ? "Yes" : "No"}</td>
-						</tr>
-					);
-				});
-			});
-		}
-	
-		return (
-			<div className="service-view">
-				<section className="main">
-					<h2>{this.state.name} ({this.state.id})</h2>
-					<p>{this.state.description}</p>
-					<a href={this.state.address}>{this.state.address}</a>
-				</section>
-				
-				<section className="requested">
-					<table className="requested-data">
-						<tr>
-							<th>Field</th><th>Used For</th><th>Required</th>
-						</tr>
-					
-						{requestedData}
-					</table>
-				</section>
+          data.loading = false;
+        
+          this.setState(data);
+        }
+      });
+  }
 
-				<section className="service-keys">
-					<label>Service Keys</label>
-					<ol>{this.state.keys.map(k => {
-						return (
-							<li>
-								<input
-									type="text"
-									value={k}
-									onClick={(e) => e.target.select()}
-									className="service-key"
-								/>
-								<a
-									title="Delete Service Key"
-									onClick={() => this.onDeleteKey(k)}
-									className="icon-delete"
-								/>
-							</li>
-						);
-					})}</ol>
-					<a onClick={this.onGenerateKey}>
-						Generate New Service Key
-					</a>
-				</section>
-			</div>
-		);
-	}
-	
+  onGenerateKey() {
+    request
+      .post(`api/dashboard/developer/services/${this.props.id}/key`)
+      .end((err, res) => {
+        if (!err && !res.body.error)
+          this.setState({ keys: this.state.keys.concat([res.body.key]) });
+      });
+  }
+
+  onDelete() {
+    const key = this.state.selected;
+
+    request
+      .delete(`api/dashboard/developer/services/${this.props.id}/key`)
+      .send({ key })
+      .end((err, res) => {
+        if (!err && !res.body.error) {
+          this.setState({
+            keys: this.state.keys.filter(k => k != key), selected: ''
+          });
+        }
+      });
+  }
+
+  onCopy() {
+    copy(this.state.selected);
+    this.setState({ selected: '' });
+  }
+  
+  render() {
+    if (this.state.loading) return <div />;
+
+    const s = this.state;
+  
+    return (
+      <div className='service-view'>
+        <Paper zDepth={1} className='section'>
+          <h2>{this.state.name} ({this.state.id})</h2>
+          <p>{this.state.description}</p>
+          <a href={this.state.address}>{this.state.address}</a>
+        </Paper>
+        
+        <List
+          className='requested md-paper md-paper--1 section'
+        >{s.requested.map(req =>
+          <ListItem
+            threeLines
+            key={req.field}
+            primaryText={req.field}
+            secondaryText={
+              req.usedFor + '\n' + (req.required ? 'Required' : 'Optional')
+            }
+          />
+        )}</List>
+
+        <List
+          className='service-keys md-paper md-paper--1 section'
+        >{this.state.keys.map(k =>
+          <ListItem
+            key={k}
+            onClick={() => this.setState({ selected: k })}
+            primaryText={k}
+          />
+        )}</List>
+
+        <Dialog
+          id='selected-service'
+          title={this.state.selected}
+          onHide={() => this.setState({ selected: '' })}
+          visible={!!this.state.selected}
+        >
+          <List>
+            <ListItem
+              primaryText='Copy to clipboard'
+              onClick={() => this.onCopy()}
+            />
+            <ListItem
+              primaryText='Delete'
+              onClick={() => this.onDelete()}
+            />
+          </List>
+        </Dialog>
+
+        <Button
+          raised primary
+          label='Generate Key'
+          onClick={() => this.onGenerateKey()}
+        />
+      </div>
+    );
+  }
+  
 }
