@@ -1,55 +1,39 @@
-import React from "react";
+import request from 'superagent';
+import React from 'react';
 
-// Components
-import Button from "components/forms/Button";
-import Alert from "components/misc/Alert";
+// react-md
+import Button from 'react-md/lib/Buttons/Button';
+import Paper from 'react-md/lib/Papers';
 
-// Modules
-import request from "lib/request";
+export default class DeleteService extends React.Component {
+  
+  constructor(props) {
+    super(props);
+  }
 
-export default class Delete extends React.Component {
-	
-	constructor(props) {
-		super(props);
+  onConfirm() {
+    request
+      .delete('api/dashboard/developer/services/' + this.props.id)
+      .end((err, res) =>
+        !err && !res.body.error && (location.hash = '#/dashboard/developer')
+      )
+  }
 
-        this.state = { error: false, message: "", confirm: false };
-
-        this.onConfirm = this.onConfirm.bind(this);
-    }
-
-    onConfirm() {
-        request({
-            url: "../api/dashboard/developer/services/" + this.props.id,
-            method: "DELETE", success: (res) => {
-                res.confirm = true;
-                this.setState(res);
-            }
-        });
-    }
-
-    render() {
-        if (this.state.confirm) {
-            return(
-                <div className="delete-service">
-                    <Alert
-                        type={this.state.error ? "error" : "success"}
-                        title={this.state.error ? "Error!" : "Success!"}
-                    >
-                        {this.state.message}
-                    </Alert>
-                </div>
-            );
-        }
-        else {
-            return(
-                <div className="delete-service">
-                    <Alert alert="error" title="Warning!">
-                        Are you sure you want to delete this service? All users will be unlinked from your service. This action cannot be undone.
-                    </Alert>
-                    <Button onClick={this.onConfirm} type="danger">Delete Service</Button>
-                </div>
-            );
-        }
-    }
+  render() {
+    return(
+      <Paper zDepth={1} className='delete-service section'>
+        <h2>Are you sure?</h2>
+        <p>
+          All users will be unlinked from your service. This action cannot be undone.
+        </p>
+        
+        <Button
+          primary raised
+          label='Delete Service'
+          onClick={() => this.onConfirm()}
+        >delete</Button>
+      </Paper>
+    );
+  }
 
 }
