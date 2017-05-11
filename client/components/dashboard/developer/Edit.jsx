@@ -1,46 +1,37 @@
-import React from "react";
+import request from 'superagent';
+import React from 'react';
 
 // Components
-import Button from "components/forms/Button";
-import Form from "./CreateOrEditForm";
+import Form from 'components/dashboard/developer/CreateOrEditForm';
 
-// Modules
-import request from "lib/request";
+export default class EditService extends React.Component {
+  
+  constructor(props) {
+    super(props);
+  }
 
-export default class Edit extends React.Component {
-	
-	constructor(props) {
-		super(props);
+  /**
+   * Update an existing service.
+   * @param {object} data
+   */
+  onUpdate(data) {
+    request
+      .put('api/dashboard/developer/services/' + this.props.id)
+      .send(data)
+      .end((err, res) => {
+        if (err || res.body.error)
+          swal('Error', res.body.message, 'error');
+        else
+          location.hash = '#/dashboard/developer/' + this.props.id;
+      });
+  }
 
-		this._updateService = this._updateService.bind(this);
-	}
-
-	// Form builds object that can be accepted by API
-	_updateService(data) {
-		request({
-			url: "../api/dashboard/developer/services/" + this.props.id,
-			data, method: "PUT",
-			success: res => {
-				if (res.error)
-					swal("Error", res.message, "error");
-				else
-					swal("Success", res.message, "success");
-			}
-		});
-	}
-
-	// Form handles input validation errors/notifications
-	// Here we handle error/response from API
-	render() {
-		return (
-			<div className="edit-service">
-				<Form
-					buttonText="Update"
-					submit={this._updateService}
-					loadDataFrom={this.props.id}
-				/>
-			</div>
-		);
-	}
+  render() {
+    return (
+      <div className='dashboard-body dashboard-create'>
+        <Form onSubmit={d => this.onUpdate(d)} loadDataFrom={this.props.id} />
+      </div>
+    );
+  }
 
 }
