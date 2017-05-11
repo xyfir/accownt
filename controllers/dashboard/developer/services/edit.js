@@ -1,42 +1,49 @@
-const buildInfo = require("lib/service/buildInfo");
-const validate = require("lib/service/validate");
-const db = require("lib/db");
+const buildInfo = require('lib/service/build-info');
+const validate = require('lib/service/validate');
+const mysql = require('lib/mysql');
 
 /*
-	PUT api/dashboard/developer/services/:id
-	REQUIRED
-		info: json-string
-			{fname:{optional:bool,required:bool,value:string,why:string},lname:{...},...}
-		name: string, link: string, description: string
-	RETURN
-		{ error: bool, message: string }
+  PUT api/dashboard/developer/services/:id
+  REQUIRED
+    info: json-string
+      {fname:{optional:bool,required:bool,value:string},lname:{...},...}
+    name: string, description: string, urlMain: string, urlLogin: string
+  OPTIONAL
+    urlUpdate: string, urlUnlink: string
+  RETURN
+    { error: bool, message: string }
 */
-module.exports = function(req, res) {
-	
-    const response = validate(req.body);
-	
-	if (response != "") {
-		res.json({ error: true, message: response });
-		return;
-	}
-	
-	db(cn => {
-		const sql = "UPDATE services SET name = ?, description = ?, info = ?, address = ? "
-			+ "WHERE id = ? AND owner = ?";
-		
-		const data = [
-			req.body.name, req.body.description, buildInfo(req.body.info), req.body.link,
-			req.params.id, req.session.uid
-		];
-		
-		cn.query(sql, data, (err, result) => {
-			cn.release();
-			
-			if (err || !result.affectedRows)
-				res.json({ error: true, message: "An unknown error occured" });
-			else
-				res.json({ error: false, message: "Service successfully updated" });
-		});
-	});
+module.exports = async function(req, res) {
+
+  const db = new mysql(), b = req.body;
+
+  try {
+    validate(req.body);
+
+    await db.getConnection();
+
+    const sql = `
+      UPDATE services SET
+        name = ?, description = ?, info = ?, url_main = ?, url_login = ?,
+        url_update = ?, url_unlink = ?
+      WHERE id = ? AND owner = ?
+    `,
+    vars = [
+      b.name, b.description, buildInfo(b.info), b.urlMain, b.urlLogin,
+      b.urlUpdate, b.urlUnlink,
+      req.params.id, req.session.uid
+    ],
+    result = await db.query(sql, vars);
+
+    db.release();
+
+    if (!result.affectedRows) throw 'An unknown error occured';
+
+    res.json({ error: false });
+  }
+  catch (err) {
+    db.release();
+    res.json({ error: true, message: err });
+  }
 
 }
