@@ -61,23 +61,40 @@
       font-size: 90%;
     }
   }
+
+  .profile-list-view, .profile-form-view {
+    background-color: $llgray;
+    margin: 1em auto;
+    padding: 0.5em;
+    width: 80%;
+  }
+
+  .profile-list-view {
+    display: table;
+
+    h2 {
+      border-right: 1px solid #ddd;
+      min-width: 13em;
+    }
+
+    >* {
+      display: table-cell;
+      padding: 0.5em;
+    }
+  }
 }
 
 /* DEVELOPER DASHBOARD */
 
 .dashboard-developer {
-  .service-view {
-    input.service-key {
-      display: inline;
-    }
+  form.service {
+    .md-data-table--responsive {
+      margin: 1em;
 
-    ol {
-      margin: auto;
+      .md-table-column:first-child {
+        width: 30%;
+      }
     }
-  }
-
-  table.requested-info, table.requested-data {
-    margin: auto;
   }
 }
 
@@ -151,13 +168,6 @@
 
 /* SHARED */
 
-.profile-list-view, .profile-form-view, .service-list-view, .service-form-view {
-  background-color: $llgray;
-  margin: 1em auto;
-  padding: 0.5em;
-  width: 80%;
-}
-
 .service-form-view {
   section.service-info {
     padding: 1em 0em;
@@ -226,20 +236,6 @@ div.link-service, div.update-linked-service {
     right: 2%;
     top: 2%;
   }
-}
-
-.profile-list-view, .service-list-view {
-  display: table;
-
-  h2 {
-    border-right: 1px solid #ddd;
-    min-width: 13em;
-  }
-}
-
-.profile-list-view > *, .service-list-view > * {
-  display: table-cell;
-  padding: 0.5em;
 }
 
 .profile-selector {
