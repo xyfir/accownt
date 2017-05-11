@@ -1,3 +1,4 @@
+const getLinkedProfile = require('lib/service/get-linked-profile');
 const validateToken = require('lib/tokens/validate');
 const generateToken = require('lib/tokens/generate');
 const mysql = require('lib/mysql');
@@ -94,50 +95,11 @@ module.exports = async function(req, res) {
     };
     
     // Pull data for service from profile
-    if (data.profile) {
-      // Grab requested info from service
-      sql = `
-        SELECT info FROM services WHERE id = ?
-      `,
-      vars = [
-        req.params.service
-      ],
-      rows = await db.query(sql, vars);
-
-      const requested = JSON.parse(rows[0].info);
-      
-      sql = `
-        SELECT * FROM profiles WHERE profile_id = ?
-      `,
-      vars = [
-        data.profile
-      ],
-      rows = await db.query(sql, vars);
-      
-      // Grab data from profile
-      const provided = {};
-      
-      // Loop through requested.required and add data
-      Object.keys(requested.required).forEach(key =>
-        // Copy profile's data to provided's data
-        // required.name: provided.name = profile.name
-        provided[key] = rows[0][key]
-      );
-      
-      // Loop through requested.optional if optional and add data
-      if (data.optional) {
-        Object.keys(requested.optional).forEach(key => 
-          // Copy profile's data to provided's data
-          provided[key] = rows[0][key]
-        );
-      }
-      
-      finish(provided);
-    }
+    if (data.profile)
+      finish(await getLinkedProfile(db, req.params.service, data));
     // User provided custom data for service
-    else {
+    else
       finish(data);
-    }
   }
   catch (err) {
     db.release();
