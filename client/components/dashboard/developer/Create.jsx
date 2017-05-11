@@ -1,44 +1,37 @@
-import React from "react";
+import request from 'superagent';
+import React from 'react';
 
 // Components
-import Form from "./CreateOrEditForm";
-
-// Modules
-import request from "lib/request";
+import Form from 'components/dashboard/developer/CreateOrEditForm';
 
 export default class CreateService extends React.Component {
-	
-	constructor(props) {
-		super(props);
+  
+  constructor(props) {
+    super(props);
+  }
 
-		this.state = { error: false, message: "" };
+  /**
+   * Create a new service.
+   * @param {object} data
+   */
+  onCreate(data) {
+    request
+      .post('api/dashboard/developer/services')
+      .send(data)
+      .end((err, res) => {
+        if (err || res.body.error)
+          swal('Error', res.body.message, 'error');
+        else
+          location.hash = '#/dashboard/developer';
+      });
+  }
 
-		this._createService = this._createService.bind(this);
-	}
-
-	// Form builds object that can be accepted by API
-	_createService(data) {
-		request({
-			url: "../api/dashboard/developer/services",
-			data, method: "POST",
-			success: (res) => {
-				if (res.error)
-					swal("Error", res.message, "error");
-				else
-					swal("Success", res.message, "success");
-			}
-		});
-	}
-
-	render() {
-		return (
-			<div className="dashboard-body dashboard-create">
-				<Form
-					buttonText="Create Service"
-					submit={this._createService}
-				/>
-			</div>
-		);
-	}
+  render() {
+    return (
+      <div className='dashboard-body dashboard-create'>
+        <Form onSubmit={d => this.onCreate(d)} />
+      </div>
+    );
+  }
 
 }
