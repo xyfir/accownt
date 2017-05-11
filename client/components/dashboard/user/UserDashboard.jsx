@@ -2,12 +2,12 @@ import request from 'superagent';
 import React from 'react';
 
 // Components
-import Ads from './Ads';
-import Account from './Account';
-import Security from './Security';
-import Profiles from './profiles/Index';
-import Services from './services/Index';
-import AccessTokens from './Tokens';
+import AccessTokens from 'components/dashboard/user/Tokens';
+import Profiles from 'components/dashboard/user/profiles/Index';
+import Services from 'components/dashboard/user/services/Index';
+import Security from 'components/dashboard/user/Security';
+import Account from 'components/dashboard/user/Account';
+import Ads from 'components/dashboard/user/Ads';
 
 export default class UserDashboard extends React.Component {
   
