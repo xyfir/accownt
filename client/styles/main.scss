@@ -44,7 +44,6 @@ a {
   text-align: center;
 }
 
-/* NAVBAR */
 nav.navbar-sub {
   background-color: $md-primary-color;
   margin-bottom: 1em;
@@ -60,6 +59,13 @@ nav.navbar-sub {
       color: $lgray;
     }
   }
+}
+
+.flex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Old styles for views not using react-md */
