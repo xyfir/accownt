@@ -1,4 +1,6 @@
+const getLinkedProfile = require('lib/service/get-linked-profile');
 const validateData = require('lib/services/validate-data');
+const request = require('superagent');
 const mysql = require('lib/mysql');
 
 /*
@@ -19,7 +21,7 @@ module.exports = async function(req, res) {
 
     await db.getConnection();
 
-    const sql = `
+    let sql = `
       UPDATE linked_services SET info = ?
       WHERE user_id = ? AND service_id = ?
     `,
@@ -28,11 +30,40 @@ module.exports = async function(req, res) {
       req.session.uid, req.params.service
     ];
     result = await db.query(sql, vars);
-    
-    db.release();
 
     if (!result.affectedRows) throw 'Could not update data';
+
+    sql = `
+      SELECT (
+        SELECT xyfir_id FROM linked_services
+        WHERE user_id = ? AND service_id = ?
+      ) AS xid, (
+        SELECT url_update AS url FROM services WHERE id = ?
+      ) AS url, (
+        SELECT service_key FROM service_keys WHERE service_id = ? LIMIT 1
+      ) AS serviceKey
+    `,
+    vars = [
+      req.session.uid, req.params.service,
+      req.params.service,
+      req.params.service
+    ];
     
+    const rows = await db.query(sql, vars);
+
+    // Notify service that user updated their account data
+    if (rows[0].url) {
+      if (info.profile)
+        info = await getLinkedProfile(db, req.params.service, info);
+
+      await request
+        .put(rows[0].url)
+        .send({
+          xid: rows[0].xid, key: rows[0].serviceKey, user: JSON.stringify(info)
+        });
+    }
+
+    db.release();
     res.json({ error: false, message: 'Service successfully updated' });
   }
   catch (err) {
