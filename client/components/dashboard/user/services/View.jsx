@@ -195,7 +195,7 @@ export default class ViewLinkedService extends React.Component {
               <Button
                 raised primary
                 onClick={e => this.onUpdate()}
-                label='Link Service'
+                label='Update'
               />
             </form>
             </Tab>
