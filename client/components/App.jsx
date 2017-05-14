@@ -2,7 +2,6 @@ import { render } from 'react-dom';
 import React from 'react';
 
 // Components
-import LinkService from './containers/LinkService';
 import Dashboard from './containers/Dashboard';
 import Register from './containers/Register';
 import Login from './containers/Login';
@@ -36,10 +35,7 @@ class App extends React.Component {
           return <Login hash={this.state.hash} />;
 
         case 'register':
-          if (!this.state.hash[2])
-            return <Register hash={this.state.hash} />;
-          else
-            return <LinkService hash={this.state.hash} />;
+          return <Register hash={this.state.hash} />;
 
         case 'dashboard':
           return <Dashboard hash={this.state.hash} />;
