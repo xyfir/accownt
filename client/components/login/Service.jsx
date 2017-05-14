@@ -37,7 +37,7 @@ export default class LoginService extends React.Component {
           this._createSession();
         // User hasn't linked service yet
         else
-          location.hash = '#/register/' + this.state.service;
+          location.hash = '#/register/service/' + this.state.service;
       });
   }
   
