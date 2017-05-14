@@ -19,13 +19,17 @@ import Tab from 'react-md/lib/Tabs/Tab';
 const Conditional = ({show, children}) =>
   <div style={{ display: show ? 'initial' : 'none' }}>{children}</div>;
 
-export default class LinkService extends React.Component {
+export default class RegisterService extends React.Component {
   
   constructor(props) {
     super(props);
 
+    const hash = location.hash.split('?')[0].split('/');
+
     this.state = {
-      linked: false, tab: 0, id: this.props.hash[2], country: ''
+      linked: false, tab: 0, country: '',
+      // #/register/:id OR #/register/service/:id
+      id: hash[2] == 'service' ? hash[3] : hash[2]
     };
 
     this._createSession = this._createSession.bind(this);
