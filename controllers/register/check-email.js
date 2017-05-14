@@ -1,19 +1,33 @@
-const db = require("../../lib/db"); 
+const mysql = require('lib/mysql');
 
 /*
-    GET api/register/email/:email
-    RETURN
-        0 = OK, 1 = ERROR
+  GET api/register/email
+  REQUIRED
+    email: string
+  RETURN
+    { exists: boolean }
 */
-module.exports = function(req, res) {
-		
-    // Check if email is valid / available
-    // 0 == email available, 1 == unavailable
-    db(cn => {
-        cn.query("SELECT id FROM users WHERE email = ? AND verified = ?", [req.params.email, 1], (err, rows) => {
-            cn.release();
-            res.send(rows.length + "");
-        });
-    });
-	
+module.exports = async function(req, res) {
+
+  const db = new mysql();
+
+  try {
+    await db.getConnection();
+
+    const sql = `
+      SELECT id FROM users WHERE email = ? AND verified = ?
+    `,
+    vars = [
+      req.query.email, 1
+    ],
+    rows = await db.query(sql, vars);
+
+    db.release();
+    res.json({ exists: !!rows.length });
+  }
+  catch (e) {
+    db.release();
+    res.json({ exists: true });
+  }
+  
 };
