@@ -6,8 +6,12 @@ export default class LoginService extends React.Component {
   constructor(props) {
     super(props);
 
+    const hash = location.hash.split('?')[0].split('/');
+
     this.state = {
-      message: '', service: this.props.hash[2]
+      message: '',
+      // #/login/:id OR #/login/service/:id
+      service: hash[2] == 'service' ? hash[3] : hash[2]
     };
 
     this._createSession = this._createSession.bind(this);
