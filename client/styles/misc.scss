@@ -2,7 +2,7 @@
 
 .dashboard-user {
   .dashboard-profiles, .dashboard-services {
-    .profile-form-view, .service-form-view {
+    .profile-form-view {
       position: relative;
 
       .icon-close {
@@ -168,43 +168,6 @@
 
 /* SHARED */
 
-.service-form-view {
-  section.service-info {
-    padding: 1em 0em;
-    border-bottom: solid 0.2em $llgray;
-    border-top: solid 0.2em $llgray;
-
-    .required, .optional {
-      .title {
-        font-weight: bold;
-      }
-
-      dl {
-        margin: 0em;
-
-        dt {
-          margin-right: 0.5em;
-        }
-        dt, dd {
-          display: inline;
-        }
-        dt::after {
-          content: ":"
-        }
-        dd {
-          margin-left: 0em;
-        }
-      }
-    }
-  }
-
-  section.update-service {
-    button {
-      margin: 1em;
-    }
-  }
-}
-
 div.link-service, div.update-linked-service {
   form.custom {
     display: flex;
@@ -216,33 +179,6 @@ div.link-service, div.update-linked-service {
       max-width: 20em;
     }
   }
-}
-
-.modal {
-  position: fixed;
-  background-color: white;
-  top: 15%;
-  left: 15%;
-  right: 15%;
-  bottom: 15%;
-  overflow-y: auto;
-  z-index: 1;
-  border: solid 0.1em $llgray;
-  padding: 1em;
-  box-shadow: 0.1em 0.1em 0.3em $black;
-
-  .icon-close {
-    position: absolute;
-    right: 2%;
-    top: 2%;
-  }
-}
-
-.profile-selector {
-  height: 2.5em;
-  width: 18em;
-  font-size: 125%;
-  margin: 1em auto;
 }
 
 /* HOME */
