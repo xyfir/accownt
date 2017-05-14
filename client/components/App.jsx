@@ -2,8 +2,6 @@ import { render } from 'react-dom';
 import React from 'react';
 
 // Components
-import AccountRecovery from './containers/AccountRecovery';
-import LoginService from './containers/LoginService';
 import LinkService from './containers/LinkService';
 import Dashboard from './containers/Dashboard';
 import Register from './containers/Register';
@@ -34,14 +32,8 @@ class App extends React.Component {
   render() {
     const view = (() => {
       switch (this.state.hash[1]) {
-        case 'recover':
-          return <AccountRecovery hash={this.state.hash} />;
-        
         case 'login':
-          if (!this.state.hash[2])
-            return <Login hash={this.state.hash} />;
-          else
-            return <LoginService hash={this.state.hash} />;
+          return <Login hash={this.state.hash} />;
 
         case 'register':
           if (!this.state.hash[2])
