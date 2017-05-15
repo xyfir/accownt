@@ -19,6 +19,7 @@
     "express": "^4.15.2",
     "express-mysql-session": "^1.2.0",
     "express-session": "^1.15.2",
+    "google-auth-library": "^0.10.0",
     "mailcomposer": "^4.0.2",
     "mailgun-js": "^0.10.1",
     "mysql": "^2.13.0",
