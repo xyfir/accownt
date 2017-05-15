@@ -1,10 +1,12 @@
 import request from 'superagent';
 import React from 'react';
 
-// Components
-import Button from 'components/forms/Button';
+// react-md
+import TextField from 'react-md/lib/TextFields';
+import Button from 'react-md/lib/Buttons/Button';
+import Paper from 'react-md/lib/Papers';
 
-export default class Account extends React.Component {
+export default class UserAccount extends React.Component {
   
   constructor(props) {
     super(props);
@@ -14,23 +16,21 @@ export default class Account extends React.Component {
   
   componentWillMount() {
     request
-      .get('../api/dashboard/user/account')
+      .get('api/dashboard/user/account')
       .end((err, res) => this.setState(res.body));
   }
   
-  onUpdatePassword(e) {
-    e.preventDefault();
-
-    const curPass = this.refs.cpassword.value;
-    const newPass = this.refs.npassword.value;
-    const conPass = this.refs.rpassword.value;
+  onUpdatePassword() {
+    const curPass = this.refs.cpassword.getField().value;
+    const newPass = this.refs.npassword.getField().value;
+    const conPass = this.refs.rpassword.getField().value;
     
     if (newPass != conPass) {
       swal('Error', 'Passwords do not match.', 'error');
     }
     else {
       request
-        .put('../api/dashboard/user/account')
+        .put('api/dashboard/user/account')
         .send({
           currentPassword: curPass,
           newPassword: newPass
@@ -46,35 +46,51 @@ export default class Account extends React.Component {
   
   render() {
     return (
-      <div className='dashboard-body dashboard-account old'>
-        <section className='main'>
-          <h3>{this.state.email}</h3>
-          <a href='../api/login/logout' className='link-sm'>
-            Logout
-          </a>
-        </section>
+      <div className='dashboard-body user-account'>
+        <Paper zDepth={1} className='section'>
+          <h3 className='email'>{this.state.email}</h3>
+          
+          <Button
+            raised
+            label='Logout'
+            onClick={() => location.href = 'api/login/logout'}
+          />
+        </Paper>
         
-        <section className='change-password'>
-          <form onSubmit={(e) => this.onUpdatePassword(e)}>
-            <input
-              type={this.state.recovered ? 'hidden' : 'password' }
-              ref='cpassword'
-              placeholder='Current Password'
-            />
-            <input
-              type='password'
-              ref='npassword'
-              placeholder='New Password'
-            />
-            <input
-              type='password'
-              ref='rpassword'
-              placeholder='Confirm'
-            />
+        <form
+          className='change-password md-paper md-paper--1 section flex'
+          style={{ display: this.state.google ? 'none' : '' }}
+        >
+          <h3>Change Password</h3>
 
-            <Button>Update Password</Button>
-          </form>
-        </section>
+          <TextField
+            id='password--current'
+            ref='cpassword'
+            type={this.state.recovered ? 'hidden' : 'password'}
+            label='Current Password'
+            className='md-cell'
+          />
+          <TextField
+            id='password--new'
+            ref='npassword'
+            type='password'
+            label='New Password'
+            className='md-cell'
+          />
+          <TextField
+            id='password--confirm'
+            ref='rpassword'
+            type='password'
+            label='Confirm Password'
+            className='md-cell'
+          />
+
+          <Button
+            raised primary
+            label='Update Password'
+            onClick={() => this.onUpdatePassword()}
+          />
+        </form>
       </div>
     );
   }
