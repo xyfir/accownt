@@ -1,36 +1,39 @@
-const db = require("lib/db");
+const mysql = require('lib/mysql');
 
 /*
-    GET api/dashboard/user/account
-    RETURN
-        {
-            loggedIn: boolean,
-            email?: string, recovered?: boolean, affiliate?: boolean
-        }
+	GET api/dashboard/user/account
+	RETURN
+		{
+			loggedIn: boolean,
+			recovered?: boolean, affiliate?: boolean, google?: boolean,
+      email?: string
+		}
 */
-module.exports = function(req, res) {
+module.exports = async function(req, res) {
 
-    if (!req.session.uid) {
-        res.json({ loggedIn: false });
-        return;
-    }
+  const db = new mysql;
 
-    let sql = `
-        SELECT email, affiliate FROM users WHERE id = ?
-    `;
-    
-    db(cn => cn.query(sql, [req.session.uid], (err, rows) => {
-        cn.release();
-        
-        if (err || !rows.length) {
-            res.json({ loggedIn: false });
-        }
-        else {
-            res.json({
-                email: rows[0].email, recovered: req.session.recovered,
-                loggedIn: true, affiliate: rows[0].affiliate
-            });
-        }
-    }));
+  try {
+    if (!req.session.uid) throw 'Not logged in';
+
+    await db.getConnection();
+
+    const sql = `
+      SELECT email, affiliate, google FROM users WHERE id = ?
+    `,
+    vars = [
+      req.session.uid
+    ],
+    rows = await db.query(sql, vars);
+
+    if (!rows.length) throw 'Could not find user';
+
+    rows[0].recovered = req.session.recovered, rows[0].loggedIn = true;
+    res.json(rows[0]);
+  }
+  catch (err) {
+    db.release();
+    res.json({ loggedIn: false });
+  }
 
 }
