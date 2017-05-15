@@ -131,11 +131,20 @@ export default class RegisterAccount extends React.Component {
             />
           </div>
 
-          <Button
-            raised primary
-            label='Create Account'
-            onClick={() => this.onCreate()}
-          />
+          <div className='buttons'>
+            <Button
+              raised primary
+              label='Create Account'
+              onClick={() => this.onCreate()}
+            />
+
+            <Button
+              raised
+              ref='google'
+              label='Google Login'
+              onClick={() => location.hash = '#/login?google=1'}
+            />
+          </div>
 				</Paper>
 			</form>
 		);
