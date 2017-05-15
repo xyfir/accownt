@@ -5,12 +5,47 @@ import React from 'react';
 import TextField from 'react-md/lib/TextFields';
 import Button from 'react-md/lib/Buttons/Button';
 
+// Constants
+import { GOOGLE_CLIENT_ID } from 'constants/config';
+
 export default class LoginStep1 extends React.Component {
 
   constructor(props) {
     super(props);
     
     this.state = { loginAttempts: 0 };
+  }
+
+  componentDidMount() {
+    gapi.load('auth2', () => {
+      const auth2 = gapi.auth2.init({
+        client_id: GOOGLE_CLIENT_ID,
+        cookiepolicy: 'single_host_origin'
+      });
+      
+      auth2.attachClickHandler(
+        document.querySelector('.google-login'), {},
+        this._googleLogin, this._googleLoginFailure
+      );
+    });
+  }
+
+  _googleLogin(user) {
+    request
+      .post('api/login/google')
+      .send({
+        idToken: user.getAuthResponse().id_token
+      })
+      .end((err, res) => {
+        if (err || res.body.error)
+          swal('Error', res.body.message, 'error');
+        else
+          location.replace(res.body.redirect || '#/dashboard/user/account');
+      });
+  }
+
+  _googleLoginFailure(data) {
+    console.warn('Google Login', data);
   }
 
   /**
@@ -80,11 +115,20 @@ export default class LoginStep1 extends React.Component {
             className='md-cell'
           />
 
-          <Button
-            raised primary
-            label='Login'
-            onClick={() => this.onLogin()}
-          />
+          <div className='buttons'>
+            <Button
+              raised primary
+              label='Xyfir Login'
+              onClick={() => this.onLogin()}
+            />
+
+            <Button
+              raised
+              ref='google'
+              label='Google Login'
+              className='google-login'
+            />
+          </div>
         </form>
           
         <nav className='login-links'>
