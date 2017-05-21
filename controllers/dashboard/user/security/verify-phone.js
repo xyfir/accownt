@@ -1,20 +1,37 @@
-const verify = require("lib/sms/verify-code");
-const db = require("lib/db");
+const verify = require('lib/sms/verify-code');
+const mysql = require('lib/mysql');
 
 /*
-    PUT api/dashboard/user/security/phone/verify
-    REQUIRED
-        code: number
-    RETURN
-        { error: bool, message: string }
+  PUT api/dashboard/user/security/phone/verify
+  REQUIRED
+    code: string, phone: string
+  RETURN
+    { error: bool, message: string }
 */
-module.exports = function(req, res) {
-		
-    verify(req.session.uid, req.body.code, isValid => {
-        if (isValid)
-            res.json({error: false, message: "Successfully updated phone number."});
-        else
-            res.json({error: true, message: "Invalid security code."});
-    });
+module.exports = async function(req, res) {
+
+  const db = new mysql;
+
+  try {
+    const isValid = await verify(req.session.uid, req.body.code);
+
+    if (!isValid) throw 'Invalid SMS code';
+
+    await db.getConnection();
+
+    const result = await db.query(
+      'UPDATE security SET phone = ? WHERE user_id = ?',
+      [req.body.phone, req.session.uid]
+    );
+    db.release();
+
+    if (!result.affectedRows) throw 'Could not save phone';
+
+    res.json({ error: false, message: 'Two factor SMS auth enabled' });
+  }
+  catch (err) {
+    db.release();
+    res.json({ error: true, message: err });
+  }
 
 }
