@@ -10,6 +10,7 @@ import Home from './containers/Home';
 // react-md
 import Subheader from 'react-md/lib/Subheaders';
 import ListItem from 'react-md/lib/Lists/ListItem';
+import Snackbar from 'react-md/lib/Snackbars';
 import Toolbar from 'react-md/lib/Toolbars';
 import Divider from 'react-md/lib/Dividers';
 import Drawer from 'react-md/lib/Drawers';
@@ -21,27 +22,44 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      hash: location.hash.split('?')[0].split('/'), drawer: false
+      hash: location.hash.split('?')[0].split('/'), drawer: false, toasts: []
     };
 
     window.onhashchange = () =>
       this.setState({ hash: location.hash.split('?')[0].split('/') });
+    
+    this._alert = this._alert.bind(this);
+  }
+
+  /**
+   * Remove first element from toasts array.
+   */
+  onDismissAlert() {
+    const [, ...toasts] = this.state.toasts;
+    this.setState({ toasts });
+  }
+
+  /**
+   * Creates a 'toast' for react-md Snackbar component.
+   * @param {string} message - The text content of the toast.
+   */
+  _alert(message) {
+    this.setState({
+      toasts: this.state.toasts.concat([{ text: message }])
+    });
   }
   
   render() {
     const view = (() => {
+      const props = {
+        hash: this.state.hash, alert: this._alert
+      };
+      
       switch (this.state.hash[1]) {
-        case 'login':
-          return <Login hash={this.state.hash} />;
-
-        case 'register':
-          return <Register hash={this.state.hash} />;
-
-        case 'dashboard':
-          return <Dashboard hash={this.state.hash} />;
-
-        default:
-          return <Home hash={this.state.hash} />;
+        case 'dashboard': return <Dashboard {...props} />;
+        case 'register': return <Register {...props} />;
+        case 'login': return <Login {...props} />;
+        default: return <Home {...props} />;
       }
     })();
 
@@ -127,6 +145,11 @@ class App extends React.Component {
         />
 
         <div className='main md-toolbar-relative'>{view}</div>
+
+        <Snackbar
+          toasts={this.state.toasts}
+          onDismiss={() => this.onDismissAlert()}
+        />
       </div>
     )
   }
