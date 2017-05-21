@@ -66,8 +66,8 @@ export default class UserAccount extends React.Component {
           <TextField
             id='password--current'
             ref='cpassword'
-            type={this.state.recovered ? 'hidden' : 'password'}
             label='Current Password'
+            style={{ display: this.state.recovered ? 'none' : 'initial' }}
             className='md-cell'
           />
           <TextField
