@@ -22,22 +22,22 @@ export default class UserDashboard extends React.Component {
   }
   
   render() {
-    let view;
-
-    switch(this.props.hash[3]) {
-      case 'security':
-        view = <Security />; break;
-      case 'profiles':
-        view = <Profiles />; break;
-      case 'services':
-        view = <Services />; break;
-      case 'tokens':
-        view = <AccessTokens />; break;
-      case 'ads':
-        view = <Ads />; break;
-      default:
-        view = <Account />;
-    }
+    const view = (() => {
+      switch(this.props.hash[3]) {
+        case 'security':
+          return <Security {...this.props} />;
+        case 'profiles':
+          return <Profiles {...this.props} />;
+        case 'services':
+          return <Services {...this.props} />;
+        case 'tokens':
+          return <AccessTokens {...this.props} />;
+        case 'ads':
+          return <Ads {...this.props} />;
+        default:
+          return <Account {...this.props} />;
+      }
+    })();
     
     return <div className='dashboard-user'>{view}</div>;
   }
