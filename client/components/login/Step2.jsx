@@ -26,8 +26,10 @@ export default class LoginStep2 extends React.Component {
           ? this.refs.smsCode.getField().value : 0,
         codeNum: this.props.tfa.security.code
           ? this.props.tfa.security.codeNumber : 0,
+        otpCode: this.props.tfa.security.otp
+          ? this.refs.otpCode.getField().value : 0,
         code: this.props.tfa.security.code
-          ? this.refs.code.getField().value: 0
+          ? this.refs.code.getField().value : 0
       })
       .end((err, res) => {
         if (err || res.body.error) {
@@ -54,7 +56,7 @@ export default class LoginStep2 extends React.Component {
             id='text--sms-code'
             ref='smsCode'
             type='text'
-            label='SMS Code'
+            label='SMS Verification Code'
             className='md-cell'
           />
         ) : null}
@@ -67,6 +69,16 @@ export default class LoginStep2 extends React.Component {
             label={
               `Security Code #${this.props.tfa.security.codeNumber + 1}`
             }
+            className='md-cell'
+          />
+        ) : null}
+
+        {this.props.tfa.security.otp ? (
+          <TextField
+            id='text--otp-code'
+            ref='otpCode'
+            type='text'
+            label='App Verification Code'
             className='md-cell'
           />
         ) : null}

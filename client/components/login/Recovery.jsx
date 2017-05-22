@@ -48,6 +48,8 @@ export default class AccountRecovery extends React.Component {
           ? this.refs.code.getField().value : 0,
         codeNum: this.state.security.code
           ? this.state.security.codeNumber : 0,
+        otpCode: this.state.security.otp
+          ? this.refs.otpCode.getField().value : 0,
         smsCode: this.state.security.phone
           ? this.refs.smsCode.getField().value : 0
       })
@@ -76,7 +78,7 @@ export default class AccountRecovery extends React.Component {
                 id='text--sms-code'
                 ref='smsCode'
                 type='text'
-                label='SMS Code'
+                label='SMS Verification Code'
                 className='md-cell'
               />
             ) : null}
@@ -89,6 +91,16 @@ export default class AccountRecovery extends React.Component {
                 label={
                   `Security Code #${this.state.security.codeNumber + 1}`
                 }
+                className='md-cell'
+              />
+            ) : null}
+
+            {this.state.security.otp ? (
+              <TextField
+                id='text--otp-code'
+                ref='otpCode'
+                type='text'
+                label='App Verification Code'
                 className='md-cell'
               />
             ) : null}
