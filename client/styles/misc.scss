@@ -82,6 +82,18 @@
       padding: 0.5em;
     }
   }
+
+  >div.security {
+    >div.tfa {
+      padding-bottom: 0.1em;
+
+      >div.otp {
+        >section.md-tabs-container {
+          width: 100%;
+        }
+      }
+    }
+  }
 }
 
 /* DEVELOPER DASHBOARD */
