@@ -6,7 +6,7 @@ const sendRecoveryEmail = require('lib/email/send-recovery');
   REQUIRED
     email: string, uid: number, auth: string
   OPTIONAL
-    code: string, smsCode: string
+    code: string, smsCode: string, otpCode: string
   RETURN
     { error: bool, message: string }
 */
