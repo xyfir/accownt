@@ -9,6 +9,7 @@ import Tabs from 'react-md/lib/Tabs/Tabs';
 import Tab from 'react-md/lib/Tabs/Tab';
 
 // Components
+import Recovery from 'components/dashboard/user/security/Recovery';
 import AppOTP from 'components/dashboard/user/security/AppOTP';
 import SMSOTP from 'components/dashboard/user/security/SMSOTP';
 import Codes from 'components/dashboard/user/security/Codes';
@@ -52,6 +53,8 @@ export default class Set2FA extends React.Component {
         </Paper>
 
         <Codes {...this.props} codes={this.props.codes} />
+
+        <Recovery {...this.props} />
       </Paper>
     );
   }
