@@ -20,8 +20,8 @@ module.exports = async function(req, res) {
     await db.getConnection();
 
     const result = await db.query(
-      'UPDATE security SET phone = ? WHERE user_id = ?',
-      [req.body.phone, req.session.uid]
+      'UPDATE security SET phone = ?, otp_secret = ? WHERE user_id = ?',
+      [req.body.phone, '', req.session.uid]
     );
     db.release();
 
