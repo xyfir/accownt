@@ -22,6 +22,8 @@ export default class Set2FA extends React.Component {
   }
   
   render() {
+    if (this.props.google) return <div />;
+
     return (
       <Paper zDepth={1} className='tfa section'>
         <h2>Two Factor Authentication (2FA)</h2>
@@ -57,6 +59,7 @@ export default class Set2FA extends React.Component {
 }
 
 Set2FA.propTypes = {
+  google: PropTypes.bool.isRequired,
   alert: PropTypes.func.isRequired,
   codes: PropTypes.string.isRequired,
   phone: PropTypes.string.isRequired,
