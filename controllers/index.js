@@ -118,15 +118,23 @@ router.put(
 );
 router.put(
   '/dashboard/user/security/phone',
-  require('./dashboard/user/security/phone')
+  require('./dashboard/user/security/phone/step-1')
 );
 router.put(
   '/dashboard/user/security/phone/verify',
-  require('./dashboard/user/security/verify-phone')
+  require('./dashboard/user/security/phone/step-2')
 );
 router.put(
   '/dashboard/user/security/passwordless',
   require('./dashboard/user/security/passwordless')
+);
+router.get(
+  '/dashboard/user/security/recovery-code',
+  require('./dashboard/user/security/recovery-code/get')
+);
+router.put(
+  '/dashboard/user/security/recovery-code',
+  require('./dashboard/user/security/recovery-code/generate')
 );
 
 /* Dashboard - User - Tokens */
