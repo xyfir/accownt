@@ -10,9 +10,11 @@ const mysql = require('lib/mysql');
     email: string, password: string
   RETURN
     {
-      error: bool, message?: string, loggedIn?: bool,
+      error: bool, message?: string, loggedIn?: bool, loginAttempts?: number,
       redirect?: string, uid?: number, auth?: string,
-      security?: { ** }, loginAttempts?: number
+      security?: {
+        noSecurity?: bool, phone?: bool, code?: bool, otp?: bool
+      } 
     }
 */
 module.exports = async function(req, res) {
@@ -87,7 +89,7 @@ module.exports = async function(req, res) {
 
     const security = await initiateSecurityProcess(uid, rows[0]);
 
-    if (security.noSecurity) {
+    if (!security) {
       // User has no extra security measures; do login
       req.session.uid = uid;
       res.json({
@@ -96,9 +98,6 @@ module.exports = async function(req, res) {
         )
       });
       req.session.redirect = '';
-    }
-    else if (security.error) {
-      res.json(security);
     }
     else {
       // Send security object back to client

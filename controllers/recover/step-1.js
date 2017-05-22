@@ -9,8 +9,10 @@ const mysql = require('lib/mysql');
     email: string
   RETURN
     {
-      error: bool, message?: string, uid?: number,
-      auth?: string, security?: object
+      error: bool, message?: string, uid?: number, auth?: string,
+      security?: {
+        noSecurity?: bool, phone?: bool, code?: bool, otp?: bool
+      }
     }
 */
 module.exports = async function(req, res) {
@@ -30,14 +32,14 @@ module.exports = async function(req, res) {
     const uid = rows[0].id;
 
     rows = await db.query(
-      'SELECT phone, codes FROM security WHERE user_id = ?',
+      'SELECT phone, codes, otp_secret FROM security WHERE user_id = ?',
       [uid]
     );
     db.release();
 
     const security = await initiateSecurityProcess(uid, rows[0]);
 
-    if (security.noSecurity) {
+    if (!security) {
       // User has no extra security measures
       // Send account recovery email
       sendRecoveryEmail(uid, req.body.email);
@@ -45,9 +47,6 @@ module.exports = async function(req, res) {
         error: false,
         message: 'An account recovery link has been sent to your email'
       });
-    }
-    else if (security.error) {
-      res.json(security);
     }
     else {
       // Send security object back to client
