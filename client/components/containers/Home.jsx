@@ -1,5 +1,9 @@
 import React from 'react';
 
+// react-md
+import Button from 'react-md/lib/Buttons/Button';
+import Paper from 'react-md/lib/Papers';
+
 export default class Home extends React.Component {
   
   constructor(props) {
@@ -8,21 +12,41 @@ export default class Home extends React.Component {
   
   render() {
     return (
-      <div className='home old'>
-        <section className='home-login-links'>
-          <a href='#/login'>Sign In</a>
-          <a href='#/register'>Register</a>
-        </section>
+      <div className='home'>
+        <Paper zDepth={1} className='login-links section'>
+          <Button
+            primary raised
+            label='Sign In'
+            onClick={() => location.hash = '#/login'}
+          />
+          <Button
+            secondary raised
+            label='Register'
+            onClick={() => location.hash = '#/register'}
+          />
+        </Paper>
 
-        <section className='home-dashboard-links'>
+        <Paper zDepth={1} className='dashboard-links section'>
           <h2>Dashboards</h2>
 
-          <a href='#/dashboard/user'>User</a>
-          <a href='#/dashboard/affiliate'>Affiliate</a>
-          <a href='#/dashboard/developer'>Developer</a>
-        </section>
+          <Button
+            raised
+            label='User'
+            onClick={() => location.hash = '#/dashboard/user'}
+          />
+          <Button
+            raised
+            label='Affiliate'
+            onClick={() => location.hash = '#/dashboard/affiliate'}
+          />
+          <Button
+            raised
+            label='Developer'
+            onClick={() => location.hash = '#/dashboard/developer'}
+          />
+        </Paper>
 
-        <section className='home-for-users'>
+        <Paper zDepth={1} className='for-users section'>
           <h2>For Users</h2>
 
           <div>
@@ -52,7 +76,7 @@ export default class Home extends React.Component {
           
           <div>
             <h3>Manage Linked Services</h3>
-            <p>Modify your data for, see what data is being accessed, and remove services that are linked to your Xyfir Account.</p>
+            <p>Modify your data, see what's being accessed, and remove services that are linked to your Xyfir Account.</p>
           </div>
           
           <div>
@@ -64,9 +88,9 @@ export default class Home extends React.Component {
             <h3>Passwordless Login</h3>
             <p>Simply enable passwordless login, request an authorization link, and click the link sent to you via SMS or email and you're logged in!</p>
           </div>
-        </section>
+        </Paper>
         
-        <section className='home-for-devs'>
+        <Paper zDepth={1} className='for-devs section'>
           <h2>For Developers</h2>
 
           <div>
@@ -80,7 +104,7 @@ export default class Home extends React.Component {
           </div>
           
           <a href='https://xyfir.com/#/documentation/xyfir-accounts/integration'>Integration Documentation</a>
-        </section>
+        </Paper>
       </div>
     );
   }
