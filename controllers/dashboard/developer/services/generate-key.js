@@ -10,7 +10,7 @@ const db = require("lib/db");
 */
 module.exports = function(req, res) {
 	
-    const key = randomstring.generate(20);
+    const key = randomstring.generate(128);
     
     let sql  = `
         SELECT * FROM services WHERE id = ? AND owner = ?
