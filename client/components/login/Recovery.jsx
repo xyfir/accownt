@@ -40,6 +40,7 @@ export default class AccountRecovery extends React.Component {
     request
       .post('api/recover/verify')
       .send({
+        recovery: this.refs.recovery.getField().value,
         phone: this.state.security.phone,
         email: this.state.email,
         auth: this.state.auth,
@@ -104,6 +105,16 @@ export default class AccountRecovery extends React.Component {
                 className='md-cell'
               />
             ) : null}
+
+            <TextField
+              id='textarea--recovery-code'
+              ref='recovery'
+              rows={2}
+              type='text'
+              label='Recovery Code'
+              helpText='Providing a recovery code will bypass 2FA steps'
+              className='md-cell'
+            />
 
             <Button
               raised primary
