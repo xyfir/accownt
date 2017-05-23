@@ -23,30 +23,6 @@
     }
   }
 
-  .dashboard-tokens {
-    .token {
-      margin: 1em;
-      padding: 1em;
-      background-color: $llgray;
-
-      dl {
-        margin: 0em;
-
-        dt {
-          font-weight: bold;
-        }
-
-        dd {
-          margin: 0em;
-        }
-      }
-
-      button {
-        margin-top: 1em;
-      }
-    }
-  }
-
   .dashboard-ads {
     .search-results, .categories {
       margin: 1em;
@@ -92,6 +68,24 @@
           width: 100%;
         }
       }
+    }
+  }
+}
+
+.selected-access-token {
+  .md-text-field-container {
+    width: 100%;
+  }
+
+  dl {
+    margin: 0em;
+
+    dt {
+      font-weight: bold;
+    }
+
+    dd {
+      margin: 0em;
     }
   }
 }
