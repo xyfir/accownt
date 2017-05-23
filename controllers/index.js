@@ -141,6 +141,9 @@ router.put(
 router.get(
   '/dashboard/user/tokens', require('./dashboard/user/tokens/get')
 );
+router.put(
+  '/dashboard/user/tokens', require('./dashboard/user/tokens/update')
+);
 router.delete(
   '/dashboard/user/tokens', require('./dashboard/user/tokens/delete')
 );
