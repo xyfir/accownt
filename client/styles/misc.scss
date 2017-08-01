@@ -23,21 +23,6 @@
     }
   }
 
-  .dashboard-ads {
-    .search-results, .categories {
-      margin: 1em;
-
-      span {
-        margin: 0.2em;
-      }
-    }
-
-    .search-results > span {
-      color: #777;
-      font-size: 90%;
-    }
-  }
-
   .profile-list-view, .profile-form-view {
     background-color: $llgray;
     margin: 1em auto;

@@ -7,7 +7,6 @@ import Profiles from 'components/dashboard/user/profiles/Index';
 import Services from 'components/dashboard/user/services/Index';
 import Security from 'components/dashboard/user/Security';
 import Account from 'components/dashboard/user/Account';
-import Ads from 'components/dashboard/user/Ads';
 
 export default class UserDashboard extends React.Component {
   
@@ -32,8 +31,6 @@ export default class UserDashboard extends React.Component {
           return <Services {...this.props} />;
         case 'tokens':
           return <AccessTokens {...this.props} />;
-        case 'ads':
-          return <Ads {...this.props} />;
         default:
           return <Account {...this.props} />;
       }

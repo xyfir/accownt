@@ -59,10 +59,6 @@ router.put(
   require('./dashboard/user/account/update')
 );
 
-/* Dashboard - User - Ads */
-router.get('/dashboard/user/ads', require('./dashboard/user/ads/info'));
-router.put('/dashboard/user/ads', require('./dashboard/user/ads/update'));
-
 /* Dashboard - User - Profiles */
 router.get(
   '/dashboard/user/profiles',

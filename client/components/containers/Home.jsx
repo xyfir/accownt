@@ -65,11 +65,6 @@ export default class Home extends React.Component {
           </div>
           
           <div>
-            <h3>Ad Profile</h3>
-            <p>Control what information is shared across the Xyfir Network and utilized to provide relevant ads for you.</p>
-          </div>
-          
-          <div>
             <h3>One Account, Multiple Sites</h3>
             <p>Create one account and access the entire Xyfir Network. Also available are any third party sites or applications that allow login with Xyfir Accounts.</p>
           </div>

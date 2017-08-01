@@ -105,9 +105,6 @@ class App extends React.Component {
             <a href='#/dashboard/user/tokens'>
               <ListItem primaryText='Tokens' />
             </a>,
-            <a href='#/dashboard/user/ads'>
-              <ListItem primaryText='Ads' />
-            </a>,
             
             <Divider />,
 

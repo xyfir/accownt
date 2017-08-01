@@ -13,13 +13,11 @@ const mysql = require('lib/mysql');
   RETURNS
     {
       error: boolean, message?: string,
-      xadid?: string,
       accessToken?: string?
       fname, country, ...
     }
   DESCRIPTION
     Called by service upon successful login OR with access token to start new session
-    Returns xadid and required/optional data provided by user
     Token can be authorization (starts with 1) or access token (starts with 2)
     Generates and returns an access token if token starts with 1
 */
@@ -68,20 +66,9 @@ module.exports = async function(req, res) {
     // Grab info that user provided to service
     const data = JSON.parse(rows[0].info);
 
-    // Get user's Xyfir Ads profile id
     // Generate access token if needed
     // Return info to user
     const finish = async data => {
-      sql = `
-        SELECT xad_id FROM users WHERE id = ?
-      `,
-      vars = [
-        uid
-      ],
-      rows = await db.query(sql, vars);
-      db.release();
-
-      data.xadid = rows[0].xad_id;
       data.error = false;
 
       // Generate access token
