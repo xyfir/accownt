@@ -1,5 +1,6 @@
 import request from 'superagent';
 import React from 'react';
+import swal from 'sweetalert';
 
 // react-md
 import ListItem from 'react-md/lib/Lists/ListItem';
@@ -26,10 +27,8 @@ export default class ListLinkedServices extends React.Component {
       text: `
         You will no longer be able to access your account with this service.
       `,
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#DD6B55',
-      confirmButtonText: 'Unlink'
+      icon: 'warning',
+      button: 'Unlink'
     }, () =>
       request
         .delete('api/dashboard/user/services/' + this.state.selected)

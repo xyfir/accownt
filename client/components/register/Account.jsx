@@ -1,5 +1,6 @@
 import request from 'superagent';
 import React from 'react';
+import swal from 'sweetalert';
 
 // Constants
 import { RECAPTCHA_KEY } from 'constants/config';

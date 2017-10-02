@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import request from 'superagent';
 import React from 'react';
+import swal from 'sweetalert';
 
 // react-md
 import TableHeader from 'react-md/lib/DataTables/TableHeader';

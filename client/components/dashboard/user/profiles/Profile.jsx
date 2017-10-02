@@ -1,5 +1,6 @@
 import request from 'superagent';
 import React from 'react';
+import swal from 'sweetalert';
 import b from 'based-blob';
 
 // Components
@@ -38,10 +39,8 @@ export default class Profile extends React.Component {
     swal({
       title: 'Are you sure?',
       text: 'This action cannot be undone.',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#DD6B55',
-      confirmButtonText: 'Delete'
+      icon: 'warning',
+      button: 'Delete'
     }, () =>
       request
         .delete('../api/dashboard/user/profiles/' + this.props.id)
