@@ -7,8 +7,8 @@ import Paper from 'react-md/lib/Papers';
 
 // Components
 import Recovery from 'components/dashboard/user/security/Recovery';
-import AppOTP from 'components/dashboard/user/security/AppOTP';
 import Codes from 'components/dashboard/user/security/Codes';
+import OTP from 'components/dashboard/user/security/OTP';
 
 export default class Set2FA extends React.Component {
   
@@ -27,10 +27,8 @@ export default class Set2FA extends React.Component {
           <br />
           Any 2FA steps will be required upon logging in and during account recovery if you forget your password.
         </p>
-        
-        <Paper zDepth={2} className='otp section flex'>
-          <AppOTP {...this.props} enabled={this.props.appOtp} />
-        </Paper>
+
+        <OTP {...this.props} enabled={this.props.appOtp} />
 
         <Codes {...this.props} codes={this.props.codes} />
 

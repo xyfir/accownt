@@ -7,7 +7,7 @@ import TextField from 'react-md/lib/TextFields';
 import Button from 'react-md/lib/Buttons/Button';
 import Paper from 'react-md/lib/Papers';
 
-export default class SetAppOTP extends React.Component {
+export default class ConfigureOTP extends React.Component {
   
   constructor(props) {
     super(props);
@@ -61,9 +61,10 @@ export default class SetAppOTP extends React.Component {
   
   render() {
     return (
-      <div className='app-otp section flex'>
+      <Paper zDepth={1} className='app-otp section flex'>
+        <h3>One-Time Password</h3>
         <p>
-          Enter in a code that will be provided to apps like Authy, Google Authenticator, etc.
+          A One-Time Password that will be provided via apps like Authy, Google Authenticator, etc.
         </p>
 
         {this.state.enabled ? (
@@ -98,13 +99,13 @@ export default class SetAppOTP extends React.Component {
             onClick={() => this.onEnable()}
           >Enable</Button>
         )}
-      </div>
+      </Paper>
     );
   }
   
 }
 
-SetAppOTP.propTypes = {
+ConfigureOTP.propTypes = {
   alert: PropTypes.func.isRequired,
   enabled: PropTypes.bool.isRequired
 };
