@@ -74,9 +74,7 @@ export default class PasswordlessLogin extends React.Component {
       <div className='login-passwordless step-2'>
         <h2>Passwordless Login</h2>
         <p>
-          A message was sent to your {
-            this.state.passwordless == 1 ? 'phone' : 'email'
-          } that contains a passwordless login link and an authorization code.
+          A message was sent to your email that contains a passwordless login link and an authorization code.
           <br />
           Click the link in the message to bypass this step or copy and paste the authorization code below.
         </p>

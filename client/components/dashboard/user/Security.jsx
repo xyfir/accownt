@@ -11,8 +11,7 @@ export default class UserSecurity extends React.Component {
     super(props);
 
     this.state = {
-      phone: '', codes: '', passwordless: 0, appOtp: false,
-      loading: true
+      codes: '', passwordless: 0, appOtp: false, loading: true
     };
   }
   

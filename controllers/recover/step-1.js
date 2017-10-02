@@ -11,7 +11,7 @@ const mysql = require('lib/mysql');
     {
       error: bool, message?: string, uid?: number, auth?: string,
       security?: {
-        noSecurity?: bool, phone?: bool, code?: bool, otp?: bool
+        noSecurity?: bool, code?: bool, otp?: bool
       }
     }
 */
@@ -32,7 +32,7 @@ module.exports = async function(req, res) {
     const uid = rows[0].id;
 
     rows = await db.query(
-      'SELECT phone, codes, otp_secret FROM security WHERE user_id = ?',
+      'SELECT codes, otp_secret FROM security WHERE user_id = ?',
       [uid]
     );
     db.release();

@@ -13,7 +13,7 @@ const mysql = require('lib/mysql');
       error: bool, message?: string, loggedIn?: bool, loginAttempts?: number,
       redirect?: string, uid?: number, auth?: string,
       security?: {
-        noSecurity?: bool, phone?: bool, code?: bool, otp?: bool
+        noSecurity?: bool, code?: bool, otp?: bool
       } 
     }
 */

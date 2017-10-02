@@ -19,12 +19,9 @@ export default class LoginStep2 extends React.Component {
     request
       .post('api/login/verify')
       .send({
-        phone: this.props.tfa.security.phone,
         auth: this.props.tfa.auth,
         uid: this.props.tfa.uid,
         //
-        smsCode: this.props.tfa.security.phone
-          ? this.refs.smsCode.value : 0,
         codeNum: this.props.tfa.security.code
           ? this.props.tfa.security.codeNumber : 0,
         otpCode: this.props.tfa.security.otp
@@ -52,16 +49,6 @@ export default class LoginStep2 extends React.Component {
 
     return (
       <form className='login-2 md-paper md-paper--1 section flex'>
-        {this.props.tfa.security.phone ? (
-          <TextField
-            id='text--sms-code'
-            ref='smsCode'
-            type='text'
-            label='SMS Verification Code'
-            className='md-cell'
-          />
-        ) : null}
-        
         {this.props.tfa.security.code ? (
           <TextField
             id='text--security-code'

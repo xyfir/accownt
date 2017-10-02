@@ -64,8 +64,6 @@ export default class SetAppOTP extends React.Component {
       <div className='app-otp section flex'>
         <p>
           Enter in a code that will be provided to apps like Authy, Google Authenticator, etc.
-          <br />
-          Will remove phone and sms verification from account if enabled.
         </p>
 
         {this.state.enabled ? (

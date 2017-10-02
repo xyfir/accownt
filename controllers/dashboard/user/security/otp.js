@@ -12,7 +12,7 @@ const qr = require('qrcode');
       qr?: string
     }
   DESCRIPTION
-    Enable / verify (non-sms) two factor authentication
+    Enable / verify OTP 2FA
 */
 module.exports = async function(req, res) {
 
@@ -77,8 +77,8 @@ module.exports = async function(req, res) {
 
       // Save otp secret
       const result = await db.query(
-        'UPDATE security SET otp_secret = ?, phone = ? WHERE user_id = ?',
-        [req.session.otpTempSecret.base32, '', req.session.uid]
+        'UPDATE security SET otp_secret = ? WHERE user_id = ?',
+        [req.session.otpTempSecret.base32, req.session.uid]
       );
       db.release();
 

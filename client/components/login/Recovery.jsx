@@ -42,7 +42,6 @@ export default class AccountRecovery extends React.Component {
       .post('api/recover/verify')
       .send({
         recovery: this.refs.recovery.value,
-        phone: this.state.security.phone,
         email: this.state.email,
         auth: this.state.auth,
         uid: this.state.uid,
@@ -51,9 +50,7 @@ export default class AccountRecovery extends React.Component {
         codeNum: this.state.security.code
           ? this.state.security.codeNumber : 0,
         otpCode: this.state.security.otp
-          ? this.refs.otpCode.value : 0,
-        smsCode: this.state.security.phone
-          ? this.refs.smsCode.value : 0
+          ? this.refs.otpCode.value : 0
       })
       .end((err, res) => {
         if (err || res.body.error)
@@ -75,16 +72,6 @@ export default class AccountRecovery extends React.Component {
           </p>
         
           <form className='md-paper md-paper--1 section flex'>
-            {this.state.security.phone ? (
-              <TextField
-                id='text--sms-code'
-                ref='smsCode'
-                type='text'
-                label='SMS Verification Code'
-                className='md-cell'
-              />
-            ) : null}
-            
             {this.state.security.code ? (
               <TextField
                 id='text--security-code'

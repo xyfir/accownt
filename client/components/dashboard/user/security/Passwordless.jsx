@@ -29,7 +29,7 @@ export default class SetPasswordless extends React.Component {
       <Paper zDepth={1} className='passwordless-login section flex'>
         <h2>Passwordless Login</h2>
         <p>
-          Login via a link or authorization code sent to your email or phone.
+          Login via a link or authorization code sent to your email.
           <br />
           Your password and other security measures will not be used.
         </p>
@@ -40,7 +40,6 @@ export default class SetPasswordless extends React.Component {
           label='Passwordless Login'
           menuItems={[
             { label: 'Disabled', value: 0 },
-            { label: 'Receive via SMS', value: 1 },
             { label: 'Receive via Email', value: 2 }
           ]}
           className='md-cell'

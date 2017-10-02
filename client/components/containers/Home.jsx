@@ -76,7 +76,7 @@ export default class Home extends React.Component {
           
           <div>
             <h3>Passwordless Login</h3>
-            <p>Simply enable passwordless login, request an authorization link, and click the link sent to you via SMS or email and you're logged in!</p>
+            <p>Simply enable passwordless login, request an authorization link, and click the link sent to your email and you're logged in!</p>
           </div>
         </Paper>
         

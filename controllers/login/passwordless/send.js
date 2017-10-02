@@ -1,5 +1,4 @@
 const sendPasswordlessEmail = require("lib/email/send-passwordless");
-const sendPasswordlessSMS = require("lib/sms/send-passwordless");
 const generateToken = require("lib/tokens/generate");
 const db = require("lib/db");
 
@@ -8,7 +7,7 @@ const db = require("lib/db");
     RETURN
         { error: bool, message: string, passwordless?: number }
     DESCRIPTION
-        Send user a passwordless login link via sms / email if enabled
+        Send user a passwordless login link via email if enabled
 */
 module.exports = function(req, res) {
 
@@ -22,7 +21,7 @@ module.exports = function(req, res) {
             
             const uid = rows[0].id;
             
-            cn.query("SELECT phone, passwordless FROM security WHERE user_id = ?", [uid], (err, rows) => {
+            cn.query("SELECT passwordless FROM security WHERE user_id = ?", [uid], (err, rows) => {
                 cn.release();
                 
                 if (rows[0].passwordless == 0) {
@@ -33,9 +32,6 @@ module.exports = function(req, res) {
                 generateToken({
                     user: uid, type: 1
                 }, token => {
-                    // Send via sms
-                    if (rows[0].passwordless == 1)
-                        sendPasswordlessSMS(rows[0].phone, uid, token);
                     // Send via email
                     if (rows[0].passwordless == 2)
                         sendPasswordlessEmail(req.params.email, uid, token);

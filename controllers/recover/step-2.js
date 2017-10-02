@@ -7,7 +7,7 @@ const mysql = require('lib/mysql');
   REQUIRED
     uid: number, auth: string
   OPTIONAL
-    code: string, smsCode: string, otpCode: string, recovery: string
+    code: string, otpCode: string, recovery: string
   RETURN
     { error: bool, message: string }
 */

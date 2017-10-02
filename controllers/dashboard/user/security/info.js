@@ -5,8 +5,7 @@ const mysql = require('lib/mysql');
   RETURN
     {
       error: boolean,
-      phone: string, codes: string, passwordless: number, appOtp: boolean,
-      google: boolean
+      codes: string, passwordless: number, appOtp: boolean, google: boolean
     }
 */
 module.exports = async function(req, res) {
@@ -18,7 +17,7 @@ module.exports = async function(req, res) {
 
     const sql = `
       SELECT
-        phone, codes, passwordless, IF(LENGTH(otp_secret) > 0, 1, 0) AS appOtp,
+        codes, passwordless, IF(LENGTH(otp_secret) > 0, 1, 0) AS appOtp,
         (SELECT google FROM users WHERE id = ?) AS google
       FROM security WHERE user_id = ?
     `,

@@ -113,14 +113,6 @@ router.put(
   require('./dashboard/user/security/codes')
 );
 router.put(
-  '/dashboard/user/security/phone',
-  require('./dashboard/user/security/phone/step-1')
-);
-router.put(
-  '/dashboard/user/security/phone/verify',
-  require('./dashboard/user/security/phone/step-2')
-);
-router.put(
   '/dashboard/user/security/passwordless',
   require('./dashboard/user/security/passwordless')
 );
