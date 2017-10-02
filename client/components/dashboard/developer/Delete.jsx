@@ -29,9 +29,9 @@ export default class DeleteService extends React.Component {
         
         <Button
           primary raised
-          label='Delete Service'
           onClick={() => this.onConfirm()}
-        >delete</Button>
+          iconChildren='delete'
+        >Delete Service</Button>
       </Paper>
     );
   }

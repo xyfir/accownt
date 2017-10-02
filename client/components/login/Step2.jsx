@@ -24,13 +24,13 @@ export default class LoginStep2 extends React.Component {
         uid: this.props.tfa.uid,
         //
         smsCode: this.props.tfa.security.phone
-          ? this.refs.smsCode.getField().value : 0,
+          ? this.refs.smsCode.value : 0,
         codeNum: this.props.tfa.security.code
           ? this.props.tfa.security.codeNumber : 0,
         otpCode: this.props.tfa.security.otp
-          ? this.refs.otpCode.getField().value : 0,
+          ? this.refs.otpCode.value : 0,
         code: this.props.tfa.security.code
-          ? this.refs.code.getField().value : 0
+          ? this.refs.code.value : 0
       })
       .end((err, res) => {
         if (err || res.body.error) {
@@ -86,9 +86,8 @@ export default class LoginStep2 extends React.Component {
 
         <Button
           raised primary
-          label='Login'
           onClick={() => this.onLogin()}
-        />
+        >Login</Button>
       </form>
     );
   }

@@ -26,7 +26,7 @@ export default class RecoveryCode extends React.Component {
     request
       .put('api/dashboard/user/security/recovery-code')
       .send({
-        type: this.state.type, [refKey]: this.refs[refKey].getField().value
+        type: this.state.type, [refKey]: this.refs[refKey].value
       })
       .end((err, res) => {
         if (err || res.body.error)
@@ -119,16 +119,14 @@ export default class RecoveryCode extends React.Component {
 
             <Button
               primary raised
-              label='Generate'
               onClick={() => this.onGenerate()}
-            />
+            >Generate</Button>
           </div>
         ) : (
           <Button
             primary raised
-            label='Show Code'
             onClick={() => this.onShow()}
-          />
+          >Show Code</Button>
         )}
       </Paper>
     );

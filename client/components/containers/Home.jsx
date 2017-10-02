@@ -16,14 +16,12 @@ export default class Home extends React.Component {
         <Paper zDepth={1} className='login-links section'>
           <Button
             primary raised
-            label='Sign In'
             onClick={() => location.hash = '#/login'}
-          />
+          >Sign In</Button>
           <Button
             secondary raised
-            label='Register'
             onClick={() => location.hash = '#/register'}
-          />
+          >Register</Button>
         </Paper>
 
         <Paper zDepth={1} className='dashboard-links section'>
@@ -31,19 +29,16 @@ export default class Home extends React.Component {
 
           <Button
             raised
-            label='User'
             onClick={() => location.hash = '#/dashboard/user'}
-          />
+          >User</Button>
           <Button
             raised
-            label='Affiliate'
             onClick={() => location.hash = '#/dashboard/affiliate'}
-          />
+          >Affiliate</Button>
           <Button
             raised
-            label='Developer'
             onClick={() => location.hash = '#/dashboard/developer'}
-          />
+          >Developer</Button>
         </Paper>
 
         <Paper zDepth={1} className='for-users section'>

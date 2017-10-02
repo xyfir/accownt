@@ -67,7 +67,7 @@ export default class AccessTokens extends React.Component {
       .send({
         service: token.service_id,
         token: token.token,
-        name: this.refs.name.getField().value
+        name: this.refs.name.value
       })
       .end((err, res) => this._getTokens());
   }
@@ -105,9 +105,9 @@ export default class AccessTokens extends React.Component {
 
         <Button
           secondary raised
-          label='Delete All'
           onClick={() => this.onDeleteAll()}
-        >delete</Button>
+          iconChildren='delete'
+        >Delete All</Button>
 
         <List
           className='tokens md-paper md-paper--1 section'
@@ -156,12 +156,14 @@ export default class AccessTokens extends React.Component {
               primary raised
               label='Update'
               onClick={() => this.onUpdate()}
-            >edit</Button>
+              iconChildren='edit'
+            >Edit</Button>
             <Button
               secondary raised
               label='Delete'
               onClick={() => this.onDelete()}
-            >delete</Button>
+              iconChildren='delete'
+            >Delete</Button>
           </div>
         </Dialog>
       </div>

@@ -52,15 +52,15 @@ export default class ViewLinkedService extends React.Component {
       required: window['checkbox-required'].checked,
       optional: window['checkbox-optional'].checked
     } : {
-      zip: this.refs.zip.getField().value,
-      email: this.refs.email.getField().value,
-      fname: this.refs.fname.getField().value,
-      lname: this.refs.lname.getField().value,
-      phone: this.refs.phone.getField().value,
+      zip: this.refs.zip.value,
+      email: this.refs.email.value,
+      fname: this.refs.fname.value,
+      lname: this.refs.lname.value,
+      phone: this.refs.phone.value,
       region: this.refs.region.state.value,
       gender: this.refs.gender.state.value,
       country: this.state.country,
-      address: this.refs.address.getField().value,
+      address: this.refs.address.value,
       birthdate: this.refs.birthdate.state.value
     };
   
@@ -196,8 +196,7 @@ export default class ViewLinkedService extends React.Component {
               <Button
                 raised primary
                 onClick={e => this.onUpdate()}
-                label='Update'
-              />
+              >Update</Button>
             </form>
             </Tab>
 
@@ -325,8 +324,7 @@ export default class ViewLinkedService extends React.Component {
               <Button
                 raised primary
                 onClick={e => this.onUpdate()}
-                label='Update'
-              />
+              >Update</Button>
             </form>
             </Tab>
           </Tabs>

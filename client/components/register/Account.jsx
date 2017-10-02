@@ -26,9 +26,9 @@ export default class RegisterAccount extends React.Component {
 
 	onCreate() {
 		const data = {
-			email: this.refs.email.getField().value,
-			password: this.refs.password.getField().value,
-			passwordr: this.refs.passwordr.getField().value,
+			email: this.refs.email.value,
+			password: this.refs.password.value,
+			passwordr: this.refs.passwordr.value,
 			recaptcha: grecaptcha.getResponse()
 		};
 		
@@ -52,7 +52,7 @@ export default class RegisterAccount extends React.Component {
 	onCheckEmail() {
 		clearTimeout(this.checkEmailTimeout);
 
-    const email = this.refs.email.getField().value;
+    const email = this.refs.email.value;
 
 		if (email) {
 			// Check if email is available
@@ -80,9 +80,8 @@ export default class RegisterAccount extends React.Component {
 
           <Button
             raised primary
-            label='Continue to Login'
             onClick={() => location.hash = '#/login'}
-          />
+          >Continue to login</Button>
 				</div>
 			)
 		}
@@ -135,16 +134,14 @@ export default class RegisterAccount extends React.Component {
           <div className='buttons'>
             <Button
               raised primary
-              label='Create Account'
               onClick={() => this.onCreate()}
-            />
+            >Create Account</Button>
 
             <Button
               raised
               ref='google'
-              label='Google Login'
               onClick={() => location.hash = '#/login?google=1'}
-            />
+            >Google Login</Button>
           </div>
 				</Paper>
 			</form>

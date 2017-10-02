@@ -45,17 +45,23 @@ module.exports = async function(req, res) {
 
       req.session.otpTempSecret = speakeasy.generateSecret({
         symbols: true,
-        length: 256,
-        label: 'Test',
-        name: `xyAccounts (${rows[0].email})`
+        length: 256
       });
 
-      const url = await new Promise((resolve, reject) =>
-        qr.toDataURL(
-          req.session.otpTempSecret.otpauth_url,
-          (err, url) => err ? reject(err) : resolve(url)
-        )
-      );
+      // otpauth url
+      let url = speakeasy.otpauthURL({
+        algorithm: 'sha512',
+        encoding: 'base32',
+        secret: req.session.otpTempSecret.base32,
+        issuer:'xyAccounts',
+        digits: 8,
+        label: rows[0].email
+      });
+
+      // qr code url
+      url = await new Promise((resolve, reject) =>
+        qr.toDataURL(url, (e, u) => e ? reject(e) : resolve(u)
+      ));
       
       res.json({ error: false, qr: url });
     }

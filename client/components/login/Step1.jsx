@@ -57,8 +57,8 @@ export default class LoginStep1 extends React.Component {
     request
       .post('api/login')
       .send({
-        email: this.refs.email.getField().value,
-        password: this.refs.password.getField().value
+        email: this.refs.email.value,
+        password: this.refs.password.value
       })
       .end((err, res) => {
         const b = (res || { body: {} }).body;
@@ -119,16 +119,14 @@ export default class LoginStep1 extends React.Component {
           <div className='buttons'>
             <Button
               raised primary
-              label='Xyfir Login'
               onClick={() => this.onLogin()}
-            />
+            >Xyfir Login</Button>
 
             <Button
               raised
               ref='google'
-              label='Google Login'
               className='google-login'
-            />
+            >Google Login</Button>
           </div>
         </form>
           

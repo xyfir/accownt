@@ -21,8 +21,8 @@ export default class PasswordlessLogin extends React.Component {
    * Sends the passwordless login link to the provided email.
    */
   onSend() {
-    const email = this.refs.email.getField().value;
-    this.refs.email.getField().value = '';
+    const email = this.refs.email.value;
+    this.refs.email.value = '';
 
     request
       .get('api/login/passwordless/' + email)
@@ -38,7 +38,7 @@ export default class PasswordlessLogin extends React.Component {
    * Attempts to login using the passwordless login authentication token.
    */
   onLogin() {
-    const c = this.refs.code.getField().value.split('_');
+    const c = this.refs.code.value.split('_');
 
     location.href = `${XACC}api/login/passwordless/${c[0]}/${c[1]}`;
   }
@@ -63,9 +63,8 @@ export default class PasswordlessLogin extends React.Component {
 
             <Button
               raised primary
-              label='Login'
               onClick={() => this.onSend()}
-            />
+            >Login</Button>
           </form>
         </div>
       );
@@ -93,9 +92,8 @@ export default class PasswordlessLogin extends React.Component {
 
           <Button
             raised primary
-            label='Login'
             onClick={() => this.onLogin()}
-          />
+          >Login</Button>
         </form>
       </div>
     );

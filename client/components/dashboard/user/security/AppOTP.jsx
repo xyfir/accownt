@@ -49,7 +49,7 @@ export default class SetAppOTP extends React.Component {
     request
       .put('api/dashboard/user/security/otp')
       .send({
-        token: this.refs.code.getField().value
+        token: this.refs.code.value
       })
       .end((err, res) => {
         if (err || res.body.error)
@@ -71,9 +71,8 @@ export default class SetAppOTP extends React.Component {
         {this.state.enabled ? (
           <Button
             secondary raised
-            label='Disable'
             onClick={() => this.onDisable()}
-          />
+          >Disable</Button>
         ) : this.state.qr ? (
           <div className='verify-app-otp flex'>
             <p>
@@ -92,16 +91,14 @@ export default class SetAppOTP extends React.Component {
             
             <Button
               primary raised
-              label='Verify'
               onClick={() => this.onVerify()}
-            />
+            >Verify</Button>
           </div>
         ) : (
           <Button
             primary raised
-            label='Enable'
             onClick={() => this.onEnable()}
-          />
+          >Enable</Button>
         )}
       </div>
     );

@@ -136,9 +136,8 @@ export default class ViewService extends React.Component {
 
         <Button
           raised primary
-          label='Generate Key'
           onClick={() => this.onGenerateKey()}
-        />
+        >Generate Key</Button>
       </div>
     );
   }

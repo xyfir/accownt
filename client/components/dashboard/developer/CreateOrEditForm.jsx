@@ -64,12 +64,12 @@ export default class CreateOrEditServiceForm extends React.Component {
   onSubmit() {
     const data = {
       info: {},
-      name: this.refs.name.getField().value,
-      urlMain: this.refs.urlMain.getField().value,
-      urlLogin: this.refs.urlLogin.getField().value,
-      urlUpdate: this.refs.urlUpdate.getField().value,
-      urlUnlink: this.refs.urlUnlink.getField().value,
-      description: this.refs.description.getField().value
+      name: this.refs.name.value,
+      urlMain: this.refs.urlMain.value,
+      urlLogin: this.refs.urlLogin.value,
+      urlUpdate: this.refs.urlUpdate.value,
+      urlUnlink: this.refs.urlUnlink.value,
+      description: this.refs.description.value
     };
 
     try {
@@ -85,7 +85,7 @@ export default class CreateOrEditServiceForm extends React.Component {
       
       // Validate fields that service requests
       this.fields.forEach(field => {
-        const usedFor = this.refs['uf-' + field.ref].getField().value;
+        const usedFor = this.refs['uf-' + field.ref].value;
         const req = window['cb--required--' + field.ref].checked;
         const opt = window['cb--optional--' + field.ref].checked;
 
@@ -269,9 +269,8 @@ export default class CreateOrEditServiceForm extends React.Component {
       
         <Button
           raised primary
-          label='Submit'
           onClick={e => this.onSubmit(e)}
-        />
+        >Submit</Button>
       </form>
     );
   }

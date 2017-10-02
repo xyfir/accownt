@@ -24,7 +24,7 @@ export default class SetSecurityCodes extends React.Component {
       .put('api/dashboard/user/security/codes')
       .send({
         type: this.refs.codeType.state.value,
-        count: this.refs.codeCount.getField().value
+        count: this.refs.codeCount.value
       })
       .end((err, res) => {
         this.props.alert(res.body.message);
@@ -33,7 +33,7 @@ export default class SetSecurityCodes extends React.Component {
   }
 
   onReset() {
-    this.refs.codeCount.getField().value = 0;
+    this.refs.codeCount.value = 0;
     this.onGenerate();
   }
 
@@ -68,9 +68,8 @@ export default class SetSecurityCodes extends React.Component {
 
             <Button
               flat primary
-              label='Copy to clipboard'
               onClick={() => this.onCopy()}
-            />
+            >Copy to clipboard</Button>
           </div>
         ) : null}
         
@@ -98,14 +97,12 @@ export default class SetSecurityCodes extends React.Component {
         
         <Button
           primary raised
-          label='Generate'
           onClick={() => this.onGenerate()}
-        />
+        >Generate</Button>
         <Button
           secondary raised
-          label='Reset'
           onClick={() => this.onReset()}
-        />
+        >Reset</Button>
       </Paper>
     );
   }

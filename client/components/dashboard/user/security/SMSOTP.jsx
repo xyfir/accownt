@@ -20,8 +20,8 @@ export default class SetSMSOTP extends React.Component {
       request
         .put('api/dashboard/user/security/phone/verify')
         .send({
-          phone: this.refs.phone.getField().value,
-          code: this.refs.smsCode.getField().value
+          phone: this.refs.phone.value,
+          code: this.refs.smsCode.value
         })
         .end((err, res) => {
           this.props.alert(res.body.message);
@@ -29,7 +29,7 @@ export default class SetSMSOTP extends React.Component {
         })
     }
     else {
-      const phone = this.refs.phone.getField().value;
+      const phone = this.refs.phone.value;
       
       request
         .put('api/dashboard/user/security/phone')
@@ -75,11 +75,10 @@ export default class SetSMSOTP extends React.Component {
         
         <Button
           raised primary
-          label={
-            this.state.verifying ? 'Verify Code' : 'Update Phone'
-          }
           onClick={() => this.onUpdate()}
-        />
+        >{
+          this.state.verifying ? 'Verify Code' : 'Update Phone'
+        }</Button>
       </div>
     );
   }

@@ -22,9 +22,9 @@ export default class UserAccount extends React.Component {
   }
   
   onUpdatePassword() {
-    const curPass = this.refs.cpassword.getField().value;
-    const newPass = this.refs.npassword.getField().value;
-    const conPass = this.refs.rpassword.getField().value;
+    const curPass = this.refs.cpassword.value;
+    const newPass = this.refs.npassword.value;
+    const conPass = this.refs.rpassword.value;
     
     if (newPass != conPass) {
       swal('Error', 'Passwords do not match.', 'error');
@@ -53,9 +53,8 @@ export default class UserAccount extends React.Component {
           
           <Button
             raised
-            label='Logout'
             onClick={() => location.href = 'api/login/logout'}
-          />
+          >Logout</Button>
         </Paper>
         
         <form
@@ -88,9 +87,8 @@ export default class UserAccount extends React.Component {
 
           <Button
             raised primary
-            label='Update Password'
             onClick={() => this.onUpdatePassword()}
-          />
+          >Update Password</Button>
         </form>
       </div>
     );

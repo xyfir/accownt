@@ -49,9 +49,8 @@ export default class SetPasswordless extends React.Component {
         
         <Button
           primary raised
-          label='Update Passwordless'
           onClick={() => this.onUpdate()}
-        />
+        >Update Passwordless</Button>
       </Paper>
     );
   }

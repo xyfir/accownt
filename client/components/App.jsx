@@ -72,21 +72,21 @@ class App extends React.Component {
               icon
               key='home'
               onClick={() => location.hash = '#/'}
-            >home</Button>
+              iconChildren='home'
+            />
           ]}
           title='Xyfir Accounts'
           nav={
             <Button
               icon
               onClick={() => this.setState({ drawer: true })}
-            >menu</Button>
+              iconChildren='menu'
+            />
           }
         />
 
         <Drawer
-          onVisibilityToggle={
-            v => this.setState({ drawer: v })
-          }
+          onVisibilityChange={v => this.setState({ drawer: v })}
           autoclose={true}
           navItems={[
             <Subheader primary primaryText='User Dashboard' />,
@@ -134,7 +134,8 @@ class App extends React.Component {
                 <Button
                   icon
                   onClick={() => this.setState({ drawer: false })}
-                >arrow_back</Button>
+                  iconChildren='arrow_back'
+                />
               }
             />
           }
