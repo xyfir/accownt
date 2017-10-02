@@ -43,34 +43,36 @@ module.exports = async function(req, res) {
         [req.session.uid]
       );
 
-      req.session.otpTempSecret = speakeasy.generateSecret({
-        symbols: true,
-        length: 256
+      const {ascii: secret} = speakeasy.generateSecret({
+        issuer: 'xyAccounts',
+        length: 128,
+        name: rows[0].email
       });
 
-      // otpauth url
       let url = speakeasy.otpauthURL({
         algorithm: 'sha512',
-        encoding: 'base32',
-        secret: req.session.otpTempSecret.base32,
-        issuer:'xyAccounts',
+        issuer: 'xyAccounts',
         digits: 8,
+        secret,
         label: rows[0].email
       });
 
-      // qr code url
+      // Convert otpauth url to qr code url
       url = await new Promise((resolve, reject) =>
         qr.toDataURL(url, (e, u) => e ? reject(e) : resolve(u)
       ));
+
+      req.session.otpTempSecret = secret;
       
       res.json({ error: false, qr: url });
     }
     // User is finishing process and verifying token
     else {
       const verified = speakeasy.totp.verify({
-        encoding: 'base32',
-        secret: req.session.otpTempSecret.base32,
-        token: req.body.token.replace(/\D/g,'')
+        algorithm: 'sha512',
+        secret: req.session.otpTempSecret,
+        digits: 8,
+        token: req.body.token.replace(/\D/g, '')
       });
 
       if (!verified) throw 'Invalid token';
@@ -78,7 +80,7 @@ module.exports = async function(req, res) {
       // Save otp secret
       const result = await db.query(
         'UPDATE security SET otp_secret = ? WHERE user_id = ?',
-        [req.session.otpTempSecret.base32, req.session.uid]
+        [req.session.otpTempSecret, req.session.uid]
       );
       db.release();
 
