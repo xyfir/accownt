@@ -91,10 +91,10 @@ export default class CreateOrEditServiceForm extends React.Component {
 
         // Service is requesting field
         if (req || opt) {
-          if (!/^[\w\d\s-\/]{3,25}$/.test(usedFor)) {
+          if (!/^[\w\d\s-\/]{1,75}$/.test(usedFor)) {
             throw `Invalid 'Used For' description for '${
               field.name
-            }'. Letters/numbers/spaces/3-25 characters allowed`;
+            }'. Letters/numbers/spaces/1-75 characters allowed`;
           }
           else if (req && opt) {
             throw `Requested user field '${
