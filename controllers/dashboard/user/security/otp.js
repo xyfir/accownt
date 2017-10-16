@@ -50,11 +50,11 @@ module.exports = async function(req, res) {
       });
 
       let url = speakeasy.otpauthURL({
-        algorithm: 'sha512',
+        //algorithm: 'sha512',
         issuer: 'xyAccounts',
         digits: 8,
         secret,
-        label: rows[0].email
+        label: encodeURIComponent(rows[0].email)
       });
 
       // Convert otpauth url to qr code url
@@ -69,7 +69,7 @@ module.exports = async function(req, res) {
     // User is finishing process and verifying token
     else {
       const verified = speakeasy.totp.verify({
-        algorithm: 'sha512',
+        //algorithm: 'sha512',
         secret: req.session.otpTempSecret,
         digits: 8,
         token: req.body.token.replace(/\D/g, '')
