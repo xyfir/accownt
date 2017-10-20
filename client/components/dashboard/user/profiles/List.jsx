@@ -69,7 +69,7 @@ export default class ProfileList extends React.Component {
         <Dialog
           id='selected-profile'
           title={selected.name}
-          onHide={() => this.setState({ selected: 0 })}
+          onHide={() => this.setState({ selected: -1 })}
           visible={!!selected.id}
           aria-label='Selected profile'
         >
