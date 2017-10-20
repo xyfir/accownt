@@ -1,3 +1,6 @@
+import {
+  TextField, List, ListItem, Button, Paper
+} from 'react-md';
 import request from 'superagent';
 import React from 'react';
 import swal from 'sweetalert';
@@ -7,7 +10,7 @@ export default class CreateAffiliateCampaign extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { promotions: [], selectedPromotion: 0 };
+    this.state = { promotions: [], selected: 0 };
   }
 
   componentWillMount() {
@@ -17,20 +20,16 @@ export default class CreateAffiliateCampaign extends React.Component {
   }
 
   onSelectPromotion(id) {
-    this.setState({ selectedPromotion: id });
+    this.setState({ selected: id });
   }
 
-  onCreate(e) {
-    e.preventDefault();
-
-    const data = {
-      code: this.refs.code.value,
-      promo: this.state.selectedPromotion
-    };
-
+  onCreate() {
     request
       .post('/api/dashboard/affiliate')
-      .send(data)
+      .send({
+        code: this.refs.code.value,
+        promo: this.state.selected
+      })
       .end((err, res) => {
         if (err || res.body.error) {
           swal('Error', res.body.message, 'error');
@@ -45,47 +44,45 @@ export default class CreateAffiliateCampaign extends React.Component {
   render() {
     return (
       <div className='create-campaign'>
-        <section className='promotions'>
-          <span className='input-description'>
-            Select a promotion for your campaign.
-          </span>
-        
-          {this.state.promotions.map(p => {
-            return (
-              <div
-                className={'promo-campaign' + (
-                  this.state.selectedPromotion == p.id
-                  ? ' selected' : ''
-                )}
-                key={p.id}
-              >
-                <a
-                  className='name'
-                  onClick={() => this.onSelectPromotion(p.id)}
-                >{p.name}</a>
-                <span className='description'>{
-                  p.description
-                }</span>
-              </div>
-            )
-          })}
-        </section>
+        <List className='md-paper md-paper--1 section'>{
+          this.state.promotions.map(p =>
+            <ListItem
+              key={p.id}
+              onClick={() => this.onSelectPromotion(p.id)}
+              primaryText={
+                this.state.selected == p.id
+                  ? `[[${p.name}]]`
+                  : p.name
+              }
+              secondaryText={p.description}
+            />
+          )
+        }</List>
 
-        <section className='form'>{
-          <form onSubmit={(e) => this.onCreate(e)}>
-            <label>Promo Code</label>
-            <span className='input-description'>
-              A unique promotional code that will link this campaign to selected promotion.
-              <br />
-              Capital letters and numbers only, limited to 4-10 characters.
-            </span>
-            <input type='text' ref='code' placeholder='CODE10' />
+        <Paper
+          zDepth={1}
+          component='form'
+          className='form section flex'
+        >
+          <TextField
+            id='text--promo'
+            ref='code'
+            type='text'
+            label='Promo Code'
+            helpText={
+              'A unique promotional code that will link this campaign to ' +
+              'selected promotion. Capital letters and numbers only, limited ' +
+              'to 4-10 characters.'
+            }
+            className='md-cell'
+            placeholder='CODE10'
+          />
 
-            <button className='btn-primary'>
-              Create Campaign
-            </button>
-          </form>
-        }</section>
+          <Button
+            raised primary
+            onClick={() => this.onCreate()}
+          >Create</Button>
+        </Paper>
       </div>
     );
   }
