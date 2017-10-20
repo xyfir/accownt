@@ -53,7 +53,7 @@ module.exports = async function(req, res) {
 
     // Grab user's profiles     
     sql = `
-      SELECT profile_id, name FROM profiles WHERE user_id = ?
+      SELECT id, name FROM profiles WHERE user_id = ?
     `,
     vars = [
       req.session.uid

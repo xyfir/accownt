@@ -184,7 +184,7 @@ export default class RegisterService extends React.Component {
                 label='Profile'
                 menuItems={this.state.profiles}
                 itemLabel='name'
-                itemValue='profile_id'
+                itemValue='id'
                 className='md-cell'
               />
               

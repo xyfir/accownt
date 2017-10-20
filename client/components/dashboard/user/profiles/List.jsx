@@ -18,7 +18,7 @@ export default class ProfileList extends React.Component {
   }
 
   onDelete() {
-    const {profile_id: id} = this.state.profiles[this.state.selected];
+    const {id} = this.state.profiles[this.state.selected];
 
     swal({
       title: 'Are you sure?',
@@ -59,7 +59,7 @@ export default class ProfileList extends React.Component {
         <List className='section md-paper md-paper--1'>{
           this.state.profiles.map((p, i) =>
             <ListItem
-              key={p.profile_id}
+              key={p.id}
               onClick={() => this.setState({ selected: i })}
               primaryText={p.name}
             />
@@ -70,14 +70,14 @@ export default class ProfileList extends React.Component {
           id='selected-profile'
           title={selected.name}
           onHide={() => this.setState({ selected: 0 })}
-          visible={!!selected.profile_id}
+          visible={!!selected.id}
           aria-label='Selected profile'
         >
           <List>
             <ListItem
               primaryText='Edit'
               leftIcon={<FontIcon>edit</FontIcon>}
-              onClick={() => location.hash += '/' + selected.profile_id}
+              onClick={() => location.hash += '/' + selected.id}
             />
             <ListItem
               primaryText='Delete'

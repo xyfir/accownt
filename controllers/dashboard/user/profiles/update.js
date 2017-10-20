@@ -23,7 +23,7 @@ module.exports = async function(req, res) {
         name = ?, fname = ?, lname = ?, address = ?, zip = ?, region = ?,
         country = ?, email = ?, phone = ?, gender = ?, birthdate = ?,
         picture = ?
-      WHERE user_id = ? AND profile_id = ?
+      WHERE user_id = ? AND id = ?
     `,
     vars = [
       profile.name, profile.fname, profile.lname, profile.address, profile.zip,
