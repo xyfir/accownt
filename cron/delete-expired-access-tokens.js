@@ -1,14 +1,17 @@
-const db = require("lib/db");
+const mysql = require('lib/mysql');
 
-module.exports = function(fn) {
+module.exports = async function() {
 
-    let sql = `
-        DELETE FROM access_tokens WHERE NOW() > expires
-    `;
+  const db = new mysql;
 
-    db(cn => cn.query(sql, (err, result) => {
-        cn.release();
-        fn(err);
-    }));
+  try {
+    await db.getConnection();
+    await db.query('DELETE FROM access_tokens WHERE NOW() > expires');
+    db.release();
+  }
+  catch (err) {
+    db.release();
+    console.error('cron/delete-expired-access-tokens', err);
+  }
 
 }
