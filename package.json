@@ -1,6 +1,6 @@
 {
   "name": "xyfir-accounts",
-  "version": "4.4.1",
+  "version": "4.5.0",
   "description": "",
   "main": "app.js",
   "scripts": {
@@ -15,7 +15,6 @@
     "body-parser": "^1.17.2",
     "copyr": "^1.0.3",
     "country-region-data": "^1.4.0",
-    "cron": "^1.2.1",
     "express": "^4.16.2",
     "express-mysql-session": "^1.2.2",
     "express-session": "^1.15.5",
@@ -27,17 +26,17 @@
     "randomstring": "^1.1.5",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "react-md": "^1.2.3",
-    "rword": "^2.1.0",
+    "react-md": "^1.2.4",
+    "rword": "^2.2.0",
     "speakeasy": "^2.0.0",
-    "superagent": "^3.6.3",
+    "superagent": "^3.7.0",
     "sweetalert": "^2.0.8"
   },
   "devDependencies": {
-    "babel-preset-env": "^1.6.0",
+    "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "babelify": "^7.3.0",
-    "browserify": "^14.4.0",
+    "browserify": "^14.5.0",
     "gulp": "^3.9.1",
     "gulp-fontello": "^0.4.6",
     "gulp-sass": "^3.1.0",
