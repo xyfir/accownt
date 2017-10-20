@@ -29,11 +29,11 @@ export default class ListLinkedServices extends React.Component {
       `,
       icon: 'warning',
       button: 'Unlink'
-    }, () =>
-      request
-        .delete('api/dashboard/user/services/' + this.state.selected)
-        .end((err, res) => location.reload())
-    );
+    })
+    .then(() =>
+      request.delete('/api/dashboard/user/services/' + this.state.selected)
+    )
+    .then(res => location.reload());
   }
   
   render() {
