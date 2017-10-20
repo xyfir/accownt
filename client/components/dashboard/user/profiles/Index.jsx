@@ -1,20 +1,14 @@
-import React from "react";
+import React from 'react';
 
 // Components
-import Create from "./Create";
-import List from "./List";
+import Create from 'components/dashboard/user/profiles/Create';
+import List from 'components/dashboard/user/profiles/List';
+import Edit from 'components/dashboard/user/profiles/Edit';
 
-export default class Profiles extends React.Component {
-	
-	constructor(props) {
-		super(props);
-	}
-	
-	render() {
-		if (location.hash == "#/dashboard/user/profiles")
-            return <List />;
-        else
-            return <Create />;
-	}
-	
+export default () => {
+  switch (location.hash.split('/')[4]) {
+    case undefined: return <List />
+    case 'create': return <Create />
+    default: return <Edit />
+  }
 }
