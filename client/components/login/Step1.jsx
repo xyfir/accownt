@@ -101,6 +101,7 @@ export default class LoginStep1 extends React.Component {
         
         <form className='md-paper md-paper--1 section flex'>
           <TextField
+            floating
             id='email'
             ref='email'
             type='email'
@@ -109,6 +110,7 @@ export default class LoginStep1 extends React.Component {
           />
 
           <TextField
+            floating
             id='password'
             ref='password'
             type='password'
