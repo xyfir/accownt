@@ -1,49 +1,6 @@
 /* USER DASHBOARD */
 
 .dashboard-user {
-  .dashboard-profiles, .dashboard-services {
-    .profile-form-view {
-      position: relative;
-
-      .icon-close {
-        position: absolute;
-        right: 2%;
-        top: 2%;
-      }
-    }
-
-    form.profile-form-view {
-      div.picture > img {
-        display: block;
-        margin: auto;
-        margin-top: 0.5em;
-        max-height: 10em;
-        max-width: 10em;
-      }
-    }
-  }
-
-  .profile-list-view, .profile-form-view {
-    background-color: $llgray;
-    margin: 1em auto;
-    padding: 0.5em;
-    width: 80%;
-  }
-
-  .profile-list-view {
-    display: table;
-
-    h2 {
-      border-right: 1px solid #ddd;
-      min-width: 13em;
-    }
-
-    >* {
-      display: table-cell;
-      padding: 0.5em;
-    }
-  }
-
   >div.security {
     >div.tfa {
       padding-bottom: 0.1em;
@@ -84,74 +41,6 @@
 
       .md-table-column:first-child {
         width: 30%;
-      }
-    }
-  }
-}
-
-/* AFFILIATE DASHBOARD */
-
-.dashboard-affiliate {
-  .campaigns-list {
-    .campaign {
-      border-bottom: solid 0.2em $lgray;
-      padding-bottom: 1em;
-      margin-bottom: 1em;
-
-      .code, .promo-name {
-        font-size: 120%;
-        font-weight: bold;
-      }
-
-      .code {
-        color: $dgray;
-      }
-      
-      .code:after {
-        content: ": ";
-      }
-
-      .promo-description, .promo-link {
-        display: block;
-      }
-
-      .signups, .purchases, .earnings {
-        margin: 0.4em;
-        font-size: 85%
-      }
-
-      .icon-delete {
-        display: block;
-      }
-    }
-
-    .campaign:last-child {
-      border-bottom: none;
-      padding-bottom: 0em;
-      margin-bottom: 0em;
-    }
-  }
-
-  .create-campaign {
-    section.promotions {
-      max-height: 15em;
-      overflow: auto;
-
-      .promo-campaign {
-        width: 80%;
-        margin: 0 auto;
-
-        .name {
-          font-weight: bold;
-        }
-
-        .description {
-          display: block;
-        }
-      }
-
-      .promo-campaign.selected > .name {
-        font-style: italic;
       }
     }
   }
