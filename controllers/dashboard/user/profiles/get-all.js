@@ -1,22 +1,33 @@
-const db = require("lib/db");
+const mysql = require('lib/mysql');
 
 /*
-    GET api/dashboard/user/profiles
-    RETURN
-        {
-            count: number, profiles: [{
-                picture: string, name: string, profile_id: number
-            }]
-        }
+  GET api/dashboard/user/profiles
+  RETURN
+    {
+      error: boolean, message?: string,
+      profiles?: [{
+        name: string, id: number
+      }]
+    }
 */
-module.exports = function(req, res) {
-    
-    db(cn => {
-        cn.query("SELECT picture, name, profile_id FROM profiles WHERE user_id = ?", [req.session.uid], (err, rows) => {
-            cn.release();
-            
-            res.json({ count: rows.length, profiles: rows });
-        });
-    });
+module.exports = async function(req, res) {
+
+  const db = new mysql;
+
+  try {
+    await db.getConnection();
+    const profiles = await db.query(`
+      SELECT picture, name, id FROM profiles WHERE user_id = ?
+    `, [
+      req.session.uid
+    ]);
+    db.release();
+
+    res.json({ error: false, profiles });
+  }
+  catch (err) {
+    db.release();
+    res.json({ error: true, message: err });
+  }
 
 }

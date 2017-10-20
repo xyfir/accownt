@@ -1,51 +1,45 @@
-const db = require("lib/db");
+const mysql = require('lib/mysql');
 
 /*
-    DELETE api/dashboard/user/profiles/:profile
-    RETURN
-        { error: bool, message: string }
-    DESCRIPTION
-        Delete a profile
-        Will not delete if profile is linked to a service
+  DELETE api/dashboard/user/profiles/:profile
+  RETURN
+    { error: bool, message?: string }
+  DESCRIPTION
+    Delete a profile
+    Will not delete if profile is linked to a service
 */
-module.exports = function(req, res) {
-    
+module.exports = async function(req, res) {
+
+  const db = new mysql;
+
+  try {
     // Get info object for all of user's linked services
-    let sql = `
-        SELECT info FROM linked_services WHERE user_id = ?
-    `, vars = [
-        req.session.uid
-    ];
+    await db.getConnection();
+    const rows = await db.query(
+      'SELECT info FROM linked_services WHERE user_id = ?',
+      [req.session.uid]
+    );
 
-    db(cn => cn.query(sql, vars, (err, rows) => {
-        // Check if profile is linked to a service
-        let linked = !!rows.find(r => {
-            return JSON.parse(r.info).profile == req.params.profile;
-        });
+    // Check if profile is linked to a service
+    const linked = rows.findIndex(r =>
+      JSON.parse(r.info).profile == req.params.profile
+    ) > -1;
 
-        if (linked) {
-            cn.release();
-            res.json({
-                error: true,
-                message: "Cannot delete profiles that are linked to services"
-            }); return;
-        }
+    if (linked) throw 'Cannot delete profiles that are linked to services';
 
-        // Delete profile
-        sql = `
-            DELETE FROM profiles WHERE profile_id = ? AND user_id = ?
-        `, vars = [
-            req.params.profile, req.session.uid
-        ];
+    await db.query(
+      'DELETE FROM profiles WHERE id = ? AND user_id = ?',
+      [req.params.profile, req.session.uid]
+    );
+    db.release();
 
-        cn.query(sql, vars, (err, result) => {
-            cn.release();
-            
-            if (!err || !result.affectedRows)
-                res.json({ error: false, message: "Profile deleted" });
-            else
-                res.json({ error: true, message: "An unknown error occured" });
-        });
-    }));
+    if (!result.affectedRows) throw 'Could not delete profile';
+
+    res.json({ error: false });
+  }
+  catch (err) {
+    db.release();
+    res.json({ error: true, message: err });
+  }
 
 }
