@@ -2,8 +2,8 @@ import request from 'superagent';
 import React from 'react';
 
 // Components
-import Create from './Create';
-import List from './List';
+import Create from 'components/dashboard/affiliate/Create';
+import List from 'components/dashboard/affiliate/List';
 
 export default class AffiliateDashboard extends React.Component {
 
@@ -13,18 +13,18 @@ export default class AffiliateDashboard extends React.Component {
 
   componentWillMount() {
     request
-      .get('../api/dashboard/user/account')
+      .get('/api/dashboard/user/account')
       .end((err, res) => {
         if (err || !res.body.loggedIn)
-          location.hash = '/login';
+          location.hash = '#/login';
         else if (!res.body.affiliate)
-          location.hash = '/dashboard/user';
+          location.hash = '#/dashboard/user';
       });
   }
 
   render() {
     return (
-      <div className='dashboard-affiliate old'>
+      <div className='dashboard-affiliate'>
         {this.props.hash[3] == 'create' ? (
           <Create />
         ) : (
