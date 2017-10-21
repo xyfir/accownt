@@ -1,6 +1,6 @@
 {
   "name": "xyfir-accounts",
-  "version": "4.5.0",
+  "version": "4.6.0",
   "description": "",
   "main": "app.js",
   "scripts": {
@@ -33,16 +33,13 @@
     "sweetalert": "^2.0.8"
   },
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
-    "babelify": "^7.3.0",
-    "browserify": "^14.5.0",
     "gulp": "^3.9.1",
     "gulp-fontello": "^0.4.6",
     "gulp-sass": "^3.1.0",
-    "gulp-streamify": "^1.0.2",
-    "gulp-uglify": "^3.0.0",
-    "gulp-util": "^3.0.8",
-    "vinyl-source-stream": "^1.1.0"
+    "webpack": "^3.8.1"
   }
 }
