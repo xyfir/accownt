@@ -5,70 +5,67 @@ const config = require('config');
 /*
   GET api/service/:service
   RETURNED
-    { error: bool, message?: string, service?: {}, profiles?: [] }
+    {
+      error: bool, message?: string,
+      service: null|Object({
+        id: number, name: string, description: string, requested: object
+      }),
+      profiles?: [{
+        id: number, name: string
+      }]
+    }
   DESCRIPTION
     Returns to user when linking service to account
 */
 module.exports = async function(req, res) {
 
-  const db = new mysql();
+  const db = new mysql;
+  let service = null;
 
   try {
+    // Get service's info
+    await db.getConnection();
+    [service] = await db.query(`
+      SELECT
+        id, name, description, info AS requested, url_main AS url
+      FROM services WHERE id = ?
+    `, [
+      req.params.service
+    ]);
+
+    if (!service) throw 'Service does not exist';
+
+    service.requested = JSON.parse(service.requested);
+
     if (!req.session.uid) {
       req.session.redirect =
         `${config.addresses.xacc}#/login/service/${req.params.service}`;
       throw 'Not logged in';
     }
 
-    await db.getConnection();
-
-    // Get service's info
-    let sql = `
-      SELECT name, description, info FROM services WHERE id = ?
-    `,
-    vars = [
-      req.params.service
-    ],
-    rows = await db.query(sql, vars);
-
-    if (rows.length == 0) throw 'Service does not exist';
-    
-    const data = {
-      name: rows[0].name,
-      description: rows[0].description,
-      requested: JSON.parse(rows[0].info)
-    };
-
     // Check if user is already linked to service
-    sql = `
+    const rows = await db.query(`
       SELECT xyfir_id FROM linked_services
       WHERE user_id = ? AND service_id = ?
-    `,
-    vars = [
+    `, [
       req.session.uid, req.params.service
-    ],
-    rows = await db.query(sql, vars);
+    ]);
     
-    if (rows.length > 0) throw 'Service is already linked to account';
+    if (rows.length) throw 'Service is already linked to account';
 
-    // Grab user's profiles     
-    sql = `
+    // Grab user's profiles
+    const profiles = await db.query(`
       SELECT id, name FROM profiles WHERE user_id = ?
-    `,
-    vars = [
+    `, [
       req.session.uid
-    ],
-    rows = await db.query(sql, vars);
-
+    ]);
     db.release();
 
-    res.json({
-      error: false, service: data, profiles: rows
-    });
+    res.json({ error: false, service, profiles });
   }
   catch (err) {
     db.release();
-    res.json({ error: true, message: err });
+    res.json({ error: true, message: err, service });
   }
 
 }
