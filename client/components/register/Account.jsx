@@ -10,12 +10,17 @@ import TextField from 'react-md/lib/TextFields';
 import Button from 'react-md/lib/Buttons/Button';
 import Paper from 'react-md/lib/Papers';
 
+// Modules
+import query from 'lib/url/parse-hash-query';
+
 export default class RegisterAccount extends React.Component {
 	
 	constructor(props) {
 		super(props);
 
-		this.state = { created: false, emailTaken: false };
+		this.state = {
+      created: false, emailTaken: false, email: query().email || ''
+    };
 
 		// Load reCAPTCHA lib
 		const element = document.createElement('script');
@@ -25,8 +30,10 @@ export default class RegisterAccount extends React.Component {
 	}
 
 	onCreate() {
+    if (this.state.emailTaken) return;
+
 		const data = {
-			email: this.refs.email.value,
+			email: this.state.email,
 			password: this.refs.password.value,
 			passwordr: this.refs.passwordr.value,
 			recaptcha: grecaptcha.getResponse()
@@ -49,10 +56,14 @@ export default class RegisterAccount extends React.Component {
 		}
 	}
 
-	onCheckEmail() {
-		clearTimeout(this.checkEmailTimeout);
+  /**
+   * Set email state and check if email is already linked to an account.
+   * @param {string} email
+   */
+	onSetEmail(email) {
+    this.setState({ email });
 
-    const email = this.refs.email.value;
+		clearTimeout(this.checkEmailTimeout);
 
 		if (email) {
 			// Check if email is available
@@ -68,13 +79,13 @@ export default class RegisterAccount extends React.Component {
 	}
 	
 	render() {
-		if (this.state.created) {
+    if (this.state.created) {
 			return (
 				<div className='register account-created'>
           <span>
             Account created successfully. A verification link has been sent to your email.
             <br />
-            You will not be able to login until you verify your email.
+            You will not be able to login until you verify your email. Attempting to login to an unverified account will cause a new verification email to be sent.
             <br />
           </span>
 
@@ -90,17 +101,17 @@ export default class RegisterAccount extends React.Component {
 			<form className='register'>
         {this.state.emailTaken ? (
           <span className='email-taken'>
-            An account with that email already exists. <a href='#/login'>Login?</a>
+            An account with that email already exists. <a href={'#/login?email=' + this.state.email}>Login?</a>
           </span>
         ) : null}
 
 				<Paper zDepth={1} className='section flex'>
           <TextField
             id='email'
-            ref='email'
             type='email'
             label='Email'
-            onChange={() => this.onCheckEmail()}
+            value={this.state.email}
+            onChange={v => this.onSetEmail(v)}
             helpText={
               'Used to login to your account, receive notifications, and for \
               account recovery.'
