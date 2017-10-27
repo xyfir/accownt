@@ -1,19 +1,21 @@
+/**
+ * Parses the query string within `location.hash` into an object.
+ * @return {object}
+ */
 export default function() {
 
-    let query = {};
-    let qs = location.hash.split('?')[1];
+  const query = {};
+  let qs = location.hash.split('?')[1];
 
-    if (qs !== undefined) {
-        qs = qs.split('&');
+  if (qs == undefined) return query;
 
-        qs.forEach(q => {
-            const t = q.split('=');
+  qs.split('&').forEach(q => {
+    const [key, value] = q.split('=');
 
-            query[t[0]] = t[1] === undefined
-                ? "" : decodeURIComponent(t[1]);
-        });
-    }
+    query[key] = value === undefined
+      ? '' : decodeURIComponent(value);
+  });
 
-    return query;
+  return query;
 
 }
