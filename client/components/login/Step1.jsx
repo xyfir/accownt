@@ -9,12 +9,22 @@ import Button from 'react-md/lib/Buttons/Button';
 // Constants
 import { GOOGLE_CLIENT_ID } from 'constants/config';
 
+// Modules
+import query from 'lib/url/parse-hash-query';
+
 export default class LoginStep1 extends React.Component {
 
   constructor(props) {
     super(props);
+
+    const q = query();
     
-    this.state = { loginAttempts: 0 };
+    this.state = {
+      loginAttempts: 0, email: q.email || '',
+      service: q.serviceName
+        ? { name: q.serviceName, url: q.serviceUrl }
+        : null
+    };
   }
 
   componentDidMount() {
@@ -29,6 +39,11 @@ export default class LoginStep1 extends React.Component {
         this._googleLogin, this._googleLoginFailure
       );
     });
+  }
+
+  /** @param {string} route */
+  onLoginLink(route) {
+    location.hash = `#/${route}?email=${this.state.email}`;
   }
 
   _googleLogin(user) {
@@ -57,7 +72,7 @@ export default class LoginStep1 extends React.Component {
     request
       .post('api/login')
       .send({
-        email: this.refs.email.value,
+        email: this.state.email,
         password: this.refs.password.value
       })
       .end((err, res) => {
@@ -81,31 +96,38 @@ export default class LoginStep1 extends React.Component {
   }
   
   render() {
+    const {loginAttempts, service, email} = this.state;
+
     return (
       <div className='login-1'>
         <h2>Login</h2>
 
-        {this.state.loginAttempts > 0 ? (
-          this.state.loginAttempts >= 5 ? (
-            <span className='login-attempts'>
-              You have hit the incorrect login attempt limit.
-              <br />
-              Please wait up to 15 minutes before trying again.
-            </span>
-          ) : (
-            <span className='login-attempts'>
-              {(5 - this.state.loginAttempts)} login attempt(s) remaining.
-            </span>
-          )
+        {loginAttempts >= 5 ? (
+          <span className='login-attempts'>
+            You have hit the incorrect login attempt limit.
+            <br />
+            Please wait 15 minutes from the last attempt before trying again. Entering the correct email/password will not unlock your account until the time limit expires.
+          </span>
+        ) : loginAttempts > 0 ? (
+          <span className='login-attempts'>
+            {5 - loginAttempts} login attempt(s) remaining.
+          </span>
+        ) : null}
+
+        {service ? (
+          <span className='service-login'>
+            Login to <a href={service.url}>{service.name}</a> using Xyfir Accounts:
+          </span>
         ) : null}
         
         <form className='md-paper md-paper--1 section flex'>
           <TextField
             floating
             id='email'
-            ref='email'
             type='email'
             label='Email'
+            value={email}
+            onChange={v => this.setState({ email: v })}
             className='md-cell'
           />
 
@@ -133,9 +155,15 @@ export default class LoginStep1 extends React.Component {
         </form>
           
         <nav className='login-links'>
-          <a href='#/register'>Create Account</a>
-          <a href='#/login/recovery'>Account Recovery</a>
-          <a href='#/login/passwordless'>Passwordless Login</a>
+          <a onClick={() => this.onLoginLink('register')}>
+            Create Account
+          </a>
+          <a onClick={() => this.onLoginLink('login/recovery')}>
+            Account Recovery
+          </a>
+          <a onClick={() => this.onLoginLink('login/passwordless')}>
+            Passwordless Login
+          </a>
         </nav>
       </div>
     );
