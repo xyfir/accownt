@@ -6,13 +6,16 @@ import swal from 'sweetalert';
 import TextField from 'react-md/lib/TextFields';
 import Button from 'react-md/lib/Buttons/Button';
 
+// Modules
+import query from 'lib/url/parse-hash-query';
+
 export default class AccountRecovery extends React.Component {
   
   constructor(props) {
     super(props);
 
     this.state =  {
-      email: '', auth: '', uid: 0
+      auth: '', uid: 0, email: query().email || ''
     };
   }
   
@@ -23,7 +26,7 @@ export default class AccountRecovery extends React.Component {
   onNext() {
     request
       .post('api/recover')
-      .send({ email: this.refs.email.value })
+      .send({ email: this.state.email })
       .end((err, res) => {
         if (err || res.body.error)
           swal('Error', res.body.message, 'error');
@@ -61,82 +64,79 @@ export default class AccountRecovery extends React.Component {
   }
   
   render() {
-    if (this.state.security) {
-      return (
-        <div className='login-recovery 2fa'>
-          <h2>Security</h2>
-          <p>
-            Your account has extra security measures enabled.
-            <br />
-            You must enter the correct information before receiving an account recovery email. 
-          </p>
-        
-          <form className='md-paper md-paper--1 section flex'>
-            {this.state.security.code ? (
-              <TextField
-                id='text--security-code'
-                ref='code'
-                type='text'
-                label={
-                  `Security Code #${this.state.security.codeNumber + 1}`
-                }
-                className='md-cell'
-              />
-            ) : null}
-
-            {this.state.security.otp ? (
-              <TextField
-                id='text--otp-code'
-                ref='otpCode'
-                type='text'
-                label='App Verification Code'
-                className='md-cell'
-              />
-            ) : null}
-
+    if (this.state.security) return (
+      <div className='login-recovery 2fa'>
+        <h2>Security</h2>
+        <p>
+          Your account has extra security measures enabled.
+          <br />
+          You must enter the correct information before receiving an account recovery email. 
+        </p>
+      
+        <form className='md-paper md-paper--1 section flex'>
+          {this.state.security.code ? (
             <TextField
-              id='textarea--recovery-code'
-              ref='recovery'
-              rows={2}
+              id='text--security-code'
+              ref='code'
               type='text'
-              label='Recovery Code'
-              helpText='Providing a recovery code will bypass 2FA steps'
+              label={
+                `Security Code #${this.state.security.codeNumber + 1}`
+              }
               className='md-cell'
             />
+          ) : null}
 
-            <Button
-              raised primary
-              onClick={() => this.onVerify()}
-            >Recover</Button>
-          </form>
-        </div>
-      );
-    }
-    else {
-      return (
-        <div className='login-recovery'>
-          <h2>Account Recovery</h2>
-          <p>
-            Enter the email you use to login with. Emails that are only linked to a profile and not your actual account will not work.
-          </p>
-        
-          <form className='md-paper md-paper--1 section flex'>
+          {this.state.security.otp ? (
             <TextField
-              id='email'
-              ref='email'
-              type='email'
-              label='Email'
+              id='text--otp-code'
+              ref='otpCode'
+              type='text'
+              label='App Verification Code'
               className='md-cell'
             />
-            
-            <Button
-              raised primary
-              onClick={() => this.onNext()}
-            >Next</Button>
-          </form>
-        </div>
-      );
-    }
+          ) : null}
+
+          <TextField
+            id='textarea--recovery-code'
+            ref='recovery'
+            rows={2}
+            type='text'
+            label='Recovery Code'
+            helpText='Providing a recovery code will bypass 2FA steps'
+            className='md-cell'
+          />
+
+          <Button
+            raised primary
+            onClick={() => this.onVerify()}
+          >Recover</Button>
+        </form>
+      </div>
+    );
+    else return (
+      <div className='login-recovery'>
+        <h2>Account Recovery</h2>
+        <p>
+          Enter the email you use to login with. Emails that are only linked to a profile and not your actual account will not work.
+        </p>
+      
+        <form className='md-paper md-paper--1 section flex'>
+          <TextField
+            id='email'
+            type='email'
+            label='Email'
+            value={this.state.email}
+            onChange={v => this.setState({ email: v })}
+            className='md-cell'
+          />
+          
+          <Button
+            raised primary
+            onClick={() => this.onNext()}
+          >Next</Button>
+        </form>
+      </div>
+    );
   }
   
 }

@@ -6,6 +6,9 @@ import swal from 'sweetalert';
 import TextField from 'react-md/lib/TextFields';
 import Button from 'react-md/lib/Buttons/Button';
 
+// Modules
+import query from 'lib/url/parse-hash-query';
+
 // Constants
 import { XACC } from 'constants/config';
 
@@ -14,15 +17,14 @@ export default class PasswordlessLogin extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { sent: false };
+    this.state = { sent: false, email: query().email || '' };
   }
 
   /**
    * Sends the passwordless login link to the provided email.
    */
   onSend() {
-    const email = this.refs.email.value;
-    this.refs.email.value = '';
+    const email = this.state.email;
 
     request
       .get('api/login/passwordless/' + email)
@@ -55,16 +57,17 @@ export default class PasswordlessLogin extends React.Component {
           <form className='md-paper md-paper--1 section flex'>
             <TextField
               id='email--email'
-              ref='email'
               type='email'
               label='Account Email'
+              value={this.state.email}
+              onChange={v => this.setState({ email: v })}
               className='md-cell'
             />
 
             <Button
               raised primary
               onClick={() => this.onSend()}
-            >Login</Button>
+            >Next</Button>
           </form>
         </div>
       );
