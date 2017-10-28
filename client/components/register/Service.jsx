@@ -42,8 +42,19 @@ export default class RegisterService extends React.Component {
       .get('api/service/' + this.state.id)
       .end((err, res) => {
         if (err || res.body.error) {
-          if (res.body.message == 'Not logged in')
-            location.hash = "#/login";
+          if (err || !res.body.service) {
+            location.hash = '#/';
+          }
+          else if (res.body.message == 'Not logged in') {
+            location.hash =
+              '#/login?serviceName=' +
+              encodeURIComponent(res.body.service.name) +
+              '&serviceUrl=' +
+              encodeURIComponent(res.body.service.url);
+          }
+          else if (res.body.message.indexOf('already linked')) {
+            this._createSession();
+          }
         }
         else {
           if (!res.body.profiles.length) res.body.tab = 1;
