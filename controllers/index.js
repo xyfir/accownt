@@ -147,7 +147,8 @@ router.post('/login/google', require('./login/google'));
 /* Login - Misc */
 router.get('/login/verify-email/:uid/:auth', require('./login/verify-email'));
 router.get('/login/passwordless/:uid/:auth', require('./login/passwordless/'));
-router.get('/login/passwordless/:email', require('./login/passwordless/send'));
+router.get('/login/passwordless', require('./login/passwordless/send'));
+router.post('/login/auth-id', require('./login/auth-id'));
 
 /* Recover */
 router.post('/recover', require('./recover/step-1'));
