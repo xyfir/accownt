@@ -1,49 +1,51 @@
-const sendPasswordlessEmail = require("lib/email/send-passwordless");
-const generateToken = require("lib/tokens/generate");
-const db = require("lib/db");
+const sendPasswordlessEmail = require('lib/email/send-passwordless');
+const generateToken = require('lib/tokens/generate');
+const MySQL = require('lib/mysql');
 
 /*
-    GET api/login/passwordless/:email
-    RETURN
-        { error: bool, message: string, passwordless?: number }
-    DESCRIPTION
-        Send user a passwordless login link via email if enabled
+  GET api/login/passwordless
+  REQUIRED
+    email: string
+  RETURN
+    { error: bool, message?: string, authId?: string, userId?: number }
+  DESCRIPTION
+    Send user a passwordless login link via email if enabled
 */
-module.exports = function(req, res) {
+module.exports = async function(req, res) {
 
-    db(cn => {
-        cn.query("SELECT id FROM users WHERE email = ?", [req.params.email], (err, rows) => {
-            if (rows.length == 0) {
-                cn.release();
-                res.json({error: true, message: "An error occured."});
-                return;
-            }
-            
-            const uid = rows[0].id;
-            
-            cn.query("SELECT passwordless FROM security WHERE user_id = ?", [uid], (err, rows) => {
-                cn.release();
-                
-                if (rows[0].passwordless == 0) {
-                    res.json({error: true, message: "Passwordless login not enabled."});
-                    return;
-                }
-                
-                generateToken({
-                    user: uid, type: 1
-                }, token => {
-                    // Send via email
-                    if (rows[0].passwordless == 2)
-                        sendPasswordlessEmail(req.params.email, uid, token);
-                        
-                    res.json({
-                        error: false,
-                        message: "Passwordless login link sent. It will expire in 10 minutes.",
-                        passwordless: rows[0].passwordless
-                    });
-                });
-            });
-        });
-    });
+  const db = new MySQL;
+
+  try {
+    await db.getConnection();
+    let rows = await db.query(
+      'SELECT id FROM users WHERE email = ?',
+      [req.query.email]
+    );
+
+    if (!rows.length) throw 'Could not find user';
+
+    const uid = +rows[0].id;
+
+    const [{passwordless}] = await db.query(
+      'SELECT passwordless FROM security WHERE user_id = ?',
+      [uid]
+    );
+    db.release();
+
+    if (!passwordless) throw 'Passwordless login not enabled';
+
+    const {id: authId, token} = await generateToken({ user: uid, type: 1 });
+
+    // Send via email
+    if (passwordless == 2) {
+      await sendPasswordlessEmail(req.query.email, uid, token);
+    }
+      
+    res.json({ error: false, authId, userId: uid });
+  }
+  catch (err) {
+    db.release();
+    res.json({ error: true, message: err });
+  }
 
 }
