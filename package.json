@@ -1,6 +1,6 @@
 {
   "name": "xyfir-accounts",
-  "version": "4.8.0",
+  "version": "4.8.1",
   "description": "",
   "main": "app.js",
   "scripts": {
@@ -38,6 +38,7 @@
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
+    "compression-webpack-plugin": "^1.0.1",
     "gulp": "^3.9.1",
     "gulp-fontello": "^0.4.6",
     "gulp-sass": "^3.1.0",
