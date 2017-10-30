@@ -1,7 +1,7 @@
 const initiateSecurityProcess = require('lib/security/initiate');
 const sendRecoveryEmail = require('lib/email/send-recovery');
 const generateToken = require('lib/tokens/generate');
-const mysql = require('lib/mysql');
+const MySQL = require('lib/mysql');
 
 /*
   POST api/recover
@@ -17,7 +17,7 @@ const mysql = require('lib/mysql');
 */
 module.exports = async function(req, res) {
 
-  const db = new mysql();
+  const db = new MySQL;
 
   try {
     await db.getConnection();
@@ -49,19 +49,14 @@ module.exports = async function(req, res) {
       });
     }
     else {
-      // Send security object back to client
-      const response = {
-        error: false, message: '', email: req.body.email, auth: '',
-        uid, security
-      };
-      
       // Generate auth token
-      generateToken({
+      const {token} = await generateToken({
         user: uid, type: 1
-      },
-      token => {
-        response.auth = token;
-        res.json(response);
+      });
+
+      // Send security object back to client
+      res.json({
+        error: false, email: req.body.email, auth: token, uid, security
       });
     }
   }
