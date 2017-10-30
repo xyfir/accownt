@@ -1,61 +1,52 @@
-const validateToken = require("lib/tokens/validate");
-const db = require("lib/db");
+const validateToken = require('lib/tokens/validate');
+const MySQL = require('lib/mysql');
 
 /*
-    GET api/login/verify-email/:uid/:auth
-    DESCRIPTION
-        Verify a users email if :uid/:auth are valid
+  GET api/login/verify-email/:uid/:auth
+  DESCRIPTION
+    Verify a users email if :uid/:auth are valid
 */
-module.exports = function(req, res) {
-    
-    validateToken({
-        user: req.params.uid, token: req.params.auth
-    }, isValid => {
-        
-        if (isValid) {
-            req.session.uid = req.params.uid;
+module.exports = async function(req, res) {
 
-            let sql = `
-                UPDATE users SET verified = ? WHERE id = ?
-            `, vars = [
-                1, req.params.uid
-            ];
-            
-            // Set verified
-            db(cn => cn.query(sql, vars, (err, result) => {
-                if (err || !result.affectedRows) {
-                    cn.release();
-                    res.redirect("/#/login");
-                }
-                else {
-                    res.redirect(
-                        req.session.redirect
-                        ? req.session.redirect : "/#/dashboard/user"
-                    );
-                    req.session.redirect = "";
+  const db = new MySQL;
 
-                    // Get user's email
-                    sql = `
-                        SELECT email FROM users WHERE id = ?
-                    `, vars = [
-                        req.session.uid
-                    ];
-
-                    cn.query(sql, vars, (err, rows) => {
-                        // Delete unverified accounts with the same email
-                        sql = `
-                            DELETE FROM users WHERE email = ? AND verified = 0 
-                        `, vars = [
-                            rows[0].email
-                        ];
-                        cn.query(sql, (err, result) => cn.release());
-                    });
-                }
-            }));
-        }
-        else {
-            res.redirect("/#/login");
-        }
+  try {
+    const isValid = await validateToken({
+      user: req.params.uid, token: req.params.auth
     });
+
+    if (!isValid) throw 'Invalid token';
+
+    req.session.uid = +req.params.uid;
+
+    // Set verified
+    await db.getConnection();
+    const result = await db.query(
+      'UPDATE users SET verified = ? WHERE id = ?',
+      [1, req.params.uid]
+    );
+
+    if (!result.affectedRows) throw 'Could not verify email';
+
+    // Delete unverified accounts with the same email
+    const [{email}] = await db.query(
+      'SELECT email FROM users WHERE id = ?',
+      [req.params.uid]
+    );
+    await db.query(
+      'DELETE FROM users WHERE email = ? AND verified = 0',
+      [email]
+    );
+    db.release();
+
+    res.redirect(
+      req.session.redirect ? req.session.redirect : '/#/dashboard/user'
+    );
+    req.session.redirect = '';
+  }
+  catch (err) {
+    db.release();
+    res.redirect('/#/login');
+  }
 
 }
