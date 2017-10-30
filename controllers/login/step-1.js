@@ -100,14 +100,13 @@ module.exports = async function(req, res) {
       req.session.redirect = '';
     }
     else {
-      // Send security object back to client
-      const response = {
-        error: false, auth: '', security, uid
-      };
-      
       // Generate auth token
-      response.auth = await generateToken({ user: uid, type: 1 });
-      res.json(response);
+      const {token} = await generateToken({ user: uid, type: 1 });
+
+      // Send security object back to client
+      res.json({
+        error: false, auth: token, security, uid
+      });
     }
   }
   catch (err) {
