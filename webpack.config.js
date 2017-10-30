@@ -1,3 +1,4 @@
+const CompressionPlugin = require('compression-webpack-plugin');
 const webpack = require('webpack');
 const config = require('./config');
 const path = require('path');
@@ -7,9 +8,17 @@ const isProd = config.environment.type == 'prod';
 
 if (isProd) {
   plugins.push(
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
+    }),
     new webpack.optimize.UglifyJsPlugin({
       mangle: false,
       compress: { unused: false }
+    }),
+    new CompressionPlugin({
+      asset: '[path].gz'
     })
   );
 }
