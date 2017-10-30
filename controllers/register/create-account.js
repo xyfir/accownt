@@ -10,7 +10,7 @@ const mysql = require('lib/mysql');
   REQUIRED
     email: string, password: string, recaptcha: string
   RETURN
-    { error: bool, message: string }
+    { error: bool, message?: string, authId?: string, userId?: number }
 */
 module.exports = async function(req, res) {
 
@@ -56,9 +56,9 @@ module.exports = async function(req, res) {
       
     // Send email verification email
     // !! Requires row in security table
-    sendVerificationEmail(uid, req.body.email);
+    const authId = await sendVerificationEmail(uid, req.body.email);
 
-    res.json({ error: false, message: '' });
+    res.json({ error: false, authId, userId: uid });
   }
   catch (err) {
     db.release();
