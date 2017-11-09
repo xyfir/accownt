@@ -14,6 +14,19 @@
   }
 }
 
+div.update-linked-service {
+  form.custom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    >div {
+      width: 90%;
+      max-width: 20em;
+    }
+  }
+}
+
 .selected-access-token {
   .md-text-field-container {
     width: 100%;
@@ -46,27 +59,18 @@
   }
 }
 
-/* SHARED */
-
-div.link-service, div.update-linked-service {
-  form.custom {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    >div {
-      width: 90%;
-      max-width: 20em;
-    }
-  }
-}
-
-/* MISC */
+/* LOGIN/REGISTER */
 nav.login-links {
   margin-top: 1em;
 
   a {
     display: inline-block;
     margin: 0em 0.25em;
+  }
+}
+
+div.link-service {
+  >h2.service-name {
+    margin-bottom: 0;
   }
 }
