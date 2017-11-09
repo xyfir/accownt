@@ -7,8 +7,11 @@ const config = require('config');
   RETURNED
     {
       error: bool, message?: string,
+
+      email?: string,
       service: null|Object({
-        id: number, name: string, description: string, requested: object
+        id: number, name: string, description: string, url: string,
+        requested: object
       }),
       profiles?: [{
         id: number, name: string
@@ -54,14 +57,19 @@ module.exports = async function(req, res) {
     if (rows.length) throw 'Service is already linked to account';
 
     // Grab user's profiles
-    const profiles = await db.query(`
-      SELECT id, name FROM profiles WHERE user_id = ?
-    `, [
-      req.session.uid
-    ]);
+    const profiles = await db.query(
+      'SELECT id, name FROM profiles WHERE user_id = ?',
+      [req.session.uid]
+    );
+
+    // Get user's account email
+    const [{email}] = await db.query(
+      'SELECT email FROM users WHERE id = ?',
+      [req.session.uid]
+    );
     db.release();
 
-    res.json({ error: false, service, profiles });
+    res.json({ error: false, service, profiles, email });
   }
   catch (err) {
     db.release();
