@@ -48,7 +48,30 @@ export default class RegisterService extends React.Component {
           }
         }
         else {
-          this.setState(res.body);
+          const {requested} = res.body.service;
+
+          // Service is only requesting a required email field
+          // Automatically link and create session without rendering the form
+          if (
+            Object.keys(requested.required).length == 1 &&
+            Object.keys(requested.optional).length == 0 &&
+            requested.required.email
+          ) {
+            request
+              .post(`api/service/${this.state.id}/link`)
+              .send({ email: res.body.email })
+              .end((err, res) => {
+                // Fallback to form
+                if (err || res.body.error)
+                  this.setState(res.body);
+                else
+                  this._createSession();
+              });
+          }
+          // Render form
+          else {
+            this.setState(res.body);
+          }
         }
       });
   }
