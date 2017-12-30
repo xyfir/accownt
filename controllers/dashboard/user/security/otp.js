@@ -1,5 +1,5 @@
 const speakeasy = require('speakeasy');
-const mysql = require('lib/mysql');
+const MySQL = require('lib/mysql');
 const qr = require('qrcode');
 
 /*
@@ -16,7 +16,7 @@ const qr = require('qrcode');
 */
 module.exports = async function(req, res) {
 
-  const db = new mysql;
+  const db = new MySQL;
 
   try {
     await db.getConnection();
@@ -54,7 +54,7 @@ module.exports = async function(req, res) {
         issuer: 'xyAccounts',
         digits: 8,
         secret,
-        label: encodeURIComponent(rows[0].email)
+        label: 'xyAccounts:' + encodeURIComponent(rows[0].email)
       });
 
       // Convert otpauth url to qr code url
@@ -63,7 +63,7 @@ module.exports = async function(req, res) {
       ));
 
       req.session.otpTempSecret = secret;
-      
+
       res.json({ error: false, qr: url });
     }
     // User is finishing process and verifying token
