@@ -68,4 +68,4 @@ app.listen(config.environment.port, () => {
 });
 
 if (config.environment.runCronJobs)
-  require('./cron/start')();
+  require('jobs/cron/start')();

@@ -11,7 +11,7 @@ module.exports = async function() {
   }
   catch (err) {
     db.release();
-    console.error('cron/delete-expired-access-tokens', err);
+    console.error('jobs/cron/delete-expired-access-tokens', err);
   }
 
 }

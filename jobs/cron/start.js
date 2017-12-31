@@ -1,4 +1,5 @@
-const deleteExpiredAccessTokens = require('cron/delete-expired-access-tokens');
+const deleteExpiredAccessTokens =
+  require('jobs/cron/delete-expired-access-tokens');
 
 module.exports = function() {
 
