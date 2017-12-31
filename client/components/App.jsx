@@ -2,156 +2,59 @@ import { render } from 'react-dom';
 import React from 'react';
 
 // Components
-import Dashboard from './containers/Dashboard';
-import Register from './containers/Register';
-import Login from './containers/Login';
-import Home from './containers/Home';
-
-// react-md
-import Subheader from 'react-md/lib/Subheaders';
-import ListItem from 'react-md/lib/Lists/ListItem';
-import Snackbar from 'react-md/lib/Snackbars';
-import Toolbar from 'react-md/lib/Toolbars';
-import Divider from 'react-md/lib/Dividers';
-import Drawer from 'react-md/lib/Drawers';
-import Button from 'react-md/lib/Buttons/Button';
+import Navigation from 'components/app/Navigation';
+import Dashboard from 'components/containers/Dashboard';
+import Register from 'components/containers/Register';
+import Login from 'components/containers/Login';
+import Alert from 'components/app/Alert';
+import Home from 'components/containers/Home';
 
 class App extends React.Component {
-  
+
   constructor(props) {
     super(props);
 
     this.state = {
-      hash: location.hash.split('?')[0].split('/'), drawer: false, toasts: []
+      hash: location.hash.split('?')[0].split('/')
     };
 
-    window.onhashchange = () =>
-      this.setState({ hash: location.hash.split('?')[0].split('/') });
-    
+    window.onhashchange = () => this.setState({
+      hash: location.hash.split('?')[0].split('/')
+    });
+
     this._alert = this._alert.bind(this);
   }
 
-  /**
-   * Remove first element from toasts array.
-   */
-  onDismissAlert() {
-    const [, ...toasts] = this.state.toasts;
-    this.setState({ toasts });
+  _alert(message) {
+    this._Alert._alert(message);
   }
 
-  /**
-   * Creates a 'toast' for react-md Snackbar component.
-   * @param {string} message - The text content of the toast.
-   */
-  _alert(message) {
-    this.setState({
-      toasts: this.state.toasts.concat([{ text: message }])
-    });
-  }
-  
   render() {
     const view = (() => {
       const props = {
+        App: this,
         hash: this.state.hash, alert: this._alert
       };
-      
+
       switch (this.state.hash[1]) {
-        case 'dashboard': return <Dashboard {...props} />;
-        case 'register': return <Register {...props} />;
-        case 'login': return <Login {...props} />;
-        default: return <Home {...props} />;
+        case 'dashboard': return <Dashboard {...props} />
+        case 'register': return <Register {...props} />
+        case 'login': return <Login {...props} />
+        default: return <Home {...props} />
       }
     })();
 
     return (
       <div className='app'>
-        <Toolbar
-          colored fixed
-          actions={[
-            <Button
-              icon
-              key='home'
-              onClick={() => location.hash = '#/'}
-              iconChildren='home'
-            />
-          ]}
-          title='Xyfir Accounts'
-          nav={
-            <Button
-              icon
-              onClick={() => this.setState({ drawer: true })}
-              iconChildren='menu'
-            />
-          }
-        />
-
-        <Drawer
-          onVisibilityChange={v => this.setState({ drawer: v })}
-          autoclose={true}
-          navItems={[
-            <Subheader primary primaryText='User Dashboard' />,
-            <a href='#/dashboard/user/account'>
-              <ListItem primaryText='Account' />
-            </a>,
-            <a href='#/dashboard/user/security'>
-              <ListItem primaryText='Security' />
-            </a>,
-            <a href='#/dashboard/user/profiles'>
-              <ListItem primaryText='Profiles' />
-            </a>,
-            <a href='#/dashboard/user/services'>
-              <ListItem primaryText='Services' />
-            </a>,
-            <a href='#/dashboard/user/tokens'>
-              <ListItem primaryText='Tokens' />
-            </a>,
-            
-            <Divider />,
-
-            <Subheader primary primaryText='Developer Dashboard' />,
-            <a href='#/dashboard/developer/list'>
-              <ListItem primaryText='View Services' />
-            </a>,
-            <a href='#/dashboard/developer/create'>
-              <ListItem primaryText='Create Service' />
-            </a>,
-
-            <Divider />,
-
-            <Subheader primary primaryText='Affiliate Dashboard' />,
-            <a href='#/dashboard/affiliate/list'>
-              <ListItem primaryText='View Campaigns' />
-            </a>,
-            <a href='#/dashboard/affiliate/create'>
-              <ListItem primaryText='Create Campaign' />
-            </a>
-          ]}
-          visible={this.state.drawer}
-          header={
-            <Toolbar
-              colored
-              nav={
-                <Button
-                  icon
-                  onClick={() => this.setState({ drawer: false })}
-                  iconChildren='arrow_back'
-                />
-              }
-            />
-          }
-          type={Drawer.DrawerTypes.TEMPORARY}
-        />
+        <Navigation App={this} />
 
         <div className='main md-toolbar-relative'>{view}</div>
 
-        <Snackbar
-          toasts={this.state.toasts}
-          onDismiss={() => this.onDismissAlert()}
-        />
+        <Alert ref={i => this._Alert = i} />
       </div>
     )
   }
-  
+
 }
 
-render(<App />, document.querySelector('#content'));
+render(<App />, window.content);
