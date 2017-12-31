@@ -1,3 +1,4 @@
+import { TextField, Button, Paper } from 'react-md';
 import request from 'superagent';
 import React from 'react';
 import swal from 'sweetalert';
@@ -5,17 +6,12 @@ import swal from 'sweetalert';
 // Constants
 import { RECAPTCHA_KEY } from 'constants/config';
 
-// react-md
-import TextField from 'react-md/lib/TextFields';
-import Button from 'react-md/lib/Buttons/Button';
-import Paper from 'react-md/lib/Papers';
-
 // Modules
 import loginWithAuthId from 'lib/account/login-with-auth-id';
 import query from 'lib/url/parse-hash-query';
 
 export default class RegisterAccount extends React.Component {
-	
+
 	constructor(props) {
 		super(props);
 
@@ -39,7 +35,7 @@ export default class RegisterAccount extends React.Component {
 			passwordr: this.refs.passwordr.value,
 			recaptcha: grecaptcha.getResponse()
 		};
-		
+
 		if (data.password != data.passwordr) {
       swal('Error', 'Passwords do not match.', 'error');
 		}
@@ -79,7 +75,7 @@ export default class RegisterAccount extends React.Component {
 			, 200);
 		}
   }
-	
+
 	render() {
     if (this.state.created) return (
       <div className='register account-created'>
@@ -148,12 +144,6 @@ export default class RegisterAccount extends React.Component {
               raised primary
               onClick={() => this.onCreate()}
             >Create Account</Button>
-
-            <Button
-              raised
-              ref='google'
-              onClick={() => location.hash = '#/login?google=1'}
-            >Google Login</Button>
           </div>
 				</Paper>
 			</form>

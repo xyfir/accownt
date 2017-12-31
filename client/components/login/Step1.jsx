@@ -1,10 +1,7 @@
+import { TextField, Button } from 'react-md';
 import request from 'superagent';
 import React from 'react';
 import swal from 'sweetalert';
-
-// react-md
-import TextField from 'react-md/lib/TextFields';
-import Button from 'react-md/lib/Buttons/Button';
 
 // Constants
 import { GOOGLE_CLIENT_ID } from 'constants/config';
@@ -18,22 +15,24 @@ export default class LoginStep1 extends React.Component {
     super(props);
 
     const q = query();
-    
+
     this.state = {
-      loginAttempts: 0, email: q.email || '',
+      loginAttempts: 0, email: q.email || '', google: false,
       service: q.serviceName
         ? { name: q.serviceName, url: q.serviceUrl }
         : null
     };
   }
 
-  componentDidMount() {
+  componentDidUpdate() {
+    if (!this.state.google) return;
+
     gapi.load('auth2', () => {
       const auth2 = gapi.auth2.init({
         client_id: GOOGLE_CLIENT_ID,
         cookiepolicy: 'single_host_origin'
       });
-      
+
       auth2.attachClickHandler(
         document.querySelector('.google-login'), {},
         this._googleLogin, this._googleLoginFailure
@@ -65,7 +64,7 @@ export default class LoginStep1 extends React.Component {
   }
 
   /**
-   * Attempt to login using the email and password. Move data over to Step2 if 
+   * Attempt to login using the email and password. Move data over to Step2 if
    * any 2FA is needed.
    */
   onLogin() {
@@ -94,7 +93,7 @@ export default class LoginStep1 extends React.Component {
         }
       });
   }
-  
+
   render() {
     const {loginAttempts, service, email} = this.state;
 
@@ -119,7 +118,7 @@ export default class LoginStep1 extends React.Component {
             Login to <a href={service.url}>{service.name}</a> using Xyfir Accounts:
           </span>
         ) : null}
-        
+
         <form className='md-paper md-paper--1 section flex'>
           <TextField
             floating
@@ -140,20 +139,31 @@ export default class LoginStep1 extends React.Component {
             className='md-cell'
           />
 
-          <div className='buttons'>
-            <Button
-              raised primary
-              onClick={() => this.onLogin()}
-            >Xyfir Login</Button>
+          <Button
+            raised primary
+            onClick={() => this.onLogin()}
+          >Xyfir Login</Button>
 
+          {this.state.google ? (
+            <React.Fragment>
+              <p>
+                Support for Google Sign-In is being removed soon. If you already have a Xyfir Account that was created via Google Sign-In, you can use the button below. Please check your emails for more information on converting your account before Google Sign-In is removed completely and you lose access to your account.
+              </p>
+
+              <Button
+                raised
+                ref='google'
+                className='google-login'
+              >Google Login</Button>
+            </React.Fragment>
+          ) : (
             <Button
               raised
-              ref='google'
-              className='google-login'
+              onClick={() => this.setState({ google: true })}
             >Google Login</Button>
-          </div>
+          )}
         </form>
-          
+
         <nav className='login-links'>
           <a onClick={() => this.onLoginLink('register')}>
             Create Account
