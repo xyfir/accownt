@@ -51,22 +51,11 @@ module.exports = async function(req, res) {
         req.session.uid = row.id;
     });
 
-    // Create Google-linked account
+    // Users can no longer create accounts via Google
     if (!req.session.uid) {
-      const uid = await createAccount(
-        db, { email: user.email, google: 1, verified: 1 }
-      );
-
-      req.session.uid = uid;
-
-      sql = `
-        DELETE FROM users WHERE email = ? AND verified = ?
-      `,
-      vars = [
-        user.email, 0
-      ];
-
-      await db.query(sql, vars);
+      throw 'Sorry! ' +
+        'Google Sign-In is no longer supported for new accounts. ' +
+        'You must create an account using your email instead.';
     }
 
     db.release();
