@@ -1,6 +1,7 @@
 import {
-  Subheader, ListItem, Toolbar, Divider, Drawer, Button, List, FontIcon
+  ListItem, Toolbar, Drawer, Button, List, FontIcon
 } from 'react-md';
+import request from 'superagent';
 import React from 'react';
 
 export default class AppNavigation extends React.Component {
@@ -8,7 +9,99 @@ export default class AppNavigation extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { drawer: false };
+    this.state = {
+      drawer: false, loggedIn: false
+    };
+  }
+
+  onShowDrawer() {
+    request
+      .get('api/dashboard/user/account')
+      .end((err, res) =>
+        this.setState({ loggedIn: res.body.loggedIn, drawer: true })
+      );
+  }
+
+  /** @return {JSX.Element[]} */
+  _renderLoggedOutItems() {
+    return [
+      <a href='#/login'>
+        <ListItem primaryText='Login' />
+      </a>,
+      <a href='#/register'>
+        <ListItem primaryText='Register' />
+      </a>,
+      <a href='#/login/recovery'>
+        <ListItem primaryText='Account Recovery' />
+      </a>,
+    ];
+  }
+
+  /** @return {JSX.Element[]} */
+  _renderLoggedInItems() {
+    return [
+      <ListItem
+        defaultVisible={/^#\/dashboard\/user/.test(location.hash)}
+        primaryText='User Dashboard'
+        nestedItems={[
+          <a href='#/dashboard/user/account'>
+            <ListItem primaryText='Account' />
+          </a>,
+          <a href='#/dashboard/user/security'>
+            <ListItem primaryText='Security' />
+          </a>,
+          <a href='#/dashboard/user/profiles'>
+            <ListItem primaryText='Profiles' />
+          </a>,
+          <a href='#/dashboard/user/services'>
+            <ListItem primaryText='Services' />
+          </a>,
+          <a href='#/dashboard/user/tokens'>
+            <ListItem primaryText='Tokens' />
+          </a>
+        ]}
+        leftIcon={<FontIcon>account_circle</FontIcon>}
+      />,
+
+      <ListItem
+        defaultVisible={/^#\/dashboard\/developer/.test(location.hash)}
+        primaryText='Developer Dashboard'
+        nestedItems={[
+          <a href='#/dashboard/developer/list'>
+            <ListItem primaryText='View Services' />
+          </a>,
+          <a href='#/dashboard/developer/create'>
+            <ListItem primaryText='Create Service' />
+          </a>,
+          <a
+            target='_blank'
+            href='https://xyfir.com/#/documentation/xyfir-accounts/integration'
+          ><ListItem primaryText='Documentation' /></a>,
+        ]}
+        leftIcon={<FontIcon>code</FontIcon>}
+      />,
+
+      <ListItem
+        defaultVisible={/^#\/dashboard\/affiliate/.test(location.hash)}
+        primaryText='Affiliate Dashboard'
+        nestedItems={[
+          <a href='#/dashboard/affiliate/list'>
+            <ListItem primaryText='View Campaigns' />
+          </a>,
+          <a href='#/dashboard/affiliate/create'>
+            <ListItem primaryText='Create Campaign' />
+          </a>
+        ]}
+        leftIcon={<FontIcon>attach_money</FontIcon>}
+      />,
+
+      <a href='/api/login/logout'>
+        <ListItem
+          leftIcon={<FontIcon>close</FontIcon>}
+          primaryText='Logout'
+        />
+      </a>
+    ];
   }
 
   render() {
@@ -30,7 +123,7 @@ export default class AppNavigation extends React.Component {
           nav={
             <Button
               icon
-              onClick={() => this.setState({ drawer: true })}
+              onClick={() => this.onShowDrawer()}
               iconChildren='menu'
             />
           }
@@ -39,44 +132,11 @@ export default class AppNavigation extends React.Component {
         <Drawer
           onVisibilityChange={v => this.setState({ drawer: v })}
           autoclose={true}
-          navItems={[
-            <Subheader primary primaryText='User Dashboard' />,
-            <a href='#/dashboard/user/account'>
-              <ListItem primaryText='Account' />
-            </a>,
-            <a href='#/dashboard/user/security'>
-              <ListItem primaryText='Security' />
-            </a>,
-            <a href='#/dashboard/user/profiles'>
-              <ListItem primaryText='Profiles' />
-            </a>,
-            <a href='#/dashboard/user/services'>
-              <ListItem primaryText='Services' />
-            </a>,
-            <a href='#/dashboard/user/tokens'>
-              <ListItem primaryText='Tokens' />
-            </a>,
-
-            <Divider />,
-
-            <Subheader primary primaryText='Developer Dashboard' />,
-            <a href='#/dashboard/developer/list'>
-              <ListItem primaryText='View Services' />
-            </a>,
-            <a href='#/dashboard/developer/create'>
-              <ListItem primaryText='Create Service' />
-            </a>,
-
-            <Divider />,
-
-            <Subheader primary primaryText='Affiliate Dashboard' />,
-            <a href='#/dashboard/affiliate/list'>
-              <ListItem primaryText='View Campaigns' />
-            </a>,
-            <a href='#/dashboard/affiliate/create'>
-              <ListItem primaryText='Create Campaign' />
-            </a>
-          ]}
+          navItems={
+            this.state.loggedIn
+              ? this._renderLoggedInItems()
+              : this._renderLoggedOutItems()
+          }
           visible={this.state.drawer}
           header={
             <Toolbar
