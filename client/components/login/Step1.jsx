@@ -139,29 +139,31 @@ export default class LoginStep1 extends React.Component {
             className='md-cell'
           />
 
-          <Button
-            raised primary
-            onClick={() => this.onLogin()}
-          >Xyfir Login</Button>
+          <div>
+            <Button
+              raised primary
+              onClick={() => this.onLogin()}
+            >Xyfir Login</Button>
 
-          {this.state.google ? (
-            <React.Fragment>
-              <p>
-                Support for Google Sign-In is being removed soon. If you already have a Xyfir Account that was created via Google Sign-In, you can use the button below. Please check your emails for more information on converting your account before Google Sign-In is removed completely and you lose access to your account.
-              </p>
+            {this.state.google ? (
+              <React.Fragment>
+                <p>
+                  Support for Google Sign-In is being removed soon. If you already have a Xyfir Account that was created via Google Sign-In, you can use the button below. Please check your emails for more information on converting your account before Google Sign-In is removed completely and you lose access to your account.
+                </p>
 
+                <Button
+                  raised
+                  ref='google'
+                  className='google-login'
+                >Google Login</Button>
+              </React.Fragment>
+            ) : (
               <Button
                 raised
-                ref='google'
-                className='google-login'
+                onClick={() => this.setState({ google: true })}
               >Google Login</Button>
-            </React.Fragment>
-          ) : (
-            <Button
-              raised
-              onClick={() => this.setState({ google: true })}
-            >Google Login</Button>
-          )}
+            )}
+          </div>
         </form>
 
         <nav className='login-links'>
