@@ -44,14 +44,7 @@ export default class UserAccount extends React.Component {
   render() {
     return (
       <div className='dashboard-body user-account'>
-        <Paper zDepth={1} className='section'>
-          <h3 className='email'>{this.state.email}</h3>
-
-          <Button
-            raised
-            onClick={() => location.href = 'api/login/logout'}
-          >Logout</Button>
-        </Paper>
+        <h3 className='email'>{this.state.email}</h3>
 
         <form className='change-password md-paper md-paper--1 section flex'>
           <h3>Update Password</h3>
