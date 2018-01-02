@@ -8,7 +8,7 @@ import { RECAPTCHA_KEY } from 'constants/config';
 
 // Modules
 import loginWithAuthId from 'lib/account/login-with-auth-id';
-import query from 'lib/url/parse-hash-query';
+import query from 'lib/url/parse-query-string';
 
 export default class RegisterAccount extends React.Component {
 

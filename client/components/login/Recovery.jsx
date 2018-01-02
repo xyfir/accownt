@@ -7,10 +7,10 @@ import TextField from 'react-md/lib/TextFields';
 import Button from 'react-md/lib/Buttons/Button';
 
 // Modules
-import query from 'lib/url/parse-hash-query';
+import query from 'lib/url/parse-query-string';
 
 export default class AccountRecovery extends React.Component {
-  
+
   constructor(props) {
     super(props);
 
@@ -18,9 +18,9 @@ export default class AccountRecovery extends React.Component {
       auth: '', uid: 0, email: query().email || ''
     };
   }
-  
+
   /**
-   * Send email to xyAccounts to check if it is valid and to send a recovery 
+   * Send email to xyAccounts to check if it is valid and to send a recovery
    * email if no 2FA steps are needed.
    */
   onNext() {
@@ -36,7 +36,7 @@ export default class AccountRecovery extends React.Component {
           this.setState(res.body);
       });
   }
-  
+
   /**
    * Send 2FA data.
    */
@@ -62,7 +62,7 @@ export default class AccountRecovery extends React.Component {
           swal('', res.body.message);
       });
   }
-  
+
   render() {
     if (this.state.security) return (
       <div className='login-recovery 2fa'>
@@ -70,9 +70,9 @@ export default class AccountRecovery extends React.Component {
         <p>
           Your account has extra security measures enabled.
           <br />
-          You must enter the correct information before receiving an account recovery email. 
+          You must enter the correct information before receiving an account recovery email.
         </p>
-      
+
         <form className='md-paper md-paper--1 section flex'>
           {this.state.security.code ? (
             <TextField
@@ -119,7 +119,7 @@ export default class AccountRecovery extends React.Component {
         <p>
           Enter the email you use to login with. Emails that are only linked to a profile and not your actual account will not work.
         </p>
-      
+
         <form className='md-paper md-paper--1 section flex'>
           <TextField
             id='email'
@@ -129,7 +129,7 @@ export default class AccountRecovery extends React.Component {
             onChange={v => this.setState({ email: v })}
             className='md-cell'
           />
-          
+
           <Button
             raised primary
             onClick={() => this.onNext()}
@@ -138,5 +138,5 @@ export default class AccountRecovery extends React.Component {
       </div>
     );
   }
-  
+
 }

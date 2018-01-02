@@ -6,14 +6,14 @@ import React from 'react';
 import swal from 'sweetalert';
 
 // Modules
-import parseQuery from 'lib/url/parse-hash-query';
+import parseQuery from 'lib/url/parse-query-string';
 
 export default class CreateProfile extends React.Component {
-  
+
   constructor(props) {
     super(props);
   }
-  
+
   onCreate() {
     request
       .post('/api/dashboard/user/profiles')
@@ -37,12 +37,12 @@ export default class CreateProfile extends React.Component {
         else {
           const q = parseQuery();
 
-          location.hash = q.rdr || '#/dashboard/user/profiles';  
+          location.hash = q.rdr || '#/dashboard/user/profiles';
           swal('Success', res.body.message, 'success');
         }
       });
   }
-  
+
   render() {
     return (
       <Paper
@@ -157,5 +157,5 @@ export default class CreateProfile extends React.Component {
       </Paper>
     );
   }
-  
+
 }

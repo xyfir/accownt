@@ -8,7 +8,7 @@ import Button from 'react-md/lib/Buttons/Button';
 
 // Modules
 import loginWithAuthId from 'lib/account/login-with-auth-id';
-import query from 'lib/url/parse-hash-query';
+import query from 'lib/url/parse-query-string';
 
 // Constants
 import { XACC } from 'constants/config';

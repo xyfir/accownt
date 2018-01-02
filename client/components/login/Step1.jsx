@@ -7,7 +7,7 @@ import swal from 'sweetalert';
 import { GOOGLE_CLIENT_ID } from 'constants/config';
 
 // Modules
-import query from 'lib/url/parse-hash-query';
+import query from 'lib/url/parse-query-string';
 
 export default class LoginStep1 extends React.Component {
 
