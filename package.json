@@ -1,6 +1,6 @@
 {
   "name": "xyfir-accounts",
-  "version": "4.11.1",
+  "version": "4.12.0",
   "description": "",
   "main": "app.js",
   "scripts": {
@@ -21,13 +21,13 @@
     "express-session": "^1.15.5",
     "google-auth-library": "^0.12.0",
     "mailcomposer": "^4.0.2",
-    "mailgun-js": "^0.14.0",
+    "mailgun-js": "^0.14.1",
     "mysql": "^2.15.0",
     "qrcode": "^1.2.0",
     "randomstring": "^1.1.5",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-md": "^1.2.9",
+    "react-md": "^1.2.10",
     "rword": "^2.2.0",
     "speakeasy": "^2.0.0",
     "superagent": "^3.8.2",
