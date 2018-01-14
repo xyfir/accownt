@@ -157,12 +157,12 @@ export default class LoginStep1 extends React.Component {
                   className='google-login'
                 >Google Login</Button>
               </React.Fragment>
-            ) : (
+            ) : !window.cordova ? (
               <Button
                 raised
                 onClick={() => this.setState({ google: true })}
               >Google Login</Button>
-            )}
+            ) : null}
           </div>
         </form>
 
