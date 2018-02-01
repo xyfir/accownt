@@ -1,4 +1,4 @@
-import { TextField, Button } from 'react-md';
+import { TextField, FontIcon, Button } from 'react-md';
 import request from 'superagent';
 import React from 'react';
 import swal from 'sweetalert';
@@ -62,13 +62,11 @@ export default class LoginStep1 extends React.Component {
 
     return (
       <div className='login-1'>
-        <h2>Login</h2>
-
         {loginAttempts >= 5 ? (
           <span className='login-attempts'>
             You have hit the incorrect login attempt limit.
             <br />
-            Please wait 15 minutes from the last attempt before trying again. Entering the correct email/password will not unlock your account until the time limit expires.
+            Please wait 15 minutes from the last attempt before trying again. Entering the correct email and password will not unlock your account until the time limit expires.
           </span>
         ) : loginAttempts > 0 ? (
           <span className='login-attempts'>
@@ -89,6 +87,7 @@ export default class LoginStep1 extends React.Component {
             type='email'
             label='Email'
             value={email}
+            leftIcon={<FontIcon>mail</FontIcon>}
             onChange={v => this.setState({ email: v })}
             className='md-cell'
           />
@@ -99,6 +98,7 @@ export default class LoginStep1 extends React.Component {
             ref='password'
             type='password'
             label='Password'
+            leftIcon={<FontIcon>lock</FontIcon>}
             className='md-cell'
           />
 
@@ -111,15 +111,21 @@ export default class LoginStep1 extends React.Component {
         </form>
 
         <nav className='login-links'>
-          <a onClick={() => this.onLoginLink('register')}>
-            Create Account
-          </a>
-          <a onClick={() => this.onLoginLink('login/recovery')}>
-            Account Recovery
-          </a>
-          <a onClick={() => this.onLoginLink('login/passwordless')}>
-            Passwordless Login
-          </a>
+          <Button
+            flat
+            onClick={() => this.onLoginLink('register')}
+            iconChildren='create'
+          >Create Account</Button>
+          <Button
+            flat
+            onClick={() => this.onLoginLink('login/recovery')}
+            iconChildren='help'
+          >Account Recovery</Button>
+          <Button
+            flat
+            onClick={() => this.onLoginLink('login/passwordless')}
+            iconChildren='lock_open'
+          >Passwordless Login</Button>
         </nav>
       </div>
     );

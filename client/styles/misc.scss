@@ -63,9 +63,8 @@ div.update-linked-service {
 nav.login-links {
   margin-top: 1em;
 
-  a {
-    display: inline-block;
-    margin: 0em 0.25em;
+  >button {
+    width: 16em;
   }
 }
 
