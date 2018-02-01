@@ -11,14 +11,12 @@ import Codes from 'components/dashboard/user/security/Codes';
 import OTP from 'components/dashboard/user/security/OTP';
 
 export default class Set2FA extends React.Component {
-  
+
   constructor(props) {
     super(props);
   }
-  
-  render() {
-    if (this.props.google) return <div />;
 
+  render() {
     return (
       <Paper zDepth={1} className='tfa section'>
         <h2>Two Factor Authentication (2FA)</h2>
@@ -36,11 +34,10 @@ export default class Set2FA extends React.Component {
       </Paper>
     );
   }
-  
+
 }
 
 Set2FA.propTypes = {
-  google: PropTypes.bool.isRequired,
   alert: PropTypes.func.isRequired,
   codes: PropTypes.string.isRequired,
   appOtp: PropTypes.bool.isRequired,

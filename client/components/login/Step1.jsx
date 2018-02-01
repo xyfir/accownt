@@ -3,9 +3,6 @@ import request from 'superagent';
 import React from 'react';
 import swal from 'sweetalert';
 
-// Constants
-import { GOOGLE_CLIENT_ID } from 'constants/config';
-
 // Modules
 import query from 'lib/url/parse-query-string';
 
@@ -17,50 +14,16 @@ export default class LoginStep1 extends React.Component {
     const q = query();
 
     this.state = {
-      loginAttempts: 0, email: q.email || '', google: false,
+      loginAttempts: 0, email: q.email || '',
       service: q.serviceName
         ? { name: q.serviceName, url: q.serviceUrl }
         : null
     };
   }
 
-  componentDidUpdate() {
-    if (!this.state.google) return;
-
-    gapi.load('auth2', () => {
-      const auth2 = gapi.auth2.init({
-        client_id: GOOGLE_CLIENT_ID,
-        cookiepolicy: 'single_host_origin'
-      });
-
-      auth2.attachClickHandler(
-        document.querySelector('.google-login'), {},
-        this._googleLogin, this._googleLoginFailure
-      );
-    });
-  }
-
   /** @param {string} route */
   onLoginLink(route) {
     location.hash = `#/${route}?email=${this.state.email}`;
-  }
-
-  _googleLogin(user) {
-    request
-      .post('api/login/google')
-      .send({
-        idToken: user.getAuthResponse().id_token
-      })
-      .end((err, res) => {
-        if (err || res.body.error)
-          swal('Error', res.body.message, 'error');
-        else
-          location.replace(res.body.redirect || '#/dashboard/user/account');
-      });
-  }
-
-  _googleLoginFailure(data) {
-    console.warn('Google Login', data);
   }
 
   /**
@@ -143,26 +106,7 @@ export default class LoginStep1 extends React.Component {
             <Button
               raised primary
               onClick={() => this.onLogin()}
-            >Xyfir Login</Button>
-
-            {this.state.google ? (
-              <React.Fragment>
-                <p>
-                  Support for Google Sign-In is being removed soon. If you already have a Xyfir Account that was created via Google Sign-In, you can use the button below. Please check your emails for more information on converting your account before Google Sign-In is removed completely and you lose access to your account.
-                </p>
-
-                <Button
-                  raised
-                  ref='google'
-                  className='google-login'
-                >Google Login</Button>
-              </React.Fragment>
-            ) : !window.cordova ? (
-              <Button
-                raised
-                onClick={() => this.setState({ google: true })}
-              >Google Login</Button>
-            ) : null}
+            >Login</Button>
           </div>
         </form>
 

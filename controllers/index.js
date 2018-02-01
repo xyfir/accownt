@@ -141,9 +141,6 @@ router.post('/login', require('./login/step-1'));
 router.get('/login/logout', require('./login/logout'));
 router.post('/login/verify', require('./login/step-2'));
 
-/* Third-Party Logins */
-router.post('/login/google', require('./login/google'));
-
 /* Login - Misc */
 router.get('/login/verify-email/:uid/:auth', require('./login/verify-email'));
 router.get('/login/passwordless/:uid/:auth', require('./login/passwordless/'));

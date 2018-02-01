@@ -5,7 +5,7 @@ const mysql = require('lib/mysql');
 	RETURN
 		{
 			loggedIn: boolean,
-			recovered?: boolean, affiliate?: boolean, google?: boolean,
+			recovered?: boolean, affiliate?: boolean,
       email?: string
 		}
 */
@@ -19,7 +19,7 @@ module.exports = async function(req, res) {
     await db.getConnection();
 
     const sql = `
-      SELECT email, affiliate, google FROM users WHERE id = ?
+      SELECT email, affiliate FROM users WHERE id = ?
     `,
     vars = [
       req.session.uid

@@ -16,7 +16,7 @@ module.exports = async function(req, res) {
   try {
     await db.getConnection();
     const [row] = await db.query(
-      'SELECT password, google FROM users WHERE id = ?',
+      'SELECT password FROM users WHERE id = ?',
       [req.session.uid]
     );
 
@@ -25,14 +25,14 @@ module.exports = async function(req, res) {
     // Check if current password matches
     const match = await bcrypt.compare(currentPassword, row.password);
 
-    if (!match && !req.session.recovered && !row.google)
+    if (!match && !req.session.recovered)
       throw 'Incorrect password';
 
     const hash = await bcrypt.hash(newPassword, 10);
 
     // Update password
     const result = await db.query(
-      'UPDATE users SET password = ?, google = 0 WHERE id = ?',
+      'UPDATE users SET password = ? WHERE id = ?',
       [hash, req.session.uid]
     );
     db.release();

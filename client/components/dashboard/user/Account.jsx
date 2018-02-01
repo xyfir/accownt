@@ -48,21 +48,13 @@ export default class UserAccount extends React.Component {
 
         <form className='change-password md-paper md-paper--1 section flex'>
           <h3>Update Password</h3>
-          {this.state.google ? (
-            <p>
-              Your account was created via Google Sign-In and does not have a password set. On February 1st, Xyfir Accounts will no longer support Google Sign-In, meaning if you have not set a password by that date, your account will no longer be accessible. Once you set a password you will no longer be able to login via Google Sign-In and instead must use your email address and the password you set here.
-            </p>
-          ) : null}
 
           <TextField
             id='password--current'
             ref='cpassword'
             type='password'
             label='Current Password'
-            style={{
-              display: this.state.recovered || this.state.google
-                ? 'none' : 'initial'
-            }}
+            style={{display: this.state.recovered? 'none' : 'initial'}}
             className='md-cell'
           />
           <TextField
