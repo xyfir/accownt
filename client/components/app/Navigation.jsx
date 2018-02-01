@@ -4,6 +4,8 @@ import {
 import request from 'superagent';
 import React from 'react';
 
+import { XYDOCUMENTATION_URL } from 'constants/config';
+
 export default class AppNavigation extends React.Component {
 
   constructor(props) {
@@ -26,14 +28,23 @@ export default class AppNavigation extends React.Component {
   _renderLoggedOutItems() {
     return [
       <a href='#/login'>
-        <ListItem primaryText='Login' />
+        <ListItem
+          primaryText='Login'
+          leftIcon={<FontIcon>keyboard_arrow_right</FontIcon>}
+        />
       </a>,
       <a href='#/register'>
-        <ListItem primaryText='Register' />
+        <ListItem
+          primaryText='Register'
+          leftIcon={<FontIcon>create</FontIcon>}
+        />
       </a>,
       <a href='#/login/recovery'>
-        <ListItem primaryText='Account Recovery' />
-      </a>,
+        <ListItem
+          primaryText='Account Recovery'
+          leftIcon={<FontIcon>help</FontIcon>}
+        />
+      </a>
     ];
   }
 
@@ -107,6 +118,36 @@ export default class AppNavigation extends React.Component {
   render() {
     const {App} = this.props;
 
+    const navItems = this.state.loggedIn
+      ? this._renderLoggedInItems()
+      : this._renderLoggedOutItems();
+    navItems.push(
+      <ListItem
+        leftIcon={<FontIcon>info</FontIcon>}
+        primaryText='Documentation'
+        nestedItems={[
+          <a href={XYDOCUMENTATION_URL + 'tos.md'} target='_blank'>
+            <ListItem
+              leftIcon={<FontIcon>gavel</FontIcon>}
+              primaryText='Terms of Service'
+            />
+          </a>,
+          <a href={XYDOCUMENTATION_URL + 'privacy.md'} target='_blank'>
+            <ListItem
+              leftIcon={<FontIcon>security</FontIcon>}
+              primaryText='Privacy Policy'
+            />
+          </a>,
+          <a href={XYDOCUMENTATION_URL + 'integration.md'} target='_blank'>
+            <ListItem
+              leftIcon={<FontIcon>code</FontIcon>}
+              primaryText='Integration'
+            />
+          </a>
+        ]}
+      />
+    );
+
     return (
       <React.Fragment>
         <Toolbar
@@ -132,11 +173,7 @@ export default class AppNavigation extends React.Component {
         <Drawer
           onVisibilityChange={v => this.setState({ drawer: v })}
           autoclose={true}
-          navItems={
-            this.state.loggedIn
-              ? this._renderLoggedInItems()
-              : this._renderLoggedOutItems()
-          }
+          navItems={navItems}
           visible={this.state.drawer}
           header={
             <Toolbar
