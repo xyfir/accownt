@@ -115,7 +115,7 @@ export default class LoginStep1 extends React.Component {
             flat
             onClick={() => this.onLoginLink('register')}
             iconChildren='create'
-          >Create Account</Button>
+          >Create New Account</Button>
           <Button
             flat
             onClick={() => this.onLoginLink('login/recovery')}
