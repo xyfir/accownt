@@ -117,8 +117,7 @@ export default class AccountRecovery extends React.Component {
       <div className='login-recovery'>
         <h2>Account Recovery</h2>
         <p>
-          Enter the email you use to login with. Emails that are only linked to a profile and not your actual account will not work.
-        </p>
+          Enter the email you use to login with.</p>
 
         <form className='md-paper md-paper--1 section flex'>
           <TextField

@@ -59,28 +59,6 @@ router.put(
   require('./dashboard/user/account/update')
 );
 
-/* Dashboard - User - Profiles */
-router.get(
-  '/dashboard/user/profiles',
-  require('./dashboard/user/profiles/get-all')
-);
-router.post(
-  '/dashboard/user/profiles',
-  require('./dashboard/user/profiles/create')
-);
-router.get(
-  '/dashboard/user/profiles/:profile',
-  require('./dashboard/user/profiles/get-single')
-);
-router.put(
-  '/dashboard/user/profiles/:profile',
-  require('./dashboard/user/profiles/update')
-);
-router.delete(
-  '/dashboard/user/profiles/:profile',
-  require('./dashboard/user/profiles/remove')
-);
-
 /* Dashboard - User - Services */
 router.get(
   '/dashboard/user/services',

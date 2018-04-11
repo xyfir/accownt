@@ -1,4 +1,3 @@
-const getLinkedProfile = require('lib/service/get-linked-profile');
 const validateData = require('lib/services/validate-data');
 const request = require('superagent');
 const mysql = require('lib/mysql');
@@ -13,7 +12,7 @@ const mysql = require('lib/mysql');
 module.exports = async function(req, res) {
 
   const db = new mysql();
-  
+
   try {
     let { result, info } = await validateData(req);
 
@@ -48,14 +47,11 @@ module.exports = async function(req, res) {
       req.params.service,
       req.params.service
     ];
-    
+
     const rows = await db.query(sql, vars);
 
     // Notify service that user updated their account data
     if (rows[0].url) {
-      if (info.profile)
-        info = await getLinkedProfile(db, req.params.service, info);
-
       await request
         .put(rows[0].url)
         .send({

@@ -41,9 +41,7 @@ export default class PasswordlessLogin extends React.Component {
     if (!this.state.sent) return (
       <div className='login-passwordless step-1'>
         <h2>Passwordless Login</h2>
-        <p>
-          Enter the email you use to login with. Emails that are only linked to a profile and not your actual account will not work.
-        </p>
+        <p>Enter the email you use to login with.</p>
 
         <form className='md-paper md-paper--1 section flex'>
           <TextField

@@ -1,8 +1,7 @@
-const getLinkedProfile = require('lib/service/get-linked-profile');
 const validateToken = require('lib/tokens/validate');
 const generateToken = require('lib/tokens/generate');
 const mysql = require('lib/mysql');
-  
+
 /*
   GET api/service/:service/:key/:xid/:token
     - Old way, takes no query string variables
@@ -53,7 +52,7 @@ module.exports = async function(req, res) {
     rows = await db.query(sql, vars);
 
     if (!rows.length) throw 'Xyfir ID not linked to service';
-      
+
     const uid = rows[0].user_id, token = req.params.token || req.query.token;
 
     // Check if authentication/access token is valid
@@ -62,7 +61,7 @@ module.exports = async function(req, res) {
     });
 
     if (!isValid) throw 'Invalid token';
-        
+
     // Grab info that user provided to service
     const data = JSON.parse(rows[0].info);
 
@@ -77,16 +76,11 @@ module.exports = async function(req, res) {
           user: uid, service: req.params.service, type: 2
         });
       }
-      
+
       res.json(data);
     };
-    
-    // Pull data for service from profile
-    if (data.profile)
-      finish(await getLinkedProfile(db, req.params.service, data));
-    // User provided custom data for service
-    else
-      finish(data);
+
+    finish(data);
   }
   catch (err) {
     db.release();

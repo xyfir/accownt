@@ -12,10 +12,7 @@ const config = require('config');
       service: null|Object({
         id: number, name: string, description: string, url: string,
         requested: object
-      }),
-      profiles?: [{
-        id: number, name: string
-      }]
+      })
     }
   DESCRIPTION
     Returns to user when linking service to account
@@ -53,14 +50,8 @@ module.exports = async function(req, res) {
     `, [
       req.session.uid, req.params.service
     ]);
-    
-    if (rows.length) throw 'Service is already linked to account';
 
-    // Grab user's profiles
-    const profiles = await db.query(
-      'SELECT id, name FROM profiles WHERE user_id = ?',
-      [req.session.uid]
-    );
+    if (rows.length) throw 'Service is already linked to account';
 
     // Get user's account email
     const [{email}] = await db.query(
@@ -69,7 +60,7 @@ module.exports = async function(req, res) {
     );
     db.release();
 
-    res.json({ error: false, service, profiles, email });
+    res.json({ error: false, service, email });
   }
   catch (err) {
     db.release();

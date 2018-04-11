@@ -61,9 +61,6 @@ export default class AppNavigation extends React.Component {
           <a href='#/dashboard/user/security'>
             <ListItem primaryText='Security' />
           </a>,
-          <a href='#/dashboard/user/profiles'>
-            <ListItem primaryText='Profiles' />
-          </a>,
           <a href='#/dashboard/user/services'>
             <ListItem primaryText='Services' />
           </a>,
