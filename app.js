@@ -55,7 +55,11 @@ app.use(
 );
 
 /* Express middleware / controllers */
-app.use('/api', require('./controllers/'));
+app.use(
+  '/api',
+  require('./middleware/clean-email'),
+  require('./controllers/')
+);
 
 app.get('/', (req, res) => res.sendFile(__dirname + '/views/App.html'));
 app.get('/app', (req, res) => res.sendFile(__dirname + '/views/Redirect.html'));
