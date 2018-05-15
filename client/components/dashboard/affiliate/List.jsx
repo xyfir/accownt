@@ -10,7 +10,6 @@ import Paper from 'react-md/lib/Papers';
 import List from 'react-md/lib/Lists/List';
 
 export default class ListAffiliateCampaigns extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -31,54 +30,55 @@ export default class ListAffiliateCampaigns extends React.Component {
       icon: 'warning',
       button: 'Delete'
     })
-    .then(() => request.delete('/api/dashboard/affiliate/' + code))
-    .then(res => {
-      if (res.body.error) {
-        swal.close();
-        swal('Error', 'Could not delete', 'error');
-      }
-      else {
-        location.reload();
-      }
-    });
+      .then(() => request.delete('/api/dashboard/affiliate/' + code))
+      .then(res => {
+        if (res.body.error) {
+          swal.close();
+          swal('Error', 'Could not delete', 'error');
+        } else {
+          location.reload();
+        }
+      });
   }
 
   render() {
-    const selected =
-      this.state.campaigns[this.state.selected] ||
-      { promo: { link: '' } };
+    const selected = this.state.campaigns[this.state.selected] || {
+      promo: { link: '' }
+    };
 
     return (
-      <div className='campaigns-list'>
+      <div className="campaigns-list">
         <p>
           Statistics are only for the current payment cycle.
           <br />
           Once the next payments are sent out these values will be reset.
         </p>
 
-        <List className='md-paper md-paper--1 section'>{
-          this.state.campaigns.map((c, i) =>
+        <List className="md-paper md-paper--1 section">
+          {this.state.campaigns.map((c, i) => (
             <ListItem
               key={c.code}
               onClick={() => this.setState({ selected: i })}
               primaryText={`[${c.code}] ${c.promo.name}`}
               secondaryText={c.promo.description}
             />
-          )
-        }</List>
+          ))}
+        </List>
 
         <Dialog
-          id='selected-affiliate-campaign'
+          id="selected-affiliate-campaign"
           title={selected.promo.name}
           onHide={() => this.setState({ selected: -1 })}
           visible={this.state.selected > -1}
-          aria-label='Selected Campaign'
+          aria-label="Selected Campaign"
         >
           <a
             href={selected.promo.link.replace('%CODE%', selected.code)}
-            target='_blank'
-            className='promo-link'
-          >Link</a>
+            target="_blank"
+            className="promo-link"
+          >
+            Link
+          </a>
 
           <ul>
             <li>{selected.signups} Signups</li>
@@ -87,13 +87,15 @@ export default class ListAffiliateCampaigns extends React.Component {
           </ul>
 
           <Button
-            raised secondary
+            raised
+            secondary
             onClick={() => this.onDelete(selected.code)}
-            iconChildren='delete'
-          >Delete</Button>
+            iconChildren="delete"
+          >
+            Delete
+          </Button>
         </Dialog>
       </div>
     );
   }
-
 }

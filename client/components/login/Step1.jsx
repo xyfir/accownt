@@ -7,17 +7,15 @@ import swal from 'sweetalert';
 import query from 'lib/url/parse-query-string';
 
 export default class LoginStep1 extends React.Component {
-
   constructor(props) {
     super(props);
 
     const q = query();
 
     this.state = {
-      loginAttempts: 0, email: q.email || '',
-      service: q.serviceName
-        ? { name: q.serviceName, url: q.serviceUrl }
-        : null
+      loginAttempts: 0,
+      email: q.email || '',
+      service: q.serviceName ? { name: q.serviceName, url: q.serviceUrl } : null
     };
   }
 
@@ -58,77 +56,84 @@ export default class LoginStep1 extends React.Component {
   }
 
   render() {
-    const {loginAttempts, service, email} = this.state;
+    const { loginAttempts, service, email } = this.state;
 
     return (
-      <div className='login-1'>
+      <div className="login-1">
         {loginAttempts >= 5 ? (
-          <span className='login-attempts'>
+          <span className="login-attempts">
             You have hit the incorrect login attempt limit.
             <br />
-            Please wait 15 minutes from the last attempt before trying again. Entering the correct email and password will not unlock your account until the time limit expires.
+            Please wait 15 minutes from the last attempt before trying again.
+            Entering the correct email and password will not unlock your account
+            until the time limit expires.
           </span>
         ) : loginAttempts > 0 ? (
-          <span className='login-attempts'>
+          <span className="login-attempts">
             {5 - loginAttempts} login attempt(s) remaining.
           </span>
         ) : null}
 
         {service ? (
-          <span className='service-login'>
-            Login to <a href={service.url}>{service.name}</a> using Xyfir Accounts:
+          <span className="service-login">
+            Login to <a href={service.url}>{service.name}</a> using Xyfir
+            Accounts:
           </span>
         ) : null}
 
-        <form className='md-paper md-paper--1 section flex'>
+        <form className="md-paper md-paper--1 section flex">
           <TextField
             floating
-            id='email'
-            type='email'
-            label='Email'
+            id="email"
+            type="email"
+            label="Email"
             value={email}
             leftIcon={<FontIcon>mail</FontIcon>}
             onChange={v => this.setState({ email: v })}
-            className='md-cell'
+            className="md-cell"
           />
 
           <TextField
             floating
-            id='password'
-            ref='password'
-            type='password'
-            label='Password'
+            id="password"
+            ref="password"
+            type="password"
+            label="Password"
             leftIcon={<FontIcon>lock</FontIcon>}
-            className='md-cell'
+            className="md-cell"
           />
 
           <div>
-            <Button
-              raised primary
-              onClick={() => this.onLogin()}
-            >Login</Button>
+            <Button raised primary onClick={() => this.onLogin()}>
+              Login
+            </Button>
           </div>
         </form>
 
-        <nav className='login-links'>
+        <nav className="login-links">
           <Button
             flat
             onClick={() => this.onLoginLink('register')}
-            iconChildren='create'
-          >Create New Account</Button>
+            iconChildren="create"
+          >
+            Create New Account
+          </Button>
           <Button
             flat
             onClick={() => this.onLoginLink('login/recovery')}
-            iconChildren='help'
-          >Account Recovery</Button>
+            iconChildren="help"
+          >
+            Account Recovery
+          </Button>
           <Button
             flat
             onClick={() => this.onLoginLink('login/passwordless')}
-            iconChildren='lock_open'
-          >Passwordless Login</Button>
+            iconChildren="lock_open"
+          >
+            Passwordless Login
+          </Button>
         </nav>
       </div>
     );
   }
-
 }

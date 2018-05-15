@@ -10,8 +10,7 @@ const mysql = require('lib/mysql');
 		}
 */
 module.exports = async function(req, res) {
-
-  const db = new mysql;
+  const db = new mysql();
 
   try {
     if (!req.session.uid) throw 'Not logged in';
@@ -21,19 +20,15 @@ module.exports = async function(req, res) {
     const sql = `
       SELECT email, affiliate FROM users WHERE id = ?
     `,
-    vars = [
-      req.session.uid
-    ],
-    rows = await db.query(sql, vars);
+      vars = [req.session.uid],
+      rows = await db.query(sql, vars);
 
     if (!rows.length) throw 'Could not find user';
 
-    rows[0].recovered = req.session.recovered, rows[0].loggedIn = true;
+    (rows[0].recovered = req.session.recovered), (rows[0].loggedIn = true);
     res.json(rows[0]);
-  }
-  catch (err) {
+  } catch (err) {
     db.release();
     res.json({ loggedIn: false });
   }
-
-}
+};

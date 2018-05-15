@@ -13,8 +13,7 @@ const mysql = require('lib/mysql');
 */
 
 module.exports = async function(req, res) {
-
-  const db = new mysql;
+  const db = new mysql();
 
   try {
     await db.getConnection();
@@ -22,31 +21,24 @@ module.exports = async function(req, res) {
     let sql, vars;
 
     if (req.body.all) {
-      sql = `
+      (sql = `
         DELETE FROM access_tokens WHERE user_id = ?
-      `,
-      vars = [
-        req.session.uid
-      ];
-    }
-    else {
-      sql = `
+      `),
+        (vars = [req.session.uid]);
+    } else {
+      (sql = `
         DELETE FROM access_tokens
         WHERE user_id = ? AND service_id = ? AND token = ?
-      `,
-      vars = [
-        req.session.uid, req.body.service, req.body.token
-      ];
+      `),
+        (vars = [req.session.uid, req.body.service, req.body.token]);
     }
 
     const result = await db.query(sql, vars);
     db.release();
-    
+
     res.json({ error: false });
-  }
-  catch (err) {
+  } catch (err) {
     db.release();
     res.json({ error: true });
   }
-
-}
+};

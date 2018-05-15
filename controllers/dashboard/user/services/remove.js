@@ -7,7 +7,6 @@ const mysql = require('lib/mysql');
     { error: bool, message: string }
 */
 module.exports = async function(req, res) {
-
   const db = new mysql();
 
   try {
@@ -24,44 +23,40 @@ module.exports = async function(req, res) {
         SELECT service_key FROM service_keys WHERE service_id = ? LIMIT 1
       ) AS serviceKey
     `,
-    vars = [
-      req.session.uid, req.params.service,
-      req.params.service,
-      req.params.service
-    ];
-    
+      vars = [
+        req.session.uid,
+        req.params.service,
+        req.params.service,
+        req.params.service
+      ];
+
     const rows = await db.query(sql, vars);
 
     if (!rows[0].xid) throw 'Account is not linked to service';
 
     // Unlink the service from the user's account
-    sql = `
+    (sql = `
       DELETE FROM linked_services WHERE user_id = ? AND service_id = ?
-    `,
-    vars = [
-      req.session.uid, req.params.service
-    ];
+    `),
+      (vars = [req.session.uid, req.params.service]);
 
     const result = await db.query(sql, vars);
-    
+
     db.release();
 
     if (!result.affectedRows) throw 'Could not unlink service from account';
 
     // Notify service that user unlinked their account
     if (rows[0].url) {
-      await request
-        .delete(rows[0].url)
-        .send({
-          xid: rows[0].xid, key: rows[0].serviceKey
-        });
+      await request.delete(rows[0].url).send({
+        xid: rows[0].xid,
+        key: rows[0].serviceKey
+      });
     }
 
     res.json({ error: false });
-  }
-  catch (err) {
+  } catch (err) {
     db.release();
     res.json({ error: true, message: err });
   }
-
-}
+};

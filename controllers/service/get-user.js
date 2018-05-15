@@ -21,7 +21,6 @@ const mysql = require('lib/mysql');
     Generates and returns an access token if token starts with 1
 */
 module.exports = async function(req, res) {
-
   const db = new mysql();
 
   try {
@@ -34,30 +33,29 @@ module.exports = async function(req, res) {
         WHERE service_id = ? AND service_key = ?
       )
     `,
-    vars = [
-      req.params.service, req.params.key || req.query.key
-    ],
-    rows = await db.query(sql, vars);
+      vars = [req.params.service, req.params.key || req.query.key],
+      rows = await db.query(sql, vars);
 
     if (!rows.length) throw 'Service id and key do not match';
 
     // Check if xid matches service
-    sql = `
+    (sql = `
       SELECT user_id, info FROM linked_services
       WHERE service_id = ? AND xyfir_id = ?
-    `,
-    vars = [
-      req.params.service, req.params.xid || req.query.xid
-    ],
-    rows = await db.query(sql, vars);
+    `),
+      (vars = [req.params.service, req.params.xid || req.query.xid]),
+      (rows = await db.query(sql, vars));
 
     if (!rows.length) throw 'Xyfir ID not linked to service';
 
-    const uid = rows[0].user_id, token = req.params.token || req.query.token;
+    const uid = rows[0].user_id,
+      token = req.params.token || req.query.token;
 
     // Check if authentication/access token is valid
     const isValid = await validateToken({
-      user: uid, service: req.params.service, token
+      user: uid,
+      service: req.params.service,
+      token
     });
 
     if (!isValid) throw 'Invalid token';
@@ -73,7 +71,9 @@ module.exports = async function(req, res) {
       // Generate access token
       if (token.substr(0, 1) == 1) {
         data.accessToken = await generateToken({
-          user: uid, service: req.params.service, type: 2
+          user: uid,
+          service: req.params.service,
+          type: 2
         });
       }
 
@@ -81,10 +81,8 @@ module.exports = async function(req, res) {
     };
 
     finish(data);
-  }
-  catch (err) {
+  } catch (err) {
     db.release();
     res.json({ error: true, message: err });
   }
-
-}
+};

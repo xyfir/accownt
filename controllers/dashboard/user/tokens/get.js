@@ -1,4 +1,4 @@
-const db = require("lib/db");
+const db = require('lib/db');
 
 /*
     GET api/dashboard/user/tokens
@@ -12,14 +12,14 @@ const db = require("lib/db");
 */
 
 module.exports = function(req, res) {
-
-    let sql = `
+  let sql = `
         SELECT * FROM access_tokens WHERE user_id = ?
     `;
 
-    db(cn => cn.query(sql, [req.session.uid], (err, rows) => {
-        cn.release();
-        res.json({ tokens: err ? [] : rows });
-    }));
-
-}
+  db(cn =>
+    cn.query(sql, [req.session.uid], (err, rows) => {
+      cn.release();
+      res.json({ tokens: err ? [] : rows });
+    })
+  );
+};

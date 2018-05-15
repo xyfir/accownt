@@ -9,7 +9,6 @@ const mysql = require('lib/mysql');
     }
 */
 module.exports = async function(req, res) {
-
   const db = new mysql();
 
   try {
@@ -20,17 +19,14 @@ module.exports = async function(req, res) {
         codes, passwordless, IF(LENGTH(otp_secret) > 0, 1, 0) AS appOtp
       FROM security WHERE user_id = ?
     `,
-    vars = new Array(2).fill(req.session.uid),
-    rows = await db.query(sql, vars);
+      vars = new Array(2).fill(req.session.uid),
+      rows = await db.query(sql, vars);
     db.release();
 
-    rows[0].appOtp = !!rows[0].appOtp,
-    rows[0].error = false;
+    (rows[0].appOtp = !!rows[0].appOtp), (rows[0].error = false);
 
     res.json(rows[0]);
-  }
-  catch (err) {
+  } catch (err) {
     res.json({ error: true });
   }
-
-}
+};

@@ -14,8 +14,8 @@ const mysql = require('lib/mysql');
     { error: bool, message: string }
 */
 module.exports = async function(req, res) {
-  
-  const db = new mysql(), b = req.body;
+  const db = new mysql(),
+    b = req.body;
 
   try {
     validate(b);
@@ -25,35 +25,36 @@ module.exports = async function(req, res) {
     let sql = `
       SELECT * FROM services WHERE name = ?
     `,
-    vars = [
-      b.name
-    ];
+      vars = [b.name];
 
     const rows = await db.query(sql, vars);
 
     if (rows.length > 0) throw 'A service with that name already exists';
-    
+
     sql = `
       INSERT INTO services SET ?
     `;
-      
+
     const insert = {
-      info: buildInfo(b.info),
-      xyfir: req.session.uid < 1000, owner: req.session.uid,
-      name: b.name, description: b.description, url_main: b.urlMain,
-      url_login: b.urlLogin, url_update: b.urlUpdate, url_unlink: b.urlUnlink
-    },
-    result = await db.query(sql, insert);
+        info: buildInfo(b.info),
+        xyfir: req.session.uid < 1000,
+        owner: req.session.uid,
+        name: b.name,
+        description: b.description,
+        url_main: b.urlMain,
+        url_login: b.urlLogin,
+        url_update: b.urlUpdate,
+        url_unlink: b.urlUnlink
+      },
+      result = await db.query(sql, insert);
 
     db.release();
-      
+
     if (!result.affectedRows) throw 'An unknown error occured';
-    
+
     res.json({ error: false });
-  }
-  catch (err) {
+  } catch (err) {
     db.release();
     res.json({ error: true, message: err });
   }
-
-}
+};

@@ -2,7 +2,6 @@ import { Snackbar } from 'react-md';
 import React from 'react';
 
 export default class AppAlert extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -35,5 +34,4 @@ export default class AppAlert extends React.Component {
       />
     );
   }
-
 }

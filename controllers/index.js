@@ -50,10 +50,7 @@ router.delete(
 );
 
 /* Dashboard - User - Account */
-router.get(
-  '/dashboard/user/account',
-  require('./dashboard/user/account/info')
-);
+router.get('/dashboard/user/account', require('./dashboard/user/account/info'));
 router.put(
   '/dashboard/user/account',
   require('./dashboard/user/account/update')
@@ -104,14 +101,11 @@ router.put(
 );
 
 /* Dashboard - User - Tokens */
-router.get(
-  '/dashboard/user/tokens', require('./dashboard/user/tokens/get')
-);
-router.put(
-  '/dashboard/user/tokens', require('./dashboard/user/tokens/update')
-);
+router.get('/dashboard/user/tokens', require('./dashboard/user/tokens/get'));
+router.put('/dashboard/user/tokens', require('./dashboard/user/tokens/update'));
 router.delete(
-  '/dashboard/user/tokens', require('./dashboard/user/tokens/delete')
+  '/dashboard/user/tokens',
+  require('./dashboard/user/tokens/delete')
 );
 
 /* Login */

@@ -11,8 +11,7 @@ const mysql = require('lib/mysql');
 */
 
 module.exports = async function(req, res) {
-
-  const db = new mysql;
+  const db = new mysql();
 
   try {
     await db.getConnection();
@@ -21,21 +20,16 @@ module.exports = async function(req, res) {
       UPDATE access_tokens SET name = ?
       WHERE user_id = ? AND service_id = ? AND token = ?
     `,
-    vars = [
-      req.body.name,
-      req.session.uid, req.body.service, req.body.token
-    ],
-    result = await db.query(sql, vars);
-    
+      vars = [req.body.name, req.session.uid, req.body.service, req.body.token],
+      result = await db.query(sql, vars);
+
     db.release();
 
     if (!result.affectedRows) throw 'Could not update token';
-    
+
     res.json({ error: false });
-  }
-  catch (err) {
+  } catch (err) {
     db.release();
     res.json({ error: true });
   }
-
-}
+};

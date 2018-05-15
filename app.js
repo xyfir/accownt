@@ -20,7 +20,7 @@ app.use(parser.urlencoded({ extended: true, limit: '2mb' }));
 app.use(
   session({
     saveUninitialized: true,
-    store:  new SessionStore({
+    store: new SessionStore({
       host: config.db.host,
       port: config.db.port,
       user: config.db.user,
@@ -39,12 +39,11 @@ app.use(
   '/admyn-DU9oF5p690ojUKdR3NYS',
   async function(req, res, next) {
     // Load `users.admin` where user id
-    const db = new MySQL;
+    const db = new MySQL();
     await db.getConnection();
-    const rows = await db.query(
-      'SELECT admin FROM users WHERE id = ?',
-      [req.session.uid]
-    );
+    const rows = await db.query('SELECT admin FROM users WHERE id = ?', [
+      req.session.uid
+    ]);
     db.release();
 
     if (!rows.length || !rows[0].admin) return res.status(403).send();
@@ -55,11 +54,7 @@ app.use(
 );
 
 /* Express middleware / controllers */
-app.use(
-  '/api',
-  require('./middleware/clean-email'),
-  require('./controllers/')
-);
+app.use('/api', require('./middleware/clean-email'), require('./controllers/'));
 
 app.get('/', (req, res) => res.sendFile(__dirname + '/views/App.html'));
 app.get('/app', (req, res) => res.sendFile(__dirname + '/views/Redirect.html'));
@@ -71,5 +66,4 @@ app.listen(config.environment.port, () => {
   console.log('Server running on port', config.environment.port);
 });
 
-if (config.environment.runCronJobs)
-  require('jobs/cron/start')();
+if (config.environment.runCronJobs) require('jobs/cron/start')();

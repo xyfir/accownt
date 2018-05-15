@@ -1,4 +1,4 @@
-const db = require("lib/db");
+const db = require('lib/db');
 
 /*
     POST api/affiliate/purchase
@@ -13,8 +13,7 @@ const db = require("lib/db");
         Increments an affiliate campaign's purchases and earnings
 */
 module.exports = function(req, res) {
-
-    let sql = `
+  let sql = `
         SELECT (
             SELECT COUNT(*) FROM affiliate_promotions
             WHERE service_id = ? AND id IN (
@@ -26,40 +25,37 @@ module.exports = function(req, res) {
                 WHERE service_id = ? AND service_key = ?
             )
         ) as valid_service
-    `, vars = [
-        req.body.service,
-        req.body.promoCode,
-        req.body.service, req.body.serviceKey
+    `,
+    vars = [
+      req.body.service,
+      req.body.promoCode,
+      req.body.service,
+      req.body.serviceKey
     ];
-    
-    db(cn => cn.query(sql, vars, (err, rows) => {
-        let error = "";
 
-        if (err)
-            error = "An unknown error occured";
-        else if (!rows[0].valid_code)
-            error = "Invalid promotion";
-        else if (!rows[0].valid_service)
-            error = "Invalid service / key";
+  db(cn =>
+    cn.query(sql, vars, (err, rows) => {
+      let error = '';
 
-        if (error) {
-            cn.release();
-            res.json({ error: true, message: error });
-        }
-        else {
-            res.json({ error: false });
+      if (err) error = 'An unknown error occured';
+      else if (!rows[0].valid_code) error = 'Invalid promotion';
+      else if (!rows[0].valid_service) error = 'Invalid service / key';
 
-            sql = `
+      if (error) {
+        cn.release();
+        res.json({ error: true, message: error });
+      } else {
+        res.json({ error: false });
+
+        (sql = `
                 UPDATE affiliate_campaigns SET
                     purchases = purchases + 1, earnings = earnings + ?
                 WHERE code = ?
-            `, vars = [
-                (+req.body.amount * 0.10),
-                req.body.promoCode
-            ];
+            `),
+          (vars = [+req.body.amount * 0.1, req.body.promoCode]);
 
-            cn.query(sql, vars, (err, result) => cn.release());
-        }
-    }));
-
-}
+        cn.query(sql, vars, (err, result) => cn.release());
+      }
+    })
+  );
+};

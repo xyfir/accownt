@@ -1,4 +1,4 @@
-const db = require("lib/db");
+const db = require('lib/db');
 
 /*
     GET api/dashboard/affiliate
@@ -13,52 +13,55 @@ const db = require("lib/db");
         Return full info for all affiliate campaigns and the linked promotions
 */
 module.exports = function(req, res) {
-
-    let sql = `
+  let sql = `
         SELECT * FROM affiliate_campaigns WHERE user_id = ?
-    `, vars = [
-        req.session.uid
-    ];
-    
-    db(cn => cn.query(sql, vars, (err, campaigns) => {
-        if (err || !campaigns.length) {
-            cn.release();
-            res.json({ campaigns: [] });
-        }
-        else {
-            sql = `
+    `,
+    vars = [req.session.uid];
+
+  db(cn =>
+    cn.query(sql, vars, (err, campaigns) => {
+      if (err || !campaigns.length) {
+        cn.release();
+        res.json({ campaigns: [] });
+      } else {
+        (sql = `
                 SELECT * FROM affiliate_promotions WHERE id IN (?)
-            `, vars = [
-                campaigns.map(c => c.promo_id)
-            ];
+            `),
+          (vars = [campaigns.map(c => c.promo_id)]);
 
-            cn.query(sql, vars, (err, promos) => {
-                cn.release();
+        cn.query(sql, vars, (err, promos) => {
+          cn.release();
 
-                // Build output object
-                let response = { campaigns: [] };
+          // Build output object
+          let response = { campaigns: [] };
 
-                response.campaigns = campaigns.map(c => {
-                    let promo = {};
+          response.campaigns = campaigns.map(c => {
+            let promo = {};
 
-                    for (let p of promos) {
-                        if (c.promo_id == p.id) {
-                            promo = {
-                                id: p.id, name: p.name, link: p.link,
-                                description: p.description
-                            }; break;
-                        }
-                    }
+            for (let p of promos) {
+              if (c.promo_id == p.id) {
+                promo = {
+                  id: p.id,
+                  name: p.name,
+                  link: p.link,
+                  description: p.description
+                };
+                break;
+              }
+            }
 
-                    return {
-                        code: c.code, signups: c.signups, purchases: c.purchases,
-                        earnings: c.earnings, promo
-                    };
-                });
+            return {
+              code: c.code,
+              signups: c.signups,
+              purchases: c.purchases,
+              earnings: c.earnings,
+              promo
+            };
+          });
 
-                res.json(response);
-            });
-        }
-    }));
-
-}
+          res.json(response);
+        });
+      }
+    })
+  );
+};

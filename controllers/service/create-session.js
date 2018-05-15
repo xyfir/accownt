@@ -12,13 +12,14 @@ const config = require('config');
     account and returns a url to redirect the client to.
 */
 module.exports = async function(req, res) {
-
   const db = new mysql();
 
   try {
     // Generate an auth token for uid with service
     const { token, xid } = await generateToken({
-      user: req.session.uid, service: req.params.service, type: 1
+      user: req.session.uid,
+      service: req.params.service,
+      type: 1
     });
 
     await db.getConnection();
@@ -27,20 +28,16 @@ module.exports = async function(req, res) {
     const sql = `
       SELECT url_login AS url FROM services WHERE id = ?
     `,
-    vars = [
-      req.params.service
-    ],
-    rows = await db.query(sql, vars);
-    
+      vars = [req.params.service],
+      rows = await db.query(sql, vars);
+
     db.release();
 
     if (!rows.length) throw 'Unknown error';
-    
+
     res.json({ redirect: `${rows[0].url}?auth=${token}&xid=${xid}` });
-  }
-  catch (err) {
+  } catch (err) {
     db.release();
     res.json({ redirect: config.addresses.xacc });
   }
-
-}
+};

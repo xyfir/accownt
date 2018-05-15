@@ -12,9 +12,8 @@ const mysql = require('lib/mysql');
     { error: bool, message: string }
 */
 module.exports = async function(req, res) {
+  const db = new mysql();
 
-  const db = new mysql;
-  
   try {
     // User provided recovery code
     if (req.body.recovery) {
@@ -26,22 +25,19 @@ module.exports = async function(req, res) {
       db.release();
 
       if (!rows.length) throw 'Invalid recovery code';
-    }
-    else {
+    } else {
       await securityValidation(req.body);
     }
 
     // Send account recovery email link
     sendRecoveryEmail(req.body.uid, req.body.email);
-    
+
     res.json({
       error: false,
       message: 'An account recovery link has been sent to your email'
     });
-  }
-  catch (err) {
+  } catch (err) {
     db.release();
     res.json({ error: true, message: err });
   }
-  
 };

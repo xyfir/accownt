@@ -14,7 +14,6 @@ import query from 'lib/url/parse-query-string';
 import { XACC } from 'constants/config';
 
 export default class PasswordlessLogin extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -38,39 +37,41 @@ export default class PasswordlessLogin extends React.Component {
   }
 
   render() {
-    if (!this.state.sent) return (
-      <div className='login-passwordless step-1'>
-        <h2>Passwordless Login</h2>
-        <p>Enter the email you use to login with.</p>
+    if (!this.state.sent)
+      return (
+        <div className="login-passwordless step-1">
+          <h2>Passwordless Login</h2>
+          <p>Enter the email you use to login with.</p>
 
-        <form className='md-paper md-paper--1 section flex'>
-          <TextField
-            id='email--email'
-            type='email'
-            label='Account Email'
-            value={this.state.email}
-            onChange={v => this.setState({ email: v })}
-            className='md-cell'
-          />
+          <form className="md-paper md-paper--1 section flex">
+            <TextField
+              id="email--email"
+              type="email"
+              label="Account Email"
+              value={this.state.email}
+              onChange={v => this.setState({ email: v })}
+              className="md-cell"
+            />
 
-          <Button
-            raised primary
-            onClick={() => this.onSend()}
-          >Next</Button>
-        </form>
-      </div>
-    );
-    else return (
-      <div className='login-passwordless step-2'>
-        <h2>Passwordless Login</h2>
-        <p>
-          A message was sent to your email that contains a passwordless login link.
-        </p>
-        <p>
-          Clicking the link in the message will log you in here, and also wherever you clicked the link.
-        </p>
-      </div>
-    );
+            <Button raised primary onClick={() => this.onSend()}>
+              Next
+            </Button>
+          </form>
+        </div>
+      );
+    else
+      return (
+        <div className="login-passwordless step-2">
+          <h2>Passwordless Login</h2>
+          <p>
+            A message was sent to your email that contains a passwordless login
+            link.
+          </p>
+          <p>
+            Clicking the link in the message will log you in here, and also
+            wherever you clicked the link.
+          </p>
+        </div>
+      );
   }
-
 }

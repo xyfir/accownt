@@ -12,13 +12,12 @@ import Paper from 'react-md/lib/Papers';
 import List from 'react-md/lib/Lists/List';
 
 export default class SetSecurityCodes extends React.Component {
-  
   constructor(props) {
     super(props);
 
     this.state = { codes: this.props.codes.split(',') };
   }
-  
+
   onGenerate() {
     request
       .put('api/dashboard/user/security/codes')
@@ -29,7 +28,7 @@ export default class SetSecurityCodes extends React.Component {
       .end((err, res) => {
         this.props.alert(res.body.message);
         this.setState({ codes: res.body.codes.split(',') });
-      })
+      });
   }
 
   onReset() {
@@ -38,75 +37,65 @@ export default class SetSecurityCodes extends React.Component {
   }
 
   onCopy() {
-    copy(
-      this.state.codes
-        .map((c, i) => `${i + 1}: ${c}`)
-        .join(', ')
-    );
+    copy(this.state.codes.map((c, i) => `${i + 1}: ${c}`).join(', '));
 
     this.props.alert('Codes copied to clipboard');
   }
-  
+
   render() {
     return (
-      <Paper zDepth={2} className='security-codes section flex'>
+      <Paper zDepth={2} className="security-codes section flex">
         <h3>Security Codes</h3>
         <p>
-          A numbered list of 5-20 randomly generated words and/or numbers. A specific code from the list must be entered where 2FA is required.
+          A numbered list of 5-20 randomly generated words and/or numbers. A
+          specific code from the list must be entered where 2FA is required.
         </p>
-        
+
         {this.state.codes.length >= 5 ? (
           <div>
-            <List ordered>{
-              this.state.codes.map((code, i) =>
-                <ListItem
-                  key={code}
-                  primaryText={`${i + 1}. ${code}`}
-                />
-              )
-            }</List>
+            <List ordered>
+              {this.state.codes.map((code, i) => (
+                <ListItem key={code} primaryText={`${i + 1}. ${code}`} />
+              ))}
+            </List>
 
-            <Button
-              flat primary
-              onClick={() => this.onCopy()}
-            >Copy to clipboard</Button>
+            <Button flat primary onClick={() => this.onCopy()}>
+              Copy to clipboard
+            </Button>
           </div>
         ) : null}
-        
+
         <SelectField
-          id='select--code-type'
-          ref='codeType'
-          label='Code Type'
+          id="select--code-type"
+          ref="codeType"
+          label="Code Type"
           menuItems={[
             { label: 'Numbers', value: '1' },
             { label: 'Words', value: '2' },
             { label: 'Both', value: '3' }
           ]}
-          className='md-cell'
+          className="md-cell"
         />
-        
+
         <TextField
-          id='number--code-count'
+          id="number--code-count"
           min={5}
           max={20}
-          ref='codeCount'
-          type='number'
-          label='Code Count'
-          className='md-cell'
+          ref="codeCount"
+          type="number"
+          label="Code Count"
+          className="md-cell"
         />
-        
-        <Button
-          primary raised
-          onClick={() => this.onGenerate()}
-        >Generate</Button>
-        <Button
-          secondary raised
-          onClick={() => this.onReset()}
-        >Reset</Button>
+
+        <Button primary raised onClick={() => this.onGenerate()}>
+          Generate
+        </Button>
+        <Button secondary raised onClick={() => this.onReset()}>
+          Reset
+        </Button>
       </Paper>
     );
   }
-  
 }
 
 SetSecurityCodes.propTypes = {

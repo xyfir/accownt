@@ -1,4 +1,4 @@
-const db = require("lib/db");
+const db = require('lib/db');
 
 /*
 	GET api/dashboard/developer/services
@@ -8,14 +8,12 @@ const db = require("lib/db");
 		]}
 */
 module.exports = function(req, res) {
-	
-    db(cn => {
-		const sql = "SELECT id, name FROM services WHERE owner = ?";
-		cn.query(sql, [req.session.uid], (err, services) => {
-			cn.release();
-			
-			res.json({ services });
-		});
-	});
+  db(cn => {
+    const sql = 'SELECT id, name FROM services WHERE owner = ?';
+    cn.query(sql, [req.session.uid], (err, services) => {
+      cn.release();
 
-}
+      res.json({ services });
+    });
+  });
+};

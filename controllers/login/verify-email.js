@@ -7,12 +7,12 @@ const MySQL = require('lib/mysql');
     Verify a users email if :uid/:auth are valid
 */
 module.exports = async function(req, res) {
-
-  const db = new MySQL;
+  const db = new MySQL();
 
   try {
     const isValid = await validateToken({
-      user: req.params.uid, token: req.params.auth
+      user: req.params.uid,
+      token: req.params.auth
     });
 
     if (!isValid) throw 'Invalid token';
@@ -29,24 +29,20 @@ module.exports = async function(req, res) {
     if (!result.affectedRows) throw 'Could not verify email';
 
     // Delete unverified accounts with the same email
-    const [{email}] = await db.query(
-      'SELECT email FROM users WHERE id = ?',
-      [req.params.uid]
-    );
-    await db.query(
-      'DELETE FROM users WHERE email = ? AND verified = 0',
-      [email]
-    );
+    const [{ email }] = await db.query('SELECT email FROM users WHERE id = ?', [
+      req.params.uid
+    ]);
+    await db.query('DELETE FROM users WHERE email = ? AND verified = 0', [
+      email
+    ]);
     db.release();
 
     res.redirect(
       req.session.redirect ? req.session.redirect : '/#/dashboard/user'
     );
     req.session.redirect = '';
-  }
-  catch (err) {
+  } catch (err) {
     db.release();
     res.redirect('/#/login');
   }
-
-}
+};

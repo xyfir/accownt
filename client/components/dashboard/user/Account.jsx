@@ -4,7 +4,6 @@ import React from 'react';
 import swal from 'sweetalert';
 
 export default class UserAccount extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -24,8 +23,7 @@ export default class UserAccount extends React.Component {
 
     if (newPass != conPass) {
       swal('Error', 'Passwords do not match.', 'error');
-    }
-    else {
+    } else {
       request
         .put('api/dashboard/user/account')
         .send({
@@ -33,52 +31,48 @@ export default class UserAccount extends React.Component {
           newPassword: newPass
         })
         .end((err, res) => {
-          if (res.body.error)
-            swal('Error', res.body.message, 'error');
-          else
-            swal('Success', res.body.message, 'success');
-        })
+          if (res.body.error) swal('Error', res.body.message, 'error');
+          else swal('Success', res.body.message, 'success');
+        });
     }
   }
 
   render() {
     return (
-      <div className='dashboard-body user-account'>
-        <h3 className='email'>{this.state.email}</h3>
+      <div className="dashboard-body user-account">
+        <h3 className="email">{this.state.email}</h3>
 
-        <form className='change-password md-paper md-paper--1 section flex'>
+        <form className="change-password md-paper md-paper--1 section flex">
           <h3>Update Password</h3>
 
           <TextField
-            id='password--current'
-            ref='cpassword'
-            type='password'
-            label='Current Password'
-            style={{display: this.state.recovered? 'none' : 'initial'}}
-            className='md-cell'
+            id="password--current"
+            ref="cpassword"
+            type="password"
+            label="Current Password"
+            style={{ display: this.state.recovered ? 'none' : 'initial' }}
+            className="md-cell"
           />
           <TextField
-            id='password--new'
-            ref='npassword'
-            type='password'
-            label='New Password'
-            className='md-cell'
+            id="password--new"
+            ref="npassword"
+            type="password"
+            label="New Password"
+            className="md-cell"
           />
           <TextField
-            id='password--confirm'
-            ref='rpassword'
-            type='password'
-            label='Confirm Password'
-            className='md-cell'
+            id="password--confirm"
+            ref="rpassword"
+            type="password"
+            label="Confirm Password"
+            className="md-cell"
           />
 
-          <Button
-            raised primary
-            onClick={() => this.onUpdatePassword()}
-          >Update Password</Button>
+          <Button raised primary onClick={() => this.onUpdatePassword()}>
+            Update Password
+          </Button>
         </form>
       </div>
     );
   }
-
 }

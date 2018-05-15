@@ -8,7 +8,6 @@ const mysql = require('lib/mysql');
     { exists: boolean }
 */
 module.exports = async function(req, res) {
-
   const db = new mysql();
 
   try {
@@ -17,17 +16,13 @@ module.exports = async function(req, res) {
     const sql = `
       SELECT id FROM users WHERE email = ? AND verified = ?
     `,
-    vars = [
-      req.query.email, 1
-    ],
-    rows = await db.query(sql, vars);
+      vars = [req.query.email, 1],
+      rows = await db.query(sql, vars);
 
     db.release();
     res.json({ exists: !!rows.length });
-  }
-  catch (e) {
+  } catch (e) {
     db.release();
     res.json({ exists: true });
   }
-  
 };

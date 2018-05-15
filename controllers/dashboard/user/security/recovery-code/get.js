@@ -6,12 +6,11 @@ const mysql = require('lib/mysql');
     { recovery: string }
 */
 module.exports = async function(req, res) {
-
   const db = new mysql();
 
   try {
     await db.getConnection();
- 
+
     const rows = await db.query(
       'SELECT recovery FROM security WHERE user_id = ?',
       [req.session.uid]
@@ -19,9 +18,7 @@ module.exports = async function(req, res) {
     db.release();
 
     res.json(rows[0]);
-  }
-  catch (err) {
+  } catch (err) {
     res.json({ recovery: '' });
   }
-
-}
+};

@@ -14,8 +14,8 @@ const mysql = require('lib/mysql');
     { error: bool, message: string }
 */
 module.exports = async function(req, res) {
-
-  const db = new mysql(), b = req.body;
+  const db = new mysql(),
+    b = req.body;
 
   try {
     validate(req.body);
@@ -28,22 +28,26 @@ module.exports = async function(req, res) {
         url_update = ?, url_unlink = ?
       WHERE id = ? AND owner = ?
     `,
-    vars = [
-      b.name, b.description, buildInfo(b.info), b.urlMain, b.urlLogin,
-      b.urlUpdate, b.urlUnlink,
-      req.params.id, req.session.uid
-    ],
-    result = await db.query(sql, vars);
+      vars = [
+        b.name,
+        b.description,
+        buildInfo(b.info),
+        b.urlMain,
+        b.urlLogin,
+        b.urlUpdate,
+        b.urlUnlink,
+        req.params.id,
+        req.session.uid
+      ],
+      result = await db.query(sql, vars);
 
     db.release();
 
     if (!result.affectedRows) throw 'An unknown error occured';
 
     res.json({ error: false });
-  }
-  catch (err) {
+  } catch (err) {
     db.release();
     res.json({ error: true, message: err });
   }
-
-}
+};

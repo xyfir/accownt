@@ -6,7 +6,6 @@ import swal from 'sweetalert';
 import Form from 'components/dashboard/developer/CreateOrEditForm';
 
 export default class EditService extends React.Component {
-  
   constructor(props) {
     super(props);
   }
@@ -20,19 +19,16 @@ export default class EditService extends React.Component {
       .put('api/dashboard/developer/services/' + this.props.id)
       .send(data)
       .end((err, res) => {
-        if (err || res.body.error)
-          swal('Error', res.body.message, 'error');
-        else
-          location.hash = '#/dashboard/developer/' + this.props.id;
+        if (err || res.body.error) swal('Error', res.body.message, 'error');
+        else location.hash = '#/dashboard/developer/' + this.props.id;
       });
   }
 
   render() {
     return (
-      <div className='dashboard-body dashboard-create'>
+      <div className="dashboard-body dashboard-create">
         <Form onSubmit={d => this.onUpdate(d)} loadDataFrom={this.props.id} />
       </div>
     );
   }
-
 }

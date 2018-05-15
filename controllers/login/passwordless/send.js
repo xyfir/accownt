@@ -12,21 +12,19 @@ const MySQL = require('lib/mysql');
     Send user a passwordless login link via email if enabled
 */
 module.exports = async function(req, res) {
-
-  const db = new MySQL;
+  const db = new MySQL();
 
   try {
     await db.getConnection();
-    let rows = await db.query(
-      'SELECT id FROM users WHERE email = ?',
-      [req.query.email]
-    );
+    let rows = await db.query('SELECT id FROM users WHERE email = ?', [
+      req.query.email
+    ]);
 
     if (!rows.length) throw 'Could not find user';
 
     const uid = +rows[0].id;
 
-    const [{passwordless}] = await db.query(
+    const [{ passwordless }] = await db.query(
       'SELECT passwordless FROM security WHERE user_id = ?',
       [uid]
     );
@@ -34,18 +32,16 @@ module.exports = async function(req, res) {
 
     if (!passwordless) throw 'Passwordless login not enabled';
 
-    const {id: authId, token} = await generateToken({ user: uid, type: 1 });
+    const { id: authId, token } = await generateToken({ user: uid, type: 1 });
 
     // Send via email
     if (passwordless == 2) {
       await sendPasswordlessEmail(req.query.email, uid, token);
     }
-      
+
     res.json({ error: false, authId, userId: uid });
-  }
-  catch (err) {
+  } catch (err) {
     db.release();
     res.json({ error: true, message: err });
   }
-
-}
+};

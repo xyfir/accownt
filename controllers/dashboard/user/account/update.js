@@ -9,24 +9,21 @@ const MySQL = require('lib/mysql');
     { error: boolean, message: string }
 */
 module.exports = async function(req, res) {
-
   const { currentPassword, newPassword } = req.body;
-  const db = new MySQL;
+  const db = new MySQL();
 
   try {
     await db.getConnection();
-    const [row] = await db.query(
-      'SELECT password FROM users WHERE id = ?',
-      [req.session.uid]
-    );
+    const [row] = await db.query('SELECT password FROM users WHERE id = ?', [
+      req.session.uid
+    ]);
 
     if (!row) throw 'Could not find user';
 
     // Check if current password matches
     const match = await bcrypt.compare(currentPassword, row.password);
 
-    if (!match && !req.session.recovered)
-      throw 'Incorrect password';
+    if (!match && !req.session.recovered) throw 'Incorrect password';
 
     const hash = await bcrypt.hash(newPassword, 10);
 
@@ -40,14 +37,13 @@ module.exports = async function(req, res) {
     if (!result.affectedRows) throw 'Could not update password';
 
     res.json({
-      error: false, message: 'Password successfully updated'
+      error: false,
+      message: 'Password successfully updated'
     });
 
     req.session.recovered = false;
-  }
-  catch (err) {
+  } catch (err) {
     db.release();
     res.json({ error: true, message: err });
   }
-
-}
+};

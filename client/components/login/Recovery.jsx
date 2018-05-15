@@ -10,12 +10,13 @@ import Button from 'react-md/lib/Buttons/Button';
 import query from 'lib/url/parse-query-string';
 
 export default class AccountRecovery extends React.Component {
-
   constructor(props) {
     super(props);
 
-    this.state =  {
-      auth: '', uid: 0, email: query().email || ''
+    this.state = {
+      auth: '',
+      uid: 0,
+      email: query().email || ''
     };
   }
 
@@ -28,12 +29,9 @@ export default class AccountRecovery extends React.Component {
       .post('api/recover')
       .send({ email: this.state.email })
       .end((err, res) => {
-        if (err || res.body.error)
-          swal('Error', res.body.message, 'error');
-        else if (res.body.message)
-          swal('', res.body.message);
-        else
-          this.setState(res.body);
+        if (err || res.body.error) swal('Error', res.body.message, 'error');
+        else if (res.body.message) swal('', res.body.message);
+        else this.setState(res.body);
       });
   }
 
@@ -48,94 +46,86 @@ export default class AccountRecovery extends React.Component {
         email: this.state.email,
         auth: this.state.auth,
         uid: this.state.uid,
-        code: this.state.security.code
-          ? this.refs.code.value : 0,
-        codeNum: this.state.security.code
-          ? this.state.security.codeNumber : 0,
-        otpCode: this.state.security.otp
-          ? this.refs.otpCode.value : 0
+        code: this.state.security.code ? this.refs.code.value : 0,
+        codeNum: this.state.security.code ? this.state.security.codeNumber : 0,
+        otpCode: this.state.security.otp ? this.refs.otpCode.value : 0
       })
       .end((err, res) => {
-        if (err || res.body.error)
-          swal('Error', res.body.message, 'error');
-        else
-          swal('', res.body.message);
+        if (err || res.body.error) swal('Error', res.body.message, 'error');
+        else swal('', res.body.message);
       });
   }
 
   render() {
-    if (this.state.security) return (
-      <div className='login-recovery 2fa'>
-        <h2>Security</h2>
-        <p>
-          Your account has extra security measures enabled.
-          <br />
-          You must enter the correct information before receiving an account recovery email.
-        </p>
+    if (this.state.security)
+      return (
+        <div className="login-recovery 2fa">
+          <h2>Security</h2>
+          <p>
+            Your account has extra security measures enabled.
+            <br />
+            You must enter the correct information before receiving an account
+            recovery email.
+          </p>
 
-        <form className='md-paper md-paper--1 section flex'>
-          {this.state.security.code ? (
+          <form className="md-paper md-paper--1 section flex">
+            {this.state.security.code ? (
+              <TextField
+                id="text--security-code"
+                ref="code"
+                type="text"
+                label={`Security Code #${this.state.security.codeNumber + 1}`}
+                className="md-cell"
+              />
+            ) : null}
+
+            {this.state.security.otp ? (
+              <TextField
+                id="text--otp-code"
+                ref="otpCode"
+                type="text"
+                label="App Verification Code"
+                className="md-cell"
+              />
+            ) : null}
+
             <TextField
-              id='text--security-code'
-              ref='code'
-              type='text'
-              label={
-                `Security Code #${this.state.security.codeNumber + 1}`
-              }
-              className='md-cell'
+              id="textarea--recovery-code"
+              ref="recovery"
+              rows={2}
+              type="text"
+              label="Recovery Code"
+              helpText="Providing a recovery code will bypass 2FA steps"
+              className="md-cell"
             />
-          ) : null}
 
-          {this.state.security.otp ? (
+            <Button raised primary onClick={() => this.onVerify()}>
+              Recover
+            </Button>
+          </form>
+        </div>
+      );
+    else
+      return (
+        <div className="login-recovery">
+          <h2>Account Recovery</h2>
+          <p>Enter the email you use to login with.</p>
+
+          <form className="md-paper md-paper--1 section flex">
             <TextField
-              id='text--otp-code'
-              ref='otpCode'
-              type='text'
-              label='App Verification Code'
-              className='md-cell'
+              id="email"
+              type="email"
+              label="Email"
+              value={this.state.email}
+              onChange={v => this.setState({ email: v })}
+              className="md-cell"
             />
-          ) : null}
 
-          <TextField
-            id='textarea--recovery-code'
-            ref='recovery'
-            rows={2}
-            type='text'
-            label='Recovery Code'
-            helpText='Providing a recovery code will bypass 2FA steps'
-            className='md-cell'
-          />
-
-          <Button
-            raised primary
-            onClick={() => this.onVerify()}
-          >Recover</Button>
-        </form>
-      </div>
-    );
-    else return (
-      <div className='login-recovery'>
-        <h2>Account Recovery</h2>
-        <p>
-          Enter the email you use to login with.</p>
-
-        <form className='md-paper md-paper--1 section flex'>
-          <TextField
-            id='email'
-            type='email'
-            label='Email'
-            value={this.state.email}
-            onChange={v => this.setState({ email: v })}
-            className='md-cell'
-          />
-
-          <Button
-            raised primary
-            onClick={() => this.onNext()}
-          >Next</Button>
-        </form>
-      </div>
-    );
+            <Button raised primary onClick={() => this.onNext()}>
+              Next
+            </Button>
+          </form>
+        </div>
+      );
   }
-
 }

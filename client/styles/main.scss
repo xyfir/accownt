@@ -20,7 +20,7 @@ ol {
 footer {
   padding: 0.2em;
 
-  >a {
+  > a {
     display: inline-block;
     margin: 0em 0.5em;
   }
@@ -51,10 +51,10 @@ nav.navbar-sub {
   display: flex;
   margin: 0em 1em;
 
-  >a {
+  > a {
     color: white;
     flex: 1;
-    
+
     &:hover {
       color: $lgray;
     }

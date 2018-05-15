@@ -1,4 +1,4 @@
-const db = require("lib/db");
+const db = require('lib/db');
 
 /*
     POST api/affiliate/signup
@@ -12,8 +12,7 @@ const db = require("lib/db");
         Increments campaign's signups
 */
 module.exports = function(req, res) {
-
-    let sql = `
+  let sql = `
         SELECT (
             SELECT id FROM affiliate_promotions
             WHERE service_id = ? AND id IN (
@@ -25,38 +24,36 @@ module.exports = function(req, res) {
                 WHERE service_id = ? AND service_key = ?
             )
         ) as valid_service
-    `, vars = [
-        req.body.service,
-        req.body.promoCode,
-        req.body.service, req.body.serviceKey
+    `,
+    vars = [
+      req.body.service,
+      req.body.promoCode,
+      req.body.service,
+      req.body.serviceKey
     ];
-    
-    db(cn => cn.query(sql, vars, (err, rows) => {
-        let error = "";
-        
-        if (err)
-            error = "An unknown error occured";
-        else if (!rows[0].promo_id)
-            error = "Invalid promotion";
-        else if (!rows[0].valid_service)
-            error = "Invalid service / key";
 
-        if (error) {
-            cn.release();
-            res.json({ error: true, message: error });
-        }
-        else {
-            res.json({ error: false, promo: rows[0].promo_id });
+  db(cn =>
+    cn.query(sql, vars, (err, rows) => {
+      let error = '';
 
-            sql = `
+      if (err) error = 'An unknown error occured';
+      else if (!rows[0].promo_id) error = 'Invalid promotion';
+      else if (!rows[0].valid_service) error = 'Invalid service / key';
+
+      if (error) {
+        cn.release();
+        res.json({ error: true, message: error });
+      } else {
+        res.json({ error: false, promo: rows[0].promo_id });
+
+        (sql = `
                 UPDATE affiliate_campaigns SET signups = signups + 1
                 WHERE code = ?
-            `, vars = [
-                req.body.promoCode
-            ];
+            `),
+          (vars = [req.body.promoCode]);
 
-            cn.query(sql, vars, (err, result) => cn.release());
-        }
-    }));
-
-}
+        cn.query(sql, vars, (err, result) => cn.release());
+      }
+    })
+  );
+};

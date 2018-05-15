@@ -10,33 +10,32 @@ const MySQL = require('lib/mysql');
     Check if auth token linked to auth id has been verified
 */
 module.exports = async function(req, res) {
-
-  const db = new MySQL;
+  const db = new MySQL();
 
   try {
     // Validate the user/auth ids and that the token is verified
     // Expire the token immediately
     await db.getConnection();
-    const result = await db.query(`
+    const result = await db.query(
+      `
       UPDATE security
       SET auth_expire = NOW()
       WHERE user_id = ? AND auth_id = ? AND auth_verified = 1
-    `, [
-      req.body.userId, req.body.authId
-    ]);
+    `,
+      [req.body.userId, req.body.authId]
+    );
     db.release();
 
     if (!result.affectedRows) throw 'Could not validate ids/token';
 
     req.session.uid = +req.body.userId;
     res.json({
-      error: false, redirect: req.session.redirect || '/#/dashboard/user'
+      error: false,
+      redirect: req.session.redirect || '/#/dashboard/user'
     });
     req.session.redirect = '';
-  }
-  catch (err) {
+  } catch (err) {
     db.release();
     res.json({ error: true, message: err });
   }
-
-}
+};

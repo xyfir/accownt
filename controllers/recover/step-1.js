@@ -16,8 +16,7 @@ const MySQL = require('lib/mysql');
     }
 */
 module.exports = async function(req, res) {
-
-  const db = new MySQL;
+  const db = new MySQL();
 
   try {
     await db.getConnection();
@@ -47,22 +46,24 @@ module.exports = async function(req, res) {
         error: false,
         message: 'An account recovery link has been sent to your email'
       });
-    }
-    else {
+    } else {
       // Generate auth token
-      const {token} = await generateToken({
-        user: uid, type: 1
+      const { token } = await generateToken({
+        user: uid,
+        type: 1
       });
 
       // Send security object back to client
       res.json({
-        error: false, email: req.body.email, auth: token, uid, security
+        error: false,
+        email: req.body.email,
+        auth: token,
+        uid,
+        security
       });
     }
-  }
-  catch (err) {
+  } catch (err) {
     db.release();
     res.json({ error: true, message: err });
   }
-
-}
+};

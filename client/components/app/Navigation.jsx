@@ -1,18 +1,16 @@
-import {
-  ListItem, Toolbar, Drawer, Button, List, FontIcon
-} from 'react-md';
+import { ListItem, Toolbar, Drawer, Button, List, FontIcon } from 'react-md';
 import request from 'superagent';
 import React from 'react';
 
 import { XYDOCUMENTATION_URL } from 'constants/config';
 
 export default class AppNavigation extends React.Component {
-
   constructor(props) {
     super(props);
 
     this.state = {
-      drawer: false, loggedIn: false
+      drawer: false,
+      loggedIn: false
     };
   }
 
@@ -27,21 +25,21 @@ export default class AppNavigation extends React.Component {
   /** @return {JSX.Element[]} */
   _renderLoggedOutItems() {
     return [
-      <a href='#/login'>
+      <a href="#/login">
         <ListItem
-          primaryText='Login'
+          primaryText="Login"
           leftIcon={<FontIcon>keyboard_arrow_right</FontIcon>}
         />
       </a>,
-      <a href='#/register'>
+      <a href="#/register">
         <ListItem
-          primaryText='Register'
+          primaryText="Register"
           leftIcon={<FontIcon>create</FontIcon>}
         />
       </a>,
-      <a href='#/login/recovery'>
+      <a href="#/login/recovery">
         <ListItem
-          primaryText='Account Recovery'
+          primaryText="Account Recovery"
           leftIcon={<FontIcon>help</FontIcon>}
         />
       </a>
@@ -53,19 +51,19 @@ export default class AppNavigation extends React.Component {
     return [
       <ListItem
         defaultVisible={/^#\/dashboard\/user/.test(location.hash)}
-        primaryText='User Dashboard'
+        primaryText="User Dashboard"
         nestedItems={[
-          <a href='#/dashboard/user/account'>
-            <ListItem primaryText='Account' />
+          <a href="#/dashboard/user/account">
+            <ListItem primaryText="Account" />
           </a>,
-          <a href='#/dashboard/user/security'>
-            <ListItem primaryText='Security' />
+          <a href="#/dashboard/user/security">
+            <ListItem primaryText="Security" />
           </a>,
-          <a href='#/dashboard/user/services'>
-            <ListItem primaryText='Services' />
+          <a href="#/dashboard/user/services">
+            <ListItem primaryText="Services" />
           </a>,
-          <a href='#/dashboard/user/tokens'>
-            <ListItem primaryText='Tokens' />
+          <a href="#/dashboard/user/tokens">
+            <ListItem primaryText="Tokens" />
           </a>
         ]}
         leftIcon={<FontIcon>account_circle</FontIcon>}
@@ -73,47 +71,46 @@ export default class AppNavigation extends React.Component {
 
       <ListItem
         defaultVisible={/^#\/dashboard\/developer/.test(location.hash)}
-        primaryText='Developer Dashboard'
+        primaryText="Developer Dashboard"
         nestedItems={[
-          <a href='#/dashboard/developer/list'>
-            <ListItem primaryText='View Services' />
+          <a href="#/dashboard/developer/list">
+            <ListItem primaryText="View Services" />
           </a>,
-          <a href='#/dashboard/developer/create'>
-            <ListItem primaryText='Create Service' />
+          <a href="#/dashboard/developer/create">
+            <ListItem primaryText="Create Service" />
           </a>,
           <a
-            target='_blank'
-            href='https://xyfir.com/#/documentation/xyfir-accounts/integration'
-          ><ListItem primaryText='Documentation' /></a>,
+            target="_blank"
+            href="https://xyfir.com/#/documentation/xyfir-accounts/integration"
+          >
+            <ListItem primaryText="Documentation" />
+          </a>
         ]}
         leftIcon={<FontIcon>code</FontIcon>}
       />,
 
       <ListItem
         defaultVisible={/^#\/dashboard\/affiliate/.test(location.hash)}
-        primaryText='Affiliate Dashboard'
+        primaryText="Affiliate Dashboard"
         nestedItems={[
-          <a href='#/dashboard/affiliate/list'>
-            <ListItem primaryText='View Campaigns' />
+          <a href="#/dashboard/affiliate/list">
+            <ListItem primaryText="View Campaigns" />
           </a>,
-          <a href='#/dashboard/affiliate/create'>
-            <ListItem primaryText='Create Campaign' />
+          <a href="#/dashboard/affiliate/create">
+            <ListItem primaryText="Create Campaign" />
           </a>
         ]}
         leftIcon={<FontIcon>attach_money</FontIcon>}
       />,
 
-      <a href='/api/login/logout'>
-        <ListItem
-          leftIcon={<FontIcon>close</FontIcon>}
-          primaryText='Logout'
-        />
+      <a href="/api/login/logout">
+        <ListItem leftIcon={<FontIcon>close</FontIcon>} primaryText="Logout" />
       </a>
     ];
   }
 
   render() {
-    const {App} = this.props;
+    const { App } = this.props;
 
     const navItems = this.state.loggedIn
       ? this._renderLoggedInItems()
@@ -121,24 +118,24 @@ export default class AppNavigation extends React.Component {
     navItems.push(
       <ListItem
         leftIcon={<FontIcon>info</FontIcon>}
-        primaryText='Documentation'
+        primaryText="Documentation"
         nestedItems={[
-          <a href={XYDOCUMENTATION_URL + 'tos.md'} target='_blank'>
+          <a href={XYDOCUMENTATION_URL + 'tos.md'} target="_blank">
             <ListItem
               leftIcon={<FontIcon>gavel</FontIcon>}
-              primaryText='Terms of Service'
+              primaryText="Terms of Service"
             />
           </a>,
-          <a href={XYDOCUMENTATION_URL + 'privacy.md'} target='_blank'>
+          <a href={XYDOCUMENTATION_URL + 'privacy.md'} target="_blank">
             <ListItem
               leftIcon={<FontIcon>security</FontIcon>}
-              primaryText='Privacy Policy'
+              primaryText="Privacy Policy"
             />
           </a>,
-          <a href={XYDOCUMENTATION_URL + 'integration.md'} target='_blank'>
+          <a href={XYDOCUMENTATION_URL + 'integration.md'} target="_blank">
             <ListItem
               leftIcon={<FontIcon>code</FontIcon>}
-              primaryText='Integration'
+              primaryText="Integration"
             />
           </a>
         ]}
@@ -148,21 +145,22 @@ export default class AppNavigation extends React.Component {
     return (
       <React.Fragment>
         <Toolbar
-          colored fixed
+          colored
+          fixed
           actions={[
             <Button
               icon
-              key='home'
-              onClick={() => location.hash = '#/'}
-              iconChildren='home'
+              key="home"
+              onClick={() => (location.hash = '#/')}
+              iconChildren="home"
             />
           ]}
-          title='Xyfir Accounts'
+          title="Xyfir Accounts"
           nav={
             <Button
               icon
               onClick={() => this.onShowDrawer()}
-              iconChildren='menu'
+              iconChildren="menu"
             />
           }
         />
@@ -179,7 +177,7 @@ export default class AppNavigation extends React.Component {
                 <Button
                   icon
                   onClick={() => this.setState({ drawer: false })}
-                  iconChildren='arrow_back'
+                  iconChildren="arrow_back"
                 />
               }
             />
@@ -187,7 +185,6 @@ export default class AppNavigation extends React.Component {
           type={Drawer.DrawerTypes.TEMPORARY}
         />
       </React.Fragment>
-    )
+    );
   }
-
 }

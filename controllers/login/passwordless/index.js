@@ -6,10 +6,10 @@ const validateToken = require('lib/tokens/validate');
     Attempts to login user with :uid/:auth
 */
 module.exports = async function(req, res) {
-
   try {
     const isValid = await validateToken({
-      user: req.params.uid, token: req.params.auth
+      user: req.params.uid,
+      token: req.params.auth
     });
 
     if (!isValid) throw '';
@@ -20,9 +20,7 @@ module.exports = async function(req, res) {
       req.session.redirect ? req.session.redirect : '/#/dashboard/user'
     );
     req.session.redirect = '';
-  }
-  catch (err) {
+  } catch (err) {
     res.redirect('/#/login');
   }
-
-}
+};

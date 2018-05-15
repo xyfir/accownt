@@ -15,8 +15,7 @@ const qr = require('qrcode');
     Enable / verify OTP 2FA
 */
 module.exports = async function(req, res) {
-
-  const db = new MySQL;
+  const db = new MySQL();
 
   try {
     await db.getConnection();
@@ -38,12 +37,11 @@ module.exports = async function(req, res) {
     }
     // User is starting process of enabling 2fa
     else if (!req.body.token) {
-      const rows = await db.query(
-        'SELECT email FROM users WHERE id = ?',
-        [req.session.uid]
-      );
+      const rows = await db.query('SELECT email FROM users WHERE id = ?', [
+        req.session.uid
+      ]);
 
-      const {ascii: secret} = speakeasy.generateSecret({
+      const { ascii: secret } = speakeasy.generateSecret({
         issuer: 'xyAccounts',
         length: 128,
         name: rows[0].email
@@ -59,8 +57,8 @@ module.exports = async function(req, res) {
 
       // Convert otpauth url to qr code url
       url = await new Promise((resolve, reject) =>
-        qr.toDataURL(url, (e, u) => e ? reject(e) : resolve(u)
-      ));
+        qr.toDataURL(url, (e, u) => (e ? reject(e) : resolve(u)))
+      );
 
       req.session.otpTempSecret = secret;
 
@@ -88,10 +86,8 @@ module.exports = async function(req, res) {
 
       res.json({ error: false, message: 'App 2FA enabled' });
     }
-  }
-  catch (err) {
+  } catch (err) {
     db.release();
     res.json({ error: true, message: err });
   }
-
-}
+};

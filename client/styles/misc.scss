@@ -1,12 +1,12 @@
 /* USER DASHBOARD */
 
 .dashboard-user {
-  >div.security {
-    >div.tfa {
+  > div.security {
+    > div.tfa {
       padding-bottom: 0.1em;
 
-      >div.otp {
-        >section.md-tabs-container {
+      > div.otp {
+        > section.md-tabs-container {
           width: 100%;
         }
       }
@@ -20,7 +20,7 @@ div.update-linked-service {
     flex-direction: column;
     align-items: center;
 
-    >div {
+    > div {
       width: 90%;
       max-width: 20em;
     }
@@ -63,13 +63,13 @@ div.update-linked-service {
 nav.login-links {
   margin-top: 1em;
 
-  >button {
+  > button {
     width: 16em;
   }
 }
 
 div.link-service {
-  >h2.service-name {
+  > h2.service-name {
     margin-bottom: 0;
   }
 }

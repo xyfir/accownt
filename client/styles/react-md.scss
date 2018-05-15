@@ -25,7 +25,8 @@ div.main.md-toolbar-relative {
   padding-top: 1em;
 }
 
-.md-paper.section, .md-btn--raised {
+.md-paper.section,
+.md-btn--raised {
   margin: 1em;
 }
 
@@ -33,11 +34,11 @@ div.main.md-toolbar-relative {
   background-color: #fff;
   padding: 0.4em;
 
-  >*:first-child {
+  > *:first-child {
     margin-top: 0;
   }
 
-  >*:last-child {
+  > *:last-child {
     margin-bottom: 0;
   }
 }

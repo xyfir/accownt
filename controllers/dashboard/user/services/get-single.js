@@ -14,7 +14,6 @@ const mysql = require('lib/mysql');
     Return a service's info and user-provided data to the service
 */
 module.exports = async function(req, res) {
-
   const db = new mysql();
 
   try {
@@ -24,26 +23,23 @@ module.exports = async function(req, res) {
       SELECT name, description, url_main AS address, info
       FROM services WHERE id = ?
     `,
-    vars = [
-      req.params.service
-    ],
-    rows = await db.query(sql, vars);
+      vars = [req.params.service],
+      rows = await db.query(sql, vars);
 
     if (!rows.length) throw 'Could not find service';
 
     const service = rows[0];
     service.info = {
-      requested: JSON.parse(service.info), provided: {}
+      requested: JSON.parse(service.info),
+      provided: {}
     };
-    
-    sql = `
+
+    (sql = `
       SELECT info FROM linked_services
       WHERE user_id = ? AND service_id = ?
-    `,
-    vars = [
-      req.session.uid, req.params.service
-    ],
-    rows = await db.query(sql, vars);
+    `),
+      (vars = [req.session.uid, req.params.service]),
+      (rows = await db.query(sql, vars));
 
     db.release();
 
@@ -51,10 +47,8 @@ module.exports = async function(req, res) {
 
     service.info.provided = JSON.parse(rows[0].info);
     res.json({ error: false, service });
-  }
-  catch (err) {
+  } catch (err) {
     db.release();
     res.json({ error: true, message: err });
   }
-
-}
+};
