@@ -15,8 +15,9 @@ export default class RegisterAccount extends React.Component {
     super(props);
 
     this.state = {
-      created: false,
       emailTaken: false,
+      creating: false,
+      created: false,
       email: query().email || ''
     };
 
@@ -28,7 +29,9 @@ export default class RegisterAccount extends React.Component {
   }
 
   onCreate() {
-    if (this.state.emailTaken) return;
+    if (this.state.emailTaken || this.state.creating) return;
+
+    this.setState({ creating: true });
 
     // Attempt to register user
     request
@@ -39,6 +42,8 @@ export default class RegisterAccount extends React.Component {
         recaptcha: grecaptcha.getResponse()
       })
       .end((err, res) => {
+        this.setState({ creating: false });
+
         if (err || res.body.error)
           return swal('Error', res.body.message, 'error');
 
@@ -70,7 +75,7 @@ export default class RegisterAccount extends React.Component {
   }
 
   render() {
-    const { created, email, emailTaken } = this.state;
+    const { creating, created, email, emailTaken } = this.state;
 
     return created ? (
       <div className="register account-created">
@@ -129,7 +134,12 @@ export default class RegisterAccount extends React.Component {
           </div>
 
           <div className="buttons">
-            <Button raised primary onClick={() => this.onCreate()}>
+            <Button
+              raised
+              primary
+              onClick={() => this.onCreate()}
+              disabled={creating}
+            >
               Submit
             </Button>
           </div>
