@@ -14,16 +14,16 @@ module.exports = async function(req, res) {
 
   try {
     await db.getConnection();
-    const [row] = await db.query('SELECT password FROM users WHERE id = ?', [
+    const [user] = await db.query('SELECT password FROM users WHERE id = ?', [
       req.session.uid
     ]);
-
-    if (!row) throw 'Could not find user';
+    if (!user) throw 'Could not find user';
 
     // Check if current password matches
-    const match = await bcrypt.compare(currentPassword, row.password);
-
-    if (!match && !req.session.recovered) throw 'Incorrect password';
+    if (!req.session.recovered && user.password) {
+      const match = await bcrypt.compare(currentPassword, user.password);
+      if (!match) throw 'Incorrect password';
+    }
 
     const hash = await bcrypt.hash(newPassword, 10);
 

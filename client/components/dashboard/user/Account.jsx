@@ -7,7 +7,7 @@ export default class UserAccount extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { email: '', recovered: false };
+    this.state = { email: '', recovered: false, hasPassword: false };
   }
 
   componentWillMount() {
@@ -50,7 +50,12 @@ export default class UserAccount extends React.Component {
             ref="cpassword"
             type="password"
             label="Current Password"
-            style={{ display: this.state.recovered ? 'none' : 'initial' }}
+            style={{
+              display:
+                this.state.recovered || !this.state.hasPassword
+                  ? 'none'
+                  : 'initial'
+            }}
             className="md-cell"
           />
           <TextField
