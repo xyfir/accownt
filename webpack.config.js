@@ -3,16 +3,18 @@ const webpack = require('webpack');
 const config = require('./config');
 const path = require('path');
 
-const plugins = [];
+const plugins = [
+  new webpack.DefinePlugin({
+    'process.env': {
+      NODE_ENV: JSON.stringify(config.environment.type)
+    }
+  })
+];
+
 const isProd = config.environment.type == 'production';
 
 if (isProd) {
   plugins.push(
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production')
-      }
-    }),
     new CompressionPlugin({
       asset: '[path].gz'
     })
@@ -28,12 +30,17 @@ module.exports = {
   },
 
   output: {
+    chunkFilename: '[name]~[chunkhash]~chunk.js',
+    publicPath: '/static/js/',
     filename: '[name].js',
     path: path.resolve(__dirname, 'static/js')
   },
 
   resolve: {
     modules: [path.resolve(__dirname, 'client'), 'node_modules'],
+    alias: {
+      server: __dirname
+    },
     extensions: ['.js', '.jsx']
   },
 
@@ -49,7 +56,22 @@ module.exports = {
         ],
         exclude: /node_modules/,
         options: {
-          presets: ['env', 'react']
+          presets: [
+            [
+              'env',
+              {
+                targets: {
+                  browsers: [
+                    'last 2 Chrome versions',
+                    'last 2 Firefox versions',
+                    'last 2 iOS versions',
+                    'last 2 Android versions'
+                  ]
+                }
+              }
+            ],
+            'react'
+          ]
         }
       }
     ]
