@@ -3,21 +3,24 @@ const createAccount = require('lib/users/create');
 const request = require('superagent');
 const config = require('config');
 const bcrypt = require('bcrypt');
-const mysql = require('lib/mysql');
+const MySQL = require('lib/mysql');
 
 /*
   POST api/register
   REQUIRED
-    email: string, password: string, recaptcha: string
+    email: string, recaptcha: string
+  OPTIONAL
+    password: string
   RETURN
     { error: bool, message?: string, authId?: string, userId?: number }
 */
 module.exports = async function(req, res) {
-  const db = new mysql();
+  const db = new MySQL();
 
   try {
-    if (!req.body.email || !req.body.password || !req.body.recaptcha)
-      throw 'Required field(s) empty';
+    const { email, recaptcha, password } = req.body;
+
+    if (!email || !recaptcha) throw 'Required field(s) empty';
 
     // Check if recaptcha response is valid
     const captcha = await request
@@ -25,7 +28,7 @@ module.exports = async function(req, res) {
       .type('form')
       .send({
         secret: config.keys.recaptcha,
-        response: req.body.recaptcha,
+        response: recaptcha,
         remoteip: req.ip
       });
 
@@ -34,28 +37,21 @@ module.exports = async function(req, res) {
     await db.getConnection();
 
     // Check if the user's email is available
-    let result,
-      insert,
-      sql = `
-      SELECT id FROM users WHERE email = ? AND verified = ?
-    `,
-      vars = [req.body.email, 1],
-      rows = await db.query(sql, vars);
-
-    if (rows.length > 0) throw 'Email is already linked to an account';
-
-    // Create password hash
-    const hash = await bcrypt.hash(req.body.password, 10);
+    const [row] = await db.query(
+      'SELECT id FROM users WHERE email = ? AND verified = ?',
+      [email, 1]
+    );
+    if (row) throw 'Email is already linked to an account';
 
     const uid = await createAccount(db, {
-      email: req.body.email,
-      password: hash
+      email,
+      password: password ? await bcrypt.hash(password, 10) : ''
     });
     db.release();
 
     // Send email verification email
     // !! Requires row in security table
-    const authId = await sendVerificationEmail(uid, req.body.email);
+    const authId = await sendVerificationEmail(uid, email);
 
     res.json({ error: false, authId, userId: uid });
   } catch (err) {
