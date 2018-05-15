@@ -30,28 +30,21 @@ export default class RegisterAccount extends React.Component {
   onCreate() {
     if (this.state.emailTaken) return;
 
-    const data = {
-      email: this.state.email,
-      password: this.refs.password.value,
-      passwordr: this.refs.passwordr.value,
-      recaptcha: grecaptcha.getResponse()
-    };
+    // Attempt to register user
+    request
+      .post('/api/register')
+      .send({
+        email: this.state.email,
+        password: this._password.value,
+        recaptcha: grecaptcha.getResponse()
+      })
+      .end((err, res) => {
+        if (err || res.body.error)
+          return swal('Error', res.body.message, 'error');
 
-    if (data.password != data.passwordr) {
-      swal('Error', 'Passwords do not match.', 'error');
-    } else {
-      // Attempt to register user
-      request
-        .post('api/register')
-        .send(data)
-        .end((err, res) => {
-          if (err || res.body.error)
-            return swal('Error', res.body.message, 'error');
-
-          this.setState({ created: true });
-          loginWithAuthId(res.body.userId, res.body.authId);
-        });
-    }
+        this.setState({ created: true });
+        loginWithAuthId(res.body.userId, res.body.authId);
+      });
   }
 
   /**
@@ -77,81 +70,71 @@ export default class RegisterAccount extends React.Component {
   }
 
   render() {
-    if (this.state.created)
-      return (
-        <div className="register account-created">
-          <p>
-            Account created successfully. A verification link has been sent to
-            your email.
-          </p>
-          <p>
-            You will not be able to login until you verify your email.
-            Attempting to login to an unverified account will cause a new
-            verification email to be sent.
-          </p>
+    const { created, email, emailTaken } = this.state;
 
-          <Button
-            raised
-            primary
-            onClick={() =>
-              (location.hash = '#/login?email=' + this.state.email)
-            }
-          >
-            Continue
-          </Button>
-        </div>
-      );
-    else
-      return (
-        <form className="register">
-          {this.state.emailTaken ? (
-            <span className="email-taken">
-              An account with that email already exists.{' '}
-              <a href={'#/login?email=' + this.state.email}>Login?</a>
-            </span>
-          ) : null}
+    return created ? (
+      <div className="register account-created">
+        <p>
+          Account created successfully. A verification link has been sent to
+          your email.
+        </p>
+        <p>
+          You will not be able to login until you verify your email. Attempting
+          to login to an unverified account will cause a new verification email
+          to be sent.
+        </p>
 
-          <Paper zDepth={1} className="section flex">
-            <TextField
-              id="email"
-              type="email"
-              label="Email"
-              value={this.state.email}
-              onChange={v => this.onSetEmail(v)}
-              helpText={
-                'Used to login to your account, receive notifications, and for \
-              account recovery.'
-              }
-              className="md-cell"
-            />
+        <Button
+          raised
+          primary
+          onClick={() => (location.hash = '#/login?email=' + email)}
+        >
+          Continue
+        </Button>
+      </div>
+    ) : (
+      <form className="register">
+        {emailTaken ? (
+          <span className="email-taken">
+            An account with that email already exists.{' '}
+            <a href={'#/login?email=' + email}>Login?</a>
+          </span>
+        ) : null}
 
-            <TextField
-              id="password--pass"
-              ref="password"
-              type="password"
-              label="Password"
-              className="md-cell"
-            />
+        <Paper zDepth={1} className="section flex">
+          <TextField
+            floating
+            id="email"
+            type="email"
+            label="Email"
+            value={email}
+            onChange={v => this.onSetEmail(v)}
+            helpText="Used to login, receive alerts, and recover your account"
+            className="md-cell"
+          />
 
-            <TextField
-              id="password--conf"
-              ref="passwordr"
-              type="password"
-              label="Confirm Password"
-              className="md-cell"
-            />
+          <TextField
+            floating
+            id="password"
+            ref={i => (this._password = i)}
+            type="password"
+            label="Password"
+            helpText="Leave blank to use login links sent to your email"
+            className="md-cell"
+            placeholder="(optional)"
+          />
 
-            <div className="recaptcha-wrapper">
-              <div className="g-recaptcha" data-sitekey={RECAPTCHA_KEY} />
-            </div>
+          <div className="recaptcha-wrapper">
+            <div className="g-recaptcha" data-sitekey={RECAPTCHA_KEY} />
+          </div>
 
-            <div className="buttons">
-              <Button raised primary onClick={() => this.onCreate()}>
-                Create Account
-              </Button>
-            </div>
-          </Paper>
-        </form>
-      );
+          <div className="buttons">
+            <Button raised primary onClick={() => this.onCreate()}>
+              Submit
+            </Button>
+          </div>
+        </Paper>
+      </form>
+    );
   }
 }
