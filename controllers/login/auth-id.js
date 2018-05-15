@@ -13,20 +13,27 @@ module.exports = async function(req, res) {
   const db = new MySQL();
 
   try {
-    // Validate the user/auth ids and that the token is verified
-    // Expire the token immediately
-    await db.getConnection();
-    const result = await db.query(
-      `
-      UPDATE security
-      SET auth_expire = NOW()
-      WHERE user_id = ? AND auth_id = ? AND auth_verified = 1
-    `,
-      [req.body.userId, req.body.authId]
-    );
-    db.release();
+    const stop = Date.now() + 25 * 1000;
 
-    if (!result.affectedRows) throw 'Could not validate ids/token';
+    await db.getConnection();
+    while (true) {
+      // Validate the user/auth ids and that the token is verified
+      // Expire the token immediately
+      const result = await db.query(
+        `
+          UPDATE security
+          SET auth_expire = NOW()
+          WHERE user_id = ? AND auth_id = ? AND auth_verified = 1
+        `,
+        [req.body.userId, req.body.authId]
+      );
+
+      if (result.affectedRows) break;
+      if (Date.now() > stop) throw 'Could not authenticate user';
+
+      await new Promise(r => setTimeout(r, 1000));
+    }
+    db.release();
 
     req.session.uid = +req.body.userId;
     res.json({
