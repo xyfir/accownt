@@ -12,6 +12,9 @@ import React from 'react';
 import swal from 'sweetalert';
 import crd from 'country-region-data';
 
+// Modules
+import query from 'lib/url/parse-query-string';
+
 const Conditional = ({ show, children }) => (show ? children : null);
 
 export default class RegisterService extends React.Component {
@@ -44,7 +47,9 @@ export default class RegisterService extends React.Component {
             '#/login?serviceName=' +
             encodeURIComponent(res.body.service.name) +
             '&serviceUrl=' +
-            encodeURIComponent(res.body.service.url);
+            encodeURIComponent(res.body.service.url) +
+            '&email=' +
+            encodeURIComponent(query().email || '');
         } else if (res.body.message.indexOf('already linked')) {
           this._createSession();
         }
