@@ -132,6 +132,10 @@ router.get('/register/email', require('./register/check-email'));
 router.get('/service/:service', require('./service/info'));
 router.post('/service/:service/link', require('./service/link-service'));
 router.post('/service/:service/session', require('./service/create-session'));
+router.post(
+  '/service/:service/verified',
+  require('./service/create-verified-user')
+);
 router.get('/service/:service/user', require('./service/get-user'));
 
 /* Service - DEPRECATED */
