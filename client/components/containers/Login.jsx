@@ -1,7 +1,6 @@
 import React from 'react';
 
 // Components
-import Passwordless from 'components/login/Passwordless';
 import Recovery from 'components/login/Recovery';
 import Service from 'components/login/Service';
 import Step1 from 'components/login/Step1';
@@ -25,8 +24,6 @@ export default class Login extends React.Component {
     const hash = location.hash.split('?')[0].split('/');
 
     switch (hash[2]) {
-      case 'passwordless':
-        return <Passwordless {...this.state} save={this._save} />;
       case 'recovery':
         return <Recovery {...this.state} save={this._save} />;
       case 'service':
