@@ -1,6 +1,6 @@
 const validateToken = require('lib/tokens/validate');
 const generateToken = require('lib/tokens/generate');
-const mysql = require('lib/mysql');
+const MySQL = require('lib/mysql');
 
 /*
   GET api/service/:service/:key/:xid/:token
@@ -21,35 +21,35 @@ const mysql = require('lib/mysql');
     Generates and returns an access token if token starts with 1
 */
 module.exports = async function(req, res) {
-  const db = new mysql();
+  const db = new MySQL();
 
   try {
     await db.getConnection();
 
     // Verify service exists and service key is valid
-    let sql = `
-      SELECT id FROM services WHERE id IN (
-        SELECT service_id FROM service_keys
-        WHERE service_id = ? AND service_key = ?
-      )
-    `,
-      vars = [req.params.service, req.params.key || req.query.key],
-      rows = await db.query(sql, vars);
-
-    if (!rows.length) throw 'Service id and key do not match';
+    let [row] = await db.query(
+      `
+        SELECT id FROM services WHERE id IN (
+          SELECT service_id FROM service_keys
+          WHERE service_id = ? AND service_key = ?
+        )
+      `,
+      [req.params.service, req.params.key || req.query.key]
+    );
+    if (!row) throw 'Service id and key do not match';
 
     // Check if xid matches service
-    (sql = `
-      SELECT user_id, info FROM linked_services
-      WHERE service_id = ? AND xyfir_id = ?
-    `),
-      (vars = [req.params.service, req.params.xid || req.query.xid]),
-      (rows = await db.query(sql, vars));
+    [row] = await db.query(
+      `
+        SELECT user_id, info FROM linked_services
+        WHERE service_id = ? AND xyfir_id = ?
+      `,
+      [req.params.service, req.params.xid || req.query.xid]
+    );
+    if (!row) throw 'Xyfir id not linked to service';
 
-    if (!rows.length) throw 'Xyfir ID not linked to service';
-
-    const uid = rows[0].user_id,
-      token = req.params.token || req.query.token;
+    const uid = row.user_id;
+    const token = req.params.token || req.query.token;
 
     // Check if authentication/access token is valid
     const isValid = await validateToken({
@@ -57,30 +57,23 @@ module.exports = async function(req, res) {
       service: req.params.service,
       token
     });
-
     if (!isValid) throw 'Invalid token';
 
     // Grab info that user provided to service
-    const data = JSON.parse(rows[0].info);
+    const data = JSON.parse(row.info);
+    data.error = false;
 
-    // Generate access token if needed
-    // Return info to user
-    const finish = async data => {
-      data.error = false;
+    // Generate access token
+    if (token[0] == '1') {
+      data.accessToken = await generateToken({
+        user: uid,
+        service: req.params.service,
+        type: 2
+      });
+    }
 
-      // Generate access token
-      if (token.substr(0, 1) == 1) {
-        data.accessToken = await generateToken({
-          user: uid,
-          service: req.params.service,
-          type: 2
-        });
-      }
-
-      res.json(data);
-    };
-
-    finish(data);
+    db.release();
+    res.json(data);
   } catch (err) {
     db.release();
     res.json({ error: true, message: err });
