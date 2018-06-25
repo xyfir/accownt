@@ -1,6 +1,6 @@
 {
   "name": "xyfir-accounts",
-  "version": "4.15.1",
+  "version": "4.15.2",
   "description": "",
   "main": "app.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "build:app:css": "node-sass client/styles/styles.scss static/css/styles.css --output-style compressed",
     "build:admin:css": "node-sass client/styles/admin.scss static/css/admin.css --output-style compressed"
   },
-  "author": "",
+  "author": "Xyfir, LLC <contact@xyfir.com>",
   "license": "UNLICENSED",
   "prettier": {
     "singleQuote": true
@@ -26,7 +26,7 @@
     "express-mysql-session": "^1.3.0",
     "express-session": "^1.15.5",
     "mailcomposer": "^4.0.2",
-    "mailgun-js": "^0.18.0",
+    "mailgun-js": "^0.18.1",
     "mysql": "^2.15.0",
     "qrcode": "^1.2.0",
     "randomstring": "^1.1.5",
@@ -46,7 +46,7 @@
     "babel-preset-react": "^6.24.1",
     "compression-webpack-plugin": "^1.1.11",
     "node-sass": "^4.9.0",
-    "prettier": "^1.13.5",
-    "webpack": "^4.12.0"
+    "prettier": "^1.13.6",
+    "webpack": "^4.12.1"
   }
 }
