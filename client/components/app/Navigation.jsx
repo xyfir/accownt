@@ -81,7 +81,7 @@ export default class AppNavigation extends React.Component {
           </a>,
           <a
             target="_blank"
-            href="https://xyfir.com/#/documentation/xyfir-accounts/integration"
+            href="https://www.xyfir.com/documentation/xyfir-accounts/integration"
           >
             <ListItem primaryText="Documentation" />
           </a>
