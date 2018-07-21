@@ -26,11 +26,12 @@ export default class LoginService extends React.Component {
       // User is not logged in
       // After login user will be redirect back here
       else if (err && res.body.message == 'Not logged in') {
-        location.href =
+        location.replace(
           '/login?serviceName=' +
-          encodeURIComponent(res.body.service.name) +
-          '&serviceUrl=' +
-          encodeURIComponent(res.body.service.url);
+            encodeURIComponent(res.body.service.name) +
+            '&serviceUrl=' +
+            encodeURIComponent(res.body.service.url)
+        );
       }
       // Create session
       else if (err && res.body.message.indexOf('already linked') > -1) {

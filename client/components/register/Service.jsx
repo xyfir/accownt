@@ -40,16 +40,17 @@ export default class RegisterService extends React.Component {
   componentWillMount() {
     request.get('/api/service/' + this.state.id).end((err, res) => {
       if (err) {
-        if (err || !res.body.service) {
+        if (!res.body.service) {
           location.href = '/';
         } else if (res.body.message == 'Not logged in') {
-          location.href =
+          location.replace(
             '/login?serviceName=' +
-            encodeURIComponent(res.body.service.name) +
-            '&serviceUrl=' +
-            encodeURIComponent(res.body.service.url) +
-            '&email=' +
-            encodeURIComponent(query().email || '');
+              encodeURIComponent(res.body.service.name) +
+              '&serviceUrl=' +
+              encodeURIComponent(res.body.service.url) +
+              '&email=' +
+              encodeURIComponent(query().email || '')
+          );
         } else if (res.body.message.indexOf('already linked')) {
           this._createSession();
         }
