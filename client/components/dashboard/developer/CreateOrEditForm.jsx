@@ -47,7 +47,7 @@ export default class CreateOrEditServiceForm extends React.Component {
   componentDidMount() {
     if (this.props.loadDataFrom) {
       request
-        .get('api/dashboard/developer/services/' + this.props.loadDataFrom)
+        .get('/api/dashboard/developer/services/' + this.props.loadDataFrom)
         .end(
           (err, res) => !err && this.setState({ lf: res.body, loading: false })
         );

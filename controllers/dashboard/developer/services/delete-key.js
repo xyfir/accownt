@@ -1,7 +1,7 @@
 const db = require('lib/db');
 
 /*
-	DELETE api/dashboard/developer/services/:id/key
+	DELETE /api/dashboard/developer/services/:id/key
   REQUIRED
     key: string
 */

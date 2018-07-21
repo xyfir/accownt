@@ -1,7 +1,7 @@
 const mysql = require('lib/mysql');
 
 /*
-  GET api/register/email
+  GET /api/register/email
   REQUIRED
     email: string
   RETURN

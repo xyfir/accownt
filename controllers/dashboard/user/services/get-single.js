@@ -1,7 +1,7 @@
 const mysql = require('lib/mysql');
 
 /*
-  GET api/dashboard/user/services/:service
+  GET /api/dashboard/user/services/:service
   RETURN
     {
       error: bool, message?: string,

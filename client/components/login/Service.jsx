@@ -19,7 +19,7 @@ export default class LoginService extends React.Component {
    * Check if user is logged in and linked to the service.
    */
   componentWillMount() {
-    request.get('api/service/' + this.state.service).end((err, res) => {
+    request.get('/api/service/' + this.state.service).end((err, res) => {
       if (!res.body.service) {
         location.hash = '#/';
       }

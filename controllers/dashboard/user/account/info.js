@@ -1,7 +1,7 @@
 const MySQL = require('lib/mysql');
 
 /*
-	GET api/dashboard/user/account
+	GET /api/dashboard/user/account
 	RETURN
 		{
       loggedIn: boolean, message: string, hasPassword: boolean,

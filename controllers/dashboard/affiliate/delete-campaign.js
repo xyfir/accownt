@@ -1,7 +1,7 @@
 const db = require('lib/db');
 
 /*
-  DELETE api/dashboard/affiliate/:code
+  DELETE /api/dashboard/affiliate/:code
 */
 module.exports = function(req, res) {
   let sql = `

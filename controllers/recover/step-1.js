@@ -4,7 +4,7 @@ const generateToken = require('lib/tokens/generate');
 const MySQL = require('lib/mysql');
 
 /*
-  POST api/recover
+  POST /api/recover
   REQUIRED
     email: string
   RETURN

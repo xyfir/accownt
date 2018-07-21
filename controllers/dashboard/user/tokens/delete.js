@@ -1,7 +1,7 @@
 const mysql = require('lib/mysql');
 
 /*
-  DELETE api/dashboard/user/tokens
+  DELETE /api/dashboard/user/tokens
   REQUIRED
     service: number, token: string
     OR

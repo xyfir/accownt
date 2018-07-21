@@ -1,7 +1,7 @@
 const mysql = require('lib/mysql');
 
 /*
-  PUT api/dashboard/user/tokens
+  PUT /api/dashboard/user/tokens
   REQUIRED
     service: number, token: string, name: string
   DESCRIPTION

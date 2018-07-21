@@ -1,7 +1,7 @@
 const db = require('lib/db');
 
 /*
-	GET api/dashboard/developer/services
+	GET /api/dashboard/developer/services
 	RETURN
 		{services: [
 			{ id: number, name: string }

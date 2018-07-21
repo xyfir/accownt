@@ -38,7 +38,7 @@ export default class RegisterService extends React.Component {
   }
 
   componentWillMount() {
-    request.get('api/service/' + this.state.id).end((err, res) => {
+    request.get('/api/service/' + this.state.id).end((err, res) => {
       if (err) {
         if (err || !res.body.service) {
           location.hash = '#/';

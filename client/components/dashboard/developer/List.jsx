@@ -14,7 +14,7 @@ export default class ListServices extends React.Component {
 
   componentWillMount() {
     request
-      .get('api/dashboard/developer/services')
+      .get('/api/dashboard/developer/services')
       .end((err, res) => !err && this.setState(res.body));
   }
 

@@ -26,7 +26,7 @@ export default class AccountRecovery extends React.Component {
    */
   onNext() {
     request
-      .post('api/recover')
+      .post('/api/recover')
       .send({ email: this.state.email })
       .end((err, res) => {
         if (err) swal('Error', res.body.message, 'error');
@@ -40,7 +40,7 @@ export default class AccountRecovery extends React.Component {
    */
   onVerify() {
     request
-      .post('api/recover/verify')
+      .post('/api/recover/verify')
       .send({
         recovery: this.refs.recovery.value,
         email: this.state.email,

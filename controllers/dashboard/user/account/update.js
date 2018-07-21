@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const MySQL = require('lib/mysql');
 
 /*
-  PUT api/dashboard/user/account
+  PUT /api/dashboard/user/account
   REQUIRED
     currentPassword: string, newPassword: string
   RETURN

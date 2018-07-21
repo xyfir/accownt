@@ -1,7 +1,7 @@
 const db = require('lib/db');
 
 /*
-    GET api/dashboard/user/tokens
+    GET /api/dashboard/user/tokens
     RETURN
         { tokens: [{
             service_id: number, token: string, created: date-string,

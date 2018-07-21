@@ -14,7 +14,7 @@ export default class SetPasswordless extends React.Component {
 
   onUpdate() {
     request
-      .put('api/dashboard/user/security/passwordless')
+      .put('/api/dashboard/user/security/passwordless')
       .send({
         passwordless: this.refs.passwordless.state.value
       })

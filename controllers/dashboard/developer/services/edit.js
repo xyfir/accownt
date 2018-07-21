@@ -3,7 +3,7 @@ const validate = require('lib/service/validate');
 const mysql = require('lib/mysql');
 
 /*
-  PUT api/dashboard/developer/services/:id
+  PUT /api/dashboard/developer/services/:id
   REQUIRED
     info: json-string
       {fname:{optional:bool,required:bool,value:string},lname:{...},...}

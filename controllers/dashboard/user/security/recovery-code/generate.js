@@ -4,7 +4,7 @@ const rword = require('rword');
 const rand = require('lib/rand');
 
 /*
-  PUT api/dashboard/user/security/recovery-code
+  PUT /api/dashboard/user/security/recovery-code
   REQUIRED
     type: 'custom|wordsnumbers|rstring'
   OPTIONAL

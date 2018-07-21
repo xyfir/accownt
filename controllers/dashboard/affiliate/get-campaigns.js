@@ -1,7 +1,7 @@
 const db = require('lib/db');
 
 /*
-    GET api/dashboard/affiliate
+    GET /api/dashboard/affiliate
     RETURN
         { campaigns: [{
             code: string, signups: number, purchases: number,

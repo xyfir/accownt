@@ -1,7 +1,7 @@
 const db = require('lib/db');
 
 /*
-    POST api/affiliate/purchase
+    POST /api/affiliate/purchase
     REQUIRED
         {
             service: number, serviceKey: string, promoCode: string,

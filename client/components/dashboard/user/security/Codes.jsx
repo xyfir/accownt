@@ -20,7 +20,7 @@ export default class SetSecurityCodes extends React.Component {
 
   onGenerate() {
     request
-      .put('api/dashboard/user/security/codes')
+      .put('/api/dashboard/user/security/codes')
       .send({
         type: this.refs.codeType.state.value,
         count: this.refs.codeCount.value

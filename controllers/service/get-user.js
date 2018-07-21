@@ -3,9 +3,9 @@ const generateToken = require('lib/tokens/generate');
 const MySQL = require('lib/mysql');
 
 /*
-  GET api/service/:service/:key/:xid/:token
+  GET /api/service/:service/:key/:xid/:token
     - Old way, takes no query string variables
-  GET api/service/:service/user
+  GET /api/service/:service/user
     - New way, takes key, xid, and token as query string variables
     REQUIRED
       key: string, xid: string, token: string

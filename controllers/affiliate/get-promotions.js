@@ -1,7 +1,7 @@
 const db = require('lib/db');
 
 /*
-    GET api/affiliate/promotions
+    GET /api/affiliate/promotions
     RETURN
         { promotions: [{
             id: number, name: string, description: string

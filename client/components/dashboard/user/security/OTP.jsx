@@ -19,7 +19,7 @@ export default class ConfigureOTP extends React.Component {
    */
   onDisable() {
     request
-      .put('api/dashboard/user/security/otp')
+      .put('/api/dashboard/user/security/otp')
       .send({ remove: true })
       .end((err, res) => {
         if (!err) this.setState({ enabled: false });
@@ -31,7 +31,7 @@ export default class ConfigureOTP extends React.Component {
    * Enable app OTP 2FA.
    */
   onEnable() {
-    request.put('api/dashboard/user/security/otp').end((err, res) => {
+    request.put('/api/dashboard/user/security/otp').end((err, res) => {
       if (err) this.props.alert(res.body.message);
       else this.setState(res.body);
     });
@@ -42,7 +42,7 @@ export default class ConfigureOTP extends React.Component {
    */
   onVerify() {
     request
-      .put('api/dashboard/user/security/otp')
+      .put('/api/dashboard/user/security/otp')
       .send({
         token: this.refs.code.value
       })

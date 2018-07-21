@@ -3,7 +3,7 @@ const mysql = require('lib/mysql');
 const config = require('config');
 
 /*
-  GET api/service/:service
+  GET /api/service/:service
   RETURNED
     {
       error: bool, message?: string,

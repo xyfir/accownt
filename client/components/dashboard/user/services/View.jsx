@@ -30,7 +30,7 @@ export default class ViewLinkedService extends React.Component {
 
   componentWillMount() {
     request
-      .get('api/dashboard/user/services/' + this.state.id)
+      .get('/api/dashboard/user/services/' + this.state.id)
       .end((err, res) => this.setState({ service: res.body.service }));
   }
 
@@ -55,7 +55,7 @@ export default class ViewLinkedService extends React.Component {
     };
 
     request
-      .put('api/dashboard/user/services/' + this.state.id)
+      .put('/api/dashboard/user/services/' + this.state.id)
       .send(data)
       .end((err, res) => {
         if (err) swal('Error', res.body.message, 'error');

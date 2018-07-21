@@ -3,7 +3,7 @@ const sendRecoveryEmail = require('lib/email/send-recovery');
 const mysql = require('lib/mysql');
 
 /*
-  POST api/recover/verify
+  POST /api/recover/verify
   REQUIRED
     uid: number, auth: string
   OPTIONAL

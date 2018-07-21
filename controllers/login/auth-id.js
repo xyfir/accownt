@@ -1,7 +1,7 @@
 const MySQL = require('lib/mysql');
 
 /*
-  POST api/login/auth-id
+  POST /api/login/auth-id
   REQUIRED
     userId: number, authId: string
   RETURN

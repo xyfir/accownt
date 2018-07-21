@@ -4,7 +4,7 @@ const mysql = require('lib/mysql');
 const config = require('config');
 
 /*
-  POST api/service/:service/session
+  POST /api/service/:service/session
   RETURNED
     { redirect: string }
   DESCRIPTION

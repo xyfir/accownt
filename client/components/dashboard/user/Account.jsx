@@ -12,7 +12,7 @@ export default class UserAccount extends React.Component {
 
   componentWillMount() {
     request
-      .get('api/dashboard/user/account')
+      .get('/api/dashboard/user/account')
       .end((err, res) => this.setState(res.body));
   }
 
@@ -25,7 +25,7 @@ export default class UserAccount extends React.Component {
       swal('Error', 'Passwords do not match.', 'error');
     } else {
       request
-        .put('api/dashboard/user/account')
+        .put('/api/dashboard/user/account')
         .send({
           currentPassword: curPass,
           newPassword: newPass

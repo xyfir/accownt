@@ -16,7 +16,7 @@ export default class CreateService extends React.Component {
    */
   onCreate(data) {
     request
-      .post('api/dashboard/developer/services')
+      .post('/api/dashboard/developer/services')
       .send(data)
       .end((err, res) => {
         if (err) swal('Error', res.body.message, 'error');

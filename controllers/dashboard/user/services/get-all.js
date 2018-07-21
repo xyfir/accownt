@@ -1,7 +1,7 @@
 const mysql = require('lib/mysql');
 
 /*
-  GET api/dashboard/user/services
+  GET /api/dashboard/user/services
   RETURN
     { services: [{
       id: number, name: string, description: string, address: string

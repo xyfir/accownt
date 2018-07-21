@@ -3,7 +3,7 @@ const rstring = require('randomstring');
 const mysql = require('lib/mysql');
 
 /*
-  POST api/service/:service/link
+  POST /api/service/:service/link
   RETURNED
     { error: bool, message: string }
   DESCRIPTION

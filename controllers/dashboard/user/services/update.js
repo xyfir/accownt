@@ -3,7 +3,7 @@ const request = require('superagent');
 const mysql = require('lib/mysql');
 
 /*
-  PUT api/dashboard/user/services/:service
+  PUT /api/dashboard/user/services/:service
   RETURN
     { error: bool, message: string }
   DESCRIPTION

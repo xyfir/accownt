@@ -42,7 +42,7 @@ export default class LoginStep1 extends React.Component {
     // Login with email and password
     else if (password) {
       request
-        .post('api/login')
+        .post('/api/login')
         .send({ email, password })
         .end((err, res) => {
           const b = (res || { body: {} }).body;
@@ -66,7 +66,7 @@ export default class LoginStep1 extends React.Component {
     // Request passwordless login link
     else {
       request
-        .get('api/login/passwordless')
+        .get('/api/login/passwordless')
         .query({ email })
         .end((err, res) => {
           if (err) return swal('Error', res.body.message, 'error');

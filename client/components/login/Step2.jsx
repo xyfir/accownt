@@ -16,7 +16,7 @@ export default class LoginStep2 extends React.Component {
    */
   onLogin() {
     request
-      .post('api/login/verify')
+      .post('/api/login/verify')
       .send({
         auth: this.props.tfa.auth,
         uid: this.props.tfa.uid,

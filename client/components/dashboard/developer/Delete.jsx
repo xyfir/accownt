@@ -12,7 +12,7 @@ export default class DeleteService extends React.Component {
 
   onConfirm() {
     request
-      .delete('api/dashboard/developer/services/' + this.props.id)
+      .delete('/api/dashboard/developer/services/' + this.props.id)
       .end((err, res) => !err && (location.hash = '#/dashboard/developer'));
   }
 

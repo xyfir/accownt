@@ -2,7 +2,7 @@ const randomstring = require('randomstring');
 const db = require('lib/db');
 
 /*
-	POST api/dashboard/developer/services/:id/key
+	POST /api/dashboard/developer/services/:id/key
 	RETURNED
 		{ key?: string }
 	DESCRIPTION

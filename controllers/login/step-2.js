@@ -2,7 +2,7 @@ const securityValidation = require('lib/security/validate');
 const mysql = require('lib/mysql');
 
 /*
-  POST api/login/verify
+  POST /api/login/verify
   REQUIRED
     uid: number, auth: string
   OPTIONAL

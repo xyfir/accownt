@@ -3,7 +3,7 @@ const MySQL = require('lib/mysql');
 const qr = require('qrcode');
 
 /*
-  PUT api/dashboard/user/security/otp
+  PUT /api/dashboard/user/security/otp
   OPTIONAL
     token: string, remove: boolean
   RETURN

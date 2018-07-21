@@ -1,7 +1,7 @@
 const validateToken = require('lib/tokens/validate');
 
 /*
-  GET api/login/passwordless/:uid/:auth
+  GET /api/login/passwordless/:uid/:auth
   DESCRIPTION
     Attempts to login user with :uid/:auth
 */

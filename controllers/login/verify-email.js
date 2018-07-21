@@ -2,7 +2,7 @@ const validateToken = require('lib/tokens/validate');
 const MySQL = require('lib/mysql');
 
 /*
-  GET api/login/verify-email/:uid/:auth
+  GET /api/login/verify-email/:uid/:auth
   DESCRIPTION
     Verify a users email if :uid/:auth are valid
 */

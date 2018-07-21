@@ -1,7 +1,7 @@
 const mysql = require('lib/mysql');
 
 /*
-  GET api/dashboard/user/security/recovery-code
+  GET /api/dashboard/user/security/recovery-code
   RETURN
     { recovery: string }
 */

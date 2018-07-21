@@ -1,7 +1,7 @@
 const db = require('lib/db');
 
 /*
-	DELETE api/dashboard/developer/services/:id
+	DELETE /api/dashboard/developer/services/:id
 	RETURN
 		{ error: bool, message: string }
 	DESCRIPTION

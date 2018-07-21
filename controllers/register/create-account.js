@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 const MySQL = require('lib/mysql');
 
 /*
-  POST api/register
+  POST /api/register
   REQUIRED
     email: string, recaptcha: string
   OPTIONAL

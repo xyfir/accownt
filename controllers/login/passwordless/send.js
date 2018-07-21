@@ -3,7 +3,7 @@ const generateToken = require('lib/tokens/generate');
 const MySQL = require('lib/mysql');
 
 /*
-  GET api/login/passwordless
+  GET /api/login/passwordless
   REQUIRED
     email: string
   RETURN

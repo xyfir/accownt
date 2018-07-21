@@ -16,7 +16,7 @@ export default class AppNavigation extends React.Component {
 
   onShowDrawer() {
     request
-      .get('api/dashboard/user/account')
+      .get('/api/dashboard/user/account')
       .end((err, res) =>
         this.setState({ loggedIn: res.body.loggedIn, drawer: true })
       );

@@ -65,7 +65,7 @@ export default class RegisterAccount extends React.Component {
       this.checkEmailTimeout = setTimeout(
         () =>
           request
-            .get('api/register/email')
+            .get('/api/register/email')
             .query({ email })
             .end((err, res) => this.setState({ emailTaken: res.body.exists })),
         200

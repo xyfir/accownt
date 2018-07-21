@@ -18,7 +18,7 @@ export default class UserSecurity extends React.Component {
   }
 
   componentWillMount() {
-    request.get('api/dashboard/user/security').end((err, res) => {
+    request.get('/api/dashboard/user/security').end((err, res) => {
       res.body.loading = false;
       this.setState(res.body);
     });

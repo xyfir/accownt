@@ -4,7 +4,7 @@ const mysql = require('lib/mysql');
 const config = require('config');
 
 /*
-  PUT api/dashboard/user/security/codes
+  PUT /api/dashboard/user/security/codes
   REQUIRED
     type: number, count: number
   RETURN

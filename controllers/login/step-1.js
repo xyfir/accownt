@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const mysql = require('lib/mysql');
 
 /*
-  POST api/login
+  POST /api/login
   REQUIRED
     email: string, password: string
   RETURN

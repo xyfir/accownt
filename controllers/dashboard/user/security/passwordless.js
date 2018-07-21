@@ -1,7 +1,7 @@
 const db = require('lib/db');
 
 /*
-    PUT api/dashboard/user/security/passwordless
+    PUT /api/dashboard/user/security/passwordless
     REQUIRED
         passwordless: number
     RETURN

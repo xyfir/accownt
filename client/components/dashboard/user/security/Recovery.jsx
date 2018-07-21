@@ -23,7 +23,7 @@ export default class RecoveryCode extends React.Component {
     const refKey = Object.keys(this.refs)[0];
 
     request
-      .put('api/dashboard/user/security/recovery-code')
+      .put('/api/dashboard/user/security/recovery-code')
       .send({
         type: this.state.type,
         [refKey]: this.refs[refKey].value
@@ -38,7 +38,7 @@ export default class RecoveryCode extends React.Component {
    * Download the recovery code and render it.
    */
   onShow() {
-    request.get('api/dashboard/user/security/recovery-code').end((err, res) => {
+    request.get('/api/dashboard/user/security/recovery-code').end((err, res) => {
       if (!err) {
         res.body.show = true;
         this.setState(res.body);

@@ -1,5 +1,5 @@
 /*
-  GET api/login/logout
+  GET /api/login/logout
   DESCRIPTION
     Destroy user's session
 */

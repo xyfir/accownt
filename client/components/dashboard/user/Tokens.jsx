@@ -20,7 +20,7 @@ export default class AccessTokens extends React.Component {
    * _getTokens().
    */
   componentWillMount() {
-    request.get('api/dashboard/user/services').end((err, res) => {
+    request.get('/api/dashboard/user/services').end((err, res) => {
       this.setState(res.body);
       this._getTokens();
     });
@@ -31,7 +31,7 @@ export default class AccessTokens extends React.Component {
    */
   onDeleteAll() {
     request
-      .delete('api/dashboard/user/tokens')
+      .delete('/api/dashboard/user/tokens')
       .send({ all: true })
       .end((err, res) => this._getTokens());
   }
@@ -43,7 +43,7 @@ export default class AccessTokens extends React.Component {
     const token = this.state.tokens[this.state.selected];
 
     request
-      .delete('api/dashboard/user/tokens')
+      .delete('/api/dashboard/user/tokens')
       .send({
         service: token.service_id,
         token: token.token
@@ -60,7 +60,7 @@ export default class AccessTokens extends React.Component {
     const token = this.state.tokens[this.state.selected];
 
     request
-      .put('api/dashboard/user/tokens')
+      .put('/api/dashboard/user/tokens')
       .send({
         service: token.service_id,
         token: token.token,
@@ -74,7 +74,7 @@ export default class AccessTokens extends React.Component {
    * and selected to -1.
    */
   _getTokens() {
-    request.get('api/dashboard/user/tokens').end((err, res) => {
+    request.get('/api/dashboard/user/tokens').end((err, res) => {
       const tokens = res.body.tokens.filter(
         t => !!this.state.services.find(s => t.service_id == s.id)
       );

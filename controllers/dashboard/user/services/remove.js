@@ -2,7 +2,7 @@ const request = require('superagent');
 const mysql = require('lib/mysql');
 
 /*
-  DELETE api/dashboard/user/services/:service
+  DELETE /api/dashboard/user/services/:service
   RETURN
     { error: bool, message: string }
 */
@@ -54,7 +54,7 @@ module.exports = async function(req, res) {
       });
     }
 
-    res.status(200).json({  });
+    res.status(200).json({});
   } catch (err) {
     db.release();
     res.status(400).json({ message: err });

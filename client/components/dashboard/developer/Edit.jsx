@@ -16,7 +16,7 @@ export default class EditService extends React.Component {
    */
   onUpdate(data) {
     request
-      .put('api/dashboard/developer/services/' + this.props.id)
+      .put('/api/dashboard/developer/services/' + this.props.id)
       .send(data)
       .end((err, res) => {
         if (err) swal('Error', res.body.message, 'error');

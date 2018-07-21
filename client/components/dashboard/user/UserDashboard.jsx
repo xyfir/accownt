@@ -14,7 +14,7 @@ export default class UserDashboard extends React.Component {
 
   componentWillMount() {
     request
-      .get('api/dashboard/user/account')
+      .get('/api/dashboard/user/account')
       .end((err, res) => !res.body.loggedIn && (location.hash = '/login'));
   }
 

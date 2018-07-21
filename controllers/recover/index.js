@@ -1,7 +1,7 @@
 const validateToken = require('lib/tokens/validate');
 
 /*
-  GET api/recover/:uid/:auth
+  GET /api/recover/:uid/:auth
   DESCRIPTION
     If recovery link is valid, login user and set session.recovered = true
 */

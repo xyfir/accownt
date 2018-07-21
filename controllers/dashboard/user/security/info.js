@@ -1,7 +1,7 @@
 const mysql = require('lib/mysql');
 
 /*
-  GET api/dashboard/user/security
+  GET /api/dashboard/user/security
   RETURN
     { codes: string, passwordless: number, appOtp: boolean }
 */
