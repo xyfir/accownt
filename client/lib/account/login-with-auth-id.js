@@ -18,7 +18,7 @@ export default function(userId, authId) {
         authId
       })
       .end((err, res) => {
-        if (!err && !res.body.error) location.href = res.body.redirect;
+        if (!err && !res.body.error) location.replace(res.body.redirect);
         else if (Date.now() < stopAfter) check();
         else location.hash = '#/login';
       });
