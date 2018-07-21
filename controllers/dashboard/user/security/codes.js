@@ -8,7 +8,7 @@ const config = require('config');
   REQUIRED
     type: number, count: number
   RETURN
-    { error: bool, codes: string, message: string }
+    { codes: string, message: string }
 */
 module.exports = async function(req, res) {
   const db = new mysql();

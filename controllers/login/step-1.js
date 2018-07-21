@@ -10,7 +10,7 @@ const mysql = require('lib/mysql');
     email: string, password: string
   RETURN
     {
-      error: bool, message?: string, loggedIn?: bool, loginAttempts?: number,
+      message?: string, loggedIn?: bool, loginAttempts?: number,
       redirect?: string, uid?: number, auth?: string,
       security?: {
         noSecurity?: bool, code?: bool, otp?: bool

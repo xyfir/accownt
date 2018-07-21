@@ -3,7 +3,7 @@ const db = require('lib/db');
 /*
 	DELETE /api/dashboard/developer/services/:id
 	RETURN
-		{ error: bool, message: string }
+		{ message: string }
 	DESCRIPTION
 		Deletes service from services table
 		Deletes all rows in linked_services where id matches

@@ -12,7 +12,7 @@ const MySQL = require('lib/mysql');
   OPTIONAL
     password: string
   RETURN
-    { error: bool, message?: string, authId?: string, userId?: number }
+    { message?: string, authId?: string, userId?: number }
 */
 module.exports = async function(req, res) {
   const db = new MySQL();

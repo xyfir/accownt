@@ -9,7 +9,7 @@ const MySQL = require('lib/mysql');
     email: string
   RETURN
     {
-      error: bool, message?: string, uid?: number, auth?: string,
+      message?: string, uid?: number, auth?: string,
       security?: {
         noSecurity?: bool, code?: bool, otp?: bool
       }

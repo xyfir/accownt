@@ -5,7 +5,7 @@ const mysql = require('lib/mysql');
 /*
   POST /api/service/:service/link
   RETURNED
-    { error: bool, message: string }
+    { message: string }
   DESCRIPTION
     Link service to user's Xyfir Account
 */

@@ -9,7 +9,7 @@ const mysql = require('lib/mysql');
   OPTIONAL
     code: string, otpCode: string, recovery: string
   RETURN
-    { error: bool, message: string }
+    { message: string }
 */
 module.exports = async function(req, res) {
   const db = new mysql();

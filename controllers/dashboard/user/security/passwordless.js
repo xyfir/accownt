@@ -5,7 +5,7 @@ const db = require('lib/db');
     REQUIRED
         passwordless: number
     RETURN
-        { error: bool, message: string }
+        { message: string }
 */
 module.exports = function(req, res) {
   // Validate data

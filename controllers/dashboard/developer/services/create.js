@@ -11,7 +11,7 @@ const mysql = require('lib/mysql');
   OPTIONAL
     urlUpdate: string, urlUnlink: string
   RETURN
-    { error: bool, message: string }
+    { message: string }
 */
 module.exports = async function(req, res) {
   const db = new mysql(),

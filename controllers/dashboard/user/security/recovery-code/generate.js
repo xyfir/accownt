@@ -10,7 +10,7 @@ const rand = require('lib/rand');
   OPTIONAL
     recovery: string, count: number, strLength: number
   RETURN
-    { error: bool, message?: string, recovery?: string }
+    { message?: string, recovery?: string }
 */
 module.exports = async function(req, res) {
   const db = new mysql();

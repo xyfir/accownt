@@ -5,7 +5,7 @@ const mysql = require('lib/mysql');
 /*
   PUT /api/dashboard/user/services/:service
   RETURN
-    { error: bool, message: string }
+    { message: string }
   DESCRIPTION
     Update the data that a user provides to a service
 */

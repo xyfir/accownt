@@ -6,7 +6,7 @@ const config = require('config');
   GET /api/service/:service
   RETURNED
     {
-      error: bool, message?: string,
+      message?: string,
 
       email?: string,
       service: null|Object({

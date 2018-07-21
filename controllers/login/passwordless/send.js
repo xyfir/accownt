@@ -7,7 +7,7 @@ const MySQL = require('lib/mysql');
   REQUIRED
     email: string
   RETURN
-    { error: bool, message?: string, authId?: string, userId?: number }
+    { message?: string, authId?: string, userId?: number }
   DESCRIPTION
     Send user a passwordless login link via email if enabled
 */

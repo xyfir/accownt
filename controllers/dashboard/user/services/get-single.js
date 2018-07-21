@@ -4,7 +4,7 @@ const mysql = require('lib/mysql');
   GET /api/dashboard/user/services/:service
   RETURN
     {
-      error: bool, message?: string,
+      message?: string,
       service?: {
         name: string, description: string, address: string,
         info: { requested: object, provided: object }

@@ -8,7 +8,7 @@ const mysql = require('lib/mysql');
   OPTIONAL
     code: string, otpCode: string
   RETURN
-    { error: bool, loggedIn?: bool, redirect?: string }
+    { loggedIn?: bool, redirect?: string }
 */
 module.exports = async function(req, res) {
   try {

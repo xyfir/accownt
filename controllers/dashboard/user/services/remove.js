@@ -4,7 +4,7 @@ const mysql = require('lib/mysql');
 /*
   DELETE /api/dashboard/user/services/:service
   RETURN
-    { error: bool, message: string }
+    { message: string }
 */
 module.exports = async function(req, res) {
   const db = new mysql();
