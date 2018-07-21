@@ -31,13 +31,10 @@ export default class ListAffiliateCampaigns extends React.Component {
       button: 'Delete'
     })
       .then(() => request.delete('/api/dashboard/affiliate/' + code))
-      .then(res => {
-        if (res.body.error) {
-          swal.close();
-          swal('Error', 'Could not delete', 'error');
-        } else {
-          location.reload();
-        }
+      .then(res => location.reload())
+      .catch(err => {
+        swal.close();
+        swal('Error', 'Could not delete', 'error');
       });
   }
 

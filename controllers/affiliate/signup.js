@@ -5,7 +5,7 @@ const db = require('lib/db');
     REQUIRED
         { service: number, serviceKey: string, promoCode: string }
     RETURN
-        { error: boolean, message?: string, promo?: number }
+        { message?: string, promo?: number }
     DESCRIPTION
         Validates that a promo code exists and is linked to a valid campaign/promo
         Returns id for affiliate promotion linked to code if valid
@@ -42,9 +42,9 @@ module.exports = function(req, res) {
 
       if (error) {
         cn.release();
-        res.json({ error: true, message: error });
+        res.status(400).json({ message: error });
       } else {
-        res.json({ error: false, promo: rows[0].promo_id });
+        res.status(200).json({ promo: rows[0].promo_id });
 
         (sql = `
                 UPDATE affiliate_campaigns SET signups = signups + 1

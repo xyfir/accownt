@@ -39,7 +39,7 @@ export default class RegisterService extends React.Component {
 
   componentWillMount() {
     request.get('api/service/' + this.state.id).end((err, res) => {
-      if (err || res.body.error) {
+      if (err) {
         if (err || !res.body.service) {
           location.hash = '#/';
         } else if (res.body.message == 'Not logged in') {
@@ -68,7 +68,7 @@ export default class RegisterService extends React.Component {
             .send({ email: res.body.email })
             .end((err, res) => {
               // Fallback to form
-              if (err || res.body.error) this.setState(res.body);
+              if (err) this.setState(res.body);
               else this._createSession();
             });
         }
@@ -101,7 +101,7 @@ export default class RegisterService extends React.Component {
       .post(`api/service/${this.state.id}/link`)
       .send(data)
       .end((err, res) => {
-        if (err || res.body.error) swal('Error', res.body.message, 'error');
+        if (err) swal('Error', res.body.message, 'error');
         else this.setState({ linked: true }, () => this._createSession());
       });
   }

@@ -14,7 +14,7 @@ module.exports = function(req, res) {
     cn.query(sql, [req.session.uid, req.params.id], (err, rows) => {
       if (err || !rows.length) {
         cn.release();
-        res.json({ id: -1 });
+        res.status(400).json({ id: -1 });
       } else {
         let response = rows[0];
 
@@ -24,7 +24,7 @@ module.exports = function(req, res) {
 
           response.keys = rows.map(k => k.service_key);
 
-          res.json(response);
+          res.status(200).json(response);
         });
       }
     });

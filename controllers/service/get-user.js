@@ -11,7 +11,7 @@ const MySQL = require('lib/mysql');
       key: string, xid: string, token: string
   RETURNS
     {
-      error: boolean, message?: string,
+      message?: string,
       accessToken?: string?
       fname, country, ...
     }
@@ -73,9 +73,9 @@ module.exports = async function(req, res) {
     }
 
     db.release();
-    res.json(data);
+    res.status(200).json(data);
   } catch (err) {
     db.release();
-    res.json({ error: true, message: err });
+    res.status(400).json({ message: err });
   }
 };

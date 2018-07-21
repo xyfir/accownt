@@ -57,9 +57,9 @@ module.exports = async function(req, res) {
     }
 
     db.release();
-    res.json({ error: false, message: 'Service successfully updated' });
+    res.status(200).json({ message: 'Service successfully updated' });
   } catch (err) {
     db.release();
-    res.json({ error: true, message: err });
+    res.status(400).json({ message: err });
   }
 };

@@ -52,9 +52,9 @@ module.exports = async function(req, res) {
 
     if (!result.affectedRows) throw 'Could not save recovery code';
 
-    res.json({ error: false, recovery });
+    res.status(200).json({ recovery });
   } catch (err) {
     db.release();
-    res.json({ error: true, message: err });
+    res.status(400).json({ message: err });
   }
 };

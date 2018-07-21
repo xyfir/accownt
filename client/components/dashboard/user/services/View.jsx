@@ -58,7 +58,7 @@ export default class ViewLinkedService extends React.Component {
       .put('api/dashboard/user/services/' + this.state.id)
       .send(data)
       .end((err, res) => {
-        if (err || res.body.error) swal('Error', res.body.message, 'error');
+        if (err) swal('Error', res.body.message, 'error');
         else swal('Success', res.body.message, 'success');
       });
   }

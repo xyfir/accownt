@@ -5,7 +5,7 @@ const db = require('lib/db');
     REQUIRED
         code: string, promo: number
     RETURN
-        { error: boolean, message: string }
+        { message: string }
     DESCRIPTION
         Create an affiliate campaign for an affiliate promotion
 */
@@ -45,7 +45,7 @@ module.exports = function(req, res) {
 
       if (error) {
         cn.release();
-        res.json({ error: true, message: error });
+        res.status(400).json({ message: error });
       } else {
         let sql = `
                 INSERT INTO affiliate_campaigns (user_id, promo_id, code)
@@ -57,8 +57,8 @@ module.exports = function(req, res) {
           cn.release();
 
           if (err || !result.affectedRows)
-            res.json({ error: true, message: 'An unknown error occured' });
-          else res.json({ error: false, message: 'Campaign created' });
+            res.status(400).json({ message: 'An unknown error occured' });
+          else res.status(200).json({ message: 'Campaign created' });
         });
       }
     })

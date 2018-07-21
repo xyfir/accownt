@@ -8,7 +8,7 @@ const qr = require('qrcode');
     token: string, remove: boolean
   RETURN
     {
-      error: boolean, message?: string,
+      message?: string,
       qr?: string
     }
   DESCRIPTION
@@ -30,8 +30,7 @@ module.exports = async function(req, res) {
 
       if (!result.affectedRows) throw 'Could not disable app 2FA';
 
-      res.json({
-        error: false,
+      res.status(200).json({
         message: 'App 2FA disabled. You must manually delete it from your app.'
       });
     }
@@ -62,7 +61,7 @@ module.exports = async function(req, res) {
 
       req.session.otpTempSecret = secret;
 
-      res.json({ error: false, qr: url });
+      res.status(200).json({ qr: url });
     }
     // User is finishing process and verifying token
     else {
@@ -84,10 +83,10 @@ module.exports = async function(req, res) {
 
       if (!result.affectedRows) throw 'Could not enable 2FA';
 
-      res.json({ error: false, message: 'App 2FA enabled' });
+      res.status(200).json({ message: 'App 2FA enabled' });
     }
   } catch (err) {
     db.release();
-    res.json({ error: true, message: err });
+    res.status(400).json({ message: err });
   }
 };

@@ -20,12 +20,12 @@ export default class LoginService extends React.Component {
    */
   componentWillMount() {
     request.get('api/service/' + this.state.service).end((err, res) => {
-      if (err || !res.body.service) {
+      if (!res.body.service) {
         location.hash = '#/';
       }
       // User is not logged in
       // After login user will be redirect back here
-      else if (res.body.error && res.body.message == 'Not logged in') {
+      else if (err && res.body.message == 'Not logged in') {
         location.hash =
           '#/login?serviceName=' +
           encodeURIComponent(res.body.service.name) +
@@ -33,10 +33,7 @@ export default class LoginService extends React.Component {
           encodeURIComponent(res.body.service.url);
       }
       // Create session
-      else if (
-        res.body.error &&
-        res.body.message.indexOf('already linked') > -1
-      ) {
+      else if (err && res.body.message.indexOf('already linked') > -1) {
         this._createSession();
       }
       // User hasn't linked service yet

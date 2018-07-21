@@ -28,7 +28,7 @@ export default class LoginStep2 extends React.Component {
         code: this.props.tfa.security.code ? this.refs.code.value : 0
       })
       .end((err, res) => {
-        if (err || res.body.error) {
+        if (err) {
           location.hash = '#/login';
           this.props.save({ tfa: {} });
           swal('Error', 'Could not validate 2FA data', 'error');

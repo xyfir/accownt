@@ -27,9 +27,9 @@ module.exports = async function(req, res) {
 
     user.recovered = req.session.recovered;
     user.loggedIn = true;
-    res.json(user);
+    res.status(200).json(user);
   } catch (err) {
     db.release();
-    res.json({ loggedIn: false, message: err });
+    res.status(400).json({ loggedIn: false, message: err });
   }
 };

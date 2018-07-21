@@ -19,7 +19,7 @@ module.exports = function(req, res) {
   db(cn =>
     cn.query(sql, [req.session.uid], (err, rows) => {
       cn.release();
-      res.json({ tokens: err ? [] : rows });
+      res.status(200).json({ tokens: err ? [] : rows });
     })
   );
 };

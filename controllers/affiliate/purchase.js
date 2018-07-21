@@ -8,7 +8,7 @@ const db = require('lib/db');
             amount: number
         }
     RETURN
-        { error: boolean, message?: string }
+        { message?: string }
     DESCRIPTION
         Increments an affiliate campaign's purchases and earnings
 */
@@ -43,9 +43,9 @@ module.exports = function(req, res) {
 
       if (error) {
         cn.release();
-        res.json({ error: true, message: error });
+        res.status(400).json({ message: error });
       } else {
-        res.json({ error: false });
+        res.status(200).json({});
 
         (sql = `
                 UPDATE affiliate_campaigns SET

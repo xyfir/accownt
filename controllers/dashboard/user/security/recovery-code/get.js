@@ -17,8 +17,8 @@ module.exports = async function(req, res) {
     );
     db.release();
 
-    res.json(rows[0]);
+    res.status(200).json(rows[0]);
   } catch (err) {
-    res.json({ recovery: '' });
+    res.status(400).json({ recovery: '' });
   }
 };

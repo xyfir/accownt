@@ -10,7 +10,7 @@ const MySQL = require('lib/mysql');
   OPTIONAL
     password: string
   RETURN
-    { error: boolean, message?: string, xyfir_id?: string }
+    { message?: string, xyfir_id?: string }
 */
 module.exports = async function(req, res) {
   const db = new MySQL();
@@ -56,9 +56,9 @@ module.exports = async function(req, res) {
     });
     db.release();
 
-    res.json({ error: false, xyfir_id });
+    res.status(200).json({ xyfir_id });
   } catch (err) {
     db.release();
-    res.json({ error: true, message: err });
+    res.status(400).json({ message: err });
   }
 };

@@ -14,7 +14,7 @@ const mysql = require('lib/mysql');
       redirect?: string, uid?: number, auth?: string,
       security?: {
         noSecurity?: bool, code?: bool, otp?: bool
-      } 
+      }
     }
 */
 module.exports = async function(req, res) {
@@ -56,12 +56,10 @@ module.exports = async function(req, res) {
       `;
       await db.query(sql, [rows[0].id]);
 
-      res.json({
-        error: true,
+      return res.status(400).json({
         message: 'Could not find a user with that email / password',
         loginAttempts: rows[0].login_attempts + 1
       });
-      return;
     }
 
     // Clear login attempts
@@ -92,8 +90,7 @@ module.exports = async function(req, res) {
     if (!security) {
       // User has no extra security measures; do login
       req.session.uid = uid;
-      res.json({
-        error: false,
+      res.status(200).json({
         loggedIn: true,
         redirect: req.session.redirect ? req.session.redirect : ''
       });
@@ -103,8 +100,7 @@ module.exports = async function(req, res) {
       const { token } = await generateToken({ user: uid, type: 1 });
 
       // Send security object back to client
-      res.json({
-        error: false,
+      res.status(200).json({
         auth: token,
         security,
         uid
@@ -112,6 +108,6 @@ module.exports = async function(req, res) {
     }
   } catch (err) {
     db.release();
-    res.json({ error: true, message: err });
+    res.status(400).json({ message: err });
   }
 };

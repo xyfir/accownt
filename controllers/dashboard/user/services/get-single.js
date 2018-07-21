@@ -46,9 +46,9 @@ module.exports = async function(req, res) {
     if (!rows.length) throw 'Account is not linked to service';
 
     service.info.provided = JSON.parse(rows[0].info);
-    res.json({ error: false, service });
+    res.status(200).json({ service });
   } catch (err) {
     db.release();
-    res.json({ error: true, message: err });
+    res.status(400).json({ message: err });
   }
 };

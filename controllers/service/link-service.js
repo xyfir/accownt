@@ -32,9 +32,9 @@ module.exports = async function(req, res) {
 
     if (!result.affectedRows) throw 'An unknown error occured';
 
-    res.json({ error: false, message: 'Service linked to account' });
+    res.status(200).json({ message: 'Service linked to account' });
   } catch (err) {
     db.release();
-    res.json({ error: true, message: err });
+    res.status(400).json({ message: err });
   }
 };

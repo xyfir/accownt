@@ -2,12 +2,8 @@ const db = require('lib/db');
 
 /*
 	DELETE api/dashboard/developer/services/:id/key
-    REQUIRED
-        key: string
-	RETURNED
-		{ error: boolean }
-	DESCRIPTION
-		Delete a service key
+  REQUIRED
+    key: string
 */
 module.exports = function(req, res) {
   let sql = `
@@ -19,7 +15,7 @@ module.exports = function(req, res) {
     cn.query(sql, vars, (err, rows) => {
       if (err || !rows.length) {
         cn.release();
-        res.json({ error: true });
+        res.status(400).json({});
       } else {
         sql =
           'DELETE FROM service_keys WHERE service_id = ? AND service_key = ?';
@@ -27,7 +23,7 @@ module.exports = function(req, res) {
 
         cn.query(sql, vars, (err, result) => {
           cn.release();
-          res.json({ error: !!err });
+          res.status(200).json({ error: !!err });
         });
       }
     })

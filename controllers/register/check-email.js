@@ -20,9 +20,9 @@ module.exports = async function(req, res) {
       rows = await db.query(sql, vars);
 
     db.release();
-    res.json({ exists: !!rows.length });
+    res.status(200).json({ exists: !!rows.length });
   } catch (e) {
     db.release();
-    res.json({ exists: true });
+    res.status(400).json({ exists: true });
   }
 };

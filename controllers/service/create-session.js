@@ -8,7 +8,7 @@ const config = require('config');
   RETURNED
     { redirect: string }
   DESCRIPTION
-    Generates an authentication token for a service linked to the user's 
+    Generates an authentication token for a service linked to the user's
     account and returns a url to redirect the client to.
 */
 module.exports = async function(req, res) {
@@ -35,9 +35,11 @@ module.exports = async function(req, res) {
 
     if (!rows.length) throw 'Unknown error';
 
-    res.json({ redirect: `${rows[0].url}?auth=${token}&xid=${xid}` });
+    res
+      .status(200)
+      .json({ redirect: `${rows[0].url}?auth=${token}&xid=${xid}` });
   } catch (err) {
     db.release();
-    res.json({ redirect: config.addresses.xacc });
+    res.status(400).json({ redirect: config.addresses.xacc });
   }
 };

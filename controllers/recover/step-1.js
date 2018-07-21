@@ -42,8 +42,7 @@ module.exports = async function(req, res) {
       // User has no extra security measures
       // Send account recovery email
       sendRecoveryEmail(uid, req.body.email);
-      res.json({
-        error: false,
+      res.status(200).json({
         message: 'An account recovery link has been sent to your email'
       });
     } else {
@@ -54,8 +53,7 @@ module.exports = async function(req, res) {
       });
 
       // Send security object back to client
-      res.json({
-        error: false,
+      res.status(200).json({
         email: req.body.email,
         auth: token,
         uid,
@@ -64,6 +62,6 @@ module.exports = async function(req, res) {
     }
   } catch (err) {
     db.release();
-    res.json({ error: true, message: err });
+    res.status(400).json({ message: err });
   }
 };

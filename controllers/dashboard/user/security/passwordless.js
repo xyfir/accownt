@@ -10,7 +10,7 @@ const db = require('lib/db');
 module.exports = function(req, res) {
   // Validate data
   if (req.body.passwordless > 2) {
-    res.json({ error: true, message: 'Invalid data.' });
+    res.status(400).json({ message: 'Invalid data.' });
     return;
   }
 
@@ -22,10 +22,9 @@ module.exports = function(req, res) {
       cn.release();
 
       if (err || !result.affectedRows) {
-        res.json({ error: true, message: 'An unknown error occured' });
+        res.status(400).json({ message: 'An unknown error occured' });
       } else {
-        res.json({
-          error: false,
+        res.status(200).json({
           message: 'Passwordless login option successfully updated.'
         });
       }

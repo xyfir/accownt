@@ -29,7 +29,7 @@ export default class RecoveryCode extends React.Component {
         [refKey]: this.refs[refKey].value
       })
       .end((err, res) => {
-        if (err || res.body.error) this.props.alert(res.body.message);
+        if (err) this.props.alert(res.body.message);
         else this.setState({ recovery: res.body.recovery });
       });
   }

@@ -6,8 +6,6 @@ const mysql = require('lib/mysql');
     service: number, token: string
     OR
     all: boolean
-  RETURN
-    { error: boolean }
   DESCRIPTION
     Delete a single, or all access tokens
 */
@@ -36,9 +34,9 @@ module.exports = async function(req, res) {
     const result = await db.query(sql, vars);
     db.release();
 
-    res.json({ error: false });
+    res.status(200).json({});
   } catch (err) {
     db.release();
-    res.json({ error: true });
+    res.status(400).json({});
   }
 };

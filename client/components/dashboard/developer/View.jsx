@@ -63,7 +63,7 @@ export default class ViewService extends React.Component {
     request
       .post(`api/dashboard/developer/services/${this.props.id}/key`)
       .end((err, res) => {
-        if (!err && !res.body.error)
+        if (!err)
           this.setState({ keys: this.state.keys.concat([res.body.key]) });
       });
   }
@@ -75,7 +75,7 @@ export default class ViewService extends React.Component {
       .delete(`api/dashboard/developer/services/${this.props.id}/key`)
       .send({ key })
       .end((err, res) => {
-        if (!err && !res.body.error) {
+        if (!err) {
           this.setState({
             keys: this.state.keys.filter(k => k != key),
             selected: ''

@@ -1,11 +1,7 @@
 const db = require('lib/db');
 
 /*
-    DELETE api/dashboard/affiliate/:code
-    RETURN
-        { error: boolean }
-    DESCRIPTION
-        Delete an affiliate campaign
+  DELETE api/dashboard/affiliate/:code
 */
 module.exports = function(req, res) {
   let sql = `
@@ -18,7 +14,7 @@ module.exports = function(req, res) {
   db(cn =>
     cn.query(sql, vars, (err, result) => {
       cn.release();
-      res.json({ error: !!err || !result.affectedRows });
+      res.status(200).json({ error: !!err || !result.affectedRows });
     })
   );
 };

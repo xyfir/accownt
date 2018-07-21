@@ -4,7 +4,7 @@ const db = require('lib/db');
 /*
 	POST api/dashboard/developer/services/:id/key
 	RETURNED
-		{ error: boolean, key?: string }
+		{ key?: string }
 	DESCRIPTION
 		Generate a new service key for service
 */
@@ -20,7 +20,7 @@ module.exports = function(req, res) {
     cn.query(sql, vars, (err, rows) => {
       if (err || !rows.length) {
         cn.release();
-        res.json({ error: true });
+        res.status(400).json({});
       } else {
         sql =
           'INSERT INTO service_keys (service_id, service_key) VALUES (?, ?)';
@@ -29,8 +29,8 @@ module.exports = function(req, res) {
         cn.query(sql, vars, (err, result) => {
           cn.release();
 
-          if (err || !result.affectedRows) res.json({ error: true });
-          else res.json({ error: false, key });
+          if (err || !result.affectedRows) res.status(400).json({});
+          else res.status(200).json({ key });
         });
       }
     })

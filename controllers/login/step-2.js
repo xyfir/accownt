@@ -16,13 +16,12 @@ module.exports = async function(req, res) {
 
     // Complete login process
     req.session.uid = req.body.uid;
-    res.json({
-      error: false,
+    res.status(200).json({
       loggedIn: true,
       redirect: req.session.redirect || ''
     });
     req.session.redirect = '';
   } catch (err) {
-    res.json({ error: true, message: err });
+    res.status(400).json({ message: err });
   }
 };

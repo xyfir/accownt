@@ -29,7 +29,7 @@ export default class AccountRecovery extends React.Component {
       .post('api/recover')
       .send({ email: this.state.email })
       .end((err, res) => {
-        if (err || res.body.error) swal('Error', res.body.message, 'error');
+        if (err) swal('Error', res.body.message, 'error');
         else if (res.body.message) swal('', res.body.message);
         else this.setState(res.body);
       });
@@ -51,7 +51,7 @@ export default class AccountRecovery extends React.Component {
         otpCode: this.state.security.otp ? this.refs.otpCode.value : 0
       })
       .end((err, res) => {
-        if (err || res.body.error) swal('Error', res.body.message, 'error');
+        if (err) swal('Error', res.body.message, 'error');
         else swal('', res.body.message);
       });
   }

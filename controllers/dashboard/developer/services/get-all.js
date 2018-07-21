@@ -13,7 +13,7 @@ module.exports = function(req, res) {
     cn.query(sql, [req.session.uid], (err, services) => {
       cn.release();
 
-      res.json({ services });
+      res.status(200).json({ services });
     });
   });
 };

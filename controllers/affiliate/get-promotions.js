@@ -18,8 +18,8 @@ module.exports = function(req, res) {
     cn.query(sql, (err, rows) => {
       cn.release();
 
-      if (err || !rows.length) res.json({ promotions: [] });
-      else res.json({ promotions: rows });
+      if (err || !rows.length) res.status(400).json({ promotions: [] });
+      else res.status(200).json({ promotions: rows });
     })
   );
 };

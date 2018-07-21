@@ -29,8 +29,7 @@ module.exports = async function(req, res) {
       await db.query(sql, vars);
       db.release();
 
-      res.json({
-        error: false,
+      res.status(200).json({
         codes: '',
         message: 'Security codes removed from account'
       });
@@ -88,13 +87,12 @@ module.exports = async function(req, res) {
     await db.query(sql, vars);
     db.release();
 
-    res.json({
+    res.status(200).json({
       codes: codes.join(','),
-      error: false,
       message: 'Security codes successfully updated'
     });
   } catch (err) {
     db.release();
-    res.json({ error: true, message: err });
+    res.status(400).json({ message: err });
   }
 };

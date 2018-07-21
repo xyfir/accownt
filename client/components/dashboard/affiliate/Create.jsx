@@ -28,7 +28,7 @@ export default class CreateAffiliateCampaign extends React.Component {
         promo: this.state.selected
       })
       .end((err, res) => {
-        if (err || res.body.error) {
+        if (err) {
           swal('Error', res.body.message, 'error');
         } else {
           location.hash = '#/dashboard/affiliate/list';

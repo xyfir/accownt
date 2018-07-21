@@ -5,7 +5,7 @@ const MySQL = require('lib/mysql');
   REQUIRED
     userId: number, authId: string
   RETURN
-    { error: boolean, message?: string, redirect?: string }
+    { message?: string, redirect?: string }
   DESCRIPTION
     Check if auth token linked to auth id has been verified
 */
@@ -36,13 +36,12 @@ module.exports = async function(req, res) {
     db.release();
 
     req.session.uid = +req.body.userId;
-    res.json({
-      error: false,
+    res.status(200).json({
       redirect: req.session.redirect || '/#/dashboard/user'
     });
     req.session.redirect = '';
   } catch (err) {
     db.release();
-    res.json({ error: true, message: err });
+    res.status(400).json({ message: err });
   }
 };

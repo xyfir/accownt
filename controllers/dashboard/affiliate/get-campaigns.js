@@ -22,7 +22,7 @@ module.exports = function(req, res) {
     cn.query(sql, vars, (err, campaigns) => {
       if (err || !campaigns.length) {
         cn.release();
-        res.json({ campaigns: [] });
+        res.status(400).json({ campaigns: [] });
       } else {
         (sql = `
                 SELECT * FROM affiliate_promotions WHERE id IN (?)
@@ -59,7 +59,7 @@ module.exports = function(req, res) {
             };
           });
 
-          res.json(response);
+          res.status(200).json(response);
         });
       }
     })

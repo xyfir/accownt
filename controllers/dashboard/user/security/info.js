@@ -3,10 +3,7 @@ const mysql = require('lib/mysql');
 /*
   GET api/dashboard/user/security
   RETURN
-    {
-      error: boolean,
-      codes: string, passwordless: number, appOtp: boolean
-    }
+    { codes: string, passwordless: number, appOtp: boolean }
 */
 module.exports = async function(req, res) {
   const db = new mysql();
@@ -25,8 +22,8 @@ module.exports = async function(req, res) {
 
     (rows[0].appOtp = !!rows[0].appOtp), (rows[0].error = false);
 
-    res.json(rows[0]);
+    res.status(200).json(rows[0]);
   } catch (err) {
-    res.json({ error: true });
+    res.status(400).json({});
   }
 };

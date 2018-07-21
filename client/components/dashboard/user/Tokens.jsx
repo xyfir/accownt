@@ -49,7 +49,7 @@ export default class AccessTokens extends React.Component {
         token: token.token
       })
       .end((err, res) => {
-        if (!err && !res.body.error) this._getTokens();
+        if (!err) this._getTokens();
       });
   }
 

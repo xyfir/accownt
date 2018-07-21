@@ -6,7 +6,7 @@ const MySQL = require('lib/mysql');
   REQUIRED
     currentPassword: string, newPassword: string
   RETURN
-    { error: boolean, message: string }
+    { message: string }
 */
 module.exports = async function(req, res) {
   const { currentPassword, newPassword } = req.body;
@@ -36,14 +36,11 @@ module.exports = async function(req, res) {
 
     if (!result.affectedRows) throw 'Could not update password';
 
-    res.json({
-      error: false,
-      message: 'Password successfully updated'
-    });
+    res.status(200).json({ message: 'Password successfully updated' });
 
     req.session.recovered = false;
   } catch (err) {
     db.release();
-    res.json({ error: true, message: err });
+    res.status(400).json({ message: err });
   }
 };

@@ -32,12 +32,11 @@ module.exports = async function(req, res) {
     // Send account recovery email link
     sendRecoveryEmail(req.body.uid, req.body.email);
 
-    res.json({
-      error: false,
+    res.status(200).json({
       message: 'An account recovery link has been sent to your email'
     });
   } catch (err) {
     db.release();
-    res.json({ error: true, message: err });
+    res.status(400).json({ message: err });
   }
 };

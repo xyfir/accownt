@@ -31,7 +31,7 @@ export default class UserAccount extends React.Component {
           newPassword: newPass
         })
         .end((err, res) => {
-          if (res.body.error) swal('Error', res.body.message, 'error');
+          if (err) swal('Error', res.body.message, 'error');
           else swal('Success', res.body.message, 'success');
         });
     }

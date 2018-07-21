@@ -44,8 +44,7 @@ export default class RegisterAccount extends React.Component {
       .end((err, res) => {
         this.setState({ creating: false });
 
-        if (err || res.body.error)
-          return swal('Error', res.body.message, 'error');
+        if (err) return swal('Error', res.body.message, 'error');
 
         this.setState({ created: true });
         loginWithAuthId(res.body.userId, res.body.authId);

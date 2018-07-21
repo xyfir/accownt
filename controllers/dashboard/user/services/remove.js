@@ -54,9 +54,9 @@ module.exports = async function(req, res) {
       });
     }
 
-    res.json({ error: false });
+    res.status(200).json({  });
   } catch (err) {
     db.release();
-    res.json({ error: true, message: err });
+    res.status(400).json({ message: err });
   }
 };

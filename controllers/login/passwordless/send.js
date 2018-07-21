@@ -39,9 +39,9 @@ module.exports = async function(req, res) {
       await sendPasswordlessEmail(req.query.email, uid, token);
     }
 
-    res.json({ error: false, authId, userId: uid });
+    res.status(200).json({ authId, userId: uid });
   } catch (err) {
     db.release();
-    res.json({ error: true, message: err });
+    res.status(400).json({ message: err });
   }
 };

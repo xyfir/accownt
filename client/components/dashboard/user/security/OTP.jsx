@@ -22,7 +22,7 @@ export default class ConfigureOTP extends React.Component {
       .put('api/dashboard/user/security/otp')
       .send({ remove: true })
       .end((err, res) => {
-        if (!err && !res.body.error) this.setState({ enabled: false });
+        if (!err) this.setState({ enabled: false });
         this.props.alert(res.body.message);
       });
   }
@@ -32,7 +32,7 @@ export default class ConfigureOTP extends React.Component {
    */
   onEnable() {
     request.put('api/dashboard/user/security/otp').end((err, res) => {
-      if (err || res.body.error) this.props.alert(res.body.message);
+      if (err) this.props.alert(res.body.message);
       else this.setState(res.body);
     });
   }
@@ -47,7 +47,7 @@ export default class ConfigureOTP extends React.Component {
         token: this.refs.code.value
       })
       .end((err, res) => {
-        if (err || res.body.error) this.props.alert(res.body.message);
+        if (err) this.props.alert(res.body.message);
         else location.reload();
       });
   }

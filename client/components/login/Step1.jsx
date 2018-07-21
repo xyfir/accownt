@@ -69,8 +69,7 @@ export default class LoginStep1 extends React.Component {
         .get('api/login/passwordless')
         .query({ email })
         .end((err, res) => {
-          if (err || res.body.error)
-            return swal('Error', res.body.message, 'error');
+          if (err) return swal('Error', res.body.message, 'error');
 
           this.setState({ passwordless: true });
           loginWithAuthId(res.body.userId, res.body.authId);
