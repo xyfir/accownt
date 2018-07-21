@@ -11,7 +11,7 @@ export default class Dashboard extends React.Component {
   }
 
   render() {
-    switch (this.props.hash[2]) {
+    switch (this.props.path[2]) {
       case 'user':
         return <UserDashboard {...this.props} />;
       case 'developer':

@@ -91,7 +91,7 @@ export default class RegisterAccount extends React.Component {
         <Button
           raised
           primary
-          onClick={() => (location.hash = '#/login?email=' + email)}
+          onClick={() => (location.href = '/login?email=' + email)}
         >
           Continue
         </Button>
@@ -101,7 +101,7 @@ export default class RegisterAccount extends React.Component {
         {emailTaken ? (
           <span className="email-taken">
             An account with that email already exists.{' '}
-            <a href={'#/login?email=' + email}>Login?</a>
+            <a href={'/login?email=' + email}>Login?</a>
           </span>
         ) : null}
 

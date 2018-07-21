@@ -21,13 +21,13 @@ export default class RegisterService extends React.Component {
   constructor(props) {
     super(props);
 
-    const hash = location.hash.split('?')[0].split('/');
+    const path = location.pathname.split('/');
 
     this.state = {
       linked: false,
       country: '',
-      // #/register/:id OR #/register/service/:id
-      id: hash[2] == 'service' ? hash[3] : hash[2]
+      // /register/:id OR /register/service/:id
+      id: path[2] == 'service' ? path[3] : path[2]
     };
 
     /** References to input components */
@@ -41,10 +41,10 @@ export default class RegisterService extends React.Component {
     request.get('/api/service/' + this.state.id).end((err, res) => {
       if (err) {
         if (err || !res.body.service) {
-          location.hash = '#/';
+          location.href = '/';
         } else if (res.body.message == 'Not logged in') {
-          location.hash =
-            '#/login?serviceName=' +
+          location.href =
+            '/login?serviceName=' +
             encodeURIComponent(res.body.service.name) +
             '&serviceUrl=' +
             encodeURIComponent(res.body.service.url) +

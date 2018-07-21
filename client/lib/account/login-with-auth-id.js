@@ -20,7 +20,7 @@ export default function(userId, authId) {
       .end((err, res) => {
         if (!err) location.replace(res.body.redirect);
         else if (Date.now() < stopAfter) check();
-        else location.hash = '#/login';
+        else location.href = '/login';
       });
   check();
 }

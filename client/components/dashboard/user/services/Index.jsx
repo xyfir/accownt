@@ -10,7 +10,7 @@ export default class Services extends React.Component {
   }
 
   render() {
-    if (location.hash == '#/dashboard/user/services') return <List />;
+    if (location.pathname == '/dashboard/user/services') return <List />;
     else return <View />;
   }
 }

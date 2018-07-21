@@ -20,7 +20,7 @@ export default class EditService extends React.Component {
       .send(data)
       .end((err, res) => {
         if (err) swal('Error', res.body.message, 'error');
-        else location.hash = '#/dashboard/developer/' + this.props.id;
+        else location.href = '/dashboard/developer/' + this.props.id;
       });
   }
 

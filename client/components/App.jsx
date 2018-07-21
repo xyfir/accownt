@@ -1,6 +1,9 @@
 import { render } from 'react-dom';
 import React from 'react';
 
+// Constants
+import { XACC } from 'constants/config';
+
 // Components
 import Navigation from 'components/app/Navigation';
 import Dashboard from 'components/containers/Dashboard';
@@ -14,13 +17,32 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      hash: location.hash.split('?')[0].split('/')
+      path: location.pathname.split('/')
     };
 
-    window.onhashchange = () =>
+    document.addEventListener('click', e => {
+      const el =
+        e.target.nodeName == 'A'
+          ? e.target
+          : e.path
+            ? e.path.find(el => el.nodeName == 'A')
+            : null;
+
+      if (!el) return;
+      if (el.href.indexOf(XACC) != 0) return;
+      if (e.ctrlKey || e.target.target == '_blank') return window.open(el.href);
+
+      e.preventDefault();
+
+      history.pushState({}, '', el.href);
+      this.setState({ path: el.pathname.split('/') });
+    });
+
+    window.addEventListener('popstate', e =>
       this.setState({
-        hash: location.hash.split('?')[0].split('/')
-      });
+        path: location.pathname.split('/')
+      })
+    );
 
     this._alert = this._alert.bind(this);
   }
@@ -33,11 +55,11 @@ class App extends React.Component {
     const view = (() => {
       const props = {
         App: this,
-        hash: this.state.hash,
+        path: this.state.path,
         alert: this._alert
       };
 
-      switch (this.state.hash[1]) {
+      switch (this.state.path[1]) {
         case 'dashboard':
           return <Dashboard {...props} />;
         case 'register':

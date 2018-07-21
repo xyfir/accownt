@@ -31,7 +31,7 @@ export default class CreateAffiliateCampaign extends React.Component {
         if (err) {
           swal('Error', res.body.message, 'error');
         } else {
-          location.hash = '#/dashboard/affiliate/list';
+          location.href = '/dashboard/affiliate/list';
           swal('Success', res.body.message, 'success');
         }
       });

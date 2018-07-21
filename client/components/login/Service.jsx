@@ -5,11 +5,11 @@ export default class LoginService extends React.Component {
   constructor(props) {
     super(props);
 
-    const hash = location.hash.split('?')[0].split('/');
+    const path = location.pathname.split('/');
 
     this.state = {
-      // #/login/:id OR #/login/service/:id
-      service: hash[2] == 'service' ? hash[3] : hash[2]
+      // /login/:id OR /login/service/:id
+      service: path[2] == 'service' ? path[3] : path[2]
     };
 
     this._createSession = this._createSession.bind(this);
@@ -21,13 +21,13 @@ export default class LoginService extends React.Component {
   componentWillMount() {
     request.get('/api/service/' + this.state.service).end((err, res) => {
       if (!res.body.service) {
-        location.hash = '#/';
+        location.href = '/';
       }
       // User is not logged in
       // After login user will be redirect back here
       else if (err && res.body.message == 'Not logged in') {
-        location.hash =
-          '#/login?serviceName=' +
+        location.href =
+          '/login?serviceName=' +
           encodeURIComponent(res.body.service.name) +
           '&serviceUrl=' +
           encodeURIComponent(res.body.service.url);
@@ -38,7 +38,7 @@ export default class LoginService extends React.Component {
       }
       // User hasn't linked service yet
       else {
-        location.hash = '#/register/service/' + this.state.service;
+        location.href = '/register/service/' + this.state.service;
       }
     });
   }

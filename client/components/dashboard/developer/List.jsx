@@ -22,7 +22,7 @@ export default class ListServices extends React.Component {
     return (
       <List className="services md-paper md-paper--1 section">
         {this.state.services.map(s => (
-          <a href={'#/dashboard/developer/' + s.id}>
+          <a href={'/dashboard/developer/' + s.id}>
             <ListItem key={s.id} primaryText={s.name} />
           </a>
         ))}

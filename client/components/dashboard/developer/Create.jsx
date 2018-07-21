@@ -20,7 +20,7 @@ export default class CreateService extends React.Component {
       .send(data)
       .end((err, res) => {
         if (err) swal('Error', res.body.message, 'error');
-        else location.hash = '#/dashboard/developer';
+        else location.href = '/dashboard/developer';
       });
   }
 

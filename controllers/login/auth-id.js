@@ -37,7 +37,7 @@ module.exports = async function(req, res) {
 
     req.session.uid = +req.body.userId;
     res.status(200).json({
-      redirect: req.session.redirect || '/#/dashboard/user'
+      redirect: req.session.redirect || '/dashboard/user'
     });
     req.session.redirect = '';
   } catch (err) {

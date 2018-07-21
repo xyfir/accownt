@@ -25,7 +25,7 @@ export default class LoginStep1 extends React.Component {
 
   /** @param {string} route */
   onLoginLink(route) {
-    location.hash = `#/${route}?email=${this.state.email}`;
+    location.href = `/${route}?email=${this.state.email}`;
   }
 
   /**
@@ -55,11 +55,11 @@ export default class LoginStep1 extends React.Component {
           // Two factor authentication of some sort required
           else if (b.security) {
             this.props.save({ tfa: b });
-            location.hash = '#/login/verify';
+            location.href = '/login/verify';
           }
           // User is logged in
           else {
-            location.replace(b.redirect || '#/dashboard/user/account');
+            location.replace(b.redirect || '/dashboard/user/account');
           }
         });
     }

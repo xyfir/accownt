@@ -15,12 +15,12 @@ export default class UserDashboard extends React.Component {
   componentWillMount() {
     request
       .get('/api/dashboard/user/account')
-      .end((err, res) => !res.body.loggedIn && (location.hash = '/login'));
+      .end((err, res) => !res.body.loggedIn && (location.href = '/login'));
   }
 
   render() {
     const view = (() => {
-      switch (this.props.hash[3]) {
+      switch (this.props.path[3]) {
         case 'security':
           return <Security {...this.props} />;
         case 'services':

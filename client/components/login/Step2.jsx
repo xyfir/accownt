@@ -29,18 +29,18 @@ export default class LoginStep2 extends React.Component {
       })
       .end((err, res) => {
         if (err) {
-          location.hash = '#/login';
+          location.href = '/login';
           this.props.save({ tfa: {} });
           swal('Error', 'Could not validate 2FA data', 'error');
         } else {
-          location.replace(res.body.redirect || '#/dashboard/user/account');
+          location.replace(res.body.redirect || '/dashboard/user/account');
         }
       });
   }
 
   render() {
     if (!this.props.tfa) {
-      location.hash = '#/login';
+      location.href = '/login';
       return <div />;
     }
 

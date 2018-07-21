@@ -53,14 +53,12 @@ app.use(
   admyn()
 );
 
-/* Express middleware / controllers */
-app.use('/api', require('./middleware/clean-email'), require('./controllers/'));
-
-app.get('/', (req, res) => res.sendFile(__dirname + '/views/App.html'));
-app.get('/app', (req, res) => res.sendFile(__dirname + '/views/Redirect.html'));
 app.get('/admin-DU9oF5p690ojUKdR3NYS', (req, res) =>
   res.sendFile(__dirname + '/views/Admin.html')
 );
+app.use('/api', require('./middleware/clean-email'), require('./controllers/'));
+app.get('/app', (req, res) => res.sendFile(__dirname + '/views/Redirect.html'));
+app.get('/*', (req, res) => res.sendFile(__dirname + '/views/App.html'));
 
 app.listen(config.environment.port, () => {
   console.log('Server running on port', config.environment.port);

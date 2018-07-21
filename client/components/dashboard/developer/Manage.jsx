@@ -11,12 +11,12 @@ export default class ManageService extends React.Component {
   }
 
   render() {
-    // #/dashboard/developer/:id[/:action]
-    const id = this.props.hash[3];
-    const hash = '#/dashboard/developer/' + id;
+    // /dashboard/developer/:id[/:action]
+    const id = this.props.path[3];
+    const path = '/dashboard/developer/' + id;
 
     const view = (() => {
-      switch (this.props.hash[4]) {
+      switch (this.props.path[4]) {
         case 'delete':
           return <Delete id={id} />;
         case 'edit':
@@ -29,9 +29,9 @@ export default class ManageService extends React.Component {
     return (
       <div className="dashboard-body manage">
         <nav className="navbar-sub">
-          <a href={hash + '/view'}>View</a>
-          <a href={hash + '/edit'}>Edit</a>
-          <a href={hash + '/delete'}>Delete</a>
+          <a href={path + '/view'}>View</a>
+          <a href={path + '/edit'}>Edit</a>
+          <a href={path + '/delete'}>Delete</a>
         </nav>
 
         {view}

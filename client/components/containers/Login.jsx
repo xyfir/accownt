@@ -21,9 +21,9 @@ export default class Login extends React.Component {
   }
 
   render() {
-    const hash = location.hash.split('?')[0].split('/');
+    const path = location.pathname.split('/');
 
-    switch (hash[2]) {
+    switch (path[2]) {
       case 'recovery':
         return <Recovery {...this.state} save={this._save} />;
       case 'service':
@@ -31,8 +31,8 @@ export default class Login extends React.Component {
       case 'verify':
         return <Step2 {...this.state} save={this._save} />;
       default:
-        // Support old service login links at `#/login/:id`
-        if (hash[2]) return <Service {...this.state} save={this._save} />;
+        // Support old service login links at `/login/:id`
+        if (path[2]) return <Service {...this.state} save={this._save} />;
         else return <Step1 {...this.state} save={this._save} />;
     }
   }

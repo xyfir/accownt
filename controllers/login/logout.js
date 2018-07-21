@@ -4,5 +4,5 @@
     Destroy user's session
 */
 module.exports = function(req, res) {
-  req.session.destroy(err => res.redirect(err ? '/#/dashboard' : '/#/login'));
+  req.session.destroy(err => res.redirect(err ? '/dashboard' : '/login'));
 };

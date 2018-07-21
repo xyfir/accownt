@@ -10,12 +10,12 @@ export default class Register extends React.Component {
   }
 
   render() {
-    switch (this.props.hash[2]) {
+    switch (this.props.path[2]) {
       case 'service':
         return <Service />;
       default:
-        // Support old service registration links at `#/register/:id`
-        if (this.props.hash[2]) return <Service />;
+        // Support old service registration links at `/register/:id`
+        if (this.props.path[2]) return <Service />;
         else return <Account />;
     }
   }

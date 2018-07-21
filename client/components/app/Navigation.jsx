@@ -25,19 +25,19 @@ export default class AppNavigation extends React.Component {
   /** @return {JSX.Element[]} */
   _renderLoggedOutItems() {
     return [
-      <a href="#/login">
+      <a href="/login">
         <ListItem
           primaryText="Login"
           leftIcon={<FontIcon>keyboard_arrow_right</FontIcon>}
         />
       </a>,
-      <a href="#/register">
+      <a href="/register">
         <ListItem
           primaryText="Register"
           leftIcon={<FontIcon>create</FontIcon>}
         />
       </a>,
-      <a href="#/login/recovery">
+      <a href="/login/recovery">
         <ListItem
           primaryText="Account Recovery"
           leftIcon={<FontIcon>help</FontIcon>}
@@ -50,19 +50,19 @@ export default class AppNavigation extends React.Component {
   _renderLoggedInItems() {
     return [
       <ListItem
-        defaultVisible={/^#\/dashboard\/user/.test(location.hash)}
+        defaultVisible={/^\/dashboard\/user/.test(location.pathname)}
         primaryText="User Dashboard"
         nestedItems={[
-          <a href="#/dashboard/user/account">
+          <a href="/dashboard/user/account">
             <ListItem primaryText="Account" />
           </a>,
-          <a href="#/dashboard/user/security">
+          <a href="/dashboard/user/security">
             <ListItem primaryText="Security" />
           </a>,
-          <a href="#/dashboard/user/services">
+          <a href="/dashboard/user/services">
             <ListItem primaryText="Services" />
           </a>,
-          <a href="#/dashboard/user/tokens">
+          <a href="/dashboard/user/tokens">
             <ListItem primaryText="Tokens" />
           </a>
         ]}
@@ -70,13 +70,13 @@ export default class AppNavigation extends React.Component {
       />,
 
       <ListItem
-        defaultVisible={/^#\/dashboard\/developer/.test(location.hash)}
+        defaultVisible={/^\/dashboard\/developer/.test(location.pathname)}
         primaryText="Developer Dashboard"
         nestedItems={[
-          <a href="#/dashboard/developer/list">
+          <a href="/dashboard/developer/list">
             <ListItem primaryText="View Services" />
           </a>,
-          <a href="#/dashboard/developer/create">
+          <a href="/dashboard/developer/create">
             <ListItem primaryText="Create Service" />
           </a>,
           <a
@@ -90,13 +90,13 @@ export default class AppNavigation extends React.Component {
       />,
 
       <ListItem
-        defaultVisible={/^#\/dashboard\/affiliate/.test(location.hash)}
+        defaultVisible={/^\/dashboard\/affiliate/.test(location.pathname)}
         primaryText="Affiliate Dashboard"
         nestedItems={[
-          <a href="#/dashboard/affiliate/list">
+          <a href="/dashboard/affiliate/list">
             <ListItem primaryText="View Campaigns" />
           </a>,
-          <a href="#/dashboard/affiliate/create">
+          <a href="/dashboard/affiliate/create">
             <ListItem primaryText="Create Campaign" />
           </a>
         ]}
@@ -151,7 +151,7 @@ export default class AppNavigation extends React.Component {
             <Button
               icon
               key="home"
-              onClick={() => (location.hash = '#/')}
+              onClick={() => (location.href = '/')}
               iconChildren="home"
             />
           ]}

@@ -38,11 +38,11 @@ module.exports = async function(req, res) {
     db.release();
 
     res.redirect(
-      req.session.redirect ? req.session.redirect : '/#/dashboard/user'
+      req.session.redirect ? req.session.redirect : '/dashboard/user'
     );
     req.session.redirect = '';
   } catch (err) {
     db.release();
-    res.redirect('/#/login');
+    res.redirect('/login');
   }
 };

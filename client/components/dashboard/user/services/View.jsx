@@ -23,7 +23,7 @@ export default class ViewLinkedService extends React.Component {
     super(props);
 
     this.state = {
-      id: +location.hash.split('/')[4],
+      id: +location.pathname.split('/')[4],
       country: ''
     };
   }

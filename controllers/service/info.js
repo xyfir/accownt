@@ -38,7 +38,7 @@ module.exports = async function(req, res) {
     service.requested = JSON.parse(service.requested);
 
     if (!req.session.uid) {
-      req.session.redirect = `${config.addresses.xacc}#/login/service/${
+      req.session.redirect = `${config.addresses.xacc}/login/service/${
         req.params.service
       }`;
       throw 'Not logged in';

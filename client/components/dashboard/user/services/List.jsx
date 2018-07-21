@@ -63,7 +63,7 @@ export default class ListLinkedServices extends React.Component {
           <List>
             <ListItem
               primaryText="Edit"
-              onClick={() => (location.hash += '/' + selected.id)}
+              onClick={() => (location.href += '/' + selected.id)}
             />
             <ListItem
               primaryText="Go to site"

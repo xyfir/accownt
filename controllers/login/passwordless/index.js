@@ -17,10 +17,10 @@ module.exports = async function(req, res) {
     req.session.uid = req.params.uid;
 
     res.redirect(
-      req.session.redirect ? req.session.redirect : '/#/dashboard/user'
+      req.session.redirect ? req.session.redirect : '/dashboard/user'
     );
     req.session.redirect = '';
   } catch (err) {
-    res.redirect('/#/login');
+    res.redirect('/login');
   }
 };
