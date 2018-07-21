@@ -89,20 +89,6 @@ export default class AppNavigation extends React.Component {
         leftIcon={<FontIcon>code</FontIcon>}
       />,
 
-      <ListItem
-        defaultVisible={/^\/dashboard\/affiliate/.test(location.pathname)}
-        primaryText="Affiliate Dashboard"
-        nestedItems={[
-          <a href="/dashboard/affiliate/list">
-            <ListItem primaryText="View Campaigns" />
-          </a>,
-          <a href="/dashboard/affiliate/create">
-            <ListItem primaryText="Create Campaign" />
-          </a>
-        ]}
-        leftIcon={<FontIcon>attach_money</FontIcon>}
-      />,
-
       <a href="/api/login/logout">
         <ListItem leftIcon={<FontIcon>close</FontIcon>} primaryText="Logout" />
       </a>
