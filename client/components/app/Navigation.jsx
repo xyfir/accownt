@@ -89,9 +89,11 @@ export default class AppNavigation extends React.Component {
         leftIcon={<FontIcon>code</FontIcon>}
       />,
 
-      <a href="/api/login/logout">
-        <ListItem leftIcon={<FontIcon>close</FontIcon>} primaryText="Logout" />
-      </a>
+      <ListItem
+        onClick={() => (location.href = '/api/login/logout')}
+        leftIcon={<FontIcon>close</FontIcon>}
+        primaryText="Logout"
+      />
     ];
   }
 
