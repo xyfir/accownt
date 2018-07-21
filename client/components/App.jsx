@@ -20,6 +20,9 @@ class App extends React.Component {
       path: location.pathname.split('/')
     };
 
+    if (location.hash.startsWith('#/'))
+      location.replace(location.href.replace('/#/', '/'));
+
     document.addEventListener('click', e => {
       const el =
         e.target.nodeName == 'A'
