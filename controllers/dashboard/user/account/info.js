@@ -5,7 +5,7 @@ const MySQL = require('lib/mysql');
 	RETURN
 		{
       loggedIn: boolean, message: string, hasPassword: boolean,
-      recovered: boolean, affiliate: boolean, email: string
+      recovered: boolean, email: string
 		}
 */
 module.exports = async function(req, res) {
@@ -17,8 +17,7 @@ module.exports = async function(req, res) {
     await db.getConnection();
     const [user] = await db.query(
       `
-        SELECT
-          email, affiliate, IF(password = '', 0, 1) AS hasPassword
+        SELECT email, IF(password = '', 0, 1) AS hasPassword
         FROM users WHERE id = ?
       `,
       [req.session.uid]
