@@ -31,9 +31,7 @@ export default class Login extends React.Component {
       case 'verify':
         return <Step2 {...this.state} save={this._save} />;
       default:
-        // Support old service login links at `/login/:id`
-        if (path[2]) return <Service {...this.state} save={this._save} />;
-        else return <Step1 {...this.state} save={this._save} />;
+        return <Step1 {...this.state} save={this._save} />;
     }
   }
 }

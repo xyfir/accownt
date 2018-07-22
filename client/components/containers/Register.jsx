@@ -14,9 +14,7 @@ export default class Register extends React.Component {
       case 'service':
         return <Service />;
       default:
-        // Support old service registration links at `/register/:id`
-        if (this.props.path[2]) return <Service />;
-        else return <Account />;
+        return <Account />;
     }
   }
 }
