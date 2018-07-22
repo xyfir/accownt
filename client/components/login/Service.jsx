@@ -5,12 +5,7 @@ export default class LoginService extends React.Component {
   constructor(props) {
     super(props);
 
-    const path = location.pathname.split('/');
-
-    this.state = {
-      // /login/:id OR /login/service/:id
-      service: path[2] == 'service' ? path[3] : path[2]
-    };
+    this.state = { service: location.pathname.split('/')[3] };
 
     this._createSession = this._createSession.bind(this);
   }

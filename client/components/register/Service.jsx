@@ -12,9 +12,7 @@ export default class RegisterService extends React.Component {
 
     this.state = {
       linked: false,
-      country: '',
-      // /register/:id OR /register/service/:id
-      id: path[2] == 'service' ? path[3] : path[2]
+      id: location.pathname.split('/')[3]
     };
 
     this._createSession = this._createSession.bind(this);
