@@ -1,33 +1,20 @@
-import PropTypes from 'prop-types';
+import { TextField, Button } from 'react-md';
 import request from 'superagent';
 import React from 'react';
-import copy from 'copyr';
-
-// react-md
-import SelectField from 'react-md/lib/SelectFields';
-import TextField from 'react-md/lib/TextFields';
-import Button from 'react-md/lib/Buttons/Button';
-import Paper from 'react-md/lib/Papers';
 
 export default class RecoveryCode extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { show: false, recovery: '', type: 'rstring' };
+    this.state = { show: false, recovery: '' };
   }
 
   /**
    * Generate a new recovery code.
    */
   onGenerate() {
-    const refKey = Object.keys(this.refs)[0];
-
     request
       .put('/api/dashboard/user/security/recovery-code')
-      .send({
-        type: this.state.type,
-        [refKey]: this.refs[refKey].value
-      })
       .end((err, res) => {
         if (err) this.props.alert(res.body.message);
         else this.setState({ recovery: res.body.recovery });
@@ -38,17 +25,19 @@ export default class RecoveryCode extends React.Component {
    * Download the recovery code and render it.
    */
   onShow() {
-    request.get('/api/dashboard/user/security/recovery-code').end((err, res) => {
-      if (!err) {
-        res.body.show = true;
-        this.setState(res.body);
-      }
-    });
+    request
+      .get('/api/dashboard/user/security/recovery-code')
+      .end((err, res) => {
+        if (!err) {
+          res.body.show = true;
+          this.setState(res.body);
+        }
+      });
   }
 
   render() {
     return (
-      <Paper zDepth={2} className="recovery-code section">
+      <div className="recovery-code section">
         <h3>Recovery Code</h3>
         <p>
           A recovery code allows you to bypass all of your other 2FA steps in
@@ -72,54 +61,8 @@ export default class RecoveryCode extends React.Component {
               className="md-cell"
             />
 
-            <h4>Generate New Code</h4>
-
-            <SelectField
-              id="select--recovery-type"
-              label="Generate Code Type"
-              value={this.state.type}
-              onChange={v => this.setState({ type: v })}
-              menuItems={[
-                { label: 'Custom', value: 'custom' },
-                { label: 'Words and Numbers', value: 'wordsnumbers' },
-                { label: 'Random String', value: 'rstring' }
-              ]}
-              className="md-cell"
-            />
-
-            {this.state.type == 'custom' ? (
-              <TextField
-                id="textarea--new-recovery-code"
-                ref="recovery"
-                rows={2}
-                type="text"
-                label="New Recovery Code"
-                className="md-cell"
-              />
-            ) : this.state.type == 'wordsnumbers' ? (
-              <TextField
-                id="number--wordsnumbers-count"
-                ref="count"
-                min={10}
-                max={500}
-                type="number"
-                label="Words / Numbers Count"
-                className="md-cell"
-              />
-            ) : (
-              <TextField
-                id="number--string-length"
-                ref="strLength"
-                min={32}
-                max={4096}
-                type="number"
-                label="String Length"
-                className="md-cell"
-              />
-            )}
-
             <Button primary raised onClick={() => this.onGenerate()}>
-              Generate
+              Generate New
             </Button>
           </div>
         ) : (
@@ -127,11 +70,7 @@ export default class RecoveryCode extends React.Component {
             Show Code
           </Button>
         )}
-      </Paper>
+      </div>
     );
   }
 }
-
-RecoveryCode.propTypes = {
-  alert: PropTypes.func.isRequired
-};

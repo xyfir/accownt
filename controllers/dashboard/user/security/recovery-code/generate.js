@@ -1,60 +1,36 @@
-const rstring = require('randomstring');
-const mysql = require('lib/mysql');
+const MySQL = require('lib/mysql');
 const rword = require('rword');
 const rand = require('lib/rand');
 
 /*
   PUT /api/dashboard/user/security/recovery-code
-  REQUIRED
-    type: 'custom|wordsnumbers|rstring'
-  OPTIONAL
-    recovery: string, count: number, strLength: number
   RETURN
     { message?: string, recovery?: string }
 */
 module.exports = async function(req, res) {
-  const db = new mysql();
-
+  const db = new MySQL();
   try {
     const recovery = (() => {
-      switch (req.body.type) {
-        case 'custom':
-          return String(req.body.recovery).substr(0, 4096);
+      const count = 12;
+      let temp = '';
 
-        case 'wordsnumbers':
-          const count = req.body.count > 500 ? 500 : +req.body.count || 10;
-          let temp = '';
-
-          for (let i = 0; i < count; i++) {
-            if (rand(0, 1) == 0) temp += ' ' + rword.generateFromPool(1);
-            else temp += ' ' + rand(0, 999999);
-          }
-
-          return temp.substr(1);
-
-        case 'rstring':
-          return rstring.generate({
-            length:
-              req.body.strLength.length > 4096
-                ? 4096
-                : +req.body.strLength || 256
-          });
+      for (let i = 0; i < count; i++) {
+        if (rand(0, 1) == 0) temp += ' ' + rword.generateFromPool(1);
+        else temp += ' ' + rand(100, 9999);
       }
-    })();
 
-    await db.getConnection();
+      return temp.substr(1);
+    })();
 
     const result = await db.query(
       'UPDATE security SET recovery = ? WHERE user_id = ?',
       [recovery, req.session.uid]
     );
-    db.release();
-
     if (!result.affectedRows) throw 'Could not save recovery code';
 
     res.status(200).json({ recovery });
   } catch (err) {
-    db.release();
     res.status(400).json({ message: err });
   }
+  db.release();
 };
