@@ -11,7 +11,7 @@ const MySQL = require('lib/mysql');
     {
       message?: string, uid?: number, auth?: string,
       security?: {
-        noSecurity?: bool, code?: bool, otp?: bool
+        noSecurity?: bool, otp?: bool
       }
     }
 */
@@ -30,10 +30,9 @@ module.exports = async function(req, res) {
 
     const uid = rows[0].id;
 
-    rows = await db.query(
-      'SELECT codes, otp_secret FROM security WHERE user_id = ?',
-      [uid]
-    );
+    rows = await db.query('SELECT otp_secret FROM security WHERE user_id = ?', [
+      uid
+    ]);
     db.release();
 
     const security = await initiateSecurityProcess(uid, rows[0]);

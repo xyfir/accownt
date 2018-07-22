@@ -61,10 +61,6 @@ router.put(
   require('./dashboard/user/security/otp')
 );
 router.put(
-  '/dashboard/user/security/codes',
-  require('./dashboard/user/security/codes')
-);
-router.put(
   '/dashboard/user/security/passwordless',
   require('./dashboard/user/security/passwordless')
 );

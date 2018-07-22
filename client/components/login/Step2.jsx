@@ -20,12 +20,7 @@ export default class LoginStep2 extends React.Component {
       .send({
         auth: this.props.tfa.auth,
         uid: this.props.tfa.uid,
-        //
-        codeNum: this.props.tfa.security.code
-          ? this.props.tfa.security.codeNumber
-          : 0,
-        otpCode: this.props.tfa.security.otp ? this.refs.otpCode.value : 0,
-        code: this.props.tfa.security.code ? this.refs.code.value : 0
+        otpCode: this.props.tfa.security.otp ? this.refs.otpCode.value : 0
       })
       .end((err, res) => {
         if (err) {
@@ -46,17 +41,6 @@ export default class LoginStep2 extends React.Component {
 
     return (
       <form className="login-2 md-paper md-paper--1 section flex">
-        {this.props.tfa.security.code ? (
-          <TextField
-            id="text--security-code"
-            ref="code"
-            type="text"
-            label={`Security Code #${this.props.tfa.security.codeNumber + 1}`}
-            onKeyDown={e => (e.key == 'Enter' ? this.onLogin() : null)}
-            className="md-cell"
-          />
-        ) : null}
-
         {this.props.tfa.security.otp ? (
           <TextField
             id="text--otp-code"
