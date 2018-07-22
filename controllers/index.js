@@ -46,10 +46,6 @@ router.get(
   '/dashboard/user/services/:service',
   require('./dashboard/user/services/get-single')
 );
-router.put(
-  '/dashboard/user/services/:service',
-  require('./dashboard/user/services/update')
-);
 router.delete(
   '/dashboard/user/services/:service',
   require('./dashboard/user/services/remove')
