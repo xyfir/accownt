@@ -1,25 +1,25 @@
-const db = require('lib/db');
+const MySQL = require('lib/mysql');
 
 /*
-    GET /api/dashboard/user/tokens
-    RETURN
-        { tokens: [{
-            service_id: number, token: string, created: date-string,
-            expires: date-string, last_use: date-string
-        }] }
-    DESCRIPTION
-        Return all access tokens
+  GET /api/dashboard/user/tokens
+  RETURN
+    {
+      tokens: [{
+        service_id: number, token: string, created: date-string,
+        expires: date-string, last_use: date-string
+      }]
+    }
 */
-
-module.exports = function(req, res) {
-  let sql = `
-        SELECT * FROM access_tokens WHERE user_id = ?
-    `;
-
-  db(cn =>
-    cn.query(sql, [req.session.uid], (err, rows) => {
-      cn.release();
-      res.status(200).json({ tokens: err ? [] : rows });
-    })
-  );
+module.exports = async function(req, res) {
+  const db = new MySQL();
+  try {
+    const rows = await db.query(
+      `SELECT * FROM access_tokens WHERE user_id = ?`,
+      [req.session.uid]
+    );
+    res.status(200).json({ tokens: rows });
+  } catch (err) {
+    res.status(400).json({ message: err });
+  }
+  db.release();
 };

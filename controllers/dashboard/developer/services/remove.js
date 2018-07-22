@@ -1,27 +1,22 @@
-const db = require('lib/db');
+const MySQL = require('lib/mysql');
 
 /*
 	DELETE /api/dashboard/developer/services/:id
 	RETURN
 		{ message: string }
-	DESCRIPTION
-		Deletes service from services table
-		Deletes all rows in linked_services where id matches
 */
-module.exports = function(req, res) {
-  db(cn => {
-    let sql = 'DELETE FROM services WHERE owner = ? AND id = ?';
-    cn.query(sql, [req.session.uid, req.params.id], (err, result) => {
-      if (err || !result.affectedRows) {
-        res.status(400).json({ message: 'An unknown error occured' });
-      } else {
-        res.status(200).json({ message: 'Service deleted successfully' });
+module.exports = async function(req, res) {
+  const db = new MySQL();
+  try {
+    const result = await db.query(
+      'DELETE FROM services WHERE owner = ? AND id = ?',
+      [req.session.uid, req.params.id]
+    );
+    if (!result.affectedRows) throw 'Could not delete';
 
-        sql = 'DELETE FROM linked_services WHERE service_id = ?';
-        cn.query(sql, [req.params.id], (err, result) => {
-          cn.release();
-        });
-      }
-    });
-  });
+    res.status(200).json({ message: 'Service deleted successfully' });
+  } catch (err) {
+    res.status(400).json({ message: err });
+  }
+  db.release();
 };

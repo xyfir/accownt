@@ -1,19 +1,20 @@
-const db = require('lib/db');
+const MySQL = require('lib/mysql');
 
 /*
 	GET /api/dashboard/developer/services
 	RETURN
-		{services: [
-			{ id: number, name: string }
-		]}
+		{ services: [{ id: number, name: string }] }
 */
-module.exports = function(req, res) {
-  db(cn => {
-    const sql = 'SELECT id, name FROM services WHERE owner = ?';
-    cn.query(sql, [req.session.uid], (err, services) => {
-      cn.release();
-
-      res.status(200).json({ services });
-    });
-  });
+module.exports = async function(req, res) {
+  const db = new MySQL();
+  try {
+    const services = await db.query(
+      'SELECT id, name FROM services WHERE owner = ?',
+      [req.session.uid]
+    );
+    res.status(200).json({ services });
+  } catch (err) {
+    res.status(400).json({ message: err });
+  }
+  db.release();
 };

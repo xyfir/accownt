@@ -1,4 +1,4 @@
-const db = require('lib/db');
+const MySQL = require('lib/mysql');
 
 /*
 	GET /api/dashboard/developer/services/:id
@@ -8,25 +8,25 @@ const db = require('lib/db');
 			owner: number, address: string, xyfir: boolean, keys: string[]
 		}
 */
-module.exports = function(req, res) {
-  db(cn => {
-    let sql = 'SELECT * FROM services WHERE owner = ? AND id = ?';
-    cn.query(sql, [req.session.uid, req.params.id], (err, rows) => {
-      if (err || !rows.length) {
-        cn.release();
-        res.status(400).json({ id: -1 });
-      } else {
-        let response = rows[0];
+module.exports = async function(req, res) {
+  const db = new MySQL();
+  try {
+    let rows = await db.query(
+      'SELECT * FROM services WHERE owner = ? AND id = ?',
+      [req.session.uid, req.params.id]
+    );
+    if (!rows.length) throw 'Could not find service';
 
-        sql = 'SELECT service_key FROM service_keys WHERE service_id = ?';
-        cn.query(sql, [req.params.id], (err, rows) => {
-          cn.release();
+    const response = rows[0];
+    rows = await db.query(
+      'SELECT service_key FROM service_keys WHERE service_id = ?',
+      [req.params.id]
+    );
+    response.keys = rows.map(k => k.service_key);
 
-          response.keys = rows.map(k => k.service_key);
-
-          res.status(200).json(response);
-        });
-      }
-    });
-  });
+    res.status(200).json(response);
+  } catch (err) {
+    res.status(400).json({ message: err });
+  }
+  db.release();
 };

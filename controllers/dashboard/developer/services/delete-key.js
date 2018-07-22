@@ -1,31 +1,27 @@
-const db = require('lib/db');
+const MySQL = require('lib/mysql');
 
 /*
 	DELETE /api/dashboard/developer/services/:id/key
   REQUIRED
     key: string
 */
-module.exports = function(req, res) {
-  let sql = `
-        SELECT * FROM services WHERE id = ? AND owner = ?
-    `,
-    vars = [req.params.id, req.session.uid];
+module.exports = async function(req, res) {
+  const db = new MySQL();
+  try {
+    const rows = await db.query(
+      'SELECT * FROM services WHERE id = ? AND owner = ?',
+      [req.params.id, req.session.uid]
+    );
+    if (!rows.length) throw 'Bad id/key';
 
-  db(cn =>
-    cn.query(sql, vars, (err, rows) => {
-      if (err || !rows.length) {
-        cn.release();
-        res.status(400).json({});
-      } else {
-        sql =
-          'DELETE FROM service_keys WHERE service_id = ? AND service_key = ?';
-        vars = [req.params.id, req.body.key];
+    await db.query(
+      'DELETE FROM service_keys WHERE service_id = ? AND service_key = ?',
+      [req.params.id, req.body.key]
+    );
 
-        cn.query(sql, vars, (err, result) => {
-          cn.release();
-          res.status(200).json({ error: !!err });
-        });
-      }
-    })
-  );
+    res.status(200).json({});
+  } catch (err) {
+    res.status(400).json({ message: err });
+  }
+  db.release();
 };
