@@ -62,10 +62,6 @@ export default class ListLinkedServices extends React.Component {
         >
           <List>
             <ListItem
-              primaryText="Edit"
-              onClick={() => (location.href += '/' + selected.id)}
-            />
-            <ListItem
               primaryText="Go to site"
               onClick={() => window.open(selected.address)}
             />
