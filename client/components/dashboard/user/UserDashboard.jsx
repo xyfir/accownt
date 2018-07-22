@@ -3,7 +3,7 @@ import React from 'react';
 
 // Components
 import AccessTokens from 'components/dashboard/user/Tokens';
-import Services from 'components/dashboard/user/services/Index';
+import Services from 'components/dashboard/user/services/List';
 import Security from 'components/dashboard/user/Security';
 import Account from 'components/dashboard/user/Account';
 
