@@ -2,77 +2,69 @@ const validateToken = require('lib/tokens/validate');
 const generateToken = require('lib/tokens/generate');
 const MySQL = require('lib/mysql');
 
-/*
-  GET /api/service/:service/user
-  REQUIRED
-    key: string, xid: string, token: string
-  RETURNS
-    {
-      message?: string,
-      accessToken?: string?
-      fname, country, ...
-    }
-  DESCRIPTION
-    Called by service upon successful login OR with access token to start new session
-    Token can be authorization (starts with 1) or access token (starts with 2)
-    Generates and returns an access token if token starts with 1
-*/
+/**
+ * `GET /api/service/:service/user`
+ *  Called by service upon successful login OR with access token to start new
+ *  session. Token can be authorization (starts with `1`) or access token
+ *  (starts with `2`). Generates and returns an access token if token starts
+ *  with `1`.
+ * @param {object} req
+ * @param {object} req.query
+ * @param {string} req.query.key
+ * @param {string} req.query.xid
+ * @param {string} req.query.token
+ * @param {object} req.params
+ * @param {number} req.params.service
+ */
+/**
+ * @typedef {object} ResponseBody
+ * @prop {string} [email]
+ * @prop {string} [message]
+ * @prop {string} [accessToken]
+ */
 module.exports = async function(req, res) {
   const db = new MySQL();
-
   try {
-    await db.getConnection();
-
-    // Verify service exists and service key is valid
-    let [row] = await db.query(
+    const [row] = await db.query(
       `
-        SELECT id FROM services WHERE id IN (
-          SELECT service_id FROM service_keys
-          WHERE service_id = ? AND service_key = ?
-        )
+        SELECT u.id, u.email
+        FROM service_keys sk
+        LEFT JOIN linked_services ls
+          ON ls.xyfir_id = ? AND sk.service_id = ls.service_id
+        LEFT JOIN users u
+          ON u.id = ls.user_id
+        WHERE sk.service_id = ? AND sk.service_key = ?
       `,
-      [req.params.service, req.query.key]
+      [req.params.service, req.query.key, req.query.xid]
     );
     if (!row) throw 'Service id and key do not match';
+    if (!row.id) throw 'Xyfir id not linked to service';
 
-    // Check if xid matches service
-    [row] = await db.query(
-      `
-        SELECT user_id, info FROM linked_services
-        WHERE service_id = ? AND xyfir_id = ?
-      `,
-      [req.params.service, req.query.xid]
-    );
-    if (!row) throw 'Xyfir id not linked to service';
-
-    const uid = row.user_id;
     const token = req.query.token;
+    const user = +row.userId;
 
     // Check if authentication/access token is valid
     const isValid = await validateToken({
-      user: uid,
       service: req.params.service,
-      token
+      token,
+      user
     });
     if (!isValid) throw 'Invalid token';
 
-    // Grab info that user provided to service
-    const data = JSON.parse(row.info);
-    data.error = false;
+    const response = { email: row.email };
 
     // Generate access token
     if (token[0] == '1') {
-      data.accessToken = await generateToken({
-        user: uid,
+      response.accessToken = await generateToken({
         service: req.params.service,
-        type: 2
+        type: 2,
+        user
       });
     }
 
-    db.release();
-    res.status(200).json(data);
+    res.status(200).json(response);
   } catch (err) {
-    db.release();
     res.status(400).json({ message: err });
   }
+  db.release();
 };
