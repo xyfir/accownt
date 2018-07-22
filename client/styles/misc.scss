@@ -1,28 +1,9 @@
-/* USER DASHBOARD */
+.dashboard-user > div.security {
+  > div.tfa {
+    padding-bottom: 0.1em;
 
-.dashboard-user {
-  > div.security {
-    > div.tfa {
-      padding-bottom: 0.1em;
-
-      > div.otp {
-        > section.md-tabs-container {
-          width: 100%;
-        }
-      }
-    }
-  }
-}
-
-div.update-linked-service {
-  form.custom {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    > div {
-      width: 90%;
-      max-width: 20em;
+    > div.otp > section.md-tabs-container {
+      width: 100%;
     }
   }
 }
@@ -45,28 +26,6 @@ div.update-linked-service {
   }
 }
 
-/* DEVELOPER DASHBOARD */
-
-.dashboard-developer {
-  form.service {
-    .md-data-table--responsive {
-      margin: 1em;
-
-      .md-table-column:first-child {
-        width: 30%;
-      }
-    }
-  }
-}
-
-/* LOGIN/REGISTER */
-
 nav.login-links {
   margin-top: 1em;
-}
-
-div.link-service {
-  > h2.service-name {
-    margin-bottom: 0;
-  }
 }
