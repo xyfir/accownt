@@ -114,6 +114,7 @@ export default class RegisterAccount extends React.Component {
             value={email}
             onChange={v => this.onSetEmail(v)}
             helpText="Used to login, receive alerts, and recover your account"
+            onKeyDown={e => (e.key == 'Enter' ? this.onCreate() : null)}
             className="md-cell"
           />
 
@@ -125,6 +126,7 @@ export default class RegisterAccount extends React.Component {
             label="Password"
             helpText="Leave blank to use login links sent to your email"
             className="md-cell"
+            onKeyDown={e => (e.key == 'Enter' ? this.onCreate() : null)}
             placeholder="(optional)"
           />
 

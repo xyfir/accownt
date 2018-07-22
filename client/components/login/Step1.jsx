@@ -128,6 +128,7 @@ export default class LoginStep1 extends React.Component {
             value={email}
             leftIcon={<FontIcon>mail</FontIcon>}
             onChange={v => this.setState({ email: v })}
+            onKeyDown={e => (e.key == 'Enter' ? this.onLogin() : null)}
             className="md-cell"
           />
 
@@ -140,6 +141,7 @@ export default class LoginStep1 extends React.Component {
             helpText="Leave blank to send a login link to your email"
             leftIcon={<FontIcon>lock</FontIcon>}
             className="md-cell"
+            onKeyDown={e => (e.key == 'Enter' ? this.onLogin() : null)}
             placeholder="(optional)"
           />
 

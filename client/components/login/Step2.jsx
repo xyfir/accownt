@@ -52,6 +52,7 @@ export default class LoginStep2 extends React.Component {
             ref="code"
             type="text"
             label={`Security Code #${this.props.tfa.security.codeNumber + 1}`}
+            onKeyDown={e => (e.key == 'Enter' ? this.onLogin() : null)}
             className="md-cell"
           />
         ) : null}
@@ -62,6 +63,7 @@ export default class LoginStep2 extends React.Component {
             ref="otpCode"
             type="text"
             label="App Verification Code"
+            onKeyDown={e => (e.key == 'Enter' ? this.onLogin() : null)}
             className="md-cell"
           />
         ) : null}

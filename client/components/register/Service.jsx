@@ -8,8 +8,6 @@ export default class RegisterService extends React.Component {
   constructor(props) {
     super(props);
 
-    const path = location.pathname.split('/');
-
     this.state = {
       linked: false,
       id: location.pathname.split('/')[3]

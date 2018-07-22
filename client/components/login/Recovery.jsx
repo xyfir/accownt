@@ -75,6 +75,7 @@ export default class AccountRecovery extends React.Component {
                 ref="code"
                 type="text"
                 label={`Security Code #${this.state.security.codeNumber + 1}`}
+                onKeyDown={e => (e.key == 'Enter' ? this.onVerify() : null)}
                 className="md-cell"
               />
             ) : null}
@@ -85,6 +86,7 @@ export default class AccountRecovery extends React.Component {
                 ref="otpCode"
                 type="text"
                 label="App Verification Code"
+                onKeyDown={e => (e.key == 'Enter' ? this.onVerify() : null)}
                 className="md-cell"
               />
             ) : null}
@@ -96,6 +98,7 @@ export default class AccountRecovery extends React.Component {
               type="text"
               label="Recovery Code"
               helpText="Providing a recovery code will bypass 2FA steps"
+              onKeyDown={e => (e.key == 'Enter' ? this.onVerify() : null)}
               className="md-cell"
             />
 
@@ -118,6 +121,7 @@ export default class AccountRecovery extends React.Component {
               label="Email"
               value={this.state.email}
               onChange={v => this.setState({ email: v })}
+              onKeyDown={e => (e.key == 'Enter' ? this.onNext() : null)}
               className="md-cell"
             />
 
