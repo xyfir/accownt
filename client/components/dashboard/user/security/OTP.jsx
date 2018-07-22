@@ -75,7 +75,6 @@ export default class ConfigureOTP extends React.Component {
               ref="code"
               type="text"
               label="Code"
-              className="md-cell"
             />
 
             <Button primary raised onClick={() => this.onVerify()}>

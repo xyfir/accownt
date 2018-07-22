@@ -151,7 +151,6 @@ export default class AccessTokens extends React.Component {
               ref="name"
               type="text"
               label="Token Name"
-              className="md-cell"
               defaultValue={selected.name}
             />
 

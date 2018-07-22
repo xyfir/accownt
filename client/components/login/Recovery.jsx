@@ -74,7 +74,6 @@ export default class AccountRecovery extends React.Component {
                 type="text"
                 label="App Verification Code"
                 onKeyDown={e => (e.key == 'Enter' ? this.onVerify() : null)}
-                className="md-cell"
               />
             ) : null}
 
@@ -86,7 +85,6 @@ export default class AccountRecovery extends React.Component {
               label="Recovery Code"
               helpText="Providing a recovery code will bypass 2FA steps"
               onKeyDown={e => (e.key == 'Enter' ? this.onVerify() : null)}
-              className="md-cell"
             />
 
             <Button raised primary onClick={() => this.onVerify()}>
@@ -109,7 +107,6 @@ export default class AccountRecovery extends React.Component {
               value={this.state.email}
               onChange={v => this.setState({ email: v })}
               onKeyDown={e => (e.key == 'Enter' ? this.onNext() : null)}
-              className="md-cell"
             />
 
             <Button raised primary onClick={() => this.onNext()}>

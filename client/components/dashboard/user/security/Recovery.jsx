@@ -58,7 +58,6 @@ export default class RecoveryCode extends React.Component {
               type="text"
               label="Current Recovery Code"
               value={this.state.recovery}
-              className="md-cell"
             />
 
             <Button primary raised onClick={() => this.onGenerate()}>

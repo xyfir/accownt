@@ -39,7 +39,7 @@ export default class SetPasswordless extends React.Component {
             { label: 'Disabled', value: 0 },
             { label: 'Receive via Email', value: 2 }
           ]}
-          className="md-cell"
+          className="md-full-width"
           defaultValue={this.props.passwordless}
         />
 

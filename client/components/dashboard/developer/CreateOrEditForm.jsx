@@ -72,7 +72,6 @@ export default class CreateOrEditServiceForm extends React.Component {
             ref="name"
             type="text"
             label="Service Name"
-            className="md-cell"
             defaultValue={lf.name || ''}
           />
 
@@ -82,7 +81,6 @@ export default class CreateOrEditServiceForm extends React.Component {
             rows={2}
             type="text"
             label="Service Description"
-            className="md-cell"
             defaultValue={lf.description || ''}
           />
 
@@ -92,7 +90,6 @@ export default class CreateOrEditServiceForm extends React.Component {
             type="text"
             label="Website"
             helpText="The URL of the main page for your service"
-            className="md-cell"
             defaultValue={lf.url_main || 'https://yoursite.com/'}
           />
         </Paper>
@@ -113,7 +110,6 @@ export default class CreateOrEditServiceForm extends React.Component {
             type="text"
             label="Login"
             helpText="Where the user is redirected after login"
-            className="md-cell"
             defaultValue={lf.url_login || ''}
           />
 
@@ -123,7 +119,6 @@ export default class CreateOrEditServiceForm extends React.Component {
             type="text"
             label="Unlink"
             helpText="Called when a linked user unlinks your service"
-            className="md-cell"
             defaultValue={lf.url_unlink || ''}
           />
         </Paper>

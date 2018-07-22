@@ -115,7 +115,6 @@ export default class RegisterAccount extends React.Component {
             onChange={v => this.onSetEmail(v)}
             helpText="Used to login, receive alerts, and recover your account"
             onKeyDown={e => (e.key == 'Enter' ? this.onCreate() : null)}
-            className="md-cell"
           />
 
           <TextField
@@ -125,7 +124,6 @@ export default class RegisterAccount extends React.Component {
             type="password"
             label="Password"
             helpText="Leave blank to use login links sent to your email"
-            className="md-cell"
             onKeyDown={e => (e.key == 'Enter' ? this.onCreate() : null)}
             placeholder="(optional)"
           />

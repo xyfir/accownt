@@ -48,7 +48,6 @@ export default class LoginStep2 extends React.Component {
             type="text"
             label="App Verification Code"
             onKeyDown={e => (e.key == 'Enter' ? this.onLogin() : null)}
-            className="md-cell"
           />
         ) : null}
 

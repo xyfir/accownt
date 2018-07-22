@@ -56,21 +56,18 @@ export default class UserAccount extends React.Component {
                   ? 'none'
                   : 'initial'
             }}
-            className="md-cell"
           />
           <TextField
             id="password--new"
             ref="npassword"
             type="password"
             label="New Password"
-            className="md-cell"
           />
           <TextField
             id="password--confirm"
             ref="rpassword"
             type="password"
             label="Confirm Password"
-            className="md-cell"
           />
 
           <Button raised primary onClick={() => this.onUpdatePassword()}>
