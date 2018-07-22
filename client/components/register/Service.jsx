@@ -20,7 +20,7 @@ export default class RegisterService extends React.Component {
     this._createSession = this._createSession.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     request.get('/api/service/' + this.state.id).end((err, res) => {
       if (err) {
         if (!res.body.service) {

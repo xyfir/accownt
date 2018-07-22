@@ -14,7 +14,7 @@ export default class ListLinkedServices extends React.Component {
     this.state = { services: [], selected: 0 };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     request
       .get('/api/dashboard/user/services')
       .end((err, res) => this.setState(res.body));

@@ -10,7 +10,7 @@ export default class UserAccount extends React.Component {
     this.state = { email: '', recovered: false, hasPassword: false };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     request
       .get('/api/dashboard/user/account')
       .end((err, res) => this.setState(res.body));

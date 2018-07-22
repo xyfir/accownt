@@ -27,7 +27,7 @@ export default class ViewService extends React.Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     request
       .get('/api/dashboard/developer/services/' + this.props.id)
       .end((err, res) => {

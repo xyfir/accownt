@@ -19,7 +19,7 @@ export default class AccessTokens extends React.Component {
    * Download all services that are linked to the user's account and call
    * _getTokens().
    */
-  componentWillMount() {
+  componentDidMount() {
     request.get('/api/dashboard/user/services').end((err, res) => {
       this.setState(res.body);
       this._getTokens();

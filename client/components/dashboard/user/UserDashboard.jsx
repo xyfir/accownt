@@ -12,7 +12,7 @@ export default class UserDashboard extends React.Component {
     super(props);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     request
       .get('/api/dashboard/user/account')
       .end((err, res) => !res.body.loggedIn && (location.href = '/login'));
