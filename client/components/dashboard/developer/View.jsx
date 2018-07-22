@@ -41,7 +41,7 @@ export default class ViewService extends React.Component {
 
   onGenerateKey() {
     request
-      .post(`api/dashboard/developer/services/${this.props.id}/key`)
+      .post(`/api/dashboard/developer/services/${this.props.id}/key`)
       .end((err, res) => {
         if (!err)
           this.setState({ keys: this.state.keys.concat([res.body.key]) });
@@ -52,7 +52,7 @@ export default class ViewService extends React.Component {
     const key = this.state.selected;
 
     request
-      .delete(`api/dashboard/developer/services/${this.props.id}/key`)
+      .delete(`/api/dashboard/developer/services/${this.props.id}/key`)
       .send({ key })
       .end((err, res) => {
         if (!err) {

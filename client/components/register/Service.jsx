@@ -38,7 +38,7 @@ export default class RegisterService extends React.Component {
           this._createSession();
         }
       } else {
-        request.post(`api/service/${this.state.id}/link`).end((err, res) => {
+        request.post(`/api/service/${this.state.id}/link`).end((err, res) => {
           // Fallback to form
           if (err) this.setState(res.body);
           else this._createSession();
@@ -57,7 +57,7 @@ export default class RegisterService extends React.Component {
    */
   _createSession() {
     request
-      .post(`api/service/${this.state.id}/session`)
+      .post(`/api/service/${this.state.id}/session`)
       .end((err, res) => !err && location.replace(res.body.redirect));
   }
 

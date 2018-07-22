@@ -50,7 +50,7 @@ export default class LoginService extends React.Component {
    */
   _createSession() {
     request
-      .post(`api/service/${this.state.service}/session`)
+      .post(`/api/service/${this.state.service}/session`)
       .end((err, res) => !err && location.replace(res.body.redirect));
   }
 
