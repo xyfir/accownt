@@ -1,11 +1,7 @@
+import { TextField, Button } from 'react-md';
 import PropTypes from 'prop-types';
 import request from 'superagent';
 import React from 'react';
-
-// react-md
-import TextField from 'react-md/lib/TextFields';
-import Button from 'react-md/lib/Buttons/Button';
-import Paper from 'react-md/lib/Papers';
 
 export default class ConfigureOTP extends React.Component {
   constructor(props) {
@@ -54,7 +50,7 @@ export default class ConfigureOTP extends React.Component {
 
   render() {
     return (
-      <Paper zDepth={1} className="app-otp section flex">
+      <div className="app-otp section flex">
         <h3>One-Time Password</h3>
         <p>
           A One-Time Password that will be provided via apps like Authy, Google
@@ -91,7 +87,7 @@ export default class ConfigureOTP extends React.Component {
             Enable
           </Button>
         )}
-      </Paper>
+      </div>
     );
   }
 }

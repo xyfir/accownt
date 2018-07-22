@@ -46,8 +46,6 @@ export default class AccountRecovery extends React.Component {
         email: this.state.email,
         auth: this.state.auth,
         uid: this.state.uid,
-        code: this.state.security.code ? this.refs.code.value : 0,
-        codeNum: this.state.security.code ? this.state.security.codeNumber : 0,
         otpCode: this.state.security.otp ? this.refs.otpCode.value : 0
       })
       .end((err, res) => {
@@ -69,17 +67,6 @@ export default class AccountRecovery extends React.Component {
           </p>
 
           <form className="md-paper md-paper--1 section flex">
-            {this.state.security.code ? (
-              <TextField
-                id="text--security-code"
-                ref="code"
-                type="text"
-                label={`Security Code #${this.state.security.codeNumber + 1}`}
-                onKeyDown={e => (e.key == 'Enter' ? this.onVerify() : null)}
-                className="md-cell"
-              />
-            ) : null}
-
             {this.state.security.otp ? (
               <TextField
                 id="text--otp-code"

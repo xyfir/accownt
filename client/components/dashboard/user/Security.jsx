@@ -10,7 +10,6 @@ export default class UserSecurity extends React.Component {
     super(props);
 
     this.state = {
-      codes: '',
       passwordless: 0,
       appOtp: false,
       loading: true

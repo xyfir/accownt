@@ -1,13 +1,9 @@
+import { Paper } from 'react-md';
 import PropTypes from 'prop-types';
-import request from 'superagent';
 import React from 'react';
-
-// react-md
-import Paper from 'react-md/lib/Papers';
 
 // Components
 import Recovery from 'components/dashboard/user/security/Recovery';
-import Codes from 'components/dashboard/user/security/Codes';
 import OTP from 'components/dashboard/user/security/OTP';
 
 export default class Set2FA extends React.Component {
@@ -30,8 +26,6 @@ export default class Set2FA extends React.Component {
 
         <OTP {...this.props} enabled={this.props.appOtp} />
 
-        <Codes {...this.props} codes={this.props.codes} />
-
         <Recovery {...this.props} />
       </Paper>
     );
@@ -40,6 +34,5 @@ export default class Set2FA extends React.Component {
 
 Set2FA.propTypes = {
   alert: PropTypes.func.isRequired,
-  codes: PropTypes.string.isRequired,
   appOtp: PropTypes.bool.isRequired
 };
