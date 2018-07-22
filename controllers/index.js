@@ -119,7 +119,4 @@ router.post(
 );
 router.get('/service/:service/user', require('./service/get-user'));
 
-/* Service - DEPRECATED */
-router.get('/service/:service/:key/:xid/:token', require('./service/get-user'));
-
 module.exports = router;

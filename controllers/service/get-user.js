@@ -3,12 +3,9 @@ const generateToken = require('lib/tokens/generate');
 const MySQL = require('lib/mysql');
 
 /*
-  GET /api/service/:service/:key/:xid/:token
-    - Old way, takes no query string variables
   GET /api/service/:service/user
-    - New way, takes key, xid, and token as query string variables
-    REQUIRED
-      key: string, xid: string, token: string
+  REQUIRED
+    key: string, xid: string, token: string
   RETURNS
     {
       message?: string,
@@ -34,7 +31,7 @@ module.exports = async function(req, res) {
           WHERE service_id = ? AND service_key = ?
         )
       `,
-      [req.params.service, req.params.key || req.query.key]
+      [req.params.service, req.query.key]
     );
     if (!row) throw 'Service id and key do not match';
 
@@ -44,12 +41,12 @@ module.exports = async function(req, res) {
         SELECT user_id, info FROM linked_services
         WHERE service_id = ? AND xyfir_id = ?
       `,
-      [req.params.service, req.params.xid || req.query.xid]
+      [req.params.service, req.query.xid]
     );
     if (!row) throw 'Xyfir id not linked to service';
 
     const uid = row.user_id;
-    const token = req.params.token || req.query.token;
+    const token = req.query.token;
 
     // Check if authentication/access token is valid
     const isValid = await validateToken({
