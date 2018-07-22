@@ -22,7 +22,6 @@ export default class ViewService extends React.Component {
       id: 0,
       name: '',
       description: '',
-      info: '',
       owner: 0,
       address: ''
     };
@@ -34,26 +33,7 @@ export default class ViewService extends React.Component {
       .end((err, res) => {
         if (!err) {
           const data = res.body;
-          data.requested = [];
-
-          if (data.info) {
-            data.info = JSON.parse(data.info);
-
-            for (let i = 0; i < 2; i++) {
-              const type = i == 0 ? 'required' : 'optional';
-
-              Object.keys(data.info[type]).forEach(key =>
-                data.requested.push({
-                  field: key,
-                  usedFor: data.info[type][key],
-                  required: i == 0
-                })
-              );
-            }
-          }
-
           data.loading = false;
-
           this.setState(data);
         }
       });
@@ -103,19 +83,6 @@ export default class ViewService extends React.Component {
           <p>{this.state.description}</p>
           <a href={this.state.address}>{this.state.address}</a>
         </Paper>
-
-        <List className="requested md-paper md-paper--1 section">
-          {s.requested.map(req => (
-            <ListItem
-              threeLines
-              key={req.field}
-              primaryText={req.field}
-              secondaryText={
-                req.usedFor + '\n' + (req.required ? 'Required' : 'Optional')
-              }
-            />
-          ))}
-        </List>
 
         <List className="service-keys md-paper md-paper--1 section">
           {this.state.keys.map(k => (

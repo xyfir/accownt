@@ -4,7 +4,7 @@ const MySQL = require('lib/mysql');
 	GET /api/dashboard/developer/services/:id
 	RETURN
 		{
-			id: number, name: string, description: string, info: json-string,
+			id: number, name: string, description: string,
 			owner: number, address: string, xyfir: boolean, keys: string[]
 		}
 */

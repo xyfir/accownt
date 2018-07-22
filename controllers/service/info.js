@@ -10,8 +10,7 @@ const config = require('config');
 
       email?: string,
       service: null|Object({
-        id: number, name: string, description: string, url: string,
-        requested: object
+        id: number, name: string, description: string, url: string
       })
     }
   DESCRIPTION
@@ -27,15 +26,13 @@ module.exports = async function(req, res) {
     [service] = await db.query(
       `
       SELECT
-        id, name, description, info AS requested, url_main AS url
+        id, name, description, url_main AS url
       FROM services WHERE id = ?
     `,
       [req.params.service]
     );
 
     if (!service) throw 'Service does not exist';
-
-    service.requested = JSON.parse(service.requested);
 
     if (!req.session.uid) {
       req.session.redirect = `${config.addresses.xacc}/login/service/${

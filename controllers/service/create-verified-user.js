@@ -48,10 +48,9 @@ module.exports = async function(req, res) {
 
     // Link service to user
     const xyfir_id = rstring.generate(64);
-    const result = await db.query('INSERT INTO linked_services SET ?', {
+    await db.query('INSERT INTO linked_services SET ?', {
       service_id: req.params.service,
       xyfir_id,
-      info: JSON.stringify({ email }),
       user_id: uid
     });
     db.release();

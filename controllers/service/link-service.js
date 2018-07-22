@@ -1,4 +1,3 @@
-const validateData = require('lib/services/validate-data');
 const rstring = require('randomstring');
 const mysql = require('lib/mysql');
 
@@ -13,15 +12,9 @@ module.exports = async function(req, res) {
   const db = new mysql();
 
   try {
-    // Check if user provided required information
-    let { result, info } = await validateData(req);
-
-    if (result != 'valid') throw result;
-
     const insert = {
       service_id: req.params.service,
       xyfir_id: rstring.generate(64),
-      info: JSON.stringify(info),
       user_id: req.session.uid
     };
 

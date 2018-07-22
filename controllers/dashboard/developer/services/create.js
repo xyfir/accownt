@@ -1,15 +1,12 @@
-const buildInfo = require('lib/service/build-info');
 const validate = require('lib/service/validate');
 const mysql = require('lib/mysql');
 
 /*
   POST /api/dashboard/developer/services
   REQUIRED
-    info: json-string
-      {fname:{optional:bool,required:bool,value:string},lname:{...},...}
     name: string, description: string, urlMain: string, urlLogin: string
   OPTIONAL
-    urlUpdate: string, urlUnlink: string
+    urlUnlink: string
   RETURN
     { message: string }
 */
@@ -36,14 +33,12 @@ module.exports = async function(req, res) {
     `;
 
     const insert = {
-        info: buildInfo(b.info),
         xyfir: req.session.uid < 1000,
         owner: req.session.uid,
         name: b.name,
         description: b.description,
         url_main: b.urlMain,
         url_login: b.urlLogin,
-        url_update: b.urlUpdate,
         url_unlink: b.urlUnlink
       },
       result = await db.query(sql, insert);
