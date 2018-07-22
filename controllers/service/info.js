@@ -35,7 +35,7 @@ module.exports = async function(req, res) {
     if (!service) throw 'Service does not exist';
 
     if (!req.session.uid) {
-      req.session.redirect = `${config.addresses.xacc}/login/service/${
+      req.session.redirect = `${config.addresses.xacc}login/service/${
         req.params.service
       }`;
       throw 'Not logged in';
