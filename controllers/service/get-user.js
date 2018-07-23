@@ -41,7 +41,7 @@ module.exports = async function(req, res) {
     if (!row.id) throw 'Xyfir id not linked to service';
 
     const token = req.query.token;
-    const user = +row.userId;
+    const user = +row.id;
 
     // Check if authentication/access token is valid
     const isValid = await validateToken({
