@@ -35,7 +35,7 @@ module.exports = async function(req, res) {
           ON u.id = ls.user_id
         WHERE sk.service_id = ? AND sk.service_key = ?
       `,
-      [req.params.service, req.query.key, req.query.xid]
+      [req.query.xid, req.params.service, req.query.key]
     );
     if (!row) throw 'Service id and key do not match';
     if (!row.id) throw 'Xyfir id not linked to service';
