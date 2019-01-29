@@ -28,7 +28,7 @@ export default class LoginStep2 extends React.Component {
           this.props.save({ tfa: {} });
           swal('Error', 'Could not validate 2FA data', 'error');
         } else {
-          location.replace(res.body.redirect || '/dashboard/user/account');
+          location.replace(res.body.redirect || '/user/account');
         }
       });
   }

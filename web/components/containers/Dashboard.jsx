@@ -2,7 +2,7 @@ import React from 'react';
 
 // Components
 import DeveloperDashboard from 'components/dashboard/developer/DeveloperDashboard';
-import UserDashboard from 'components/dashboard/user/UserDashboard';
+import UserDashboard from 'components/user/UserDashboard';
 
 export default class Dashboard extends React.Component {
   constructor(props) {

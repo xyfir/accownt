@@ -37,9 +37,7 @@ module.exports = async function(req, res) {
     ]);
     db.release();
 
-    res.redirect(
-      req.session.redirect ? req.session.redirect : '/dashboard/user'
-    );
+    res.redirect(req.session.redirect ? req.session.redirect : '/user');
     req.session.redirect = '';
   } catch (err) {
     db.release();

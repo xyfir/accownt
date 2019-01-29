@@ -31,55 +31,34 @@ router.delete(
 );
 
 /* Dashboard - User - Account */
-router.get('/dashboard/user/account', require('./dashboard/user/account/info'));
-router.put(
-  '/dashboard/user/account',
-  require('./dashboard/user/account/update')
-);
+router.get('/user/account', require('./user/account/info'));
+router.put('/user/account', require('./user/account/update'));
 
 /* Dashboard - User - Services */
-router.get(
-  '/dashboard/user/services',
-  require('./dashboard/user/services/get-all')
-);
-router.get(
-  '/dashboard/user/services/:service',
-  require('./dashboard/user/services/get-single')
-);
-router.delete(
-  '/dashboard/user/services/:service',
-  require('./dashboard/user/services/remove')
-);
+router.get('/user/services', require('./user/services/get-all'));
+router.get('/user/services/:service', require('./user/services/get-single'));
+router.delete('/user/services/:service', require('./user/services/remove'));
 
 /* Dashboard - User - Security */
-router.get(
-  '/dashboard/user/security',
-  require('./dashboard/user/security/info')
-);
+router.get('/user/security', require('./user/security/info'));
+router.put('/user/security/otp', require('./user/security/otp'));
 router.put(
-  '/dashboard/user/security/otp',
-  require('./dashboard/user/security/otp')
-);
-router.put(
-  '/dashboard/user/security/passwordless',
-  require('./dashboard/user/security/passwordless')
+  '/user/security/passwordless',
+  require('./user/security/passwordless')
 );
 router.get(
-  '/dashboard/user/security/recovery-code',
-  require('./dashboard/user/security/recovery-code/get')
+  '/user/security/recovery-code',
+  require('./user/security/recovery-code/get')
 );
 router.put(
-  '/dashboard/user/security/recovery-code',
-  require('./dashboard/user/security/recovery-code/generate')
+  '/user/security/recovery-code',
+  require('./user/security/recovery-code/generate')
 );
 
 /* Dashboard - User - Tokens */
-router.get('/dashboard/user/tokens', require('./dashboard/user/tokens/get'));
-router.put('/dashboard/user/tokens', require('./dashboard/user/tokens/update'));
-router.delete(
-  '/dashboard/user/tokens',
-  require('./dashboard/user/tokens/delete')
-);
+router.get('/user/tokens', require('./user/tokens/get'));
+router.put('/user/tokens', require('./user/tokens/update'));
+router.delete('/user/tokens', require('./user/tokens/delete'));
 
 /* Login */
 router.post('/login', require('./login/step-1'));

@@ -59,7 +59,7 @@ export default class LoginStep1 extends React.Component {
           }
           // User is logged in
           else {
-            location.replace(b.redirect || '/dashboard/user/account');
+            location.replace(b.redirect || '/user/account');
           }
         });
     }

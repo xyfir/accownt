@@ -1,0 +1,24 @@
+const mysql = require('lib/mysql');
+
+/*
+  GET /api/user/security/recovery-code
+  RETURN
+    { recovery: string }
+*/
+module.exports = async function(req, res) {
+  const db = new mysql();
+
+  try {
+    await db.getConnection();
+
+    const rows = await db.query(
+      'SELECT recovery FROM security WHERE user_id = ?',
+      [req.session.uid]
+    );
+    db.release();
+
+    res.status(200).json(rows[0]);
+  } catch (err) {
+    res.status(400).json({ recovery: '' });
+  }
+};

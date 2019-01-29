@@ -16,7 +16,7 @@ export default class AppNavigation extends React.Component {
 
   onShowDrawer() {
     request
-      .get('/api/dashboard/user/account')
+      .get('/api/user/account')
       .end((err, res) =>
         this.setState({ loggedIn: res.body.loggedIn, drawer: true })
       );
@@ -53,16 +53,16 @@ export default class AppNavigation extends React.Component {
         defaultVisible={/^\/dashboard\/user/.test(location.pathname)}
         primaryText="User Dashboard"
         nestedItems={[
-          <a href="/dashboard/user/account">
+          <a href="/user/account">
             <ListItem primaryText="Account" />
           </a>,
-          <a href="/dashboard/user/security">
+          <a href="/user/security">
             <ListItem primaryText="Security" />
           </a>,
-          <a href="/dashboard/user/services">
+          <a href="/user/services">
             <ListItem primaryText="Services" />
           </a>,
-          <a href="/dashboard/user/tokens">
+          <a href="/user/tokens">
             <ListItem primaryText="Tokens" />
           </a>
         ]}
