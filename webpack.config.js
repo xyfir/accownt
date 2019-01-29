@@ -25,8 +25,7 @@ module.exports = {
   mode: config.environment.type,
 
   entry: {
-    Admin: './client/components/Admin.jsx',
-    App: './client/components/App.jsx'
+    App: './web/components/App.jsx'
   },
 
   output: {
@@ -37,7 +36,7 @@ module.exports = {
   },
 
   resolve: {
-    modules: [path.resolve(__dirname, 'client'), 'node_modules'],
+    modules: [path.resolve(__dirname, 'web'), 'node_modules'],
     alias: {
       server: __dirname
     },
@@ -50,9 +49,9 @@ module.exports = {
         test: /\.jsx?$/,
         loader: 'babel-loader',
         include: [
-          path.resolve(__dirname, 'client/components'),
-          path.resolve(__dirname, 'client/constants'),
-          path.resolve(__dirname, 'client/lib')
+          path.resolve(__dirname, 'web/components'),
+          path.resolve(__dirname, 'web/constants'),
+          path.resolve(__dirname, 'web/lib')
         ],
         exclude: /node_modules/,
         options: {

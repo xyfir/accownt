@@ -3,9 +3,5 @@
     "target": "es6",
     "baseUrl": "./"
   },
-  "exclude": [
-    "node_modules",
-    "client",
-    "static"
-  ]
+  "exclude": ["node_modules", "static"]
 }
