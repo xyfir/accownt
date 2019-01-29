@@ -1,5 +1,4 @@
 const MySQL = require('lib/mysql');
-const rword = require('rword');
 const rand = require('lib/rand');
 
 /*
@@ -13,12 +12,9 @@ module.exports = async function(req, res) {
     const recovery = (() => {
       const count = 12;
       let temp = '';
-
       for (let i = 0; i < count; i++) {
-        if (rand(0, 1) == 0) temp += ' ' + rword.generateFromPool(1);
-        else temp += ' ' + rand(100, 9999);
+        temp += ' ' + rand(100, 9999);
       }
-
       return temp.substr(1);
     })();
 
