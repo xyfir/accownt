@@ -57,7 +57,7 @@ module.exports = {
         options: {
           presets: [
             [
-              'env',
+              '@babel/preset-env',
               {
                 targets: {
                   browsers: [
@@ -69,7 +69,7 @@ module.exports = {
                 }
               }
             ],
-            'react'
+            '@babel/preset-react'
           ]
         }
       }
