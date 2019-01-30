@@ -1,28 +1,12 @@
-const mysql = require('lib/mysql');
+import { NextFunction, Response, Request } from 'express';
+import { checkEmail } from 'lib/register/check-email';
 
-/*
-  GET /api/register/email
-  REQUIRED
-    email: string
-  RETURN
-    { exists: boolean }
-*/
-module.exports = async function(req, res) {
-  const db = new mysql();
-
-  try {
-    await db.getConnection();
-
-    const sql = `
-      SELECT id FROM users WHERE email = ? AND verified = ?
-    `,
-      vars = [req.query.email, 1],
-      rows = await db.query(sql, vars);
-
-    db.release();
-    res.status(200).json({ exists: !!rows.length });
-  } catch (e) {
-    db.release();
-    res.status(400).json({ exists: true });
-  }
-};
+export function api_checkEmail(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void {
+  checkEmail(req.body.email)
+    .then(info => res.status(200).json(info))
+    .catch(next);
+}
