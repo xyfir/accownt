@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt';
 export async function setPassword(
   userId: Accownt.User['id'],
   newPass: Accownt.User['password'],
-  oldPass: Accownt.User['password']
+  oldPass?: Accownt.User['password']
 ): Promise<void> {
   const user: Accownt.User = await storage.getItem(`user-${userId}`);
   if (user.password) {
