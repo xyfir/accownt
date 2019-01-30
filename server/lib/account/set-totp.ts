@@ -31,6 +31,10 @@ export async function setTOTP(
     url = await new Promise((resolve, reject) =>
       qr.toDataURL(url, (e, u) => (e ? reject(e) : resolve(u)))
     );
+
+    user.totpSecret = secret;
+    await storage.setItem(`user-${userId}`, user);
+
     return { url, secret };
   }
 }
