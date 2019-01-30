@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '2mb' }));
 app.use(bodyParser.json({ limit: '2mb' }));
 app.use(cookieParser());
 app.use(verifyJWT);
-app.use('/api', require('./controllers/'));
+app.use('/api', require('./api/'));
 app.get('/*', (req, res) =>
   res.sendFile(resolve(WEB_DIRECTORY, 'dist', 'index.html'))
 );
