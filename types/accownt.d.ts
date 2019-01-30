@@ -15,8 +15,6 @@ export namespace Accownt {
     passwordless: boolean;
     /** Secret used for generating their TOTP for Authy, etc */
     totpSecret?: string;
-    /** A long string of text to recover their account with */
-    recoveryToken?: string;
   }
 
   export interface JWT {
