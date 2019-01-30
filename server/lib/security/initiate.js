@@ -1,5 +1,4 @@
 const mysql = require('lib/mysql');
-const rand = require('lib/rand');
 
 /**
  * @typedef {Object} SecurityMeasures

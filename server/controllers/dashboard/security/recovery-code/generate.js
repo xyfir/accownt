@@ -1,5 +1,5 @@
+const randomstring = require('randomstring');
 const MySQL = require('lib/mysql');
-const rand = require('lib/rand');
 
 /*
   PUT /api/user/security/recovery-code
@@ -10,10 +10,9 @@ module.exports = async function(req, res) {
   const db = new MySQL();
   try {
     const recovery = (() => {
-      const count = 12;
       let temp = '';
-      for (let i = 0; i < count; i++) {
-        temp += ' ' + rand(100, 9999);
+      for (let i = 0; i < 12; i++) {
+        randomstring.generate(6);
       }
       return temp.substr(1);
     })();
