@@ -1,5 +1,5 @@
 import { NextFunction, Response, Request } from 'express';
-import { getAccount } from 'lib/account/session';
+import { getAccount } from 'lib/account/get';
 
 export function api_getAccount(
   req: Request,
