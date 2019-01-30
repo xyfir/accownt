@@ -1,12 +1,12 @@
 import { NextFunction, Response, Request } from 'express';
-import { sendPasswordlessLoginEmail } from 'lib/login/passwordless/send';
+import { startPasswordlessLogin } from 'lib/login/passwordless/start';
 
-export function api_sendPasswordlessLoginEmail(
+export function api_startPasswordlessLogin(
   req: Request,
   res: Response,
   next: NextFunction
 ): void {
-  sendPasswordlessLoginEmail(req.jwt && req.jwt.userId)
+  startPasswordlessLogin(req.jwt && req.jwt.userId)
     .then(() => res.status(200).json({}))
     .catch(next);
 }

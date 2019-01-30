@@ -1,10 +1,10 @@
-import { ACCOWNT_API_URL, JWT_KEY, STORAGE, NAME } from 'constants/config';
+import { ACCOWNT_API_URL, STORAGE, NAME } from 'constants/config';
 import { sendMail } from 'lib/email/send';
 import * as storage from 'node-persist';
 import { Accownt } from 'types/accownt';
-import * as jwt from 'jsonwebtoken';
+import { signJWT } from 'lib/jwt/sign';
 
-export async function sendPasswordlessLoginEmail(
+export async function startPasswordlessLogin(
   userId: Accownt.User['id']
 ): Promise<void> {
   await storage.init(STORAGE);
@@ -12,15 +12,7 @@ export async function sendPasswordlessLoginEmail(
   if (!user.passwordless && user.password)
     throw 'Passwordless login is not enabled';
 
-  const token: string = await new Promise((resolve, reject) =>
-    jwt.sign(
-      { userId: user.id, email: user.email },
-      JWT_KEY,
-      { expiresIn: '1h' },
-      (err, token) => (err ? reject(err) : resolve(token))
-    )
-  );
-
+  const token = await signJWT(user.id, user.email, '1h');
   await sendEmail({
     subject: `${NAME} Passwordless Login`,
     text: `${ACCOWNT_API_URL}/login/passwordless?jwt=${token}`,
