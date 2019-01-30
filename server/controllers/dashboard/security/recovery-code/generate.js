@@ -1,4 +1,3 @@
-const randomstring = require('randomstring');
 const MySQL = require('lib/mysql');
 
 /*
@@ -12,7 +11,9 @@ module.exports = async function(req, res) {
     const recovery = (() => {
       let temp = '';
       for (let i = 0; i < 12; i++) {
-        randomstring.generate(6);
+        Math.random()
+          .toString()
+          .substr(-6);
       }
       return temp.substr(1);
     })();
