@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "baseUrl": "./",
+    "rootDir": "./",
+    "newLine": "LF",
+    "target": "esnext",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "paths": {
+      "typings/*": ["../typings/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}
