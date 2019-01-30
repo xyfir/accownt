@@ -7,6 +7,6 @@ export function api_setPassword(
   next: NextFunction
 ): void {
   setPassword(req.jwt && req.jwt.userId, req.body.newPass, req.body.oldPass)
-    .then(account => res.status(200).json(account))
+    .then(() => res.status(200).json({}))
     .catch(next);
 }
