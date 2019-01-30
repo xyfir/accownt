@@ -1,16 +1,21 @@
-const CONFIG = require('config');
-const jwt = require('jsonwebtoken');
+import { NextFunction, Response, Request } from 'express';
+import { JWT_KEY } from 'constants/config';
+import * as jwt from 'jsonwebtoken';
 
-module.exports = async function(req, res, next) {
+export async function jwtMiddleware(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
   try {
     if (!req.cookies.accowntJWT) throw 'No JWT provided';
-    req.user = await new Promise((resolve, reject) =>
-      jwt.verify(req.cookies.accowntJWT, CONFIG.JWT_KEY, (err, token) =>
-        err ? reject(err) : resolve(token)
+    req.jwt = await new Promise((resolve, reject) =>
+      jwt.verify(req.cookies.accowntJWT, JWT_KEY, {}, (err, token) =>
+        err ? reject(err) : resolve(token as Request['jwt'])
       )
     );
   } catch (err) {
-    req.user = {};
+    req.jwt = null;
   }
   next();
-};
+}

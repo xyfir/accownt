@@ -1,22 +1,30 @@
-require('app-module-path').addPath(__dirname);
+import 'app-module-path/register';
+import { PORT, WEB_DIRECTORY } from 'constants/config';
+import { jwtMiddleware } from 'middleware/jwt';
+import * as cookieParser from 'cookie-parser';
+import * as bodyParser from 'body-parser';
+import * as Express from 'express';
+import { Accownt } from 'types/accownt';
+import { resolve } from 'path';
 
-const cookieParser = require('cookie-parser');
-const express = require('express');
-const parser = require('body-parser');
-const config = require('config');
-const jwt = require('middleware/jwt');
-const app = express();
+declare module 'express' {
+  interface Request {
+    jwt?: {
+      userId: Accownt.User['id'];
+      email: Accownt.User['email'];
+    };
+  }
+}
 
-app.use('/static', express.static(__dirname + '/static'));
-app.use(parser.urlencoded({ extended: true, limit: '2mb' }));
-app.use(parser.json({ limit: '2mb' }));
+const app = Express();
+app.use('/static', Express.static(resolve(WEB_DIRECTORY, 'dist')));
+app.use(bodyParser.urlencoded({ extended: true, limit: '2mb' }));
+app.use(bodyParser.json({ limit: '2mb' }));
 app.use(cookieParser());
-app.use(jwt);
-app.use('/api', require('./middleware/clean-email'), require('./controllers/'));
-app.get('/*', (req, res) => res.sendFile(__dirname + '/views/App.html'));
-
-app.listen(config.environment.port, () =>
-  console.log('Listening on', config.environment.port)
+app.use(jwtMiddleware);
+app.use(require('./middleware/clean-email'));
+app.use('/api', require('./controllers/'));
+app.get('/*', (req, res) =>
+  res.sendFile(resolve(WEB_DIRECTORY, 'dist', 'index.html'))
 );
-
-if (config.environment.runCronJobs) require('jobs/cron/start')();
+app.listen(PORT, () => console.log('Listening on', PORT));
