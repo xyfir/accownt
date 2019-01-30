@@ -1,33 +1,13 @@
-const mailcomposer = require('mailcomposer');
-const MailGun = require('mailgun-js');
-const config = require('config');
+import { createTransport } from 'nodemailer';
+import { SMTP } from 'constants/config';
 
-const mailgun = MailGun({
-  apiKey: config.keys.mailgun,
-  domain: config.addresses.mailgun.domain
-});
+const transporter = createTransport(SMTP.TRANSPORT);
 
-/**
- * @typedef {object} SendEmailOptions
- * @prop {string} to
- * @prop {string} from
- * @prop {string} subject
- * @prop {string} html
- */
-/**
- * Sends an email.
- * @async
- * @param {SendEmailOptions} options
- * @return {object} MailGun response
- */
-module.exports = options =>
-  new Promise((resolve, reject) => {
-    mailcomposer(options).build((err, message) =>
-      mailgun
-        .messages()
-        .sendMime(
-          { to: options.to, message: message.toString('ascii') },
-          (err, body) => (err ? reject(err) : resolve(body))
-        )
-    );
-  });
+export async function sendMail(mail: {
+  subject: string;
+  html?: string;
+  text: string;
+  to: string;
+}): Promise<void> {
+  await transporter.sendMail({ ...SMTP.MAIL, ...mail });
+}

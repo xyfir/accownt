@@ -13,7 +13,7 @@ export async function startPasswordlessLogin(
     throw 'Passwordless login is not enabled';
 
   const token = await signJWT(user.id, user.email, '1h');
-  await sendEmail({
+  await sendMail({
     subject: `${NAME} Passwordless Login`,
     text: `${ACCOWNT_API_URL}/login/passwordless?jwt=${token}`,
     to: user.email
