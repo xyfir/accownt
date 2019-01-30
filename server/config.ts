@@ -1,0 +1,9 @@
+exports.SMTP = {};
+exports.PORT = 2000;
+exports.PROD = false;
+exports.NAME = 'Accownt';
+exports.JWT_KEY = 'accownt';
+exports.LOGIN_URL = 'https://ptorx.com/login?jwt={{JWT}}';
+exports.RECAPTCHA_KEY = '6Lci6yYTAAAAAK8jJ9Two9ppZ_uqm_FbmPAEzvg_';
+exports.ACCOWNT_WEB_URL = 'http://localhost:2000/account';
+exports.ACCOWNT_API_URL = 'http://localhost:2000/api/accownt';
