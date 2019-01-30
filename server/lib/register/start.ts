@@ -51,7 +51,7 @@ export async function startRegistration(
   const token = await signJWT(user.id, email, '1h');
   await sendEmail({
     subject: `${NAME} Email Verification`,
-    text: `${ACCOWNT_API_URL}/register/email-verification?jwt=${token}`,
+    text: `${ACCOWNT_API_URL}/register?jwt=${token}`,
     to: email
   });
 }
