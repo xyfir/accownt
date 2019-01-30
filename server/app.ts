@@ -6,6 +6,7 @@ import { verifyJWT } from 'lib/jwt/verify';
 import * as Express from 'express';
 import { Accownt } from 'types/accownt';
 import { resolve } from 'path';
+import { router } from 'api/routers';
 
 declare module 'express' {
   interface Request {
@@ -19,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '2mb' }));
 app.use(bodyParser.json({ limit: '2mb' }));
 app.use(cookieParser());
 app.use(verifyJWT);
-app.use('/api', require('./api/'));
+app.use('/api', router);
 app.get('/*', (req, res) =>
   res.sendFile(resolve(WEB_DIRECTORY, 'dist', 'index.html'))
 );
