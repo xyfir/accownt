@@ -19,7 +19,6 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '2mb' }));
 app.use(bodyParser.json({ limit: '2mb' }));
 app.use(cookieParser());
 app.use(jwtMiddleware);
-app.use(require('./middleware/clean-email'));
 app.use('/api', require('./controllers/'));
 app.get('/*', (req, res) =>
   res.sendFile(resolve(WEB_DIRECTORY, 'dist', 'index.html'))

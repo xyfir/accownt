@@ -5,6 +5,20 @@ const config = require('config');
 const bcrypt = require('bcrypt');
 const MySQL = require('lib/mysql');
 
+/**
+ * Strip Gmail emails down to their original format to prevent multiple
+ *  accounts using same email.
+ * @param {string} email
+ * @return {string}
+ */
+const clean = email =>
+  /@gmail\.com$/.test(email)
+    ? email
+        .split('@')[0]
+        .replace(/\./g, '')
+        .replace(/\+.+$/, '') + '@gmail.com'
+    : email;
+
 /*
   POST /api/register
   REQUIRED
