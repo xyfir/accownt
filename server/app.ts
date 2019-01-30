@@ -21,6 +21,21 @@ app.use(bodyParser.json({ limit: '2mb' }));
 app.use(cookieParser());
 app.use(verifyJWT);
 app.use('/api', router);
+app.use(
+  (
+    err: string | Error,
+    req: Express.Request,
+    res: Express.Response,
+    next: Express.NextFunction
+  ) => {
+    if (typeof err == 'string') {
+      res.status(400).json({ error: err });
+    } else {
+      console.error(err.stack);
+      res.status(500).json({ error: 'Something went wrong...' });
+    }
+  }
+);
 app.get('/*', (req, res) =>
   res.sendFile(resolve(WEB_DIRECTORY, 'dist', 'index.html'))
 );
