@@ -18,4 +18,9 @@ export namespace Accownt {
     /** A long string of text to recover their account with */
     recoveryToken?: string;
   }
+
+  export interface JWT {
+    userId: User["id"];
+    email: User["email"];
+  }
 }

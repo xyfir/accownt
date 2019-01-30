@@ -9,10 +9,7 @@ import { resolve } from 'path';
 
 declare module 'express' {
   interface Request {
-    jwt?: {
-      userId: Accownt.User['id'];
-      email: Accownt.User['email'];
-    };
+    jwt?: Accownt.JWT;
   }
 }
 
