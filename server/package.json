@@ -27,6 +27,9 @@
     "superagent": "^3.8.3"
   },
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.1",
+    "@types/jsonwebtoken": "^8.3.0",
+    "@types/node-persist": "0.0.33",
     "typescript": "^3.2.4"
   }
 }
