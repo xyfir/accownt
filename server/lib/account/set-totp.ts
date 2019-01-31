@@ -18,7 +18,6 @@ export async function setTOTP(
   } else {
     const { ascii: secret } = speakeasy.generateSecret({
       issuer: NAME,
-      length: 128,
       name: user.email
     });
     let url = speakeasy.otpauthURL({

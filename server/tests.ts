@@ -92,7 +92,7 @@ test('set totp', async () => {
 
   data = await setTOTP(userId, true);
   expect(data.secret).toBeString();
-  expect(data.secret).toHaveLength(128);
+  expect(data.secret).toHaveLength(32);
   expect(data.url).toBeString();
 
   const otp = totp({ secret: data.secret });
