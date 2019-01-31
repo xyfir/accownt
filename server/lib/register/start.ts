@@ -44,7 +44,7 @@ export async function startRegistration(
   };
   await storage.init(STORAGE);
   await storage.setItem(`user-${user.id}`, user);
-  await storage.setItem(`email-${email}`, { userId: user.id });
+  await storage.setItem(`email-${email}`, user.id);
 
   // Set password if needed
   if (pass) await setPassword(user.id, pass);
