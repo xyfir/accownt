@@ -1,4 +1,17 @@
 export namespace Accownt {
+  export interface Account {
+    passwordless: Accownt.User["passwordless"];
+    hasPassword: boolean;
+    loggedIn: boolean;
+    hasTOTP: boolean;
+    email: Accownt.User["email"];
+  }
+
+  export interface JWT {
+    userId: User["id"];
+    email: User["email"];
+  }
+
   export interface User {
     /** Unix timestamp (in milliseconds!) of when they joined */
     id: number;
@@ -15,10 +28,5 @@ export namespace Accownt {
     passwordless: boolean;
     /** Secret used for generating their TOTP for Authy, etc */
     totpSecret?: string;
-  }
-
-  export interface JWT {
-    userId: User["id"];
-    email: User["email"];
   }
 }
