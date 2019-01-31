@@ -9,14 +9,12 @@ export async function checkEmail(
 ): Promise<{ available: boolean }> {
   await storage.init(STORAGE);
 
-  let available = true;
+  let userId: Accownt.User['id'];
   try {
-    const userId = await emailToId(cleanEmail(email));
-    const user: Accownt.User = await storage.getItem(`user-${userId}`);
-    if (user.verified) throw 'Email is not available';
-  } catch (err) {
-    available = false;
-  }
+    userId = await emailToId(cleanEmail(email));
+  } catch (err) {}
+  if (!userId) return { available: true };
 
-  return { available };
+  const user: Accownt.User = await storage.getItem(`user-${userId}`);
+  return { available: user === undefined || !user.verified };
 }
