@@ -7,7 +7,7 @@ export function api_finishPasswordlessLogin(
   res: Response,
   next: NextFunction
 ): void {
-  finishPasswordlessLogin(req.query.jwt)
+  finishPasswordlessLogin(req.jwt)
     .then(token => {
       res.cookie('jwt', token);
       res.redirect(ACCOWNT_WEB_URL);
