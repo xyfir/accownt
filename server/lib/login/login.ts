@@ -1,3 +1,5 @@
+import { cleanEmail } from 'lib/email/clean';
+import { emailToId } from 'lib/email/to-id';
 import * as storage from 'node-persist';
 import { STORAGE } from 'constants/config';
 import { Accownt } from 'types/accownt';
@@ -13,9 +15,7 @@ export async function login(
   await storage.init(STORAGE);
 
   // Get user from email
-  const { userId }: { userId: Accownt.User['id'] } = await storage.getItem(
-    `email-${email}`
-  );
+  const userId = await emailToId(cleanEmail(email));
   const user: Accownt.User = await storage.getItem(`user-${userId}`);
 
   if (!user.password) throw 'You must request a passwordless login link';
