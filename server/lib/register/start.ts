@@ -14,16 +14,18 @@ import {
 } from 'constants/config';
 
 export async function startRegistration(
-  recaptcha: string,
   email: Accownt.User['email'],
-  pass?: Accownt.User['password']
+  pass?: Accownt.User['password'],
+  recaptcha?: string
 ): Promise<string> {
   // Check if recaptcha response is valid
-  const captcha = await axios.post(
-    'https://www.google.com/recaptcha/api/siteverify',
-    { secret: RECAPTCHA_KEY, response: recaptcha }
-  );
-  if (!captcha.data.success) throw 'Invalid captcha';
+  if (RECAPTCHA_KEY) {
+    const captcha = await axios.post(
+      'https://www.google.com/recaptcha/api/siteverify',
+      { secret: RECAPTCHA_KEY, response: recaptcha }
+    );
+    if (!captcha.data.success) throw 'Invalid captcha';
+  }
 
   email = cleanEmail(email);
   const { available } = await checkEmail(email);

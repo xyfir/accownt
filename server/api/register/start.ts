@@ -6,7 +6,7 @@ export function api_startRegistration(
   res: Response,
   next: NextFunction
 ): void {
-  startRegistration(req.body.recaptcha, req.body.email, req.body.pass)
+  startRegistration(req.body.email, req.body.pass, req.body.recaptcha)
     .then(() => res.status(200).json({}))
     .catch(next);
 }
