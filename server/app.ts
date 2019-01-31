@@ -1,5 +1,5 @@
 import 'app-module-path/register';
-import { PORT, WEB_DIRECTORY } from 'constants/config';
+import { WEB_DIRECTORY, PORT, PROD } from 'constants/config';
 import { verifyRequestJWT } from 'lib/jwt/verify';
 import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
@@ -15,6 +15,20 @@ declare module 'express' {
 }
 
 const app = Express();
+if (!PROD) {
+  app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header(
+      'Access-Control-Allow-Methods',
+      'GET, POST, OPTIONS, PUT, DELETE'
+    );
+    res.header(
+      'Access-Control-Allow-Headers',
+      'Origin, X-Requested-With, Content-Type, Accept'
+    );
+    next();
+  });
+}
 app.use('/static', Express.static(resolve(WEB_DIRECTORY, 'dist')));
 app.use(bodyParser.urlencoded({ extended: true, limit: '2mb' }));
 app.use(bodyParser.json({ limit: '2mb' }));
