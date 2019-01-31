@@ -1,6 +1,5 @@
 export * from './account/get';
 export * from './account/set-password';
-export * from './account/set-passwordless';
 export * from './account/set-totp';
 
 export * from './login/login';

@@ -11,8 +11,6 @@ export async function startPasswordlessLogin(
   const userId = await emailToId(email);
   await storage.init(STORAGE);
   const user: Accownt.User = await storage.getItem(`user-${userId}`);
-  if (!user.passwordless && user.password)
-    throw 'Passwordless login is not enabled';
 
   const token = await signJWT(user.id, user.email, '1h');
   await sendMail({

@@ -39,7 +39,6 @@ export async function startRegistration(
     verified: false,
     totpSecret: null,
     failedLogins: 0,
-    passwordless: true,
     lastFailedLogin: 0
   };
   await storage.init(STORAGE);

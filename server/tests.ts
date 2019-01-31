@@ -2,7 +2,6 @@ import { finishPasswordlessLogin } from 'lib/login/passwordless/finish';
 import { startPasswordlessLogin } from 'lib/login/passwordless/start';
 import { finishRegistration } from 'lib/register/finish';
 import { startRegistration } from 'lib/register/start';
-import { setPasswordless } from 'lib/account/set-passwordless';
 import { setPassword } from 'lib/account/set-password';
 import { checkEmail } from 'lib/register/check-email';
 import { getAccount } from 'lib/account/get';
@@ -84,7 +83,6 @@ test('get account', async () => {
   expect(account.hasPassword).toBeTrue();
   expect(account.hasTOTP).toBeFalse();
   expect(account.loggedIn).toBeTrue();
-  expect(account.passwordless).toBeTrue();
 });
 
 test('set totp', async () => {
@@ -109,11 +107,6 @@ test('login (with totp)', async () => {
 
   const token = await login('test@example.com', 'test1234', otp);
   await expect(verifyJWT(token)).not.toReject();
-});
-
-test('set passwordless', async () => {
-  const userId = await emailToId('test@example.com');
-  await expect(setPasswordless(userId, true)).not.toReject();
 });
 
 test('passwordless login', async () => {

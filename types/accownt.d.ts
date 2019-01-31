@@ -1,6 +1,5 @@
 export namespace Accownt {
   export interface Account {
-    passwordless: Accownt.User["passwordless"];
     hasPassword: boolean;
     loggedIn: boolean;
     hasTOTP: boolean;
@@ -24,8 +23,6 @@ export namespace Accownt {
     failedLogins: number;
     /** Unix timestamp of their last failed login attempt */
     lastFailedLogin: number;
-    /** If true, they _may_ have a password, but can also login without */
-    passwordless: boolean;
     /** Secret used for generating their TOTP for Authy, etc */
     totpSecret?: string;
   }
