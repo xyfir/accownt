@@ -1,5 +1,4 @@
 import { NextFunction, Response, Request } from 'express';
-import { ACCOWNT_WEB_URL } from 'constants/config';
 import { login } from 'lib/login/login';
 
 export function api_login(
@@ -10,7 +9,7 @@ export function api_login(
   login(req.body.email, req.body.pass, req.body.otp)
     .then(token => {
       res.cookie('jwt', token);
-      res.redirect(ACCOWNT_WEB_URL);
+      res.status(200).json({});
     })
     .catch(next);
 }
