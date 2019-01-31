@@ -24,7 +24,6 @@ export async function setTOTP(
     let url = speakeasy.otpauthURL({
       //algorithm: 'sha512',
       issuer: NAME,
-      digits: 6,
       secret,
       label: `${NAME}:${encodeURIComponent(user.email)}`
     });

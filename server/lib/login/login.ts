@@ -35,10 +35,7 @@ export async function login(
   }
 
   // Check OTP
-  if (
-    user.totpSecret &&
-    !totp.verify({ secret: user.totpSecret, digits: 6, token: otp })
-  )
+  if (user.totpSecret && !totp.verify({ secret: user.totpSecret, token: otp }))
     throw 'Invalid one-time password (2FA code)';
 
   return signJWT(userId, email, '30d');
