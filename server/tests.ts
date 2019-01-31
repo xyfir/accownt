@@ -82,7 +82,6 @@ test('get account', async () => {
   expect(account.email).toBe('test@example.com');
   expect(account.hasPassword).toBeTrue();
   expect(account.hasTOTP).toBeFalse();
-  expect(account.loggedIn).toBeTrue();
 });
 
 test('set totp', async () => {

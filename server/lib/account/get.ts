@@ -10,7 +10,6 @@ export async function getAccount(
   const user: Accownt.User = await storage.getItem(`user-${userId}`);
   return {
     hasPassword: !!user.password,
-    loggedIn: true,
     hasTOTP: !!user.totpSecret,
     email: user.email
   };

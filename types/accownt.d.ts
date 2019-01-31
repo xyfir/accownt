@@ -1,7 +1,6 @@
 export namespace Accownt {
   export interface Account {
     hasPassword: boolean;
-    loggedIn: boolean;
     hasTOTP: boolean;
     email: Accownt.User["email"];
   }
