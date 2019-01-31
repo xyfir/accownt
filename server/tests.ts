@@ -33,7 +33,7 @@ test('clean email', () => {
   expect(cleanEmail('e.mail+t@example.com')).toBe('e.mail+t@example.com');
 });
 
-test.only('check email (available, does not exist)', async () => {
+test('check email (available, does not exist)', async () => {
   const { available } = await checkEmail('test@example.com');
   expect(available).toBeTrue();
 });
@@ -126,7 +126,7 @@ test('passwordless login', async () => {
 
 test('remove password', async () => {
   const userId = await emailToId('test@example.com');
-  await expect(setPassword(userId));
+  await expect(setPassword(userId, null)).not.toReject();
   const account = await getAccount(userId);
   expect(account.hasPassword).toBeFalse();
 });

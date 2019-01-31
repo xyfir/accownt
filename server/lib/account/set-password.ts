@@ -4,7 +4,7 @@ import * as bcrypt from 'bcrypt';
 
 export async function setPassword(
   userId: Accownt.User['id'],
-  pass?: Accownt.User['password']
+  pass: Accownt.User['password'] | null
 ): Promise<void> {
   const user: Accownt.User = await storage.getItem(`user-${userId}`);
   user.password = pass !== null ? await bcrypt.hash(pass, 10) : null;
