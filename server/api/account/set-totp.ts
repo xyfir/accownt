@@ -7,6 +7,6 @@ export function api_setTOTP(
   next: NextFunction
 ): void {
   setTOTP(req.jwt && req.jwt.userId, req.body.enabled)
-    .then(() => res.status(200).json({}))
+    .then(info => res.status(200).json(info))
     .catch(next);
 }
