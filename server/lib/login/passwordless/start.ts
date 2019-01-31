@@ -6,7 +6,7 @@ import { signJWT } from 'lib/jwt/sign';
 
 export async function startPasswordlessLogin(
   userId: Accownt.User['id']
-): Promise<void> {
+): Promise<string> {
   await storage.init(STORAGE);
   const user: Accownt.User = await storage.getItem(`user-${userId}`);
   if (!user.passwordless && user.password)
@@ -18,4 +18,6 @@ export async function startPasswordlessLogin(
     text: `${ACCOWNT_API_URL}/login/passwordless?jwt=${token}`,
     to: user.email
   });
+
+  return token;
 }

@@ -17,7 +17,7 @@ export async function startRegistration(
   recaptcha: string,
   email: Accownt.User['email'],
   pass?: Accownt.User['password']
-): Promise<void> {
+): Promise<string> {
   // Check if recaptcha response is valid
   const captcha = await axios.post(
     'https://www.google.com/recaptcha/api/siteverify',
@@ -54,4 +54,6 @@ export async function startRegistration(
     text: `${ACCOWNT_API_URL}/register?jwt=${token}`,
     to: email
   });
+
+  return token;
 }
