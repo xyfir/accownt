@@ -1,5 +1,5 @@
 import 'app-module-path/register';
-import { WEB_DIRECTORY, PORT, PROD } from 'constants/config';
+import { ACCOWNT_WEB_URL, WEB_DIRECTORY, PORT, PROD } from 'constants/config';
 import { verifyRequestJWT } from 'lib/jwt/verify';
 import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
@@ -16,8 +16,9 @@ declare module 'express' {
 
 const app = Express();
 if (!PROD) {
+  // Needed to allow communication from webpack-dev-server host
   app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Origin', ACCOWNT_WEB_URL);
     res.header(
       'Access-Control-Allow-Methods',
       'GET, POST, OPTIONS, PUT, DELETE'
@@ -26,6 +27,7 @@ if (!PROD) {
       'Access-Control-Allow-Headers',
       'Origin, X-Requested-With, Content-Type, Accept'
     );
+    res.header('Access-Control-Allow-Credentials', 'true');
     next();
   });
 }
