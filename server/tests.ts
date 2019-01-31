@@ -117,8 +117,7 @@ test('set passwordless', async () => {
 });
 
 test('passwordless login', async () => {
-  const userId = await emailToId('test@example.com');
-  const tempToken = await startPasswordlessLogin(userId);
+  const tempToken = await startPasswordlessLogin('test@example.com');
   await expect(verifyJWT(tempToken)).not.toReject();
   const fullToken = await finishPasswordlessLogin(await verifyJWT(tempToken));
   await expect(verifyJWT(fullToken)).not.toReject();

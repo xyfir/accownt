@@ -1,12 +1,14 @@
 import { ACCOWNT_API_URL, STORAGE, NAME } from 'constants/config';
+import { emailToId } from 'lib/email/to-id';
 import { sendMail } from 'lib/email/send';
 import * as storage from 'node-persist';
 import { Accownt } from 'types/accownt';
 import { signJWT } from 'lib/jwt/sign';
 
 export async function startPasswordlessLogin(
-  userId: Accownt.User['id']
+  email: Accownt.User['email']
 ): Promise<string> {
+  const userId = await emailToId(email);
   await storage.init(STORAGE);
   const user: Accownt.User = await storage.getItem(`user-${userId}`);
   if (!user.passwordless && user.password)

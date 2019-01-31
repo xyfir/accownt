@@ -6,7 +6,7 @@ export function api_startPasswordlessLogin(
   res: Response,
   next: NextFunction
 ): void {
-  startPasswordlessLogin(req.jwt && req.jwt.userId)
+  startPasswordlessLogin(req.body.email)
     .then(() => res.status(200).json({}))
     .catch(next);
 }
