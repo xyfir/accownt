@@ -1,3 +1,4 @@
+import { emailToId } from 'lib/email/to-id';
 import * as storage from 'node-persist';
 import { STORAGE } from 'constants/config';
 import { Accownt } from 'types/accownt';
@@ -5,6 +6,13 @@ import { signJWT } from 'lib/jwt/sign';
 
 export async function finishRegistration(jwt?: Accownt.JWT): Promise<string> {
   if (jwt === null) throw 'Invalid or expired token';
+
+  // Verify JWT's userId matches the userId that the JWT's email points to
+  // This way only the most recent email verification JWT is valid since it
+  // will point to the newest user
+  const userId = await emailToId(jwt.email);
+  if (userId != jwt.userId)
+    throw 'This token has been invalidated by a newer one';
 
   // Verify user's email
   await storage.init(STORAGE);

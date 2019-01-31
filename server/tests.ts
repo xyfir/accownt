@@ -61,10 +61,12 @@ test('check email (available, exists but not verified)', async () => {
 });
 
 test('finish registration', async () => {
-  const tempToken = await startRegistration('test@example.com', 'test1234');
-  const fullToken = await finishRegistration(await verifyJWT(tempToken));
+  const tempToken1 = await startRegistration('test@example.com', 'test1234');
+  const tempToken2 = await startRegistration('test@example.com', 'test1234');
+  await expect(finishRegistration(await verifyJWT(tempToken1))).toReject();
+  const fullToken = await finishRegistration(await verifyJWT(tempToken2));
   await expect(verifyJWT(fullToken)).not.toReject();
-});
+}, 10000);
 
 test('check email (not available)', async () => {
   const { available } = await checkEmail('test@example.com');
