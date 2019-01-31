@@ -7,7 +7,7 @@ const path = require('path');
 module.exports = {
   mode: CONFIG.PROD ? 'production' : 'development',
 
-  entry: './components/App.tsx',
+  entry: './lib/index.ts',
 
   output: {
     publicPath: '/static/',
@@ -28,7 +28,8 @@ module.exports = {
         loader: 'babel-loader',
         include: [
           path.resolve(__dirname, 'components'),
-          path.resolve(__dirname, 'constants')
+          path.resolve(__dirname, 'constants'),
+          path.resolve(__dirname, 'lib')
         ],
         exclude: /node_modules/,
         options: {
