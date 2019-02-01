@@ -28,6 +28,10 @@ export async function login(
   // Check password
   const match = await bcrypt.compare(pass, user.password);
   if (!match) {
+    // Reset failedLogins after 15 minutes
+    if (user.lastFailedLogin + 15 * 60 * 1000 < Date.now())
+      user.failedLogins = 0;
+
     user.failedLogins++;
     user.lastFailedLogin = Date.now();
     await storage.setItem(`user-${userId}`, user);
