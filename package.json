@@ -1,0 +1,23 @@
+{
+  "name": "accownt",
+  "version": "6.0.0-alpha.0",
+  "description": "Dead simple user account system so easy a cow could do it.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "accownt-server": "6.0.0-alpha.0",
+    "accownt-web": "6.0.0-alpha.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Xyfir/Accownt.git"
+  },
+  "author": "Xyfir, LLC <contact@xyfir.com> (https://xyfir.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Xyfir/Accownt/issues"
+  },
+  "homepage": "https://github.com/Xyfir/Accownt#readme"
+}
