@@ -94,8 +94,8 @@ To be a bit more specific:
 
 # Screenshots
 
-![Login screenshot](https://i.imgur.com/eoN4kg1.png "Login screenshot")
+<img src="https://i.imgur.com/eoN4kg1.png" alt="Login screenshot" height="400px" />
 
-![Logged in screenshot](https://i.imgur.com/whIweGw.png "Logged in screenshot")
+<img src="https://i.imgur.com/whIweGw.png" alt="Logged in screenshot" height="400px" />
 
-![Logged in screenshot](https://i.imgur.com/CRgy0hQ.png "Logged in screenshot")
+<img src="https://i.imgur.com/CRgy0hQ.png" alt="Logged in screenshot" height="400px" />
