@@ -22,6 +22,9 @@ const styles = createStyles({
     padding: '1em',
     margin: '0.5em auto'
   },
+  div: {
+    margin: 'auto'
+  },
   h4: {
     textAlign: 'center',
     margin: '0.5em 0'
@@ -70,7 +73,7 @@ export class _Authenticated extends React.Component<
     const { secret, pass, url } = this.state;
     const { account, classes } = this.props;
     return (
-      <div>
+      <div className={classes.div}>
         <Typography variant="h4" className={classes.h4}>
           {account.email}
           <Button color="secondary" href={`${ACCOWNT_API_URL}/login/logout`}>

@@ -1,4 +1,5 @@
-import { WithStyles, CssBaseline } from '@material-ui/core';
+import { WithStyles, CssBaseline, Button } from '@material-ui/core';
+import { NAME, APP_HOME_URL } from 'constants/config';
 import { Unauthenticated } from 'components/Unauthenticated';
 import { Authenticated } from 'components/Authenticated';
 import { Accownt } from 'types/accownt';
@@ -13,11 +14,16 @@ import {
 } from '@material-ui/core/styles';
 
 const styles = createStyles({
-  root: {
+  main: {
     flexDirection: 'column',
     fontFamily: 'Roboto',
     display: 'flex',
     height: '100vh'
+  },
+  div: {
+    maxWidth: '20em',
+    padding: '1em',
+    margin: '0 auto'
   }
 });
 
@@ -46,8 +52,13 @@ class _App extends React.Component<WithStyles<typeof styles>, AppState> {
     return (
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
-        <main className={classes.root}>
+        <main className={classes.main}>
           {account ? <Authenticated account={account} /> : <Unauthenticated />}
+          <div className={classes.div}>
+            <Button href={APP_HOME_URL} color="secondary">
+              Back to {NAME}
+            </Button>
+          </div>
         </main>
       </MuiThemeProvider>
     );
