@@ -145,7 +145,6 @@ export class _Unauthenticated extends React.Component<
         <TextField
           fullWidth
           id="email"
-          name="email"
           type="email"
           value={email}
           error={create && !available}
@@ -170,7 +169,6 @@ export class _Unauthenticated extends React.Component<
         <TextField
           fullWidth
           id="pass"
-          name="pass"
           type="password"
           value={pass}
           margin="normal"
@@ -187,7 +185,6 @@ export class _Unauthenticated extends React.Component<
           <TextField
             fullWidth
             id="otp"
-            name="otp"
             label="2FA Code"
             value={otp}
             margin="normal"
