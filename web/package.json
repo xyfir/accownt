@@ -1,7 +1,7 @@
 {
   "name": "accownt-web",
   "version": "6.0.0-alpha.0",
-  "description": "",
+  "description": "Dead simple user account system so easy a cow could do it.",
   "main": "",
   "scripts": {
     "watch-build": "webpack-cli --watch",
