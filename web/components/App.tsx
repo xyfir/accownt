@@ -34,6 +34,8 @@ class _App extends React.Component<WithStyles<typeof styles>, AppState> {
       .get('/account')
       .then(res => this.setState({ account: res.data, loading: false }))
       .catch(err => this.setState({ loading: false }));
+    if (location.search.startsWith('?error='))
+      alert(decodeURIComponent(location.search.substr(7)));
   }
 
   render() {

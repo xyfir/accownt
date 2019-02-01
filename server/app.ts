@@ -10,6 +10,7 @@ import { router } from 'api/routers';
 
 declare module 'express' {
   interface Request {
+    redirect?: boolean;
     jwt?: Accownt.JWT;
   }
 }
@@ -44,12 +45,25 @@ app.use(
     res: Express.Response,
     next: Express.NextFunction
   ) => {
+    let status: number;
+    let error: string;
+    // Error for user to see
     if (typeof err == 'string') {
-      res.status(400).json({ error: err });
-    } else {
-      console.error(err.stack);
-      res.status(500).json({ error: 'Something went wrong...' });
+      status = 400;
+      error = err;
     }
+    // Unexpected error
+    else {
+      console.error(err.stack);
+      status = 500;
+      error = 'Something went wrong...';
+    }
+
+    // Redirect and display error in app
+    if (req.redirect)
+      res.redirect(`${ACCOWNT_WEB_URL}?error=${encodeURIComponent(error)}`);
+    // Return error to API client
+    else res.status(status).json({ error });
   }
 );
 app.get('/*', (req, res) =>

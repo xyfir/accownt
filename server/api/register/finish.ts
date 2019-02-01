@@ -7,6 +7,7 @@ export function api_finishRegistration(
   res: Response,
   next: NextFunction
 ): void {
+  req.redirect = true;
   finishRegistration(req.jwt)
     .then(token => {
       res.cookie('jwt', token);
