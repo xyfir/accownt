@@ -47,13 +47,13 @@ As simple as Accownt is, you'll still need to install, configure, build, and int
 ## Server
 
 ```bash
-git clone git@github.com:Xyfir/Accownt.git
-cd Accownt/server
+git clone https://github.com/Xyfir/accownt.git
+cd accownt/server
 npm install
 cp constants/config.default.ts constants/config.ts
 ```
 
-Now open up `Accownt/server/constants/config.ts` in your editor and fill out the values. Everything is explained there.
+Now open up `accownt/server/constants/config.ts` in your editor and fill out the values. Everything is explained there.
 
 ```bash
 npm run build
@@ -70,7 +70,7 @@ npm install
 cp constants/config.default.js constants/config.js
 ```
 
-Now open up `Accownt/web/constants/config.js` in your editor and fill out the values. Most will be the same as the server's config.
+Now open up `accownt/web/constants/config.js` in your editor and fill out the values. Most will be the same as the server's config.
 
 ```bash
 npm run build

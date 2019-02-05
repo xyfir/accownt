@@ -1,6 +1,6 @@
 {
   "name": "accownt-server",
-  "version": "6.0.0-alpha.0",
+  "version": "6.0.0-alpha.1",
   "description": "Dead simple user account system so easy a cow could do it.",
   "main": "dist/app.js",
   "scripts": {
@@ -42,5 +42,13 @@
     "jest": "^24.0.0",
     "jest-extended": "^0.11.1",
     "typescript": "^3.2.4"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Xyfir/accownt.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Xyfir/accownt/issues"
+  },
+  "homepage": "https://github.com/Xyfir/accownt#readme"
 }

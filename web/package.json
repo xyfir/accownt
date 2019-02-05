@@ -1,6 +1,6 @@
 {
   "name": "accownt-web",
-  "version": "6.0.0-alpha.0",
+  "version": "6.0.0-alpha.1",
   "description": "Dead simple user account system so easy a cow could do it.",
   "main": "",
   "scripts": {
@@ -40,5 +40,13 @@
     "webpack": "^4.29.0",
     "webpack-cli": "^3.2.1",
     "webpack-dev-server": "^3.1.14"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Xyfir/accownt.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Xyfir/accownt/issues"
+  },
+  "homepage": "https://github.com/Xyfir/accownt#readme"
 }
