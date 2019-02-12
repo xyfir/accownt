@@ -6,7 +6,7 @@ import * as bodyParser from 'body-parser';
 import * as Express from 'express';
 import { Accownt } from 'types/accownt';
 import { resolve } from 'path';
-import { router } from 'api/routers';
+import { router } from 'api/router';
 
 declare module 'express' {
   interface Request {
