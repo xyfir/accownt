@@ -1,3 +1,4 @@
+import { JWT_EXPIRES_IN } from 'constants/config';
 import { cleanEmail } from 'lib/email/clean';
 import { emailToId } from 'lib/email/to-id';
 import * as storage from 'node-persist';
@@ -42,5 +43,5 @@ export async function login(
   if (user.totpSecret && !totp.verify({ secret: user.totpSecret, token: otp }))
     throw 'Invalid one-time password (2FA code)';
 
-  return signJWT(userId, email, '30d');
+  return signJWT(userId, email, JWT_EXPIRES_IN);
 }

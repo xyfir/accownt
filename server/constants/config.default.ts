@@ -64,6 +64,13 @@ export const RECAPTCHA_KEY = '';
  */
 export const WEB_DIRECTORY = '/path/to/accownt/web';
 /**
+ * How long until expiry of the main JWT that is saved to a cookie and passed
+ *  to your application. Eg: `60 | "2 days" | "10h" | "7d"`. A numeric value is
+ *  interpreted as a seconds count. If you use a string be sure you provide the
+ *  time units (days, hours, etc).
+ */
+export const JWT_EXPIRES_IN = '30d';
+/**
  * URL for Accownt's web client (where your users will access it)
  */
 export const ACCOWNT_WEB_URL = 'https://example.com/accownt';
@@ -71,6 +78,11 @@ export const ACCOWNT_WEB_URL = 'https://example.com/accownt';
  * URL for Accownt's API (accownt-server)
  */
 export const ACCOWNT_API_URL = 'https://example.com/api/accownt';
+/**
+ * How long until expiry of a temporary JWT. Used in passwordless login and
+ *  verification emails.
+ */
+export const TEMP_JWT_EXPIRES_IN = '1h';
 /**
  * Options for the user database (uses node-persist). All that's needed is `dir`
  * https://www.npmjs.com/package/node-persist#async-initoptions-callback

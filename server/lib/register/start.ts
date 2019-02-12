@@ -7,6 +7,7 @@ import { Accownt } from 'types/accownt';
 import { signJWT } from 'lib/jwt/sign';
 import axios from 'axios';
 import {
+  TEMP_JWT_EXPIRES_IN,
   ACCOWNT_API_URL,
   RECAPTCHA_KEY,
   STORAGE,
@@ -49,7 +50,7 @@ export async function startRegistration(
   if (pass) await setPassword(user.id, pass);
 
   // Send verification email
-  const token = await signJWT(user.id, email, '1h');
+  const token = await signJWT(user.id, email, TEMP_JWT_EXPIRES_IN);
   await sendMail({
     subject: `${NAME} Email Verification`,
     text: `${ACCOWNT_API_URL}/register?jwt=${token}`,

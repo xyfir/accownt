@@ -88,7 +88,7 @@ To be a bit more specific:
 1. Somewhere in your app you'll put login and/or registration links that point to the Accownt web client.
 2. If your app utilizes the JWT cookie that Accownt sets (named `jwt`) then all you need to do is verify the token with each request via [jsonwebttoken](https://www.npmjs.com/package/jsonwebtoken#jwtverifytoken-secretorpublickey-options-callback) or the equivalent in your preferred language.
 3. Once the JWT is verified and decoded, you can retrieve the `userId` and `email` properties from it to use however you need. Note that `userId` is a unix timestamp in milliseconds (13 digits!) that corresponds to when the user created their account. Also keep in mind that if your app is receiving a JWT, the user's email has already been verified.
-4. If the JWT is invalid or expired (they last 30 days), redirect them back to the Accownt form or to unauthenticated parts of your app.
+4. If the JWT is invalid or expired, redirect them back to the Accownt form or to unauthenticated parts of your app.
 5. Lastly, you'll need a route somewhere to catch redirections and tokens from Accownt after each successful login. You set this already in your config.
 6. Optionally, you can also add a link somewhere that takes _authenticated_ users to Accownt so they can modify their account information, like their password or 2FA.
 
