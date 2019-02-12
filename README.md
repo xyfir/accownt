@@ -10,14 +10,15 @@ The goal of Accownt is to be a full-featured, standalone account system that's s
 
 # Features
 
-- Email login
-  - Password optional!
+- Email + password login
+  - Passwords are optional
+  - Passwords are hashed thanks to [bcrypt](https://www.npmjs.com/package/bcrypt)
 - Two-Factory Authentication (2FA)
   - Authy, Google Authenticator, etc supported
-  - Thanks to [speakeasy](https://www.npmjs.com/package/speakeasy)!
+  - Thanks to [speakeasy](https://www.npmjs.com/package/speakeasy)
 - Email verification
   - Plug in your SMTP credentials for Mailgun, Gmail, or anything else
-  - Thanks to [nodemailer](https://www.npmjs.com/package/nodemailer)!
+  - Thanks to [nodemailer](https://www.npmjs.com/package/nodemailer)
 - Passwordless login
   - Emails with login links are sent on request
 - Account recovery
@@ -26,23 +27,25 @@ The goal of Accownt is to be a full-featured, standalone account system that's s
   - Older Node versions not actively supported
 - No database needed
   - Users are simple JSON files stored to disk
-  - Thanks to [node-persist](https://www.npmjs.com/package/node-persist)!
+  - Thanks to [node-persist](https://www.npmjs.com/package/node-persist)
 - Standalone server and web client
   - Easy integration into new and existing applications of any stack
 - CAPTCHA support
   - Optional, just set your reCAPTCHA key
-  - Thanks to [reCAPTCHA](https://www.google.com/recaptcha/)!
+  - Thanks to [reCAPTCHA](https://www.google.com/recaptcha/)
 - JSON Web Tokens (JWT)
   - Shared JWT and cookie between Accownt and your app for session authentication
-  - Thanks to [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)!
+  - Thanks to [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
 - Easy theming
-  - Thanks to [Material-UI](https://material-ui.com/style/color/#color-tool)!
+  - Thanks to [Material-UI](https://material-ui.com/style/color/#color-tool)
 
 # Install
 
 As simple as Accownt is, you'll still need to install, configure, build, and integrate into your app. We've made it just about as easy as it could possibly be.
 
-**Note:** If your system does not yet have Node installed, start with [nvm](https://github.com/creationix/nvm#install-script) (or [nvm for Windows](https://github.com/coreybutler/nvm-windows#node-version-manager-nvm-for-windows)).
+**Note #1:** If your system does not yet have Node installed, start with [nvm](https://github.com/creationix/nvm#install-script) (or [nvm for Windows](https://github.com/coreybutler/nvm-windows#node-version-manager-nvm-for-windows)).
+
+**Note #2:** You may alternatively download Accownt through npm (see [here](http://npmjs.com/package/accownt)), however this is not currently the recommended installation method. In the future we'll like have a CLI tool available through npm to make configuring, running, and managing Accownt instances easier.
 
 ## Server
 
