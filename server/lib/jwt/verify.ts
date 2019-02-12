@@ -1,5 +1,5 @@
 import { NextFunction, Response, Request } from 'express';
-import { JWT_KEY } from 'constants/config';
+import { JWT_KEY, JWT_COOKIE_NAME } from 'constants/config';
 import { Accownt } from 'types/accownt';
 import * as jwt from 'jsonwebtoken';
 
@@ -20,12 +20,13 @@ export async function verifyRequestJWT(
     // JWT from URL via email
     if (req.query.jwt) req.jwt = await verifyJWT(req.query.jwt);
     // JWT from cookie
-    else if (req.cookies.jwt) req.jwt = await verifyJWT(req.cookies.jwt);
+    else if (req.cookies[JWT_COOKIE_NAME])
+      req.jwt = await verifyJWT(req.cookies[JWT_COOKIE_NAME]);
     // Nothing to verify
     else throw 'No JWT provided';
   } catch (err) {
     req.jwt = null;
-    if (req.cookies.jwt) res.clearCookie('jwt');
+    if (req.cookies[JWT_COOKIE_NAME]) res.clearCookie(JWT_COOKIE_NAME);
   }
   next();
 }

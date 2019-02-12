@@ -81,12 +81,12 @@ npm run build
 This part is largely up to you, so it's important to understand the flow of data between your app and Accownt:
 
 1. Your app sends users to Accownt's login/registration form either by user action or automatically through a forced redirection. All you need to do is get the user to Accownt, everything it needs to know is already in its config.
-2. Accownt will handle everything until there's a login, at which point it will redirect the user back to your app with the JWT in the URL based on your configuration. The same JWT will _also_ be set as cookie to `jwt`, so depending on your setup you may be able to and prefer to access this instead.
+2. Accownt will handle everything until there's a login, at which point it will redirect the user back to your app with the JWT in the URL based on your configuration. The same JWT will _also_ be set as a cookie, so depending on your setup you may be able to and prefer to access this instead.
 
 To be a bit more specific:
 
 1. Somewhere in your app you'll put login and/or registration links that point to the Accownt web client.
-2. If your app utilizes the JWT cookie that Accownt sets (named `jwt`) then all you need to do is verify the token with each request via [jsonwebttoken](https://www.npmjs.com/package/jsonwebtoken#jwtverifytoken-secretorpublickey-options-callback) or the equivalent in your preferred language.
+2. If your app utilizes the JWT cookie that Accownt sets then all you need to do is verify the token with each request via [jsonwebttoken](https://www.npmjs.com/package/jsonwebtoken#jwtverifytoken-secretorpublickey-options-callback) or the equivalent in your preferred language.
 3. Once the JWT is verified and decoded, you can retrieve the `userId` and `email` properties from it to use however you need. Note that `userId` is a unix timestamp in milliseconds (13 digits!) that corresponds to when the user created their account. Also keep in mind that if your app is receiving a JWT, the user's email has already been verified.
 4. If the JWT is invalid or expired, redirect them back to the Accownt form or to unauthenticated parts of your app.
 5. Lastly, you'll need a route somewhere to catch redirections and tokens from Accownt after each successful login. You set this already in your config.

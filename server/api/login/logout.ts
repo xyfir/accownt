@@ -1,7 +1,7 @@
+import { APP_HOME_URL, JWT_COOKIE_NAME } from 'constants/config';
 import { Response, Request } from 'express';
-import { APP_HOME_URL } from 'constants/config';
 
 export function logout(req: Request, res: Response): void {
-  res.clearCookie('jwt');
+  res.clearCookie(JWT_COOKIE_NAME);
   res.redirect(APP_HOME_URL);
 }

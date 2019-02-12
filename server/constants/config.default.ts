@@ -71,6 +71,10 @@ export const WEB_DIRECTORY = '/path/to/accownt/web';
  */
 export const JWT_EXPIRES_IN = '30d';
 /**
+ * The name of the cookie which the JWT will be saved to.
+ */
+export const JWT_COOKIE_NAME = 'jwt';
+/**
  * URL for Accownt's web client (where your users will access it)
  */
 export const ACCOWNT_WEB_URL = 'https://example.com/accownt';
