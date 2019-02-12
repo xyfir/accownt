@@ -45,7 +45,7 @@ As simple as Accownt is, you'll still need to install, configure, build, and int
 
 **Note #1:** If your system does not yet have Node installed, start with [nvm](https://github.com/creationix/nvm#install-script) (or [nvm for Windows](https://github.com/coreybutler/nvm-windows#node-version-manager-nvm-for-windows)).
 
-**Note #2:** You may alternatively download Accownt through npm (see [here](http://npmjs.com/package/accownt)), however this is not currently the recommended installation method. In the future we'll like have a CLI tool available through npm to make configuring, running, and managing Accownt instances easier.
+**Note #2:** You may alternatively download Accownt through npm (see [here](http://npmjs.com/package/accownt)), however this is not currently the recommended installation method. In the future we'll likely have a CLI tool available through npm to make configuring, running, and managing Accownt instances easier.
 
 ## Server
 
