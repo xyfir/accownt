@@ -13,7 +13,7 @@ The goal of Accownt is to be a full-featured, standalone account system that's s
 - Email + password login
   - Passwords are optional
   - Passwords are hashed thanks to [bcrypt](https://www.npmjs.com/package/bcrypt)
-- Two-Factory Authentication (2FA)
+- Two-Factor Authentication (2FA)
   - Authy, Google Authenticator, etc supported
   - Thanks to [speakeasy](https://www.npmjs.com/package/speakeasy)
 - Email verification
