@@ -3,12 +3,13 @@ import { sendMail } from 'lib/email/send';
 import * as storage from 'node-persist';
 import { Accownt } from 'types/accownt';
 import { signJWT } from 'lib/jwt/sign';
-import {
+
+const {
   TEMP_JWT_EXPIRES_IN,
   ACCOWNT_API_URL,
   STORAGE,
   NAME
-} from 'constants/config';
+} = process.ENV;
 
 export async function startPasswordlessLogin(
   email: Accownt.User['email']

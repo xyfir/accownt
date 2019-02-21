@@ -1,6 +1,7 @@
-import { ACCOWNT_WEB_URL, JWT_COOKIE_NAME } from 'constants/config';
 import { NextFunction, Response, Request } from 'express';
 import { finishRegistration } from 'lib/register/finish';
+
+const { ACCOWNT_WEB_URL, JWT_COOKIE_NAME } = process.ENV;
 
 export function api_finishRegistration(
   req: Request,

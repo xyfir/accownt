@@ -6,13 +6,14 @@ import * as storage from 'node-persist';
 import { Accownt } from 'types/accownt';
 import { signJWT } from 'lib/jwt/sign';
 import axios from 'axios';
-import {
+
+const {
   TEMP_JWT_EXPIRES_IN,
   ACCOWNT_API_URL,
   RECAPTCHA_KEY,
   STORAGE,
   NAME
-} from 'constants/config';
+} = process.ENV;
 
 export async function startRegistration(
   email: Accownt.User['email'],

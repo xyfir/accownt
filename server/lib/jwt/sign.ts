@@ -1,6 +1,7 @@
-import { JWT_KEY } from 'constants/config';
 import { Accownt } from 'types/accownt';
 import * as jwt from 'jsonwebtoken';
+
+const { JWT_KEY } = process.ENV;
 
 export async function signJWT(
   userId: Accownt.User['id'],

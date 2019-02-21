@@ -1,7 +1,7 @@
 import { createTransport } from 'nodemailer';
-import { SMTP } from 'constants/config';
 
-const transporter = createTransport(SMTP.TRANSPORT);
+const { SMTP_TRANSPORT, SMTP_MAIL } = process.ENV;
+const transporter = createTransport(SMTP_TRANSPORT);
 
 export async function sendMail(mail: {
   subject: string;
@@ -9,5 +9,5 @@ export async function sendMail(mail: {
   text: string;
   to: string;
 }): Promise<void> {
-  await transporter.sendMail({ ...SMTP.MAIL, ...mail });
+  await transporter.sendMail({ ...SMTP_MAIL, ...mail });
 }

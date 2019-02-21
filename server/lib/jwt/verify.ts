@@ -1,7 +1,8 @@
 import { NextFunction, Response, Request } from 'express';
-import { JWT_KEY, JWT_COOKIE_NAME } from 'constants/config';
 import { Accownt } from 'types/accownt';
 import * as jwt from 'jsonwebtoken';
+
+const { JWT_KEY, JWT_COOKIE_NAME } = process.ENV;
 
 export function verifyJWT(encoded: string): Promise<Accownt.JWT> {
   return new Promise((resolve, reject) =>

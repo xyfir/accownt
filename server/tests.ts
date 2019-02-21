@@ -11,15 +11,16 @@ import { verifyJWT } from 'lib/jwt/verify';
 import * as storage from 'node-persist';
 import { setTOTP } from 'lib/account/set-totp';
 import { signJWT } from 'lib/jwt/sign';
-import { TESTS } from 'constants/config';
 import { login } from 'lib/login/login';
 import { totp } from 'speakeasy';
 import 'jest-extended';
 
+const { TEST_STORAGE } = process.ENV;
+
 beforeAll(async () => {
   try {
     const userId = await emailToId('test@example.com');
-    await storage.init(TESTS.STORAGE);
+    await storage.init(TEST_STORAGE);
     await storage.removeItem(`user-${userId}`);
     await storage.removeItem(`email-test@example.com`);
   } catch (err) {

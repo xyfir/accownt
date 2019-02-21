@@ -1,8 +1,9 @@
-import { STORAGE, NAME } from 'constants/config';
 import * as speakeasy from 'speakeasy';
 import * as storage from 'node-persist';
 import { Accownt } from 'types/accownt';
 import * as qr from 'qrcode';
+
+const { STORAGE, NAME } = process.ENV;
 
 export async function setTOTP(
   userId: Accownt.User['id'],

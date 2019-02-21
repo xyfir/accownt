@@ -1,12 +1,12 @@
-import { JWT_EXPIRES_IN } from 'constants/config';
 import { cleanEmail } from 'lib/email/clean';
 import { emailToId } from 'lib/email/to-id';
 import * as storage from 'node-persist';
-import { STORAGE } from 'constants/config';
 import { Accownt } from 'types/accownt';
 import { signJWT } from 'lib/jwt/sign';
 import * as bcrypt from 'bcrypt';
 import { totp } from 'speakeasy';
+
+const { JWT_EXPIRES_IN, STORAGE } = process.ENV;
 
 export async function login(
   email: Accownt.User['email'],
