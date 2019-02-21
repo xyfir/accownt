@@ -1,4 +1,11 @@
+**/docker-compose.yml
+**/.dockerignore
 **/node_modules
+**/.npmignore
+**/.gitignore
+**/Dockerfile
+**/LICENSE.md
+**/README.md
 **/config.js
 **/coverage
 **/.vscode

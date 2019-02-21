@@ -1,12 +1,16 @@
 FROM node:latest
 
-COPY ./server /accownt/server
-
-COPY ./types /accownt/types
+ARG NODE_ENV=production
+ENV NODE_ENV $NODE_ENV
 
 WORKDIR /accownt/server
 
-RUN npm install \
-  && npm run build
+COPY ./server/package*.json ./
+
+RUN npm install
+
+COPY ./server ./
+
+COPY ./types ../types
 
 CMD ["npm", "run", "start"]
