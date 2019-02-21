@@ -1,5 +1,18 @@
+// @ts-ignore
+process.ENV = Object.assign({}, process.env);
+Object.entries(process.ENV).forEach(e => {
+  if (typeof e[1] == 'string') {
+    if (e[1].startsWith('{') && e[1].endsWith('}')) {
+      try {
+        process.ENV[e[0]] = JSON.parse(e[1]);
+      } catch (err) {}
+    } else if (/^\d$/.test(e[1])) process.ENV[e[0]] = +e[1];
+    else if (e[1] == 'true') process.ENV[e[0]] = true;
+    else if (e[1] == 'false') process.ENV[e[0]] = false;
+  }
+});
+
 import 'app-module-path/register';
-import { ACCOWNT_WEB_URL, WEB_DIRECTORY, PORT, PROD } from 'constants/config';
 import { verifyRequestJWT } from 'lib/jwt/verify';
 import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
@@ -8,12 +21,22 @@ import { Accownt } from 'types/accownt';
 import { resolve } from 'path';
 import { router } from 'api/router';
 
+declare global {
+  namespace NodeJS {
+    interface Process {
+      ENV: Accownt.Env.Server;
+    }
+  }
+}
+
 declare module 'express' {
   interface Request {
     redirect?: boolean;
     jwt?: Accownt.JWT;
   }
 }
+
+const { ACCOWNT_WEB_URL, WEB_DIRECTORY, PORT, PROD } = process.ENV;
 
 const app = Express();
 if (!PROD) {
