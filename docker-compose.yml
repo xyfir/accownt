@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  server:
+    build:
+      dockerfile: ./server/Dockerfile
+      context: .
+      args:
+        NODE_ENV: development
+    ports:
+      - 2000:2000
+      - 9229:9229
+    volumes:
+      - ./server:/accownt/server
+      - /accownt/server/node_modules
+    command: npm run start
+    env_file: ./server/.env
