@@ -5,7 +5,7 @@
   "main": "dist/app.js",
   "scripts": {
     "watch-coverage": "npm run coverage -- --watch",
-    "watch-start": "nodemon ./dist/app.js -L --inspect=0.0.0.0:9229",
+    "watch-start": "nodemon ./dist/app.js --watch dist -e js -L --inspect=0.0.0.0:9229",
     "watch-build": "npm run build -- -w",
     "watch-test": "npm run test -- --watch",
     "coverage": "npm run test -- --coverage",
