@@ -3,14 +3,18 @@ FROM node:latest
 ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
 
-WORKDIR /accownt/server
+WORKDIR /opt/accownt/server
+
+RUN npm install -g nodemon
 
 COPY ./server/package*.json ./
-
-RUN npm install
+RUN npm install --no-optional && npm cache clean --force
+ENV PATH /opt/node_modules/.bin:$PATH
 
 COPY ./server ./
 
 COPY ./types ../types
+
+USER node
 
 CMD ["npm", "run", "start"]
