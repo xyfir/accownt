@@ -21,9 +21,7 @@
         "reveal": "always",
         "panel": "dedicated"
       },
-      "problemMatcher": [
-        "$tsc-watch"
-      ],
+      "problemMatcher": ["$tsc-watch"],
       "isBackground": true
     },
     {
@@ -55,9 +53,7 @@
         "reveal": "always",
         "panel": "dedicated"
       },
-      "problemMatcher": [
-        "$tsc"
-      ]
+      "problemMatcher": ["$tsc"]
     },
     {
       "label": "server: test",
@@ -70,15 +66,16 @@
       }
     },
     {
-      "label": "server: bash",
+      "label": "server: shell",
       "type": "shell",
-      "command": "docker-compose exec server bash",
+      "command": "docker-compose exec server /bin/sh",
       "group": "none",
       "presentation": {
         "reveal": "always",
         "panel": "dedicated",
         "focus": true
-      }
+      },
+      "problemMatcher": []
     }
   ]
 }
