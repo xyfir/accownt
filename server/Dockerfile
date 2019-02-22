@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:current-alpine
 
 ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
