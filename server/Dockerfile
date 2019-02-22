@@ -5,8 +5,6 @@ ENV NODE_ENV $NODE_ENV
 
 WORKDIR /opt/accownt/server
 
-RUN npm install -g nodemon
-
 COPY ./server/package*.json ./
 RUN npm install --no-optional && npm cache clean --force
 ENV PATH /opt/node_modules/.bin:$PATH

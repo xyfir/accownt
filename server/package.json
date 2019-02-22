@@ -42,6 +42,7 @@
     "@types/speakeasy": "^2.0.3",
     "jest": "^24.1.0",
     "jest-extended": "^0.11.1",
+    "nodemon": "^1.18.10",
     "typescript": "^3.3.3"
   },
   "repository": {
