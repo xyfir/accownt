@@ -2,12 +2,12 @@ export namespace Accownt {
   export interface Account {
     hasPassword: boolean;
     hasTOTP: boolean;
-    email: Accownt.User["email"];
+    email: Accownt.User['email'];
   }
 
   export interface JWT {
-    userId: User["id"];
-    email: User["email"];
+    userId: User['id'];
+    email: User['email'];
   }
 
   export interface User {
@@ -82,11 +82,6 @@ export namespace Accownt {
        */
       RECAPTCHA_KEY?: string;
       /**
-       * Absolute path to accownt-web
-       * @example "/path/to/accownt/web"
-       */
-      WEB_DIRECTORY: string;
-      /**
        * How long until expiry of the main JWT that is saved to a cookie and passed
        *  to your application. Eg: `60 | "2 days" | "10h" | "7d"`. A numeric value is
        *  interpreted as a seconds count. If you use a string be sure you provide the
@@ -115,6 +110,6 @@ export namespace Accownt {
       TEMP_JWT_EXPIRES_IN: string;
     }
 
-    export interface Web { }
+    export interface Web {}
   }
 }
