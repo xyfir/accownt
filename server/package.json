@@ -21,7 +21,7 @@
   "dependencies": {
     "app-module-path": "^2.2.0",
     "axios": "^0.18.0",
-    "bcrypt": "^3.0.4",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
     "express": "^4.16.4",
@@ -32,7 +32,7 @@
     "speakeasy": "^2.0.0"
   },
   "devDependencies": {
-    "@types/bcrypt": "^3.0.0",
+    "@types/bcryptjs": "^2.4.2",
     "@types/cookie-parser": "^1.4.1",
     "@types/jest": "^23.3.14",
     "@types/jsonwebtoken": "^8.3.0",

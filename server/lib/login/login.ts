@@ -3,7 +3,7 @@ import { emailToId } from 'lib/email/to-id';
 import * as storage from 'node-persist';
 import { Accownt } from 'types/accownt';
 import { signJWT } from 'lib/jwt/sign';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { totp } from 'speakeasy';
 
 const { JWT_EXPIRES_IN, STORAGE } = process.ENV;
