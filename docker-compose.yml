@@ -10,8 +10,13 @@ services:
     ports:
       - 2000:2000
       - 9229:9229
+      - 9230:9230
     volumes:
-      - ./server:/accownt/server
-      - /accownt/server/node_modules
-    command: npm run start
+      - ./server:/opt/accownt/server:delegated
+      - ./server/package.json:/opt/accownt/server/package.json
+      - ./server/package-lock.json:/opt/accownt/server/package-lock.json
+      - notused:/opt/accownt/server/node_modules
+    command: npm run watch-start
     env_file: ./server/.env
+volumes:
+  notused:
