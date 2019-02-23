@@ -16,8 +16,10 @@ services:
       - ./server:/opt/accownt/server:delegated
       - ./server/package.json:/opt/accownt/server/package.json
       - ./server/package-lock.json:/opt/accownt/server/package-lock.json
-      - notused:/opt/accownt/server/node_modules
+      - unused:/opt/accownt/server/node_modules
+      - database:/opt/accownt/database
     command: npm run watch-start
     env_file: ./server/.env
 volumes:
-  notused:
+  unused:
+  database:
