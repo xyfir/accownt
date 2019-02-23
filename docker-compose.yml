@@ -16,10 +16,28 @@ services:
       - ./server:/opt/accownt/server:delegated
       - ./server/package.json:/opt/accownt/server/package.json
       - ./server/package-lock.json:/opt/accownt/server/package-lock.json
-      - unused:/opt/accownt/server/node_modules
+      - unused1:/opt/accownt/server/node_modules
       - database:/opt/accownt/database
     command: npm run watch-start
     env_file: ./server/.env
+  web:
+    user: root
+    build:
+      dockerfile: ./web/Dockerfile
+      context: .
+      args:
+        NODE_ENV: development
+    ports:
+      - 2001:2001
+    volumes:
+      - ./web:/opt/accownt/web:delegated
+      - ./web/package.json:/opt/accownt/web/package.json
+      - ./web/package-lock.json:/opt/accownt/web/package-lock.json
+      - unused2:/opt/accownt/web/node_modules
+    command: npm run start
+    env_file: ./web/.env
+
 volumes:
-  unused:
+  unused1:
+  unused2:
   database:
