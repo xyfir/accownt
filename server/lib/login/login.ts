@@ -6,7 +6,7 @@ import { signJWT } from 'lib/jwt/sign';
 import * as bcrypt from 'bcryptjs';
 import { totp } from 'speakeasy';
 
-const { JWT_EXPIRES_IN, STORAGE } = process.ENV;
+const { JWT_EXPIRES_IN, STORAGE } = process.enve;
 
 export async function login(
   email: Accownt.User['email'],

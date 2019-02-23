@@ -1,5 +1,5 @@
 import 'app-module-path/register';
-import 'lib/utils/parse-env';
+import 'enve';
 import { verifyRequestJWT } from 'lib/jwt/verify';
 import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
@@ -10,7 +10,7 @@ import { router } from 'api/router';
 declare global {
   namespace NodeJS {
     interface Process {
-      ENV: Accownt.Env.Server;
+      enve: Accownt.Env.Server;
     }
   }
 }
@@ -22,7 +22,7 @@ declare module 'express' {
   }
 }
 
-const { ACCOWNT_WEB_URL, PORT, PROD } = process.ENV;
+const { ACCOWNT_WEB_URL, PORT, PROD } = process.enve;
 
 const app = Express();
 if (!PROD) {

@@ -1,7 +1,7 @@
 import { NextFunction, Response, Request } from 'express';
 import { finishPasswordlessLogin } from 'lib/login/passwordless/finish';
 
-const { ACCOWNT_WEB_URL, JWT_COOKIE_NAME } = process.ENV;
+const { ACCOWNT_WEB_URL, JWT_COOKIE_NAME } = process.enve;
 
 export function api_finishPasswordlessLogin(
   req: Request,

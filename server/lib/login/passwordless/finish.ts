@@ -1,7 +1,7 @@
 import { Accownt } from 'types/accownt';
 import { signJWT } from 'lib/jwt/sign';
 
-const { JWT_EXPIRES_IN } = process.ENV;
+const { JWT_EXPIRES_IN } = process.enve;
 
 export async function finishPasswordlessLogin(
   jwt?: Accownt.JWT

@@ -4,12 +4,7 @@ import * as storage from 'node-persist';
 import { Accownt } from 'types/accownt';
 import { signJWT } from 'lib/jwt/sign';
 
-const {
-  TEMP_JWT_EXPIRES_IN,
-  ACCOWNT_API_URL,
-  STORAGE,
-  NAME
-} = process.ENV;
+const { TEMP_JWT_EXPIRES_IN, ACCOWNT_API_URL, STORAGE, NAME } = process.enve;
 
 export async function startPasswordlessLogin(
   email: Accownt.User['email']

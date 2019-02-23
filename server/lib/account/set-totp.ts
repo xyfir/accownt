@@ -3,7 +3,7 @@ import * as storage from 'node-persist';
 import { Accownt } from 'types/accownt';
 import * as qr from 'qrcode';
 
-const { STORAGE, NAME } = process.ENV;
+const { STORAGE, NAME } = process.enve;
 
 export async function setTOTP(
   userId: Accownt.User['id'],

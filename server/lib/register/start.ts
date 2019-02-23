@@ -13,7 +13,7 @@ const {
   RECAPTCHA_KEY,
   STORAGE,
   NAME
-} = process.ENV;
+} = process.enve;
 
 export async function startRegistration(
   email: Accownt.User['email'],

@@ -1,7 +1,7 @@
 import * as storage from 'node-persist';
 import { Accownt } from 'types/accownt';
 
-const { STORAGE } = process.ENV;
+const { STORAGE } = process.enve;
 
 export async function getAccount(
   userId: Accownt.User['id']

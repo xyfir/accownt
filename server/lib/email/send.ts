@@ -1,6 +1,6 @@
 import { createTransport } from 'nodemailer';
 
-const { SMTP_TRANSPORT, SMTP_MAIL } = process.ENV;
+const { SMTP_TRANSPORT, SMTP_MAIL } = process.enve;
 const transporter = createTransport(SMTP_TRANSPORT);
 
 export async function sendMail(mail: {

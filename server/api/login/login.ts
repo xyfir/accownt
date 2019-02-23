@@ -1,7 +1,7 @@
 import { NextFunction, Response, Request } from 'express';
 import { login } from 'lib/login/login';
 
-const { JWT_COOKIE_NAME } = process.ENV;
+const { JWT_COOKIE_NAME } = process.enve;
 
 export function api_login(
   req: Request,

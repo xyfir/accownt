@@ -3,7 +3,7 @@ import * as storage from 'node-persist';
 import { Accownt } from 'types/accownt';
 import { signJWT } from 'lib/jwt/sign';
 
-const { STORAGE, JWT_EXPIRES_IN } = process.ENV;
+const { STORAGE, JWT_EXPIRES_IN } = process.enve;
 
 export async function finishRegistration(jwt?: Accownt.JWT): Promise<string> {
   if (jwt === null) throw 'Invalid or expired token';

@@ -3,7 +3,7 @@ import { emailToId } from 'lib/email/to-id';
 import * as storage from 'node-persist';
 import { Accownt } from 'types/accownt';
 
-const { STORAGE } = process.ENV;
+const { STORAGE } = process.enve;
 
 export async function checkEmail(
   email: Accownt.User['email']
@@ -13,7 +13,7 @@ export async function checkEmail(
   let userId: Accownt.User['id'];
   try {
     userId = await emailToId(cleanEmail(email));
-  } catch (err) { }
+  } catch (err) {}
   if (!userId) return { available: true };
 
   const user: Accownt.User = await storage.getItem(`user-${userId}`);
