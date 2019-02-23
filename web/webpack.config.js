@@ -96,6 +96,7 @@ module.exports = {
     disableHostCheck: true,
     contentBase: path.join(__dirname, 'dist'),
     port: process.enve.PORT,
+    host: '0.0.0.0',
     hot: true
   }
 };
