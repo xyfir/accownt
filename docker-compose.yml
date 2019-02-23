@@ -2,6 +2,7 @@ version: '3'
 
 services:
   server:
+    user: root
     build:
       dockerfile: ./server/Dockerfile
       context: .
