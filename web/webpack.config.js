@@ -1,17 +1,17 @@
 const CompressionPlugin = require('compression-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
-const CONFIG = require('./constants/config');
 const path = require('path');
+require('enve');
 
 module.exports = {
-  mode: CONFIG.PROD ? 'production' : 'development',
+  mode: process.enve.NODE_ENV,
 
   entry: './lib/index.ts',
 
   output: {
     publicPath: '/static/',
-    filename: CONFIG.PROD ? '[name].[hash].js' : '[name].js',
+    filename: process.enve.PROD ? '[name].[hash].js' : '[name].js',
     pathinfo: false,
     path: path.resolve(__dirname, 'dist')
   },
@@ -28,7 +28,6 @@ module.exports = {
         loader: 'babel-loader',
         include: [
           path.resolve(__dirname, 'components'),
-          path.resolve(__dirname, 'constants'),
           path.resolve(__dirname, 'lib')
         ],
         exclude: /node_modules/,
@@ -69,17 +68,19 @@ module.exports = {
 
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify(CONFIG.PROD ? 'production' : 'development')
-      }
+      'process.env.NODE_ENV': JSON.stringify(process.enve.NODE_ENV),
+      'process.enve': Object.entries(process.enve).reduce((o, [k, v]) => {
+        o[k] = JSON.stringify(v);
+        return o;
+      }, {})
     }),
     new HtmlWebpackPlugin({
-      templateParameters: CONFIG,
-      minify: CONFIG.PROD,
+      templateParameters: process.enve,
+      minify: process.enve.PROD,
       template: 'template.html'
     }),
-    CONFIG.PROD ? new CompressionPlugin({ filename: '[path].gz' }) : null,
-    CONFIG.PROD ? null : new webpack.HotModuleReplacementPlugin()
+    process.enve.PROD ? new CompressionPlugin({ filename: '[path].gz' }) : null,
+    process.enve.PROD ? null : new webpack.HotModuleReplacementPlugin()
   ].filter(p => p !== null),
 
   devtool: 'inline-source-map',
@@ -94,7 +95,7 @@ module.exports = {
     /** @todo remove this eventually */
     disableHostCheck: true,
     contentBase: path.join(__dirname, 'dist'),
-    port: CONFIG.PORT,
+    port: process.enve.PORT,
     hot: true
   }
 };

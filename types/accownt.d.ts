@@ -36,6 +36,20 @@ export namespace Accownt {
        * Your application's name as you want it displayed to users
        */
       NAME: string;
+      /**
+       * Your application's home page. Generally should not require authentication
+       */
+      APP_HOME_URL: string;
+      /**
+       * URL for Accownt's web client (where your users will access it)
+       * @example "https://example.com/accownt"
+       */
+      ACCOWNT_WEB_URL: string;
+      /**
+       * URL for Accownt's API (accownt-server)
+       * @example "https://example.com/api/accownt"
+       */
+      ACCOWNT_API_URL: string;
     }
 
     export interface Server extends Accownt.Env.Common {
@@ -63,10 +77,6 @@ export namespace Accownt {
        */
       TEST_STORAGE: object;
       /**
-       * Your application's home page. Generally should not require authentication
-       */
-      APP_HOME_URL: string;
-      /**
        * Used by `nodemailer.createTransport()`
        * https://nodemailer.com/smtp/
        */
@@ -78,7 +88,7 @@ export namespace Accownt {
        */
       APP_LOGIN_URL: string;
       /**
-       * Your reCAPTCHA key. Leave empty if you don't want reCAPTCHA verification
+       * Your secret reCAPTCHA key. Leave empty if you don't want reCAPTCHA verification
        */
       RECAPTCHA_KEY?: string;
       /**
@@ -93,16 +103,6 @@ export namespace Accownt {
        */
       JWT_COOKIE_NAME: string;
       /**
-       * URL for Accownt's web client (where your users will access it)
-       * @example "https://example.com/accownt"
-       */
-      ACCOWNT_WEB_URL: string;
-      /**
-       * URL for Accownt's API (accownt-server)
-       * @example "https://example.com/api/accownt"
-       */
-      ACCOWNT_API_URL: string;
-      /**
        * How long until expiry of a temporary JWT. Used in passwordless login and
        *  verification emails.
        * @example "1h"
@@ -110,6 +110,28 @@ export namespace Accownt {
       TEMP_JWT_EXPIRES_IN: string;
     }
 
-    export interface Web {}
+    export interface Web extends Accownt.Env.Common {
+      /**
+       * Port for the Webpack dev server. Only needed for Accownt developers
+       */
+      PORT: number;
+      /**
+       * Passed to Material-UI's `createMUITheme()`. Can be left an empty object
+       * https://material-ui.com/style/color/#color-tool
+       */
+      THEME: object;
+      /**
+       * URL to your app's favicon
+       */
+      FAVICON: string;
+      /**
+       * Used for `<meta name="description" content="..." />`
+       */
+      DESCRIPTION: string;
+      /**
+       * Your public reCAPTCHA key. Leave empty if you don't want reCAPTCHA verification
+       */
+      RECAPTCHA_KEY?: string;
+    }
   }
 }

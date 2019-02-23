@@ -1,4 +1,3 @@
-import { ACCOWNT_WEB_URL, RECAPTCHA_KEY } from 'constants/config';
 import * as React from 'react';
 import { api } from 'lib/api';
 import {
@@ -74,7 +73,7 @@ export class _Unauthenticated extends React.Component<
 
   componentDidUpdate(prevProps, prevState: UnauthenticatedState) {
     // Load reCAPTCHA lib after switching from login to register mode
-    if (!prevState.create && this.state.create && RECAPTCHA_KEY) {
+    if (!prevState.create && this.state.create && process.enve.RECAPTCHA_KEY) {
       const element = document.createElement('script');
       element.type = 'text/javascript';
       element.src = 'https://www.google.com/recaptcha/api.js';
@@ -94,7 +93,7 @@ export class _Unauthenticated extends React.Component<
 
   onRegister() {
     const { email, pass } = this.state;
-    const recaptcha = RECAPTCHA_KEY
+    const recaptcha = process.enve.RECAPTCHA_KEY
       ? window['grecaptcha'].getResponse()
       : undefined;
     api
@@ -108,7 +107,7 @@ export class _Unauthenticated extends React.Component<
     pass
       ? api
           .post('/login', { email, pass, otp: otp || undefined })
-          .then(() => (location.href = ACCOWNT_WEB_URL))
+          .then(() => (location.href = process.enve.ACCOWNT_WEB_URL))
           .catch(err => alert(`Error! ${err.response.data.error}`))
       : api
           .post('/login/passwordless', { email })
@@ -178,7 +177,10 @@ export class _Unauthenticated extends React.Component<
         />
 
         {create ? (
-          <div className="g-recaptcha" data-sitekey={RECAPTCHA_KEY} />
+          <div
+            className="g-recaptcha"
+            data-sitekey={process.enve.RECAPTCHA_KEY}
+          />
         ) : null}
 
         {!create && !!pass ? (

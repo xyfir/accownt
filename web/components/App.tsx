@@ -1,10 +1,9 @@
 import { WithStyles, CssBaseline, Button } from '@material-ui/core';
-import { NAME, APP_HOME_URL } from 'constants/config';
 import { Unauthenticated } from 'components/Unauthenticated';
 import { Authenticated } from 'components/Authenticated';
 import { Accownt } from 'types/accownt';
 import * as React from 'react';
-import { theme } from 'constants/theme';
+import { theme } from 'lib/theme';
 import { hot } from 'react-hot-loader';
 import { api } from 'lib/api';
 import {
@@ -12,6 +11,14 @@ import {
   createStyles,
   withStyles
 } from '@material-ui/core/styles';
+
+declare global {
+  namespace NodeJS {
+    interface Process {
+      enve: Accownt.Env.Web;
+    }
+  }
+}
 
 const styles = createStyles({
   main: {
@@ -55,8 +62,8 @@ class _App extends React.Component<WithStyles<typeof styles>, AppState> {
         <main className={classes.main}>
           {account ? <Authenticated account={account} /> : <Unauthenticated />}
           <div className={classes.div}>
-            <Button href={APP_HOME_URL} color="secondary">
-              Back to {NAME}
+            <Button href={process.enve.APP_HOME_URL} color="secondary">
+              Back to {process.enve.NAME}
             </Button>
           </div>
         </main>

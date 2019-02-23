@@ -17,6 +17,7 @@
   "dependencies": {
     "@material-ui/core": "^3.9.2",
     "axios": "^0.18.0",
+    "enve": "^1.0.0",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
     "react-hot-loader": "^4.6.5",

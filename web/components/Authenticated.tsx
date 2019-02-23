@@ -10,7 +10,6 @@ import {
   Button,
   Paper
 } from '@material-ui/core';
-import { ACCOWNT_API_URL } from 'constants/config';
 
 const styles = createStyles({
   button: {
@@ -76,7 +75,10 @@ export class _Authenticated extends React.Component<
       <div className={classes.div}>
         <Typography variant="h4" className={classes.h4}>
           {account.email}
-          <Button color="secondary" href={`${ACCOWNT_API_URL}/login/logout`}>
+          <Button
+            color="secondary"
+            href={`${process.enve.ACCOWNT_API_URL}/login/logout`}
+          >
             Logout
           </Button>
         </Typography>
