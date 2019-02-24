@@ -53,10 +53,10 @@ As simple as Accownt is, you'll still need to install, configure, build, and int
 git clone https://github.com/Xyfir/accownt.git
 cd accownt/server
 npm install
-cp constants/config.default.ts constants/config.ts
+touch .env
 ```
 
-Now open up `accownt/server/constants/config.ts` in your editor and fill out the values. Everything is explained there.
+Now open up `accownt/server/.env` in your editor and fill out the values. See the `Accownt.Env.Common` and `Accownt.Env.Server` interfaces in [types/accownt.d.ts](https://github.com/Xyfir/accownt/blob/master/types/accownt.d.ts) for expected environment variables. Format is `KEY=VALUE` (`PROD=true`, `NAME="Accownt"`, etc).
 
 ```bash
 npm run build
@@ -70,10 +70,10 @@ At this point the setup is based on your environment and what your needs are. Pr
 ```bash
 cd ../web
 npm install
-cp constants/config.default.js constants/config.js
+touch .env
 ```
 
-Now open up `accownt/web/constants/config.js` in your editor and fill out the values. Most will be the same as the server's config.
+Now open up `accownt/server/.env` in your editor and fill out the values. See the `Accownt.Env.Common` and `Accownt.Env.Web` interfaces in [types/accownt.d.ts](https://github.com/Xyfir/accownt/blob/master/types/accownt.d.ts) for expected environment variables.
 
 ```bash
 npm run build
@@ -94,6 +94,10 @@ To be a bit more specific:
 4. If the JWT is invalid or expired, redirect them back to the Accownt form or to unauthenticated parts of your app.
 5. Lastly, you'll need a route somewhere to catch redirections and tokens from Accownt after each successful login. You set this already in your config.
 6. Optionally, you can also add a link somewhere that takes _authenticated_ users to Accownt so they can modify their account information, like their password or 2FA.
+
+## Docker
+
+Docker support is currently being added. You should use the Dockerfiles within the server and web directories to run containers using the .env files. See the docker-compose.yml for a (development environment) example.
 
 # Screenshots
 
