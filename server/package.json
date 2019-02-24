@@ -1,6 +1,6 @@
 {
   "name": "accownt-server",
-  "version": "6.0.0-alpha.1",
+  "version": "6.0.0-alpha.2",
   "description": "Dead simple user account system so easy a cow could do it.",
   "main": "dist/app.js",
   "scripts": {
