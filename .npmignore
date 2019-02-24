@@ -1,3 +1,4 @@
+docker-compose.yml
 .vscode/
 server/
 types/
