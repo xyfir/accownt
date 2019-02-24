@@ -12,6 +12,4 @@ COPY ./server ./
 
 COPY ./types ../types
 
-USER node
-
 CMD ["npm", "run", "start"]

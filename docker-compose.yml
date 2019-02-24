@@ -2,7 +2,6 @@ version: '3'
 
 services:
   server:
-    user: root
     build:
       dockerfile: ./server/Dockerfile
       context: .
@@ -11,7 +10,6 @@ services:
     ports:
       - 2000:2000
       - 9229:9229
-      - 9230:9230
     volumes:
       - ./server:/opt/accownt/server:delegated
       - ./server/package.json:/opt/accownt/server/package.json
@@ -21,7 +19,6 @@ services:
     command: npm run watch-start
     env_file: ./server/.env
   web:
-    user: root
     build:
       dockerfile: ./web/Dockerfile
       context: .

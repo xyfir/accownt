@@ -12,6 +12,4 @@ COPY ./web ./
 
 COPY ./types ../types
 
-USER node
-
 CMD ["npm", "run", "build"]
