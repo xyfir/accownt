@@ -77,6 +77,11 @@ export namespace Accownt {
        */
       TEST_STORAGE: object;
       /**
+       * Absolute path for accownt-web.
+       * @example "/path/to/accownt/web"
+       */
+      WEB_DIRECTORY: string;
+      /**
        * Used by `nodemailer.createTransport()`
        * https://nodemailer.com/smtp/
        */

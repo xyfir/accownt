@@ -8,6 +8,7 @@ import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
 import * as Express from 'express';
 import { Accownt } from 'types/accownt';
+import { resolve } from 'path';
 import { router } from 'api/router';
 
 declare global {
@@ -44,11 +45,15 @@ if (!PROD) {
     next();
   });
 }
+app.use('/static', Express.static(resolve(process.enve.WEB_DIRECTORY, 'dist')));
 app.use(bodyParser.urlencoded({ extended: true, limit: '2mb' }));
 app.use(bodyParser.json({ limit: '2mb' }));
 app.use(cookieParser());
 app.use(verifyRequestJWT);
 app.use('/api', router);
+app.get('/*', (req, res) =>
+  res.sendFile(resolve(process.enve.WEB_DIRECTORY, 'dist', 'index.html'))
+);
 app.use(
   (
     err: string | Error,
