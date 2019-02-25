@@ -1,6 +1,6 @@
 {
   "name": "accownt-web",
-  "version": "6.0.0-alpha.2",
+  "version": "6.0.0-alpha.3",
   "description": "Dead simple user account system so easy a cow could do it.",
   "main": "",
   "scripts": {
@@ -17,6 +17,7 @@
   "dependencies": {
     "@material-ui/core": "^3.9.2",
     "axios": "^0.18.0",
+    "dotenv": "^6.2.0",
     "enve": "^1.0.0",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
@@ -29,6 +30,7 @@
     "@babel/preset-env": "^7.3.1",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.1.0",
+    "@types/dotenv": "^6.1.0",
     "@types/react": "^16.8.2",
     "@types/react-dom": "^16.8.0",
     "babel-loader": "^8.0.5",

@@ -95,10 +95,6 @@ To be a bit more specific:
 5. Lastly, you'll need a route somewhere to catch redirections and tokens from Accownt after each successful login. You set this already in your config.
 6. Optionally, you can also add a link somewhere that takes _authenticated_ users to Accownt so they can modify their account information, like their password or 2FA.
 
-## Docker
-
-Docker support is currently being added. You should use the Dockerfiles within the server and web directories to run containers using the .env files. See the docker-compose.yml for a (development environment) example.
-
 # Screenshots
 
 <img src="https://i.imgur.com/eoN4kg1.png" alt="Login screenshot" height="400px" />

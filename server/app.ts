@@ -1,5 +1,8 @@
 import 'app-module-path/register';
+import { config } from 'dotenv';
+config();
 import 'enve';
+
 import { verifyRequestJWT } from 'lib/jwt/verify';
 import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';

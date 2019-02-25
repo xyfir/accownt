@@ -1,8 +1,10 @@
+require('dotenv').config();
+require('enve');
+
 const CompressionPlugin = require('compression-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
-require('enve');
 
 module.exports = {
   mode: process.enve.NODE_ENV,

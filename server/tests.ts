@@ -1,4 +1,7 @@
+import { config } from 'dotenv';
+config();
 import 'enve';
+
 import { finishPasswordlessLogin } from 'lib/login/passwordless/finish';
 import { startPasswordlessLogin } from 'lib/login/passwordless/start';
 import { finishRegistration } from 'lib/register/finish';
