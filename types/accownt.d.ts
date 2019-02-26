@@ -37,6 +37,11 @@ export namespace Accownt {
        */
       NAME: string;
       /**
+       * Base path (for URL) of static files
+       * @example "/static/"
+       */
+      STATIC_PATH: string;
+      /**
        * Your application's home page. Generally should not require authentication
        */
       APP_HOME_URL: string;

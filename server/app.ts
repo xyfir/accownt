@@ -45,7 +45,10 @@ if (!PROD) {
     next();
   });
 }
-app.use('/static', Express.static(resolve(process.enve.WEB_DIRECTORY, 'dist')));
+app.use(
+  process.enve.STATIC_PATH,
+  Express.static(resolve(process.enve.WEB_DIRECTORY, 'dist'))
+);
 app.use(bodyParser.urlencoded({ extended: true, limit: '2mb' }));
 app.use(bodyParser.json({ limit: '2mb' }));
 app.use(cookieParser());

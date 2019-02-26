@@ -12,7 +12,7 @@ module.exports = {
   entry: './lib/index.ts',
 
   output: {
-    publicPath: '/static/',
+    publicPath: process.enve.STATIC_PATH,
     filename: process.enve.PROD ? '[name].[hash].js' : '[name].js',
     pathinfo: false,
     path: path.resolve(__dirname, 'dist')
@@ -61,7 +61,7 @@ module.exports = {
         use: [
           {
             loader: 'file-loader',
-            options: { publicPath: '/static' }
+            options: { publicPath: process.enve.STATIC_PATH }
           }
         ]
       }
