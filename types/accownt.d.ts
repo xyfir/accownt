@@ -87,12 +87,6 @@ export namespace Accownt {
        */
       SMTP_TRANSPORT: object;
       /**
-       * Where your users will be redirected after login. `{{JWT}}` will be replaced
-       *  with the actual JWT.
-       * @example "https://example.com/login?jwt={{JWT}}"
-       */
-      APP_LOGIN_URL: string;
-      /**
        * Your secret reCAPTCHA key. Leave empty if you don't want reCAPTCHA verification
        */
       RECAPTCHA_KEY?: string;
