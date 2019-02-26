@@ -1,6 +1,6 @@
 {
   "name": "accownt",
-  "version": "6.0.0-alpha.4",
+  "version": "6.0.0-alpha.5",
   "description": "Dead simple user account system so easy a cow could do it.",
   "main": "index.js",
   "bin": {
@@ -10,8 +10,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "accownt-server": "6.0.0-alpha.4",
-    "accownt-web": "6.0.0-alpha.4"
+    "accownt-server": "6.0.0-alpha.5",
+    "accownt-web": "6.0.0-alpha.5"
   },
   "prettier": {
     "singleQuote": true
