@@ -26,13 +26,11 @@ declare module 'express' {
   }
 }
 
-const { ACCOWNT_WEB_URL, PORT, PROD } = process.enve;
-
 const app = Express();
-if (!PROD) {
+if (process.enve.NODE_ENV == 'development') {
   // Needed to allow communication from webpack-dev-server host
   app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', ACCOWNT_WEB_URL);
+    res.header('Access-Control-Allow-Origin', process.enve.ACCOWNT_WEB_URL);
     res.header(
       'Access-Control-Allow-Methods',
       'GET, POST, OPTIONS, PUT, DELETE'
@@ -80,9 +78,13 @@ app.use(
 
     // Redirect and display error in app
     if (req.redirect)
-      res.redirect(`${ACCOWNT_WEB_URL}?error=${encodeURIComponent(error)}`);
+      res.redirect(
+        `${process.enve.ACCOWNT_WEB_URL}?error=${encodeURIComponent(error)}`
+      );
     // Return error to API client
     else res.status(status).json({ error });
   }
 );
-app.listen(PORT, () => console.log('Listening on', PORT));
+app.listen(process.enve.PORT, () =>
+  console.log('Listening on', process.enve.PORT)
+);

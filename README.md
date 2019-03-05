@@ -56,7 +56,7 @@ npm install
 touch .env
 ```
 
-Now open up `accownt/server/.env` in your editor and fill out the values. See the `Accownt.Env.Common` and `Accownt.Env.Server` interfaces in [types/accownt.d.ts](https://github.com/Xyfir/accownt/blob/master/types/accownt.d.ts) for expected environment variables. Format is `KEY=VALUE` (`PROD=true`, `NAME="Accownt"`, etc).
+Now open up `accownt/server/.env` in your editor and fill out the values. See the `Accownt.Env.Common` and `Accownt.Env.Server` interfaces in [types/accownt.d.ts](https://github.com/Xyfir/accownt/blob/master/types/accownt.d.ts) for expected environment variables. Format is `KEY=VALUE` (`PORT=1234`, `NAME="Accownt"`, etc).
 
 ```bash
 npm run build
