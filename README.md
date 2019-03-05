@@ -32,7 +32,7 @@ The goal of Accownt is to be a full-featured, standalone account system that's s
   - Easy integration into new and existing applications of any stack
 - CAPTCHA support
   - Optional, just set your reCAPTCHA key
-  - Thanks to [reCAPTCHA](https://www.google.com/recaptcha/)
+  - Thanks to [reCAPTCHA v2](https://www.google.com/recaptcha/)
 - JSON Web Tokens (JWT)
   - Shared JWT and cookie between Accownt and your app for session authentication
   - Thanks to [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)

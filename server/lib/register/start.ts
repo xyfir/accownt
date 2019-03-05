@@ -5,6 +5,7 @@ import { sendMail } from 'lib/email/send';
 import * as storage from 'node-persist';
 import { Accownt } from 'types/accownt';
 import { signJWT } from 'lib/jwt/sign';
+import * as qs from 'qs';
 import axios from 'axios';
 
 const {
@@ -24,7 +25,7 @@ export async function startRegistration(
   if (RECAPTCHA_KEY) {
     const captcha = await axios.post(
       'https://www.google.com/recaptcha/api/siteverify',
-      { secret: RECAPTCHA_KEY, response: recaptcha }
+      qs.stringify({ secret: RECAPTCHA_KEY, response: recaptcha })
     );
     if (!captcha.data.success) throw 'Invalid captcha';
   }
@@ -52,9 +53,11 @@ export async function startRegistration(
 
   // Send verification email
   const token = await signJWT(user.id, email, TEMP_JWT_EXPIRES_IN);
+  const link = `${ACCOWNT_API_URL}/register?jwt=${token}`;
   await sendMail({
     subject: `${NAME} Email Verification`,
-    text: `${ACCOWNT_API_URL}/register?jwt=${token}`,
+    html: `<a href="${link}">Verify my email.</a>`,
+    text: link,
     to: email
   });
 
