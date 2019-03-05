@@ -10,7 +10,7 @@ export function api_login(
 ): void {
   login(req.body.email, req.body.pass, req.body.otp)
     .then(token => {
-      res.cookie(JWT_COOKIE_NAME, token);
+      res.cookie(JWT_COOKIE_NAME, token, { maxAge: 31540000000 });
       res.status(200).json({});
     })
     .catch(next);

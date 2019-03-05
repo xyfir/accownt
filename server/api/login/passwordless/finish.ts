@@ -11,7 +11,7 @@ export function api_finishPasswordlessLogin(
   req.redirect = true;
   finishPasswordlessLogin(req.jwt)
     .then(token => {
-      res.cookie(JWT_COOKIE_NAME, token);
+      res.cookie(JWT_COOKIE_NAME, token, { maxAge: 31540000000 });
       res.redirect(ACCOWNT_WEB_URL);
     })
     .catch(next);
