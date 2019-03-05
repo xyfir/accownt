@@ -1,6 +1,6 @@
 {
   "name": "accownt-web",
-  "version": "6.0.0-alpha.6",
+  "version": "6.0.0-beta.0",
   "description": "Dead simple user account system so easy a cow could do it.",
   "main": "",
   "scripts": {
@@ -21,7 +21,7 @@
     "enve": "^1.0.0",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
-    "react-hot-loader": "^4.7.1",
+    "react-hot-loader": "^4.7.2",
     "typeface-roboto": "0.0.54"
   },
   "devDependencies": {
@@ -31,7 +31,7 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
     "@types/dotenv": "^6.1.0",
-    "@types/react": "^16.8.5",
+    "@types/react": "^16.8.6",
     "@types/react-dom": "^16.8.2",
     "babel-loader": "^8.0.5",
     "compression-webpack-plugin": "^2.0.0",
@@ -40,7 +40,7 @@
     "html-webpack-plugin": "^3.2.0",
     "style-loader": "^0.23.1",
     "typescript": "^3.3.3333",
-    "webpack": "^4.29.5",
+    "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.2.1"
   },

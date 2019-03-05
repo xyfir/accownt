@@ -1,6 +1,6 @@
 {
   "name": "accownt",
-  "version": "6.0.0-alpha.6",
+  "version": "6.0.0-beta.0",
   "description": "Dead simple user account system so easy a cow could do it.",
   "main": "index.js",
   "bin": {
@@ -10,13 +10,13 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "accownt-server": "6.0.0-alpha.6",
-    "accownt-web": "6.0.0-alpha.6"
+    "accownt-server": "6.0.0-beta.0",
+    "accownt-web": "6.0.0-beta.0"
   },
   "prettier": {
     "singleQuote": true
   },
-  "author": "Xyfir, LLC <contact@xyfir.com> (https://xyfir.com/)",
+  "author": "Xyfir, LLC <contact@xyfir.com> (https://www.xyfir.com)",
   "license": "MIT",
   "repository": {
     "type": "git",
