@@ -14,9 +14,11 @@ export async function startPasswordlessLogin(
   const user: Accownt.User = await storage.getItem(`user-${userId}`);
 
   const token = await signJWT(user.id, user.email, TEMP_JWT_EXPIRES_IN);
+  const link = `${ACCOWNT_API_URL}/login/passwordless?jwt=${token}`;
   await sendMail({
     subject: `${NAME} Passwordless Login`,
-    text: `${ACCOWNT_API_URL}/login/passwordless?jwt=${token}`,
+    html: `<a href="${link}">Login to ${NAME}.</a>`,
+    text: link,
     to: user.email
   });
 
