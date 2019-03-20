@@ -42,7 +42,7 @@ export namespace Accownt {
        */
       STATIC_PATH: string;
       /**
-       * Your application's home page. Generally should not require authentication
+       * Your application's home page
        */
       APP_HOME_URL: string;
       /**
@@ -66,7 +66,7 @@ export namespace Accownt {
        * Options for the user database (uses node-persist). All that's needed is `dir`
        * https://www.npmjs.com/package/node-persist#async-initoptions-callback
        */
-      STORAGE: object;
+      STORAGE: any;
       /**
        * This is the shared HS256 key which will be used by Accownt to sign JSON Web
        *  Tokens which your app will then verify using the same key
@@ -76,11 +76,11 @@ export namespace Accownt {
        * Merged into nodemailer's `transporter.sendMail()`
        * https://nodemailer.com/usage/#sending-mail
        */
-      SMTP_MAIL: object;
+      SMTP_MAIL: any;
       /**
        * For Jest tests. Keep this as such so the TypeScript compiler is happy
        */
-      TEST_STORAGE: object;
+      TEST_STORAGE: any;
       /**
        * Absolute path for accownt-web.
        * @example "/path/to/accownt/web"
@@ -90,7 +90,7 @@ export namespace Accownt {
        * Used by `nodemailer.createTransport()`
        * https://nodemailer.com/smtp/
        */
-      SMTP_TRANSPORT: object;
+      SMTP_TRANSPORT: any;
       /**
        * Your secret reCAPTCHA key. Leave empty if you don't want reCAPTCHA verification
        */
@@ -123,7 +123,7 @@ export namespace Accownt {
        * Passed to Material-UI's `createMUITheme()`. Can be left an empty object
        * https://material-ui.com/style/color/#color-tool
        */
-      THEME: object;
+      THEME: any;
       /**
        * URL to your app's favicon
        */
@@ -133,7 +133,16 @@ export namespace Accownt {
        */
       DESCRIPTION: string;
       /**
-       * Your public reCAPTCHA key. Leave empty if you don't want reCAPTCHA verification
+       * A route in your application that can accept authenticated users and
+       *  optionally (if immediately after login) their JWT. `%JWT%` is
+       *  replaced with the JWT if available, otherwise it's replaced with `0`.
+       *  If your app uses the cookie Accownt sets you can ignore `%JWT%`.
+       * @example "https://example.com/auth?jwt=%JWT%"
+       * @example "https://example.com/members-only/%JWT%"
+       */
+      APP_AUTH_URL: string;
+      /**
+       * Your public reCAPTCHA v2 key to enable reCAPTCHA verification
        */
       RECAPTCHA_KEY?: string;
     }
