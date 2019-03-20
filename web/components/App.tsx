@@ -62,7 +62,14 @@ class _App extends React.Component<WithStyles<typeof styles>, AppState> {
         <main className={classes.main}>
           {account ? <Authenticated account={account} /> : <Unauthenticated />}
           <div className={classes.div}>
-            <Button href={process.enve.APP_HOME_URL} color="secondary">
+            <Button
+              href={
+                account
+                  ? process.enve.APP_AUTH_URL.replace('%JWT%', '0')
+                  : process.enve.APP_HOME_URL
+              }
+              color="secondary"
+            >
               Back to {process.enve.NAME}
             </Button>
           </div>

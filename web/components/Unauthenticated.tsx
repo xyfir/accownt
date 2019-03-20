@@ -75,7 +75,6 @@ export class _Unauthenticated extends React.Component<
     // Load reCAPTCHA lib after switching from login to register mode
     if (!prevState.create && this.state.create && process.enve.RECAPTCHA_KEY) {
       const element = document.createElement('script');
-      element.type = 'text/javascript';
       element.src = 'https://www.google.com/recaptcha/api.js';
       document.head.appendChild(element);
       this.onChangeEmail(this.state.email);
@@ -84,11 +83,8 @@ export class _Unauthenticated extends React.Component<
 
   onChangeCreate() {
     const { create } = this.state;
-    if (create) {
-      this.setState({ create: false, available: true });
-    } else {
-      this.setState({ create: true, otp: '' });
-    }
+    if (create) this.setState({ create: false, available: true });
+    else this.setState({ create: true, otp: '' });
   }
 
   onRegister() {
@@ -107,7 +103,13 @@ export class _Unauthenticated extends React.Component<
     pass
       ? api
           .post('/login', { email, pass, otp: otp || undefined })
-          .then(() => (location.href = process.enve.ACCOWNT_WEB_URL))
+          .then(
+            res =>
+              (location.href = process.enve.APP_AUTH_URL.replace(
+                '%JWT%',
+                res.data.jwt
+              ))
+          )
           .catch(err => alert(`Error! ${err.response.data.error}`))
       : api
           .post('/login/passwordless', { email })
