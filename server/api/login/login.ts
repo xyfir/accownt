@@ -11,7 +11,7 @@ export function api_login(
   login(req.body.email, req.body.pass, req.body.otp)
     .then(token => {
       res.cookie(JWT_COOKIE_NAME, token, { maxAge: 31540000000 });
-      res.status(200).json({});
+      res.status(200).json({ jwt: token });
     })
     .catch(next);
 }
