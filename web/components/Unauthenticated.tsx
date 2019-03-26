@@ -59,7 +59,7 @@ export class _Unauthenticated extends React.Component<
 
   onChangeEmail(email: string) {
     clearTimeout(this.timeout);
-    this.setState({ email });
+    this.setState({ email, passwordless: false, registered: false });
 
     if (this.state.create) {
       this.timeout = setTimeout(
