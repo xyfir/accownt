@@ -4,38 +4,31 @@ _Dead simple user account system so easy a ~~caveman~~ **cow** could do it._
 
 The goal of Accownt is to be a full-featured, standalone account system that's straightforward for developers and users, easy to mantain, and as customizable as possible without introducing too much complexity.
 
-**Will it continue receiving updates?** Yes. It was built for and is mantained by [Ptorx](https://ptorx.com) and other projects in the [Xyfir Network](https://www.xyfir.com/network).
+![](https://i.imgur.com/c8qHvzy.png)
 
-**What's it look like?** However you want it to, but for the default theme, see [Screenshots](#screenshots).
+Built and mantained by **[Ptorx](https://ptorx.com)** and other **[Xyfir](https://www.xyfir.com)** projects.
 
 # Features
 
 - Email + password login
-  - Passwords are optional
-  - Passwords are hashed thanks to [bcrypt.js](https://www.npmjs.com/package/bcryptjs)
+  - Passwordless login via links sent to emails also available
+  - Passwords are hashed with bcrypt
 - Two-Factor Authentication (2FA)
   - Authy, Google Authenticator, etc supported
-  - Thanks to [speakeasy](https://www.npmjs.com/package/speakeasy)
 - Email verification
   - Plug in your SMTP credentials for Mailgun, Gmail, or anything else
-  - Thanks to [nodemailer](https://www.npmjs.com/package/nodemailer)
-- Passwordless login
-  - Emails with login links are sent on request
 - Account recovery
   - Via passwordless login feature
 - No dependencies other than Node and what npm will install
   - Older Node versions not actively supported
 - No database needed
   - Users are simple JSON files stored to disk
-  - Thanks to [node-persist](https://www.npmjs.com/package/node-persist)
 - Standalone server and web client
   - Easy integration into new and existing applications of any stack
-- CAPTCHA support
+- reCAPTCHA v2 support
   - Optional, just set your reCAPTCHA key
-  - Thanks to [reCAPTCHA v2](https://www.google.com/recaptcha/)
 - JSON Web Tokens (JWT)
   - Shared JWT and cookie between Accownt and your app for session authentication
-  - Thanks to [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
 - Easy theming
   - Thanks to [Material-UI](https://material-ui.com/style/color/#color-tool)
 
@@ -94,11 +87,3 @@ To be a bit more specific:
 4. If the JWT is invalid or expired, redirect them back to the Accownt form or to unauthenticated parts of your app.
 5. Lastly, you'll need a route somewhere to catch redirections and tokens from Accownt after each successful login. You set this already in your config.
 6. Optionally, you can also add a link somewhere that takes _authenticated_ users to Accownt so they can modify their account information, like their password or 2FA.
-
-# Screenshots
-
-<img src="https://i.imgur.com/eoN4kg1.png" alt="Login screenshot" height="400px" />
-
-<img src="https://i.imgur.com/whIweGw.png" alt="Logged in screenshot" height="400px" />
-
-<img src="https://i.imgur.com/CRgy0hQ.png" alt="Logged in screenshot" height="400px" />
