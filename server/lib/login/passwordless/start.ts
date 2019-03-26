@@ -21,6 +21,8 @@ export async function startPasswordlessLogin(
   await storage.init(STORAGE);
   const user: Accownt.User = await storage.getItem(`user-${userId}`);
 
+  if (!user.verified) throw 'You must verify your account first';
+
   const token = await signJWT(user.id, user.email, TEMP_JWT_EXPIRES_IN);
   const link = `${ACCOWNT_API_URL}/login/passwordless?jwt=${token}`;
   await sendMail({
