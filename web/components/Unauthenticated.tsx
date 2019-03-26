@@ -1,3 +1,4 @@
+import { withSnackbar, withSnackbarProps } from 'notistack';
 import * as React from 'react';
 import { api } from 'lib/api';
 import {
@@ -36,7 +37,7 @@ const styles = createStyles({
 });
 
 export class _Unauthenticated extends React.Component<
-  WithStyles<typeof styles>,
+  withSnackbarProps & WithStyles<typeof styles>,
   UnauthenticatedState
 > {
   timeout: NodeJS.Timeout;
@@ -51,8 +52,9 @@ export class _Unauthenticated extends React.Component<
     otp: ''
   };
 
-  constructor(props) {
-    super(props);
+  componentDidMount() {
+    if (location.search.startsWith('?error='))
+      this.props.enqueueSnackbar(decodeURIComponent(location.search.substr(7)));
   }
 
   onChangeEmail(email: string) {
@@ -95,7 +97,9 @@ export class _Unauthenticated extends React.Component<
     api
       .post('/register', { email, pass, recaptcha })
       .then(res => this.setState({ registered: true }))
-      .catch(err => alert(`Error! ${err.response.data.error}`));
+      .catch(err =>
+        this.props.enqueueSnackbar(`Error! ${err.response.data.error}`)
+      );
   }
 
   onLogin() {
@@ -110,11 +114,15 @@ export class _Unauthenticated extends React.Component<
                 res.data.jwt
               ))
           )
-          .catch(err => alert(`Error! ${err.response.data.error}`))
+          .catch(err =>
+            this.props.enqueueSnackbar(`Error! ${err.response.data.error}`)
+          )
       : api
           .post('/login/passwordless', { email })
           .then(() => this.setState({ passwordless: true }))
-          .catch(err => alert(`Error! ${err.response.data.error}`));
+          .catch(err =>
+            this.props.enqueueSnackbar(`Error! ${err.response.data.error}`)
+          );
   }
 
   render() {
@@ -211,4 +219,6 @@ export class _Unauthenticated extends React.Component<
   }
 }
 
-export const Unauthenticated = withStyles(styles)(_Unauthenticated);
+export const Unauthenticated = withStyles(styles)(
+  withSnackbar(_Unauthenticated)
+);

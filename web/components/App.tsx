@@ -1,4 +1,5 @@
 import { WithStyles, CssBaseline, Button } from '@material-ui/core';
+import { SnackbarProvider } from 'notistack';
 import { Unauthenticated } from 'components/Unauthenticated';
 import { Authenticated } from 'components/Authenticated';
 import { Accownt } from 'types/accownt';
@@ -47,8 +48,6 @@ class _App extends React.Component<WithStyles<typeof styles>, AppState> {
       .get('/account')
       .then(res => this.setState({ account: res.data, loading: false }))
       .catch(err => this.setState({ loading: false }));
-    if (location.search.startsWith('?error='))
-      alert(decodeURIComponent(location.search.substr(7)));
   }
 
   render() {
@@ -59,21 +58,35 @@ class _App extends React.Component<WithStyles<typeof styles>, AppState> {
     return (
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
-        <main className={classes.main}>
-          {account ? <Authenticated account={account} /> : <Unauthenticated />}
-          <div className={classes.div}>
-            <Button
-              href={
-                account
-                  ? process.enve.APP_AUTH_URL.replace('%JWT%', '0')
-                  : process.enve.APP_HOME_URL
-              }
-              color="secondary"
-            >
-              Back to {process.enve.NAME}
+        <SnackbarProvider
+          action={[
+            <Button color="primary" size="small">
+              Dismiss
             </Button>
-          </div>
-        </main>
+          ]}
+          maxSnack={2}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        >
+          <main className={classes.main}>
+            {account ? (
+              <Authenticated account={account} />
+            ) : (
+              <Unauthenticated />
+            )}
+            <div className={classes.div}>
+              <Button
+                href={
+                  account
+                    ? process.enve.APP_AUTH_URL.replace('%JWT%', '0')
+                    : process.enve.APP_HOME_URL
+                }
+                color="secondary"
+              >
+                Back to {process.enve.NAME}
+              </Button>
+            </div>
+          </main>
+        </SnackbarProvider>
       </MuiThemeProvider>
     );
   }

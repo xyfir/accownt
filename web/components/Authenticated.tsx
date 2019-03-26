@@ -1,3 +1,4 @@
+import { withSnackbar, withSnackbarProps } from 'notistack';
 import { Accownt } from 'types/accownt';
 import * as React from 'react';
 import { api } from 'lib/api';
@@ -30,7 +31,9 @@ const styles = createStyles({
   }
 });
 
-interface AuthenticatedProps extends WithStyles<typeof styles> {
+interface AuthenticatedProps
+  extends WithStyles<typeof styles>,
+    withSnackbarProps {
   account: Accownt.Account;
 }
 
@@ -48,8 +51,9 @@ export class _Authenticated extends React.Component<
     pass: ''
   };
 
-  constructor(props) {
-    super(props);
+  componentDidMount() {
+    if (location.search.startsWith('?error='))
+      this.props.enqueueSnackbar(decodeURIComponent(location.search.substr(7)));
   }
 
   onSetPassword(pass: string | null) {
@@ -65,7 +69,7 @@ export class _Authenticated extends React.Component<
       .then(res =>
         !res.data.url ? location.reload() : this.setState(res.data)
       )
-      .catch(err => alert(`Error! ${err.response.error}`));
+      .catch(err => this.props.enqueueSnackbar(`Error! ${err.response.error}`));
   }
 
   render() {
@@ -173,4 +177,4 @@ export class _Authenticated extends React.Component<
   }
 }
 
-export const Authenticated = withStyles(styles)(_Authenticated);
+export const Authenticated = withStyles(styles)(withSnackbar(_Authenticated));
