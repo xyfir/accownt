@@ -1,10 +1,18 @@
+import { buildTemplate } from 'lib/email/build-template';
 import { emailToId } from 'lib/email/to-id';
 import { sendMail } from 'lib/email/send';
 import * as storage from 'node-persist';
 import { Accownt } from 'types/accownt';
 import { signJWT } from 'lib/jwt/sign';
 
-const { TEMP_JWT_EXPIRES_IN, ACCOWNT_API_URL, STORAGE, NAME } = process.enve;
+const {
+  PASSWORDLESS_LOGIN_HTML_TEMPLATE,
+  PASSWORDLESS_LOGIN_TEXT_TEMPLATE,
+  TEMP_JWT_EXPIRES_IN,
+  ACCOWNT_API_URL,
+  STORAGE,
+  NAME
+} = process.enve;
 
 export async function startPasswordlessLogin(
   email: Accownt.User['email']
@@ -17,8 +25,18 @@ export async function startPasswordlessLogin(
   const link = `${ACCOWNT_API_URL}/login/passwordless?jwt=${token}`;
   await sendMail({
     subject: `${NAME} Passwordless Login`,
-    html: `<a href="${link}">Login to ${NAME}.</a>`,
-    text: link,
+    html: await buildTemplate({
+      name: 'LINK',
+      file: PASSWORDLESS_LOGIN_HTML_TEMPLATE,
+      value: link,
+      fallback: '<a href="%LINK%">Login.</a>'
+    }),
+    text: await buildTemplate({
+      name: 'LINK',
+      file: PASSWORDLESS_LOGIN_TEXT_TEMPLATE,
+      value: link,
+      fallback: 'Login: %LINK%"'
+    }),
     to: user.email
   });
 

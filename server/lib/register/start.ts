@@ -1,3 +1,4 @@
+import { buildTemplate } from 'lib/email/build-template';
 import { setPassword } from 'lib/account/set-password';
 import { checkEmail } from 'lib/register/check-email';
 import { cleanEmail } from 'lib/email/clean';
@@ -9,6 +10,8 @@ import * as qs from 'qs';
 import axios from 'axios';
 
 const {
+  EMAIL_VERIFICATION_HTML_TEMPLATE,
+  EMAIL_VERIFICATION_TEXT_TEMPLATE,
   TEMP_JWT_EXPIRES_IN,
   ACCOWNT_API_URL,
   RECAPTCHA_KEY,
@@ -56,8 +59,18 @@ export async function startRegistration(
   const link = `${ACCOWNT_API_URL}/register?jwt=${token}`;
   await sendMail({
     subject: `${NAME} Email Verification`,
-    html: `<a href="${link}">Verify my email.</a>`,
-    text: link,
+    html: await buildTemplate({
+      name: 'LINK',
+      file: EMAIL_VERIFICATION_HTML_TEMPLATE,
+      value: link,
+      fallback: '<a href="%LINK%">Verify my email.</a>'
+    }),
+    text: await buildTemplate({
+      name: 'LINK',
+      file: EMAIL_VERIFICATION_TEXT_TEMPLATE,
+      value: link,
+      fallback: 'Verify your email: %LINK%"'
+    }),
     to: email
   });
 

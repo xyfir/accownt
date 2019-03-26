@@ -112,6 +112,32 @@ export namespace Accownt {
        * @example "1h"
        */
       TEMP_JWT_EXPIRES_IN: string;
+      /**
+       * Path to a file containing the template for the text-only version of
+       *  the email/account verification message sent out after registration.
+       *  Instances of `%LINK%` will be replaced with the verification link.
+       * @example "/path/to/templates/email-verification.txt" // Value
+       * @example "Verify your account here: %LINK%" // File contents
+       */
+      EMAIL_VERIFICATION_TEXT_TEMPLATE?: string;
+      /**
+       * Path to a file containing the template for the HTML version of
+       *  the email/account verification message sent out after registration.
+       *  Instances of `%LINK%` will be replaced with the verification link.
+       * @example "/path/to/templates/email-verification.html" // Value
+       * @example '<a href="%LINK">Verify your account</a>' // File contents
+       */
+      EMAIL_VERIFICATION_HTML_TEMPLATE?: string;
+      /**
+       * Same as `EMAIL_VERIFICATION_TEXT_TEMPLATE` but for the passwordless
+       *  login email.
+       */
+      PASSWORDLESS_LOGIN_TEXT_TEMPLATE?: string;
+      /**
+       * Same as `EMAIL_VERIFICATION_HTML_TEMPLATE` but for the passwordless
+       *  login email.
+       */
+      PASSWORDLESS_LOGIN_HTML_TEMPLATE?: string;
     }
 
     export interface Web extends Accownt.Env.Common {
