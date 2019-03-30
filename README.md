@@ -2,7 +2,7 @@
 
 _Dead simple user account system so easy a ~~caveman~~ **cow** could do it._
 
-The goal of Accownt is to be a full-featured, standalone account system that's straightforward for developers and users, easy to mantain, and as customizable as possible without introducing too much complexity.
+The goal of Accownt is to be a full-featured, standalone account system that's straightforward for developers and users, easy to maintain, and as customizable as possible without introducing too much complexity.
 
 ![](https://i.imgur.com/c8qHvzy.png)
 
