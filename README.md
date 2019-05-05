@@ -29,7 +29,7 @@ Built and mantained by **[Ptorx](https://ptorx.com)** and other **[Xyfir](https:
   - Optional, just set your reCAPTCHA key
 - JSON Web Tokens (JWT)
   - Shared JWT and cookie between Accownt and your app for session authentication
-- Easy theming
+- Easy theming + light and dark themes
   - Thanks to [Material-UI](https://material-ui.com/style/color/#color-tool)
 
 # Install
@@ -40,39 +40,69 @@ As simple as Accownt is, you'll still need to install, configure, build, and int
 
 **Note #2:** You may alternatively download Accownt through npm (see [here](http://npmjs.com/package/accownt)), however this is not currently the recommended installation method. In the future we'll likely have a CLI tool available through npm to make configuring, running, and managing Accownt instances easier.
 
-## Server
+## Step 0: Clone the repo
 
 ```bash
 git clone https://github.com/Xyfir/accownt.git
-cd accownt/server
+cd accownt
+```
+
+From now on we'll assume commands are run from `accownt/`.
+
+## Step 1: Download npm dependencies
+
+Install npm depencies for each module:
+
+```bash
+cd server
 npm install
-touch .env
-```
-
-Now open up `accownt/server/.env` in your editor and fill out the values. See the `Accownt.Env.Common` and `Accownt.Env.Server` interfaces in [types/accownt.d.ts](https://github.com/Xyfir/accownt/blob/master/types/accownt.d.ts) for expected environment variables. Format is `KEY=VALUE` (`PORT=1234`, `NAME="Accownt"`, etc).
-
-```bash
-npm run build
-npm run start # or launch ./dist/app.js however you like
-```
-
-At this point the setup is based on your environment and what your needs are. Probably you'll run the server with [pm2](https://www.npmjs.com/package/pm2) and put Node behind Nginx or Apache.
-
-## Web Client
-
-```bash
 cd ../web
 npm install
-touch .env
+cd ../ # back to accownt/
 ```
 
-Now open up `accownt/server/.env` in your editor and fill out the values. See the `Accownt.Env.Common` and `Accownt.Env.Web` interfaces in [types/accownt.d.ts](https://github.com/Xyfir/accownt/blob/master/types/accownt.d.ts) for expected environment variables.
+## Step 2: Set environment variables
+
+The Accownt modules are configured via environment variables which are loaded into the applications via `.env` files located in each module's directory.
+
+To understand the syntax of the `.env` files, know that they are first loaded via [dotenv](https://www.npmjs.com/package/dotenv) and then the string values provided by dotenv are parsed by [enve](https://www.npmjs.com/package/dotenv).
+
+### Step 2a: Create `.env` files
+
+First we'll create each file by copying the example `.env` files and then we'll work our way through populating them with values.
 
 ```bash
-npm run build
+cp server/example.env server/.env
+cp web/example.env web/.env
 ```
 
-## Integration Into Your App
+### Step 2b: Edit `.env` files
+
+Edit the files `server/.env` and `web/.env`. Update the config keys with your own values. You can find descriptions for each one under the `Accownt` -> `Env` namespaces in the [type definitions](https://github.com/Xyfir/accownt/blob/master/types/accownt.d.ts). Use the appropriate `interface` for each corresponding file.
+
+## Step 3: Build from source
+
+```bash
+cd server
+npm run build
+cd ../web
+npm run build
+cd ../
+```
+
+## Step 4: Start the server
+
+Now you'll need to start the server and serve the built files. The simplest way to do this is:
+
+```bash
+cd server
+npm run start
+cd ../
+```
+
+If you're in production, you'll probably run the server with [pm2](https://www.npmjs.com/package/pm2) and proxy the server through Nginx or Apache while serving static files through them instead of Node. For you, know that files to be served to the client are located in `web/dist` with `web/dist/index.html` serving as the web client's entry file.
+
+## Step 5: Add Accownt to your app
 
 This part is largely up to you, so it's important to understand the flow of data between your app and Accownt:
 
@@ -87,3 +117,15 @@ To be a bit more specific:
 4. If the JWT is invalid or expired, redirect them back to the Accownt form or to unauthenticated parts of your app.
 5. Lastly, you'll need a route somewhere to catch redirections and tokens from Accownt after each successful login. You set this already in your config.
 6. Optionally, you can also add a link somewhere that takes _authenticated_ users to Accownt so they can modify their account information, like their password or 2FA.
+
+# Example
+
+A working example can be found in [Ptorx](https://github.com/Xyfir/ptorx).
+
+# Contribute
+
+If you'd like to help work on Accownt, the tutorial above will suffice to get you up and running. Certain things however will make your life easier:
+
+- Make sure your `NODE_ENV` variables in the `.env` files are set to `"development"`.
+- Run the web client's dev server via `npm run start` when in `web/`. Connect to it via the `PORT` you set in `web/.env`.
+- Check the `scripts` in each module's `package.json` for helpful scripts.
