@@ -1,4 +1,4 @@
-import { withSnackbar, withSnackbarProps } from 'notistack';
+import { withSnackbar, WithSnackbarProps } from 'notistack';
 import { Accownt } from 'types/accownt';
 import * as React from 'react';
 import { api } from 'lib/api';
@@ -33,7 +33,7 @@ const styles = createStyles({
 
 interface AuthenticatedProps
   extends WithStyles<typeof styles>,
-    withSnackbarProps {
+    WithSnackbarProps {
   account: Accownt.Account;
 }
 

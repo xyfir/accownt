@@ -1,4 +1,4 @@
-import { withSnackbar, withSnackbarProps } from 'notistack';
+import { withSnackbar, WithSnackbarProps } from 'notistack';
 import * as React from 'react';
 import { api } from 'lib/api';
 import {
@@ -37,7 +37,7 @@ const styles = createStyles({
 });
 
 export class _Unauthenticated extends React.Component<
-  withSnackbarProps & WithStyles<typeof styles>,
+  WithSnackbarProps & WithStyles<typeof styles>,
   UnauthenticatedState
 > {
   timeout: NodeJS.Timeout;
