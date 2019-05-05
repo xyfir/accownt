@@ -146,10 +146,15 @@ export namespace Accownt {
        */
       PORT: number;
       /**
-       * Passed to Material-UI's `createMUITheme()`. Can be left an empty object
+       * Passed to Material-UI's `createMUITheme()`. Can be left an empty
+       *  object. If you provide an array, the first element will be treated
+       *  as a light theme and the second element as a dark theme. Make sure
+       *  the `palette.type` property is set respectively.
        * https://material-ui.com/style/color/#color-tool
+       * @example {}
+       * @example [{"palette":{"type":"light"}},{"palette":{"type":"dark"}}]
        */
-      THEME: any;
+      THEME: any | any[];
       /**
        * URL to your app's favicon
        */
@@ -171,6 +176,13 @@ export namespace Accownt {
        * Your public reCAPTCHA v2 key to enable reCAPTCHA verification
        */
       RECAPTCHA_KEY?: string;
+      /**
+       * If you provide both light and dark themes, this is the key used for
+       *  `localStorage.getItem()` to retrieve the current theme type
+       *  (`"light"` or `"dark"`).
+       * @example "theme"
+       */
+      THEME_TYPE_KEY?: string;
     }
   }
 }
