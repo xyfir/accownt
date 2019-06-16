@@ -136,6 +136,7 @@ export class _Unauthenticated extends React.Component<
       pass,
       otp
     } = this.state;
+
     return (
       // @ts-ignore
       <Paper component="form" className={classes.form}>
@@ -152,13 +153,15 @@ export class _Unauthenticated extends React.Component<
         ) : null}
 
         <TextField
-          fullWidth
           id="email"
+          name="email"
           type="email"
           value={email}
           error={create && !available}
+          label="Email"
           margin="normal"
           onChange={e => this.onChangeEmail(e.target.value)}
+          fullWidth
           helperText={
             create && !available ? 'That email is already in use' : null
           }
@@ -176,12 +179,14 @@ export class _Unauthenticated extends React.Component<
         />
 
         <TextField
-          fullWidth
           id="pass"
+          name="password"
           type="password"
           value={pass}
+          label="Password"
           margin="normal"
           onChange={e => this.setState({ pass: e.target.value })}
+          fullWidth
           className={classes.password}
           helperText="Leave blank to login via a passwordless login link sent to your email"
         />
@@ -196,7 +201,8 @@ export class _Unauthenticated extends React.Component<
         {!create && !!pass ? (
           <TextField
             fullWidth
-            id="otp"
+            id="2fa"
+            name="2fa"
             label="2FA Code"
             value={otp}
             margin="normal"
