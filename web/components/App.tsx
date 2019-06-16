@@ -56,11 +56,6 @@ class _App extends React.Component<WithStyles<typeof styles>, AppState> {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <SnackbarProvider
-          action={[
-            <Button color="primary" size="small">
-              Dismiss
-            </Button>
-          ]}
           maxSnack={2}
           anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         >
