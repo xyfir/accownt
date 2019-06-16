@@ -5,6 +5,7 @@
   "main": "",
   "scripts": {
     "watch-build": "webpack-cli --watch",
+    "watch-check": "npm run check -- -w",
     "start": "webpack-dev-server",
     "check": "tsc --noEmit",
     "build": "webpack-cli"
