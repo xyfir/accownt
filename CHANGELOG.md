@@ -6,6 +6,21 @@ This project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 
+## [6.1.1] - 2019-06-16
+
+## Changed
+
+- Improve password manager support
+- Significantly decrease size
+
+## Fixed
+
+- Captcha element overflow
+
+## Removed
+
+- Broken 'dismiss' button in alert
+
 ## [6.1.0] - 2019-05-04
 
 ### Added
@@ -17,5 +32,6 @@ This project adheres to [Semantic Versioning](https://semver.org).
 
 - Improve README
 
-[unreleased]: https://github.com/Xyfir/accownt/compare/6.1.0...HEAD
+[unreleased]: https://github.com/Xyfir/accownt/compare/6.1.1...HEAD
+[6.1.1]: https://github.com/Xyfir/accownt/releases/tag/6.1.0...6.1.0
 [6.1.0]: https://github.com/Xyfir/accownt/releases/tag/6.1.0
