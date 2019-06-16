@@ -1,17 +1,14 @@
 import { WithStyles, CssBaseline, Button } from '@material-ui/core';
+import { createStyles, withStyles } from '@material-ui/core';
 import { SnackbarProvider } from 'notistack';
 import { Unauthenticated } from 'components/Unauthenticated';
 import { Authenticated } from 'components/Authenticated';
+import { ThemeProvider } from '@material-ui/styles';
 import { Accownt } from 'types/accownt';
 import * as React from 'react';
 import { theme } from 'lib/theme';
 import { hot } from 'react-hot-loader';
 import { api } from 'lib/api';
-import {
-  MuiThemeProvider,
-  createStyles,
-  withStyles
-} from '@material-ui/core/styles';
 
 declare global {
   namespace NodeJS {
@@ -56,7 +53,7 @@ class _App extends React.Component<WithStyles<typeof styles>, AppState> {
     if (loading) return null;
 
     return (
-      <MuiThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
         <CssBaseline />
         <SnackbarProvider
           action={[
@@ -87,7 +84,7 @@ class _App extends React.Component<WithStyles<typeof styles>, AppState> {
             </div>
           </main>
         </SnackbarProvider>
-      </MuiThemeProvider>
+      </ThemeProvider>
     );
   }
 }
