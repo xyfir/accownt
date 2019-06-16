@@ -8,16 +8,16 @@ This project adheres to [Semantic Versioning](https://semver.org).
 
 ## [6.1.1] - 2019-06-16
 
-## Changed
+### Changed
 
 - Improve password manager support
 - Significantly decrease size
 
-## Fixed
+### Fixed
 
 - Captcha element overflow
 
-## Removed
+### Removed
 
 - Broken 'dismiss' button in alert
 
