@@ -18,9 +18,9 @@ const styles = createStyles({
     marginTop: '1em'
   },
   form: {
-    maxWidth: '21em',
     padding: '1em',
-    margin: '0.5em auto'
+    margin: '0.5em auto',
+    width: '24em'
   },
   div: {
     margin: 'auto'

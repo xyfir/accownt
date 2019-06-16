@@ -24,9 +24,9 @@ interface UnauthenticatedState {
 
 const styles = createStyles({
   form: {
-    maxWidth: '21em',
     padding: '1em',
-    margin: 'auto'
+    margin: 'auto',
+    width: '24em'
   },
   password: {
     marginTop: 0
