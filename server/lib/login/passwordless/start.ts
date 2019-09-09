@@ -3,7 +3,7 @@ import { emailToId } from 'lib/email/to-id';
 import { sendMail } from 'lib/email/send';
 import * as storage from 'node-persist';
 import { Accownt } from 'types/accownt';
-import { signJWT } from 'lib/jwt/sign';
+import { signJWT } from 'lib/jwt';
 
 const {
   PASSWORDLESS_LOGIN_HTML_TEMPLATE,

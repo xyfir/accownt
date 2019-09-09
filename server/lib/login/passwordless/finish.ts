@@ -1,5 +1,5 @@
 import { Accownt } from 'types/accownt';
-import { signJWT } from 'lib/jwt/sign';
+import { signJWT } from 'lib/jwt';
 
 const { JWT_EXPIRES_IN } = process.enve;
 

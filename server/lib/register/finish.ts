@@ -1,7 +1,7 @@
 import { emailToId } from 'lib/email/to-id';
 import * as storage from 'node-persist';
 import { Accownt } from 'types/accownt';
-import { signJWT } from 'lib/jwt/sign';
+import { signJWT } from 'lib/jwt';
 
 const { STORAGE, JWT_EXPIRES_IN } = process.enve;
 

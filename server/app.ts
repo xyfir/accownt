@@ -3,7 +3,7 @@ import { config } from 'dotenv';
 config();
 import 'enve';
 
-import { verifyRequestJWT } from 'lib/jwt/verify';
+import { verifyRequestJWT } from 'lib/jwt';
 import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
 import * as Express from 'express';

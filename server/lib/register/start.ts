@@ -5,7 +5,7 @@ import { cleanEmail } from 'lib/email/clean';
 import { sendMail } from 'lib/email/send';
 import * as storage from 'node-persist';
 import { Accownt } from 'types/accownt';
-import { signJWT } from 'lib/jwt/sign';
+import { signJWT } from 'lib/jwt';
 import * as qs from 'qs';
 import axios from 'axios';
 
