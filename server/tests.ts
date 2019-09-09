@@ -17,6 +17,7 @@ import { setTOTP } from 'lib/account/set-totp';
 import { signJWT } from 'lib/jwt/sign';
 import { login } from 'lib/login/login';
 import { totp } from 'speakeasy';
+import axios from 'axios';
 import 'jest-extended';
 
 const { TEST_STORAGE } = process.enve;
@@ -50,6 +51,8 @@ test('sign and verify jwt', async () => {
 });
 
 test('start registration', async () => {
+  const mockPost = ((axios.post as any) = jest.fn());
+  mockPost.mockResolvedValueOnce({ data: { success: true } });
   const token = await startRegistration('test@example.com', 'test1234');
   await expect(verifyJWT(token)).not.toReject();
 });
@@ -66,7 +69,10 @@ test('check email (available, exists but not verified)', async () => {
 });
 
 test('finish registration', async () => {
+  const mockPost = ((axios.post as any) = jest.fn());
+  mockPost.mockResolvedValueOnce({ data: { success: true } });
   const tempToken1 = await startRegistration('test@example.com', 'test1234');
+  mockPost.mockResolvedValueOnce({ data: { success: true } });
   const tempToken2 = await startRegistration('test@example.com', 'test1234');
   await expect(finishRegistration(await verifyJWT(tempToken1))).toReject();
   const fullToken = await finishRegistration(await verifyJWT(tempToken2));
