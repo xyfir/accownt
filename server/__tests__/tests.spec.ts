@@ -1,7 +1,3 @@
-import { config } from 'dotenv';
-config();
-import 'enve';
-
 import { finishPasswordlessLogin } from 'lib/login/passwordless/finish';
 import { startPasswordlessLogin } from 'lib/login/passwordless/start';
 import { finishRegistration } from 'lib/register/finish';
@@ -18,7 +14,6 @@ import { signJWT } from 'lib/jwt/sign';
 import { login } from 'lib/login/login';
 import { totp } from 'speakeasy';
 import axios from 'axios';
-import 'jest-extended';
 
 const { TEST_STORAGE } = process.enve;
 

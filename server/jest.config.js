@@ -1,5 +1,8 @@
 module.exports = {
+  setupFilesAfterEnv: ['<rootDir>/lib/tests/setup.ts'],
   testEnvironment: 'node',
-  modulePaths: ['<rootDir>/dist'],
-  testMatch: ['**/dist/tests.js']
+  modulePaths: ['<rootDir>'],
+  transform: {
+    '^.+\\.ts$': 'ts-jest'
+  }
 };
