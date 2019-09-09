@@ -1,6 +1,6 @@
 import { buildTemplate } from 'lib/email/build-template';
 import { setPassword } from 'lib/account/set-password';
-import { checkEmail } from 'lib/register/check-email';
+import { checkEmail } from 'lib/email/check';
 import { cleanEmail } from 'lib/email/clean';
 import { sendMail } from 'lib/email/send';
 import * as storage from 'node-persist';

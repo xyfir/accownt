@@ -1,5 +1,5 @@
 import { NextFunction, Response, Request } from 'express';
-import { checkEmail } from 'lib/register/check-email';
+import { checkEmail } from 'lib/email/check';
 
 export function api_checkEmail(
   req: Request,
