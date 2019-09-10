@@ -1,5 +1,5 @@
 import { NextFunction, Response, Request } from 'express';
-import { finishRegistration } from 'lib/register/finish';
+import { finishRegistration } from 'lib/login/register';
 
 const { ACCOWNT_WEB_URL, JWT_COOKIE_NAME } = process.enve;
 

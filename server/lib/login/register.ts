@@ -2,6 +2,7 @@ import { buildTemplate } from 'lib/email/build-template';
 import { setPassword } from 'lib/account/set-password';
 import { checkEmail } from 'lib/email/check';
 import { cleanEmail } from 'lib/email/clean';
+import { emailToId } from 'lib/email/to-id';
 import { sendMail } from 'lib/email/send';
 import * as storage from 'node-persist';
 import { Accownt } from 'types/accownt';
@@ -14,6 +15,7 @@ const {
   EMAIL_VERIFICATION_TEXT_TEMPLATE,
   TEMP_JWT_EXPIRES_IN,
   ACCOWNT_API_URL,
+  JWT_EXPIRES_IN,
   RECAPTCHA_KEY,
   STORAGE,
   NAME
@@ -75,4 +77,23 @@ export async function startRegistration(
   });
 
   return token;
+}
+
+export async function finishRegistration(jwt?: Accownt.JWT): Promise<string> {
+  if (jwt === null) throw 'Invalid or expired token';
+
+  // Verify JWT's userId matches the userId that the JWT's email points to
+  // This way only the most recent email verification JWT is valid since it
+  // will point to the newest user
+  const userId = await emailToId(jwt.email);
+  if (userId != jwt.userId)
+    throw 'This token has been invalidated by a newer one';
+
+  // Verify user's email
+  await storage.init(STORAGE);
+  const user: Accownt.User = await storage.getItem(`user-${jwt.userId}`);
+  user.verified = true;
+  await storage.setItem(`user-${jwt.userId}`, user);
+
+  return await signJWT(jwt.userId, jwt.email, JWT_EXPIRES_IN);
 }

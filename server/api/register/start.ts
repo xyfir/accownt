@@ -1,5 +1,5 @@
 import { NextFunction, Response, Request } from 'express';
-import { startRegistration } from 'lib/register/start';
+import { startRegistration } from 'lib/login/register';
 
 export function api_startRegistration(
   req: Request,
