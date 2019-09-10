@@ -3,6 +3,8 @@ import * as api from 'lib/api';
 import { App } from 'components/App';
 import React from 'react';
 
+const { APP_AUTH_URL, APP_HOME_URL, NAME } = process.enve;
+
 test('<App> unauth', async () => {
   // Mock API
   const mockGet = jest.fn();
@@ -13,6 +15,10 @@ test('<App> unauth', async () => {
   const { getByText } = render(<App />);
   await waitForDomChange();
   getByText('Login');
+
+  // Validate back button
+  const btn = getByText(`Back to ${NAME}`);
+  expect(btn.parentElement.getAttribute('href')).toBe(APP_HOME_URL);
 });
 
 test('<App> auth', async () => {
@@ -27,4 +33,10 @@ test('<App> auth', async () => {
   const { getByText } = render(<App />);
   await waitForDomChange();
   getByText('test@example.com', { exact: false });
+
+  // Validate back button
+  const btn = getByText(`Back to ${NAME}`);
+  expect(btn.parentElement.getAttribute('href')).toBe(
+    APP_AUTH_URL.replace('%JWT%', '0')
+  );
 });
