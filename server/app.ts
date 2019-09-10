@@ -5,11 +5,12 @@ import 'enve';
 
 import { verifyRequestJWT } from 'lib/jwt';
 import cookieParser from 'cookie-parser';
-import bodyParser from 'body-parser';
-import Express from 'express';
 import { Accownt } from 'types/accownt';
 import { resolve } from 'path';
+import bodyParser from 'body-parser';
 import { router } from 'api/router';
+import storage from 'node-persist';
+import Express from 'express';
 
 declare global {
   namespace NodeJS {
@@ -25,6 +26,8 @@ declare module 'express' {
     jwt?: Accownt.JWT;
   }
 }
+
+storage.init(process.enve.STORAGE);
 
 const app = Express();
 if (process.enve.NODE_ENV == 'development') {

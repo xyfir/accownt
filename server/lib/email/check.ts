@@ -1,15 +1,11 @@
 import { cleanEmail } from 'lib/email/clean';
 import { emailToId } from 'lib/email/to-id';
-import storage from 'node-persist';
 import { Accownt } from 'types/accownt';
-
-const { STORAGE } = process.enve;
+import storage from 'node-persist';
 
 export async function checkEmail(
   email: Accownt.User['email']
 ): Promise<{ available: boolean }> {
-  await storage.init(STORAGE);
-
   let userId: Accownt.User['id'];
   try {
     userId = await emailToId(cleanEmail(email));

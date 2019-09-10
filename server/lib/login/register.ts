@@ -4,11 +4,11 @@ import { checkEmail } from 'lib/email/check';
 import { cleanEmail } from 'lib/email/clean';
 import { emailToId } from 'lib/email/to-id';
 import { sendMail } from 'lib/email/send';
-import storage from 'node-persist';
 import { Accownt } from 'types/accownt';
 import { signJWT } from 'lib/jwt';
-import qs from 'qs';
+import storage from 'node-persist';
 import axios from 'axios';
+import qs from 'qs';
 
 const {
   EMAIL_VERIFICATION_HTML_TEMPLATE,
@@ -17,7 +17,6 @@ const {
   ACCOWNT_API_URL,
   JWT_EXPIRES_IN,
   RECAPTCHA_KEY,
-  STORAGE,
   NAME
 } = process.enve;
 
@@ -49,7 +48,6 @@ export async function startRegistration(
     failedLogins: 0,
     lastFailedLogin: 0
   };
-  await storage.init(STORAGE);
   await storage.setItem(`user-${user.id}`, user);
   await storage.setItem(`email-${email}`, user.id);
 
@@ -90,7 +88,6 @@ export async function finishRegistration(jwt?: Accownt.JWT): Promise<string> {
     throw 'This token has been invalidated by a newer one';
 
   // Verify user's email
-  await storage.init(STORAGE);
   const user: Accownt.User = await storage.getItem(`user-${jwt.userId}`);
   user.verified = true;
   await storage.setItem(`user-${jwt.userId}`, user);

@@ -1,15 +1,14 @@
+import { Accownt } from 'types/accownt';
 import speakeasy from 'speakeasy';
 import storage from 'node-persist';
-import { Accownt } from 'types/accownt';
 import qr from 'qrcode';
 
-const { STORAGE, NAME } = process.enve;
+const { NAME } = process.enve;
 
 export async function setTOTP(
   userId: Accownt.User['id'],
   enabled: boolean
 ): Promise<{ url?: string; secret?: string }> {
-  await storage.init(STORAGE);
   const user: Accownt.User = await storage.getItem(`user-${userId}`);
 
   if (!enabled) {

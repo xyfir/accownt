@@ -1,20 +1,18 @@
 import { cleanEmail } from 'lib/email/clean';
 import { emailToId } from 'lib/email/to-id';
-import storage from 'node-persist';
 import { Accownt } from 'types/accownt';
 import { signJWT } from 'lib/jwt';
-import bcrypt from 'bcryptjs';
 import { totp } from 'speakeasy';
+import storage from 'node-persist';
+import bcrypt from 'bcryptjs';
 
-const { JWT_EXPIRES_IN, STORAGE } = process.enve;
+const { JWT_EXPIRES_IN } = process.enve;
 
 export async function login(
   email: Accownt.User['email'],
   pass: Accownt.User['password'],
   otp?: string
 ): Promise<string> {
-  await storage.init(STORAGE);
-
   // Get user from email
   const userId = await emailToId(cleanEmail(email));
   const user: Accownt.User = await storage.getItem(`user-${userId}`);

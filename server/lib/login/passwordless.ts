@@ -1,9 +1,9 @@
 import { buildTemplate } from 'lib/email/build-template';
 import { emailToId } from 'lib/email/to-id';
 import { sendMail } from 'lib/email/send';
-import storage from 'node-persist';
 import { Accownt } from 'types/accownt';
 import { signJWT } from 'lib/jwt';
+import storage from 'node-persist';
 
 const {
   PASSWORDLESS_LOGIN_HTML_TEMPLATE,
@@ -11,7 +11,6 @@ const {
   TEMP_JWT_EXPIRES_IN,
   ACCOWNT_API_URL,
   JWT_EXPIRES_IN,
-  STORAGE,
   NAME
 } = process.enve;
 
@@ -19,7 +18,6 @@ export async function startPasswordlessLogin(
   email: Accownt.User['email']
 ): Promise<string> {
   const userId = await emailToId(email);
-  await storage.init(STORAGE);
   const user: Accownt.User = await storage.getItem(`user-${userId}`);
 
   if (!user.verified) throw 'You must verify your account first';
