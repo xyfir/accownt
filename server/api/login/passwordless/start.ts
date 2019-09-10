@@ -1,5 +1,5 @@
 import { NextFunction, Response, Request } from 'express';
-import { startPasswordlessLogin } from 'lib/login/passwordless/start';
+import { startPasswordlessLogin } from 'lib/login/passwordless';
 
 export function api_startPasswordlessLogin(
   req: Request,

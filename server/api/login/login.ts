@@ -1,5 +1,5 @@
 import { NextFunction, Response, Request } from 'express';
-import { login } from 'lib/login/login';
+import { login } from 'lib/login/normal';
 
 const { JWT_COOKIE_NAME } = process.enve;
 

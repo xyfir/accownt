@@ -10,6 +10,7 @@ const {
   PASSWORDLESS_LOGIN_TEXT_TEMPLATE,
   TEMP_JWT_EXPIRES_IN,
   ACCOWNT_API_URL,
+  JWT_EXPIRES_IN,
   STORAGE,
   NAME
 } = process.enve;
@@ -43,4 +44,11 @@ export async function startPasswordlessLogin(
   });
 
   return token;
+}
+
+export async function finishPasswordlessLogin(
+  jwt?: Accownt.JWT
+): Promise<string> {
+  if (jwt === null) throw 'Invalid or expired token';
+  return await signJWT(jwt.userId, jwt.email, JWT_EXPIRES_IN);
 }
