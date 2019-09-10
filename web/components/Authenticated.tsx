@@ -1,6 +1,6 @@
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import { Accownt } from 'types/accownt';
-import * as React from 'react';
+import React from 'react';
 import { api } from 'lib/api';
 import {
   createStyles,

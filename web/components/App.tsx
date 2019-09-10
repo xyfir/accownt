@@ -5,7 +5,7 @@ import { Unauthenticated } from 'components/Unauthenticated';
 import { Authenticated } from 'components/Authenticated';
 import { ThemeProvider } from '@material-ui/styles';
 import { Accownt } from 'types/accownt';
-import * as React from 'react';
+import React from 'react';
 import { theme } from 'lib/theme';
 import { hot } from 'react-hot-loader';
 import { api } from 'lib/api';
