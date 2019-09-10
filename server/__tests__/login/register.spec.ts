@@ -1,7 +1,7 @@
 import { finishRegistration, startRegistration } from 'lib/login/register';
 import * as sendMail from 'lib/email/send';
 import { verifyJWT } from 'lib/jwt';
-import * as storage from 'node-persist';
+import storage from 'node-persist';
 import axios from 'axios';
 
 test('startRegistration(), finishRegistration()', async () => {

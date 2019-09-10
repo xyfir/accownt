@@ -1,5 +1,5 @@
 import { setPassword } from 'lib/account/set-password';
-import * as storage from 'node-persist';
+import storage from 'node-persist';
 
 test('setPassword()', async () => {
   // Mock getting user from storage

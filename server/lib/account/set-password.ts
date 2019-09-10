@@ -1,6 +1,6 @@
-import * as storage from 'node-persist';
+import storage from 'node-persist';
 import { Accownt } from 'types/accownt';
-import * as bcrypt from 'bcryptjs';
+import bcrypt from 'bcryptjs';
 
 export async function setPassword(
   userId: Accownt.User['id'],

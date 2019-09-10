@@ -1,7 +1,7 @@
-import * as speakeasy from 'speakeasy';
-import * as storage from 'node-persist';
+import speakeasy from 'speakeasy';
+import storage from 'node-persist';
 import { Accownt } from 'types/accownt';
-import * as qr from 'qrcode';
+import qr from 'qrcode';
 
 const { STORAGE, NAME } = process.enve;
 

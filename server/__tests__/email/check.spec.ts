@@ -1,5 +1,5 @@
 import { checkEmail } from 'lib/email/check';
-import * as storage from 'node-persist';
+import storage from 'node-persist';
 
 test('checkEmail() available: does not exist', async () => {
   // Mock getting user from storage

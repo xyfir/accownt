@@ -1,6 +1,6 @@
 import * as sendMail from 'lib/email/send';
 import { verifyJWT } from 'lib/jwt';
-import * as storage from 'node-persist';
+import storage from 'node-persist';
 import {
   finishPasswordlessLogin,
   startPasswordlessLogin

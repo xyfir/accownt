@@ -1,5 +1,5 @@
 import { getAccount } from 'lib/account/get';
-import * as storage from 'node-persist';
+import storage from 'node-persist';
 
 test('getAccount()', async () => {
   // Mock getting user from storage

@@ -1,4 +1,4 @@
-import * as storage from 'node-persist';
+import storage from 'node-persist';
 import { setTOTP } from 'lib/account/set-totp';
 import { totp } from 'speakeasy';
 

@@ -4,9 +4,9 @@ config();
 import 'enve';
 
 import { verifyRequestJWT } from 'lib/jwt';
-import * as cookieParser from 'cookie-parser';
-import * as bodyParser from 'body-parser';
-import * as Express from 'express';
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
+import Express from 'express';
 import { Accownt } from 'types/accownt';
 import { resolve } from 'path';
 import { router } from 'api/router';

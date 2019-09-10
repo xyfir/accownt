@@ -4,10 +4,10 @@ import { checkEmail } from 'lib/email/check';
 import { cleanEmail } from 'lib/email/clean';
 import { emailToId } from 'lib/email/to-id';
 import { sendMail } from 'lib/email/send';
-import * as storage from 'node-persist';
+import storage from 'node-persist';
 import { Accownt } from 'types/accownt';
 import { signJWT } from 'lib/jwt';
-import * as qs from 'qs';
+import qs from 'qs';
 import axios from 'axios';
 
 const {

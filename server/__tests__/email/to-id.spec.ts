@@ -1,5 +1,5 @@
 import { emailToId } from 'lib/email/to-id';
-import * as storage from 'node-persist';
+import storage from 'node-persist';
 
 test('emailToId()', async () => {
   // Mock getting user from storage

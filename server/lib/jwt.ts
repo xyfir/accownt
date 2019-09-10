@@ -1,6 +1,6 @@
 import { NextFunction, Response, Request } from 'express';
 import { Accownt } from 'types/accownt';
-import * as jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
 const { JWT_KEY, JWT_COOKIE_NAME } = process.enve;
 

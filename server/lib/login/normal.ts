@@ -1,9 +1,9 @@
 import { cleanEmail } from 'lib/email/clean';
 import { emailToId } from 'lib/email/to-id';
-import * as storage from 'node-persist';
+import storage from 'node-persist';
 import { Accownt } from 'types/accownt';
 import { signJWT } from 'lib/jwt';
-import * as bcrypt from 'bcryptjs';
+import bcrypt from 'bcryptjs';
 import { totp } from 'speakeasy';
 
 const { JWT_EXPIRES_IN, STORAGE } = process.enve;

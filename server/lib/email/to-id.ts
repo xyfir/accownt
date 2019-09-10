@@ -1,4 +1,4 @@
-import * as storage from 'node-persist';
+import storage from 'node-persist';
 import { Accownt } from 'types/accownt';
 
 const { STORAGE } = process.enve;

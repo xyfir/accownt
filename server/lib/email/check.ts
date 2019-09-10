@@ -1,6 +1,6 @@
 import { cleanEmail } from 'lib/email/clean';
 import { emailToId } from 'lib/email/to-id';
-import * as storage from 'node-persist';
+import storage from 'node-persist';
 import { Accownt } from 'types/accownt';
 
 const { STORAGE } = process.enve;

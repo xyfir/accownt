@@ -1,5 +1,5 @@
 import { verifyJWT } from 'lib/jwt';
-import * as storage from 'node-persist';
+import storage from 'node-persist';
 import { login } from 'lib/login/normal';
 import { totp } from 'speakeasy';
 

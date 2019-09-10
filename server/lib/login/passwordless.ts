@@ -1,7 +1,7 @@
 import { buildTemplate } from 'lib/email/build-template';
 import { emailToId } from 'lib/email/to-id';
 import { sendMail } from 'lib/email/send';
-import * as storage from 'node-persist';
+import storage from 'node-persist';
 import { Accownt } from 'types/accownt';
 import { signJWT } from 'lib/jwt';
 
