@@ -99,6 +99,7 @@ export class _Authenticated extends React.Component<
             id="new-password"
             type="password"
             value={pass}
+            label="Password"
             margin="normal"
             onChange={e => this.setState({ pass: e.target.value })}
             placeholder={
