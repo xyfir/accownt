@@ -96,7 +96,7 @@ export class _Unauthenticated extends React.Component<
       : undefined;
     api
       .post('/register', { email, pass, recaptcha })
-      .then(res => this.setState({ registered: true }))
+      .then(() => this.setState({ registered: true }))
       .catch(err =>
         this.props.enqueueSnackbar(`Error! ${err.response.data.error}`)
       );
@@ -107,12 +107,10 @@ export class _Unauthenticated extends React.Component<
     pass
       ? api
           .post('/login', { email, pass, otp: otp || undefined })
-          .then(
-            res =>
-              (location.href = process.enve.APP_AUTH_URL.replace(
-                '%JWT%',
-                res.data.jwt
-              ))
+          .then(res =>
+            location.assign(
+              process.enve.APP_AUTH_URL.replace('%JWT%', res.data.jwt)
+            )
           )
           .catch(err =>
             this.props.enqueueSnackbar(`Error! ${err.response.data.error}`)
