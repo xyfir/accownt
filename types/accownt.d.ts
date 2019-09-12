@@ -37,6 +37,11 @@ export namespace Accownt {
        */
       NODE_ENV: 'development' | 'production';
       /**
+       * Can users delete their accounts? Set to `true` if `APP_DELETE_URL` is
+       *  set in server's `.env` file.
+       */
+      CAN_DELETE?: boolean;
+      /**
        * Base path (for URL) of static files
        * @example "/static/"
        */
@@ -106,6 +111,13 @@ export namespace Accownt {
        * The name of the cookie which the JWT will be saved to.
        */
       JWT_COOKIE_NAME: string;
+      /**
+       * A route in your application that allows users to delete their account.
+       *  Users will be redirected to this URL after their Accownt account has
+       *  been deleted. `%JWT%` is replaced with a JWT.
+       * @example ""https://example.com/delete?jwt=%JWT%""
+       */
+      APP_DELETE_URL?: string;
       /**
        * How long until expiry of a temporary JWT. Used in passwordless login and
        *  verification emails.
