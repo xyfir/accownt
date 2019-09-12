@@ -4,9 +4,11 @@ _Dead simple user account system so easy a ~~caveman~~ **cow** could do it._
 
 The goal of Accownt is to be a full-featured, standalone account system that's straightforward for developers and users, easy to maintain, and as customizable as possible without introducing too much complexity.
 
-![](https://i.imgur.com/c8qHvzy.png)
+![](https://i.imgur.com/u6yATTf.png)
 
 Built and mantained by **[Ptorx](https://ptorx.com)** and other **[Xyfir](https://www.xyfir.com)** projects.
+
+[![Build Status](https://travis-ci.org/xyfir/accownt.svg?branch=master)](https://travis-ci.org/xyfir/accownt)
 
 # Features
 
@@ -18,15 +20,12 @@ Built and mantained by **[Ptorx](https://ptorx.com)** and other **[Xyfir](https:
 - Email verification
   - Plug in your SMTP credentials for Mailgun, Gmail, or anything else
 - Account recovery
-  - Via passwordless login feature
+- Account deletion
 - No dependencies other than Node and what npm will install
-  - Older Node versions not actively supported
 - No database needed
-  - Users are simple JSON files stored to disk
 - Standalone server and web client
   - Easy integration into new and existing applications of any stack
 - reCAPTCHA v2 support
-  - Optional, just set your reCAPTCHA key
 - JSON Web Tokens (JWT)
   - Shared JWT and cookie between Accownt and your app for session authentication
 - Easy theming + light and dark themes
@@ -43,7 +42,7 @@ As simple as Accownt is, you'll still need to install, configure, build, and int
 ## Step 0: Clone the repo
 
 ```bash
-git clone https://github.com/Xyfir/accownt.git
+git clone https://github.com/xyfir/accownt.git
 cd accownt
 ```
 
@@ -78,7 +77,7 @@ cp web/example.env web/.env
 
 ### Step 2b: Edit `.env` files
 
-Edit the files `server/.env` and `web/.env`. Update the config keys with your own values. You can find descriptions for each one under the `Accownt` -> `Env` namespaces in the [type definitions](https://github.com/Xyfir/accownt/blob/master/types/accownt.d.ts). Use the appropriate `interface` for each corresponding file.
+Edit the files `server/.env` and `web/.env`. Update the config keys with your own values. You can find descriptions for each one under the `Accownt` -> `Env` namespaces in the [type definitions](https://github.com/xyfir/accownt/blob/master/types/accownt.d.ts). Use the appropriate `interface` for each corresponding file.
 
 ## Step 3: Build from source
 
@@ -115,12 +114,16 @@ To be a bit more specific:
 2. If your app utilizes the JWT cookie that Accownt sets then all you need to do is verify the token with each request via [jsonwebttoken](https://www.npmjs.com/package/jsonwebtoken#jwtverifytoken-secretorpublickey-options-callback) or the equivalent in your preferred language.
 3. Once the JWT is verified and decoded, you can retrieve the `userId` and `email` properties from it to use however you need. Note that `userId` is a unix timestamp in milliseconds (13 digits!) that corresponds to when the user created their account. Also keep in mind that if your app is receiving a JWT, the user's email has already been verified.
 4. If the JWT is invalid or expired, redirect them back to the Accownt form or to unauthenticated parts of your app.
-5. Lastly, you'll need a route somewhere to catch redirections and tokens from Accownt after each successful login. You set this already in your config.
-6. Optionally, you can also add a link somewhere that takes _authenticated_ users to Accownt so they can modify their account information, like their password or 2FA.
+5. Lastly, you'll need a route somewhere to catch redirections and tokens from Accownt after each successful login. You set this already in your
+
+There are also some optional steps you can take to improve the user experience:
+
+1. You can also add a link somewhere that takes _authenticated_ users to Accownt so they can modify their account information, like their password or 2FA.
+2. You can allow users to delete their accounts by configuring the proper environment variables.
 
 # Example
 
-A working example can be found in [Ptorx](https://github.com/Xyfir/ptorx).
+A working example can be found in [Ptorx](https://github.com/xyfir/ptorx).
 
 # Contribute
 
