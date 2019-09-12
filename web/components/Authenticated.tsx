@@ -13,6 +13,12 @@ import {
 } from '@material-ui/core';
 
 const styles = createStyles({
+  deleteAlert: {
+    margin: 0
+  },
+  controls: {
+    textAlign: 'center'
+  },
   button: {
     marginRight: '0.5em',
     marginTop: '1em'
@@ -38,6 +44,8 @@ interface AuthenticatedProps
 }
 
 interface AuthenticatedState {
+  deleteConfirmation: string;
+  deleting: boolean;
   secret?: string;
   pass: string;
   url?: string;
@@ -48,6 +56,8 @@ export class _Authenticated extends React.Component<
   AuthenticatedState
 > {
   state: AuthenticatedState = {
+    deleteConfirmation: '',
+    deleting: false,
     pass: ''
   };
 
@@ -72,19 +82,29 @@ export class _Authenticated extends React.Component<
       .catch(err => this.props.enqueueSnackbar(`Error! ${err.response.error}`));
   }
 
+  onDelete() {
+    // Finish deletion
+    if (this.state.deleting) {
+      api
+        .delete('/account')
+        .then(res => location.assign(res.data.url))
+        .catch(err =>
+          this.props.enqueueSnackbar(`Error! ${err.response.error}`)
+        );
+    }
+    // Start deletion
+    else {
+      this.setState({ deleting: true });
+    }
+  }
+
   render() {
-    const { secret, pass, url } = this.state;
+    const { deleteConfirmation, deleting, secret, pass, url } = this.state;
     const { account, classes } = this.props;
     return (
       <div className={classes.div}>
         <Typography variant="h4" className={classes.h4}>
           {account.email}
-          <Button
-            color="secondary"
-            href={`${process.enve.ACCOWNT_API_URL}/login/logout`}
-          >
-            Logout
-          </Button>
         </Typography>
 
         <Paper
@@ -173,6 +193,54 @@ export class _Authenticated extends React.Component<
             </Button>
           ) : null}
         </Paper>
+
+        <div className={classes.controls}>
+          {process.enve.CAN_DELETE ? (
+            <React.Fragment>
+              {deleting ? (
+                <div>
+                  <p className={classes.deleteAlert}>
+                    Are you sure you want to delete your account? This cannot be
+                    undone. Type <code>YES</code> in the field below to confirm.
+                  </p>
+                  <TextField
+                    id="delete-confirm"
+                    value={deleteConfirmation}
+                    label="Confirmation"
+                    margin="normal"
+                    onChange={e =>
+                      this.setState({ deleteConfirmation: e.target.value })
+                    }
+                    fullWidth
+                    placeholder="YES"
+                  />
+                </div>
+              ) : null}
+
+              <Button
+                disabled={deleting && deleteConfirmation != 'YES'}
+                onClick={() => this.onDelete()}
+                variant="text"
+                color={
+                  deleting && deleteConfirmation == 'YES'
+                    ? 'primary'
+                    : 'default'
+                }
+                size="small"
+              >
+                Delete
+              </Button>
+            </React.Fragment>
+          ) : null}
+
+          <Button
+            variant="text"
+            href={`${process.enve.ACCOWNT_API_URL}/login/logout`}
+            size="small"
+          >
+            Logout
+          </Button>
+        </div>
       </div>
     );
   }
