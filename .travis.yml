@@ -1,0 +1,36 @@
+language: node_js
+node_js: node
+before_install: cd "/home/travis/build/xyfir/accownt/$PACKAGE"
+jobs:
+  include:
+    - stage: server
+      script: bash ../.travis.sh
+      env:
+        - PACKAGE="server"
+    - stage: web
+      script: bash ../.travis.sh
+      env:
+        - PACKAGE="web"
+    - stage: root
+      script: bash .travis.sh
+      env:
+        - PACKAGE="."
+stages:
+  - server
+  - web
+  - root
+deploy:
+  - provider: npm
+    email: contact@xyfir.com
+    api_key:
+      secure: MkIL1VwE5+A8OgrEnCOnaeo6uVMDVYz7yEAJtLn8/ywYhdVb5cuw0O4T8AKGwhvE5YPflOFZHckr65emX+AUTpxUuGlwXj8tCJzhqidAG4jinZE/KZE31TS0W3E5LJanw90zxXui2NlN8yWC169a642Snrn2Q4EzAmxBvDrzXFy2iuBTPifms7Q4sW/VUSS6rp3icdxZdo/vynqNCHq3S0zQZQxrAObeKFgCb/Mp4rfkmalLt5aRLGpmBVwl/KVxgGuiaYImQg6P6ADoilagOHg1Prom9ofld1d5VdFSQM2RWCGWVXb8hzZzb/qfTLjt++17r58vNjq/ixvqgRV+IidtHJW0MrkVnK9uVbb/eoDXxV0VS0+Dq2KVEKg4OfF9KrcTSwirznZlaBL7LkfRotj/DCBUpp9WndcYZ9SH5YaFYTvYRFLIHUnP1ziT4ILegsJx7QcxRuo1SMKT5StRfFYUxCqMaT7Gatp68Lq4AqP2R4gKNPK4FRbnJmrEJnI2XDbSqpi0znBcZOvBAHAIDJzWeWYQth1Axh9/0hUQRPMBA3uCKGZvMyKxoeBkykKGTlP16ur9E5sJWl6HO0Fi4Hmwto6ypNEg6sWsR0zVRp/3RpBiz48kbEMHFbnZI2NRzqVHQvs7P6VrB9pYxqqfxa0Hz9AigO/J6tf27rXLIZo=
+    on:
+      repo: xyfir/accownt
+      tags: true
+  - provider: releases
+    api_key:
+      secure: IfHfgVnbJPHamqmmehCRfMsPneDVH+jQ8lrFglsEFU1ozSEa6LpH7NERTrUDdVfVjO/nnTvcq7FBrvOXrfMG/F4ZMfkbB7uYG/dwv7LqISMXfKC8WaprxmHVBmfsuYntAFcgzVBxRtTfst4/MoQTWsaeoBY1LNoJm/1E4OTp11U4IDBGIFiAFtdHuUt8jblLtSnxPUqWd35+fWNu42rw1ak4jEeA2GY7p5X8BFNJ3MZXBMyj43Hnrm8Jr1Rq5u15xCHJGJCIr6za3oigNeFjrXrzSkDuMcqNNvseRSRKe/pbvbHYRKLGJhToPrY7nQrnEB+YLyz33VTKMM9GHut6ibyoyYHGvtEnEONZcOIq3zQI+AhenJ5bOjd05cKnEUrtXPIMzT4ADlz3oeXaB/Igj6p6aiK+p5t6QK2IJABCdReFIIyCh15CTNo/1t7AQ7xt670rgJRwt9ZFvJ85nOThvsFYMdHtR9ZIXyh91/HWVGEipYh/5Xc55xT+T5+7DLnZaBMWzazLQF0E1ub8y/G7MKbdJPWXdJdvatP+adEfRdjpFqY0UPwEcwdF+QaChbQBnvPuuV+PmX6G47fyeYtfPFis7Bd3fB2rL3Peqer6E19FGlGI+DutdlRihJ8cNYSXFhciyBx/R7lYivKef+brkFYiCo0E+OxuTj9QAH3VU4M=
+    on:
+      condition: $PACKAGE = .
+      repo: xyfir/accownt
+      tags: true
