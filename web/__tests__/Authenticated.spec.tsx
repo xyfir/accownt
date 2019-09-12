@@ -19,8 +19,9 @@ test('<Authenticated>', async () => {
   };
 
   // Mock API
+  const mockDelete = jest.fn();
   const mockPut = jest.fn();
-  (api as any).api = { put: mockPut };
+  (api as any).api = { put: mockPut, delete: mockDelete };
 
   // Mock API for setting/removing password
   mockPut.mockResolvedValueOnce({});
@@ -30,7 +31,11 @@ test('<Authenticated>', async () => {
   mockPut.mockResolvedValueOnce({ data: {} });
   mockPut.mockResolvedValueOnce({ data: { secret: 'secret123', url: 'abc' } });
 
+  // Mock API for deleting account
+  mockDelete.mockResolvedValueOnce({ data: { url: 'def' } });
+
   // Mock navigation
+  const mockAssign = ((location as any).assign = jest.fn());
   const mockReload = ((location as any).reload = jest.fn());
 
   // Render Unauthenticated
@@ -67,4 +72,16 @@ test('<Authenticated>', async () => {
   expect(mockPut).toHaveBeenCalledTimes(4);
   expect(mockPut.mock.calls[3][0]).toBe('/account/totp');
   expect(mockPut.mock.calls[3][1]).toMatchObject({ enabled: true });
+
+  // Delete account
+  expect(() => getByText('Are you sure', { exact: false })).toThrow();
+  fireEvent.click(getByText('Delete'));
+  fireEvent.change(getByLabelText('Confirmation'), {
+    target: { value: 'YES' }
+  });
+  fireEvent.click(getByText('Delete'));
+  expect(mockDelete).toHaveBeenCalledTimes(1);
+  expect(mockDelete).toHaveBeenCalledWith('/account');
+  await wait(() => expect(mockAssign).toHaveBeenCalledTimes(1));
+  expect(mockAssign).toHaveBeenCalledWith('def');
 });
