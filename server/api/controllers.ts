@@ -1,3 +1,4 @@
+export * from './account/delete';
 export * from './account/get';
 export * from './account/set-password';
 export * from './account/set-totp';

@@ -4,6 +4,7 @@ import * as c from 'api/controllers';
 export const router = Router();
 
 router.get('/account', c.api_getAccount);
+router.delete('/account', c.api_deleteAccount);
 router.put('/account/totp', c.api_setTOTP);
 router.put('/account/password', c.api_setPassword);
 
