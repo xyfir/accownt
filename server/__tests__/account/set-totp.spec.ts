@@ -4,7 +4,6 @@ import { totp } from 'speakeasy';
 
 test('setTOTP()', async () => {
   // Mock storage
-  (storage as any).init = jest.fn();
   const mockGetItem = ((storage as any).getItem = jest.fn());
   const mockSetItem = ((storage as any).setItem = jest.fn());
   mockGetItem.mockResolvedValueOnce({

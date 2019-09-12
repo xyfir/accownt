@@ -8,7 +8,6 @@ import {
 
 test('startPasswordlessLogin(), finishPasswordlessLogin()', async () => {
   // Mock storage
-  (storage as any).init = jest.fn();
   const mockGetItem = ((storage as any).getItem = jest.fn());
   mockGetItem.mockResolvedValueOnce(1234); // email -> userId
   mockGetItem.mockResolvedValueOnce({

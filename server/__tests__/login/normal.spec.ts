@@ -5,7 +5,6 @@ import { totp } from 'speakeasy';
 
 test('login()', async () => {
   // Mock getting user from storage
-  (storage as any).init = jest.fn();
   const mockGetItem = ((storage as any).getItem = jest.fn());
   mockGetItem.mockResolvedValueOnce(1234); // email -> userId
   mockGetItem.mockResolvedValueOnce({
@@ -28,7 +27,6 @@ test('login()', async () => {
 
 test('login() fail', async () => {
   // Mock storage
-  (storage as any).init = jest.fn();
   const mockGetItem = ((storage as any).getItem = jest.fn());
   const mockSetItem = ((storage as any).setItem = jest.fn());
   mockSetItem.mockResolvedValue(undefined);

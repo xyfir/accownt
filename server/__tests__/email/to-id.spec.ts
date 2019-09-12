@@ -3,7 +3,6 @@ import storage from 'node-persist';
 
 test('emailToId()', async () => {
   // Mock getting user from storage
-  (storage as any).init = jest.fn();
   const mockGetItem = ((storage as any).getItem = jest.fn());
   mockGetItem.mockResolvedValueOnce(1234); // email -> userId
 

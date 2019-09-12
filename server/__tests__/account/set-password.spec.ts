@@ -3,7 +3,6 @@ import storage from 'node-persist';
 
 test('setPassword()', async () => {
   // Mock getting user from storage
-  (storage as any).init = jest.fn();
   const mockGetItem = ((storage as any).getItem = jest.fn());
   const mockSetItem = ((storage as any).setItem = jest.fn());
   mockGetItem.mockResolvedValueOnce({

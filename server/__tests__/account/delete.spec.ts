@@ -4,7 +4,6 @@ import storage from 'node-persist';
 
 test('deleteAccount()', async () => {
   // Mock storage
-  (storage as any).init = jest.fn();
   const mockGetItem = ((storage as any).getItem = jest.fn());
   const mockRemoveItem = ((storage as any).removeItem = jest.fn());
   mockGetItem.mockResolvedValueOnce({ email: 'test@example.com' });

@@ -3,7 +3,6 @@ import storage from 'node-persist';
 
 test('checkEmail() available: does not exist', async () => {
   // Mock getting user from storage
-  (storage as any).init = jest.fn();
   const mockGetItem = ((storage as any).getItem = jest.fn());
   mockGetItem.mockResolvedValueOnce(undefined); // email -> userId
 
@@ -18,7 +17,6 @@ test('checkEmail() available: does not exist', async () => {
 
 test('checkEmail() available: exists but not verified', async () => {
   // Mock getting user from storage
-  (storage as any).init = jest.fn();
   const mockGetItem = ((storage as any).getItem = jest.fn());
   mockGetItem.mockResolvedValueOnce(1234); // email -> userId
   mockGetItem.mockResolvedValueOnce(undefined); // userId -> user
@@ -35,7 +33,6 @@ test('checkEmail() available: exists but not verified', async () => {
 
 test('checkEmail() not available', async () => {
   // Mock getting user from storage
-  (storage as any).init = jest.fn();
   const mockGetItem = ((storage as any).getItem = jest.fn());
   mockGetItem.mockResolvedValueOnce(1234); // email -> userId
   mockGetItem.mockResolvedValueOnce({ verified: true }); // userId -> user
