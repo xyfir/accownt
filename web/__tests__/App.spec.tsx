@@ -32,7 +32,7 @@ test('<App> auth', async () => {
   // Render authenticated
   const { getByText } = render(<App />);
   await waitForDomChange();
-  getByText('test@example.com', { exact: false });
+  getByText('test@example.com');
 
   // Validate back button
   const btn = getByText(`Back to ${NAME}`);
