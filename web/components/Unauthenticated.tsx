@@ -103,7 +103,7 @@ export class _Unauthenticated extends React.Component<
         );
     }
     else {
-      his.props.enqueueSnackbar(`Admninistrator disallows registration`)
+      his.props.enqueueSnackbar(`Admninistrator disabled registration`)
     }
   }
 
