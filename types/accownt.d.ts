@@ -195,6 +195,11 @@ export namespace Accownt {
        * @example "theme"
        */
       THEME_TYPE_KEY?: string;
+      /**
+       * If you disable user registratin, this key shoule be true
+       *
+       */
+      DISABLE_REGISTER?: boolean;
     }
   }
 }
