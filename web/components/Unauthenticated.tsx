@@ -90,16 +90,21 @@ export class _Unauthenticated extends React.Component<
   }
 
   onRegister() {
-    const { email, pass } = this.state;
-    const recaptcha = process.enve.RECAPTCHA_KEY
-      ? window['grecaptcha'].getResponse()
-      : undefined;
-    api
-      .post('/register', { email, pass, recaptcha })
-      .then(() => this.setState({ registered: true }))
-      .catch(err =>
-        this.props.enqueueSnackbar(`Error! ${err.response.data.error}`)
-      );
+    if (! process.enve.DISABLE_REGISTER) {
+      const { email, pass } = this.state;
+      const recaptcha = process.enve.RECAPTCHA_KEY
+        ? window['grecaptcha'].getResponse()
+        : undefined;
+      api
+        .post('/register', { email, pass, recaptcha })
+        .then(() => this.setState({ registered: true }))
+        .catch(err =>
+          this.props.enqueueSnackbar(`Error! ${err.response.data.error}`)
+        );
+    }
+    else {
+      his.props.enqueueSnackbar(`Admninistrator disabled registration`)
+    }
   }
 
   onLogin() {
