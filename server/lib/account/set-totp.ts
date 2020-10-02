@@ -16,21 +16,17 @@ export async function setTOTP(
     await storage.setItem(`user-${userId}`, user);
     return {};
   } else {
-    const { ascii: secret } = speakeasy.generateSecret({
-      issuer: NAME,
-      name: user.email
+    const sec = speakeasy.generateSecret({
+      name: user.email,
+      issuer: NAME
     });
-    let url = speakeasy.otpauthURL({
-      //algorithm: 'sha512',
-      issuer: NAME,
-      secret,
-      label: `${NAME}:${encodeURIComponent(user.email)}`
-    });
+    let url = sec.otpauth_url;
     url = await new Promise((resolve, reject) =>
       qr.toDataURL(url, (e, u) => (e ? reject(e) : resolve(u)))
     );
 
-    user.totpSecret = secret;
+    const secret  = sec.base32;
+    user.totpSecret = sec.ascii;
     await storage.setItem(`user-${userId}`, user);
 
     return { url, secret };
