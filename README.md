@@ -1,14 +1,8 @@
 # Ac**cow**nt
 
-_Dead simple user account system so easy a ~~caveman~~ **cow** could do it._
-
 The goal of Accownt is to be a full-featured, standalone account system that's straightforward for developers and users, easy to maintain, and as customizable as possible without introducing too much complexity.
 
 ![](https://i.imgur.com/u6yATTf.png)
-
-Built and mantained by **[Ptorx](https://ptorx.com)** and other **[Xyfir](https://www.xyfir.com)** projects.
-
-[![Build Status](https://travis-ci.org/xyfir/accownt.svg?branch=master)](https://travis-ci.org/xyfir/accownt)
 
 # Features
 
